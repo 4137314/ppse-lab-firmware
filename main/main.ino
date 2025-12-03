@@ -1,11 +1,12 @@
-
-
+//RELAZIONE 1 15-30pg, descrivere circuiti piú che componenti. Anno mese giorno come data
 
 #define UART0_TX_PIN 16
 #define UART0_RX_PIN 17
 
 #define UART1_TX_PIN 4
 #define UART1_RX_PIN 5
+
+#define TEMP_PIN 26
 
 //#define RXPIN 4 //pin RX tinyGPS
 //#define TXPIN -1
@@ -29,6 +30,8 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 void setup() {
   // put your setup code here, to run once:
   pinMode(18,OUTPUT); // enable GPS module
+  pinMode(TEMP_PIN,INPUT); // enable temp analog read pin
+  
   digitalWrite (18, 0); //bring down GPS_EN signal to enable
   Serial2.setTX(4);
   Serial2.setRX(5);
@@ -80,5 +83,6 @@ void loop() {
     Serial.print(str);
   }
 
-}
+  analogRead(TEMP_PIN);
 
+}
