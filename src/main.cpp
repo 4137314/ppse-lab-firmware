@@ -7,7 +7,18 @@
 #define UART1_TX_PIN 4
 #define UART1_RX_PIN 5
 
+#define DISPLAY_SDA_I2C_PIN 0
+#define DISPLAY_SCL_I2C_PIN 1
+
 #define TEMP_PIN 26
+
+#define ADC_BITS 12
+#define ADC_MAX_VAL 4095
+
+#define SCREEN_WIDTH 128 // OLED display width in pixels
+#define SCREEN_HEIGHT 64 // OLED display height in pixels
+#define OLED_RESET -1 // reset pin to unset (not available)
+#define SCREEN_ADDRESS 0x3C //screen address for Adafruit library
 
 //#define RXPIN 4 //pin RX tinyGPS
 //#define TXPIN -1
@@ -19,11 +30,6 @@
 #include <stdint.h>
 
 #include "Functions.cpp"
-
-#define SCREEN_WIDTH 128 // OLED display width, in pixels
-#define SCREEN_HEIGHT 64 // OLED display height, in pixels
-#define OLED_RESET -1 //reset pin shared unset
-#define SCREEN_ADDRESS 0x3c
 
 
 
@@ -46,9 +52,7 @@ void setup() {
   pinMode(20,OUTPUT); // enable led alive
 
   Serial.begin(9600); // seriale virtuale over USB
-  Wire.setSDA(0); // Imposta GP0 come SDA
-  Wire.setSCL(1); // Imposta GP1 come SCL
-  Wire.begin(); //
+
 
    
   // initialize the OLED object
