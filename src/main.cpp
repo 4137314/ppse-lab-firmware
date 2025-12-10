@@ -1,4 +1,5 @@
-//RELAZIONE 1 15-30pg, descrivere circuiti piú che componenti. Anno mese giorno come data
+//RELAZIONE 1 15-30pg, descrivere circuiti piú che 
+// componenti. Anno mese giorno come data
 
 #define UART0_TX_PIN 16
 #define UART0_RX_PIN 17
@@ -16,6 +17,8 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <stdint.h>
+
+#include "Functions.cpp"
 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
