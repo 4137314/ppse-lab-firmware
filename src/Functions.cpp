@@ -4,7 +4,7 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-#include <TinyGPS++.h>
+#include <TinyGPSPlus.h>
 #include <Adafruit_NeoPixel.h>
 #include <stdint.h>
 
@@ -17,8 +17,8 @@
 #include "init.h"
 
 initAll(){
-    bool status
-
+    bool status = true;
+    Serial.println("<<<< Start init hardware >>>>");
 //////////////// Serial over USB //////////////////
     print("Starting serial interface over USB...");
     Serial.begin(9600);
@@ -27,13 +27,35 @@ initAll(){
 
 //////////////// TEMP SENSOR /////////////////////    
     print("Initializing temperture sensor...");
-    status = TempInit();
-    if (!status) {
-        println("ERROR: could not initialize temp sensor");
-        return status;
-    }
-    println("OK!");
+    TempInit();
 
-    Serial.println(F("=> Start init hardware"));
+   
+
+
+  // Pin output
+  pinMode(GPS_EN_PIN, OUTPUT);
+  pinMode(TEMP_PIN, INPUT); // sensore
+  pinMode(LED_ALIVE, OUTPUT);
+  Serial.println(F("Pin configured"));
+
+  // GPS
+  gpsInit();
+
+  // SENSORS 
+  sensorsInit();
+
+  // LEDS
+  ledsInit();
+
+  // OLED
+  displayInit();
+
+  buttonsInit();
+
+  // Buzzer
+  buzzerInit(BUZZER);
+
+  Serial.println(F("=> Init completed"));
+  return status;
 
 }

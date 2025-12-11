@@ -9,8 +9,6 @@
 #include <Adafruit_SSD1306.h>
 #include <Wire.h> // use uart as comm protocol
 
-
-// ----------------- Oggetti globali -----------------
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 const char* menuItems[] = {
@@ -34,7 +32,7 @@ bool displayInit() {
     Wire.setSDA(DISPLAY_SDA_I2C_PIN); // Imposta GPIO0 come SDA
     Wire.setSCL(DISPLAY_SCL_I2C_PIN); // Imposta GPIO1 come SCL
     Wire.begin();
-    Serial.println(F("Display I2C initialized"));
+    Serial.println(F("I2C used for display initialized"));
 
     // Inizializzazione display
     if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {

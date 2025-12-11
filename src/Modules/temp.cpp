@@ -8,7 +8,8 @@ void TempInit() {
 
     Serial.print("Sensore di temperatura: pin ");
     Serial.print(TEMP_PIN);
-    Serial.println("inizializzato come input.");
+    Serial.println(" inizializzato come input.");
+    return;
 }
 
 // Lettura valore ADC
