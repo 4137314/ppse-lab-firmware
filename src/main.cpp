@@ -1,5 +1,6 @@
 //RELAZIONE 1 15-30pg, descrivere circuiti piú che 
 // componenti. Anno mese giorno come data
+#define DEBUG 0 // OFF=0 ON=1
 
 #include "Modules/gps.h"
 #include "Modules/buzzer.h"
@@ -12,7 +13,7 @@
 
 void setup(){
   
-  bool status = init_All();
+  if (!init_All()) exit(1);
 
 }
 
@@ -22,6 +23,8 @@ void loop(){
 String NMEA_message[NMEA_SENTENCE_COUNT];
 
   gpsRead(NMEA_message);
+
+  minmea_gps_parse(NMEA_message);
 
   delay(5000);
 }

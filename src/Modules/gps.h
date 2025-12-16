@@ -22,4 +22,6 @@
 
     bool gpsRead(String* nmea_message);
 
+    bool minmea_gps_parse(String* nmea_message);
+
 #endif
