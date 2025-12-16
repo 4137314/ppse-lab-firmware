@@ -1,7 +1,5 @@
 #include "leds.h"
 #include "display_ui.h"
-#include <Adafruit_NeoPixel.h>
-#include <Arduino.h>
 
 // RGB strip placeholder, verrà aggiornato in ledsInit()
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);

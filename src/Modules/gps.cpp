@@ -1,15 +1,6 @@
 #include "gps.h"
-#include "display_ui.h"
-#include <TinyGPSPlus.h>
-#include <Arduino.h>
 
-// GPS object
-TinyGPSPlus gps;
-
-
-
-
-void gpsInit() {
+bool gpsInit(){
     Serial.println("=== GPS Init ===");
     
     pinMode(LED_ALIVE, OUTPUT);
@@ -26,51 +17,127 @@ void gpsInit() {
     Serial.print(GPS_EN_PIN);
     Serial.println(" alimentato.");
 
-    //UART1 per GPS (RX=5, TX=4), Serial2 maps to UART1 in Arduino libs!
-    Serial2.setTX(4);
-    Serial2.setRX(5);
-    Serial2.begin(9600); // enable uart1 on 4 and 5
+    //UART1 for the GPS. Serial2 maps to UART1 in Arduino framework!
+    Serial2.setTX(UART1_TX_PIN);
+    Serial2.setRX(UART1_RX_PIN);
+    Serial2.begin(GPSBAUD); // start uart1
     Serial.print("UART1 started on Serial2, listening for GPS data...");
+
+    //Serial2.setTimeout(100);
+
     int i=0;
-    while( i<1000 && (Serial2.available() == 0) ){ 
+    while( i<1000 && (Serial2.available() == 0) ) //Wait 10 sec for a GPS string.
+    { 
         delay(1);
         ++i;
     }
-    if (i==1000){
+    
+    if (i==1000)
+    {
         Serial.println("");
         Serial.println("ERROR: No data from GPS module");
-        return;
+        return false;
     }
     Serial.println("OK!");
-    return;
+
+    // Allocate NMEA message space in memory
+    Serial.print("Allocating array for NMEA messages...");
+
+    return true;
 }
 
-String* gpsRead() {
-    String* str= (String*) malloc(sizeof(String));
+bool gpsRead(String* nmea_message){
+    String Buffer[NMEA_SENTENCE_COUNT];
 
-    int Byte;
+    digitalWrite(LED_ALIVE, LOW);
+
     if( Serial2.available() > 0) //check buffer of serial (max 64B)
     {
-        //BLINK led
-        digitalWrite(LED_ALIVE, 1);
-        digitalWrite(20, 0);
+        digitalWrite(LED_ALIVE, HIGH);
         
-        // Void GPS buffer till the next $GPGGA
-        Serial2.readStringUntil("$GPGGA");
-        Serial2.readStringUntil('\n');
-
-        
-        if (str!="")
-        {
-            Serial.print(str); //
+        // Void UART1 buffer
+        Serial2.flush();  
+        while(Serial2.available()) {
+            Serial2.read();  // Read and discard
         }
-    } 
+        Serial2.readStringUntil('\n');
+        Serial2.flush(); //waits for transmission to finish
+        for(int i=0; i<NMEA_SENTENCE_COUNT; ++i)
+        {
+            //Serial2.flush(); //waits for transmission to finish
+            //while(Serial2.available()<MINMEA_MAX_SENTENCE_LENGTH);
+
+            Buffer[i]=Serial2.readStringUntil('\n');
+        }
+
+        digitalWrite(LED_ALIVE, LOW);
+
+        for(int j=0; j<NMEA_SENTENCE_COUNT; ++j)
+        {   
+            if( Buffer[j].length() > MINMEA_MAX_SENTENCE_LENGTH-2 )
+            {
+                Serial.println("ERROR: NIMEA_MAX_SENTENCE_LENGTH is too small for a GPS sentence");
+                return false;
+            }
+            if(Buffer[j].charAt(0)=='$'){
+            nmea_message[j]=Buffer[j]; //save the temp buffer
+            Serial.print(nmea_message[j]);
+            }
+            Serial.println();
+        }
+    }
     else
     {
         Serial.println("WARNING: No data to read from GPS module");  
+        return false;
     }
-    
+     return true;
+}
 
-    analogRead(TEMP_PIN);
+bool gpsRead_fast(String* nmea_message){
 
+    String Buffer[NMEA_SENTENCE_COUNT];
+
+    digitalWrite(LED_ALIVE, LOW);
+
+    if( Serial2.available() > 0) //check buffer of serial (max 64B)
+    {
+        digitalWrite(LED_ALIVE, HIGH);
+        
+        // Void UART1 buffer
+        Serial2.flush();  
+        while(Serial2.available()) {
+            Serial2.read();  // Read and discard
+        }
+
+        for(int i=0; i<NMEA_SENTENCE_COUNT; ++i)
+        {
+            Serial2.flush(); //waits for transmission to finish
+            //while(Serial2.available()<MINMEA_MAX_SENTENCE_LENGTH);
+
+            Buffer[i]=Serial2.readStringUntil('\n');
+        }
+
+        digitalWrite(LED_ALIVE, LOW);
+
+        for(int j=0; j<NMEA_SENTENCE_COUNT; ++j)
+        {   
+            if( Buffer[j].length() > MINMEA_MAX_SENTENCE_LENGTH-2 )
+            {
+                Serial.println("ERROR: NIMEA_MAX_SENTENCE_LENGTH is too small for a GPS sentence");
+                return false;
+            }
+            if(Buffer[j].charAt(0)=='$'){
+            nmea_message[j]=Buffer[j]; //save the temp buffer
+            Serial.print(nmea_message[j]);
+            }
+            Serial.println();
+        }
+    }
+    else
+    {
+        Serial.println("WARNING: No data to read from GPS module");  
+        return false;
+    }
+     return true;
 }

@@ -1,5 +1,5 @@
 #include "temp.h"
-#include <Arduino.h>
+
 
 // Inizializza il pin del sensore
 void TempInit() {

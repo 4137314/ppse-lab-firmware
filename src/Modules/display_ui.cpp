@@ -1,14 +1,6 @@
 #include "display_ui.h"
-#include "buttons.h"  // Per SW_UP, SW_DOWN, etc.
-#include "temp.h"   // Per lettura temperatura
-#include "gps.h"
-#include  "leds.h"
 
-#include <Arduino.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
-#include <Wire.h> // use uart as comm protocol
-
+/*
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 const char* menuItems[] = {
@@ -110,7 +102,7 @@ void drawSensorsScreen() {
 }
 
 void drawGPSScreen() {
-    TinyGPSPlus& gps = getGPS();
+    //TinyGPSPlus& gps = getGPS();
 
     display.clearDisplay();
     display.setTextSize(2);
@@ -197,3 +189,4 @@ void updateDisplayTimeout() {
         display.ssd1306_command(SSD1306_DISPLAYOFF);
     }
 }
+    */
