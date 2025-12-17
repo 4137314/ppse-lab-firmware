@@ -1,6 +1,5 @@
 //RELAZIONE 1 15-30pg, descrivere circuiti piú che 
 // componenti. Anno mese giorno come data
-#define DEBUG 1 // OFF=0 ON=1
 
 #include "Modules/gps.h"
 #include "Modules/buzzer.h"
