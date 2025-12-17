@@ -6,7 +6,7 @@
 #define UART0_RX_PIN 17
 
 #define MINMEA_MAX_SENTENCE_LENGTH 82 //NMEA lib max line char count
-#define NMEA_SENTENCE_COUNT 5 // NMEA sentence to read for each gpsRead call
+#define NMEA_SENTENCE_COUNT 10 // NMEA sentence to read for each gpsRead call
 
 #define GPS_EN_PIN 18   // Enable for the GPS module (active low)
 //UART1 for GPS comm
@@ -14,6 +14,9 @@
 #define UART1_RX_PIN 5
 #define GPSBAUD 9600 //GPS module baud rate
 #define LED_ALIVE 20    // Led alive GPIO pin
+
+#define DEBUG 1 // OFF=0 ON=1
+
 
 #include <Arduino.h>
 #include "minmea/minmea.h"

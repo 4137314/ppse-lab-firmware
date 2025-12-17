@@ -79,12 +79,12 @@ bool gpsRead(String* nmea_message){
                 Serial.println("ERROR: NIMEA_MAX_SENTENCE_LENGTH is too small for a GPS sentence");
                 return false;
             }
-            if(Buffer[j].charAt(0)=='$'){   //
-            nmea_message[j]=Buffer[j]; //save the temp buffer
-            #if DEBUG == 1
-                Serial.print(nmea_message[j]);
-            #endif
-            }
+           // if(Buffer[j].charAt(0)=='$'){   //
+                nmea_message[j]=Buffer[j]; //save the temp buffer
+                #if DEBUG == 1
+                    Serial.print(nmea_message[j]);
+                #endif
+            //}
 
             #if DEBUG == 1
                 Serial.println();
@@ -214,14 +214,14 @@ bool minmea_gps_parse(String* nmea_message){
                 */
                 case MINMEA_INVALID: {
                     #if DEBUG == 1
-                    Serial.println("WARNING: Could not parse this nmea string");
+                    Serial.print("WARNING: Could not parse this nmea string ");
                     Serial.println(nmea_message[j].c_str());
                     #endif
                 } return false;
 
                 default: {
                     #if DEBUG == 1
-                    Serial.println("WARNING: Could not parse this nmea string");
+                    Serial.print("WARNING: Could not parse this nmea string ");
                     Serial.println(nmea_message[j].c_str());
                     #endif
                 } return false;
