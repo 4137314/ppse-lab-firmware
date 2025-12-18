@@ -15,6 +15,10 @@
 #define GPSBAUD 9600 //GPS module baud rate
 #define LED_ALIVE 20    // Led alive GPIO pin
 
+#ifndef DEBUG
+#define DEBUG 0
+#endif
+
 
 #include <Arduino.h>
 #include "minmea/minmea.h"
