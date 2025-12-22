@@ -13,7 +13,7 @@ bool init_All(){
 
 //////////////// TEMP SENSOR /////////////////////    
     Serial.print("Initializing temperture sensor...");
-    //TempInit();
+    TempInit();
 
 //////////////// OnBoard LEDs ////////////////////
     //ledsInit();

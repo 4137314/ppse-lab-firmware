@@ -9,6 +9,7 @@ void TempInit() {
     Serial.print("Sensore di temperatura: pin ");
     Serial.print(TEMP_PIN);
     Serial.println(" inizializzato come input.");
+
     return;
 }
 
@@ -16,6 +17,8 @@ void TempInit() {
 float readTemp() {
 
     int raw = analogRead(TEMP_PIN);
+    Serial.print("raw:");
+    Serial.println(raw);
     if(raw < 0 || raw > ADC_MAX_VAL) {
         Serial.println("Warning: valore ADC fuori range");
         return raw;
