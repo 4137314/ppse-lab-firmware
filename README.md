@@ -14,8 +14,22 @@ Comunicazione con pc come chiavetta (filesystem) e salvataggio dati in flash.
 - usare timepulse quando valido per aggiornare il clock al secondo.
   
 ### DISPLAY MENU
-- Homepage come ambient display: info correnti minime, qualitá aria, temperatura, ora, ultimo aggiornamento dati
+- Homepage come ambient display (vedi anmazioni in future work): info correnti minime, qualitá aria, temperatura, ora, ultimo aggiornamento dati
 - Alla pressione di un tasto schermata home con possibili scelte
    - Info meteo, viene visualizzato il giorno corrente ed é possibile swipare fra i giorni a dx e sx con i tasti. se premuto tasto giú viene scrollata la pagina e visualizzato il meteo per le ore       della giornata selezionata prima di premere tasto giú
+   - Erase memoria
+   - Silenzioso (buzzer e led spenti)
+   - Luminositá automatica con toggle
+   - Init dei singoli moduli (tipo init led, buzzer etc)
+   - 
 
+#### shortcuts
 - Shortcuts per uscire dai menu (doppio click sinistro)
+- Shortcuts per riaggiornare i dati (es tieni premuto dx e sx x almeno un sec)
+- Shortcut per uscire al main menu (non menu precedente ma il primo)
+- etc...
+- 
+
+## future work
+- animazioni
+- Fuso orario basato sulla posizione (o usare stato riportato da API)
