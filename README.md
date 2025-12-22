@@ -21,7 +21,6 @@ Comunicazione con pc come chiavetta (filesystem) e salvataggio dati in flash.
    - Silenzioso (buzzer e led spenti)
    - Luminositá automatica con toggle
    - Init dei singoli moduli (tipo init led, buzzer etc)
-   - 
 
 #### shortcuts
 - Shortcuts per uscire dai menu (doppio click sinistro)
