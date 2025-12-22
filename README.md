@@ -1,5 +1,10 @@
 # ppse-lab-firmware
 
+## 2 USI
+1. Dati Meteo su gps
+2. geo-fencing
+
+
 ## FEATURES da implementare
 
 ### DIPSPLAY MENU
@@ -26,8 +31,4 @@
 ### Future work
 - Modulo wifi x API cloud
 
-
-## 2 USI
-1. Dati Meteo su gps
-2. geo-fencing
 
