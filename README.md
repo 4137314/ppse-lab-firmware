@@ -1,34 +1,21 @@
 # ppse-lab-firmware
 
-## 2 USI
-1. Dati Meteo su gps
-2. geo-fencing
+## FEATURES da implementare METEO
+Prende la posizione con il gps, e la trasmette all'API che restituisce dati meteo del posto in cui ci troviamo.
+I dati sono salvati sulla memoria della scheda e danno un'indicazione dell'ultimo aggiornamento (funziona anche offline).
+Lo schermo serve per vedere i dati meteo e consultarli in base alle ore/giornate precedenti e sccessive. 
+I led seguono il meteo corrente visualizzato. Di giorno hanno luminositá alta e di notte bassa.
+Comunicazione con pc come chiavetta (filesystem) e salvataggio dati in flash.
 
+## LATO PCB
+### Boot
+- Buzzer e led per segnalare accensione
+- Orologio non sincronizzato, parte da una data standard, fin quando non arriva il primo dato del gps valido
+- usare timepulse quando valido per aggiornare il clock al secondo.
+  
+### DISPLAY MENU
+- Homepage come ambient display: info correnti minime, qualitá aria, temperatura, ora, ultimo aggiornamento dati
+- Alla pressione di un tasto schermata home con possibili scelte
+   - Info meteo, viene visualizzato il giorno corrente ed é possibile swipare fra i giorni a dx e sx con i tasti. se premuto tasto giú viene scrollata la pagina e visualizzato il meteo per le ore       della giornata selezionata prima di premere tasto giú
 
-## FEATURES da implementare
-
-### DIPSPLAY MENU
-- homepage: Ora, posizione e menu (se implemetata API, dati API)
-- Modalita' silenziosa: Attivare o disattivare led e buzzer
-- Luminositá schermo (da verificare compatibilitá)
-- Eject dal pc (sola alimentazione) (Toggle tra seriale e USB)
-- Reset dati in memoria
-- Ri-esegui init
-- sottomenu meteo e gps dettagliato (scrollable cn tasti)
-- Visualizzazione logs
-- 
-
-### USB
-- modalita client usb
-
-### Logger
-- tempo di sessione loggato (quanto attivo)
-- Gps con timestamp (impl. successiva sottocategorie per giorno)
-
-### API meteo
-- qualita' dell'aria
-
-### Future work
-- Modulo wifi x API cloud
-
-
+- Shortcuts per uscire dai menu (doppio click sinistro)
