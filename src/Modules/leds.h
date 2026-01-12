@@ -2,13 +2,12 @@
 #define LEDS_H
 
 #include <Arduino.h>
-#include <Adafruit_NeoPixel.h>
+#include <FastLED.h>        //https://github.com/FastLED/FastLED/blob/master/cookbook/getting-started/concepts.md
 
-// Pin e numero LED
-#define LED_PIN 13
-#define LED_COUNT 8
-
-extern Adafruit_NeoPixel strip;
+#define LED_PIN     13           // Data pin number
+#define NUM_LEDS    8         // Number of LEDs
+#define LED_TYPE    WS2812B     // Your LED strip type
+#define COLOR_ORDER GRB         // Color channel order
 
 bool ledsInit();
 void ledsShowInitAnimation();
