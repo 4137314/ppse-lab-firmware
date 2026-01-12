@@ -19,13 +19,27 @@
 #define DEBUG 0
 #endif
 
-
 #include <Arduino.h>
 #include "minmea/minmea.h"
 
+    struct parsed_nmea{
+        struct minmea_sentence_gbs parsed_gbs;
+        struct minmea_sentence_rmc parsed_rmc;
+        struct minmea_sentence_gga parsed_gga;
+        struct minmea_sentence_gsa parsed_gsa;
+        struct minmea_sentence_gll parsed_gll;
+        struct minmea_sentence_gst parsed_gst;
+        struct minmea_sentence_gsv parsed_gsv;
+        struct minmea_sentence_vtg parsed_vtg;
+        struct minmea_sentence_zda parsed_zda;
+    };
+    
+    //GLOBAL VARIABLE
+    extern struct parsed_nmea global_parsed_nmea;
+    
     bool gpsInit();
 
-    bool gpsRead(String* nmea_message);
+    bool gpsAcquire(String* nmea_message);
 
     bool minmea_gps_parse(String* nmea_message);
 
