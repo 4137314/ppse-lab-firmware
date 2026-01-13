@@ -6,10 +6,20 @@ bool init_All(){
 //////////////// Serial over USB //////////////////
     Serial.begin(9600);
 
+    int i=0;
+    while (!Serial && i<SERIAL_MAX_SETUP_TIME){
+        delay(1);
+        ++i;
+    }
+
+    if (i==1000)
+    {
+        Serial.println("ERROR: Serial over USB setup timed out");
+        exit(EXIT_FAILURE);
+    }
+
     Serial.println("<<<< START of hardware initialization >>>>");
-    // Wait for USB serial to be up
-    //while (!Serial) delay(10); 
-    Serial.println("OK!");
+    Serial.println("Serial is up!");
 
 //////////////// TEMP SENSOR /////////////////////    
     Serial.print("Initializing temperture sensor...");

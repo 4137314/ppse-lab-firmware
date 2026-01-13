@@ -6,7 +6,7 @@
 // -------------------------
 // Inizializzazione LED
 // -------------------------
-CRGB leds[LEDS_COUNT];
+CRGB leds[NUM_LEDS];
 
 bool ledsInit() {
     FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS); //Fastled init

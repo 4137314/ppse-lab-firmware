@@ -3,31 +3,35 @@
 bool gpsInit(){
     Serial.println("=== GPS Init ===");
     
+    // Led alive init
     pinMode(LED_ALIVE, OUTPUT);
-    digitalWrite(LED_ALIVE, LOW);
-    // LED alive off
-
-    Serial.print("Led alive: pin ");
+    digitalWrite(LED_ALIVE, LOW);     // LED alive off
+    Serial.print("Led alive pin: ");
     Serial.print(LED_ALIVE);
     Serial.println(" inizializzato come output.");
 
     // Enable GPS module
     pinMode(GPS_EN_PIN, OUTPUT);
     digitalWrite(GPS_EN_PIN, LOW);  //bring down GPS_EN signal to enable (pmos)
-    Serial.print("GPS enable: pin ");
+    Serial.print("GPS enable pin: ");
     Serial.print(GPS_EN_PIN);
     Serial.println(" alimentato.");
 
+    // Enable input for Pulse signal from gps
+    pinMode(GPS_PPS_PIN, INPUT);
+    Serial.print("Gps PPS pin: ");
+    Serial.print(LED_ALIVE);
+    Serial.println(" inizializzato come input.");
     
     //UART1 for the GPS. Serial2 maps to UART1 in Arduino framework!
     Serial2.setTX(UART1_TX_PIN);
     Serial2.setRX(UART1_RX_PIN);
     Serial2.begin(GPSBAUD); // start uart1
-    Serial.print("UART1 started on Serial2, listening for GPS data...");
+    Serial.println("UART1 started on Serial2, listening for GPS data...");
 
 
     int i=0;
-    while( i<1000 && (Serial2.available() == 0) ) //Wait 10 sec for a GPS string.
+    while( i<1000 && (Serial2.available() == 0) ) //Wait at least 10 sec for a GPS string.
     { 
         delay(1);
         ++i;
@@ -35,7 +39,6 @@ bool gpsInit(){
     
     if (i==1000)
     {
-        Serial.println("");
         Serial.println("ERROR: No data from GPS module");
         return false;
     }
@@ -44,65 +47,24 @@ bool gpsInit(){
     return true;
 }
 
-bool gpsAcquire(String* nmea_message){
-    String Buffer[NMEA_SENTENCE_COUNT];
 
-    digitalWrite(LED_ALIVE, LOW);
-
-    if( Serial2.available() > 0) //check buffer of serial (max 64B)
-    {
-        digitalWrite(LED_ALIVE, HIGH);
-        
-        // Void UART1 buffer
-        Serial2.flush();  
-        while(Serial2.available()) {
-            Serial2.read();  // Read and discard
-        }
-        Serial2.readStringUntil('\n');
-        Serial2.flush(); //waits for transmission to finish
-        for(int i=0; i<NMEA_SENTENCE_COUNT; ++i)
-        {
-            Buffer[i]=Serial2.readStringUntil('\n');
-        }
-
-        digitalWrite(LED_ALIVE, LOW);
-
-        for(int j=0; j<NMEA_SENTENCE_COUNT; ++j)
-        {   
-            if( Buffer[j].length() > MINMEA_MAX_SENTENCE_LENGTH-2 )
-            {
-                Serial.println("ERROR: NIMEA_MAX_SENTENCE_LENGTH is too small for a GPS sentence");
-                return false;
+void EmptyGpsBuffer(){
+                Serial2.flush(); //waits for transmission to finish
+            while(Serial2.available()) {
+                Serial2.read();  // Read and discard
             }
-           // if(Buffer[j].charAt(0)=='$'){   //
-                nmea_message[j]=Buffer[j]; //save the temp buffer
-                #if DEBUG == 1
-                    Serial.print(nmea_message[j]);
-                #endif
-            //}
-
-            #if DEBUG == 1
-                Serial.println();
-            #endif
-        }
-    }
-    else
-    {
-        #if DEBUG == 1
-        Serial.println("WARNING: No data to read from GPS module");  
-        #endif
-        return false;
-    }
-     return true;
+            Serial2.readStringUntil('\n');
+            Serial2.flush(); //waits for transmission to finish
 }
 
 
-bool minmea_gps_parse (String* nmea_message){
+
+bool nmea_gps_parse (String* nmea_message){
 
     //GLOBAL VARIABLE
     struct parsed_nmea global_parsed_nmea;
 
-    switch ( minmea_sentence_id(nmea_message->c_str(), false)) {
+    switch ( minmea_sentence_id(nmea_message->c_str(), true)) {
         case MINMEA_SENTENCE_RMC: {
             struct minmea_sentence_rmc *frame = &global_parsed_nmea.parsed_rmc;
             if (minmea_parse_rmc(frame, nmea_message->c_str())) {
@@ -254,4 +216,71 @@ bool minmea_gps_parse (String* nmea_message){
     }
 
     return true;
+}
+
+
+
+bool gpsAcquire(enum minmea_sentence_id sentence_type){
+
+    String nmea_message;
+
+    digitalWrite(LED_ALIVE, LOW);
+
+    if( Serial2.available() > 0) //check buffer for data (max 64B)
+    {
+        digitalWrite(LED_ALIVE, HIGH);
+        
+        EmptyGpsBuffer();
+
+        for(int i=0; i<GPS_ACQUIRE_MAX_TRIES; ++i)
+        {   
+            nmea_message = Serial2.readStringUntil('\n');
+    
+            if ( minmea_sentence_id(nmea_message.c_str(), true) == sentence_type){
+                if(nmea_gps_parse(&nmea_message)) {
+                    digitalWrite(LED_ALIVE, LOW);
+                    return true;
+                }
+            }
+            EmptyGpsBuffer();
+
+        }
+        digitalWrite(LED_ALIVE, LOW);
+        #if DEBUG == 1 
+            Serial.println("ERROR in gpsAcquire: max tries reached before correctly acquiring the requested gps message");
+        #endif
+        return false;
+    }
+    else
+    {
+        #if DEBUG == 1
+        Serial.println("WARNING: No data to read from GPS module");  
+        #endif
+        return false;
+    }
+}
+
+
+
+bool GetDate_and_Time(){
+
+    if(gpsAcquire(MINMEA_SENTENCE_RMC)){
+        return true;
+    }
+    #if DEBUG == 1
+        Serial.println("ERROR in GetDate_and_Time: failed to get data");
+    #endif
+    return false;
+}
+
+
+
+bool GetPosition_and_Satellites(){
+    if(gpsAcquire(MINMEA_SENTENCE_GGA)){
+        return true;
+    }
+    #if DEBUG == 1
+        Serial.println("ERROR in GetPosition_and_Satellites: failed to get data");
+    #endif
+    return false;
 }
