@@ -13,6 +13,8 @@
 
 #include "gps.h"
 
+// It is in milli seconds
+#define SERIAL_MAX_SETUP_TIME 20000
 
     bool init_All();
 
