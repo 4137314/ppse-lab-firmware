@@ -43,3 +43,41 @@ bool init_All(){
     Serial.println("<<<< END of hardware initialization >>>>");
     return status;
 }
+
+
+
+
+void littleFS_Setup(){
+    if (!LittleFS.begin()) 
+    {        
+        #if DEBUG == 1
+        Serial.print("WARNING in littleFS_Setup: mount failed, trying to format and remount...");
+        #endif 
+
+        // try formatting
+        if(!LittleFS.format()) 
+        {
+            Serial.println("");
+            Serial.println("ERROR in littleFS_Setup: cannot format the filesystem");
+            exit(EXIT_FAILURE);
+        }
+        
+        // try to remount
+        if (!LittleFS.begin()) 
+        {
+            Serial.println("");
+            Serial.println("ERROR in littleFS_Setup: cannot format the filesystem");
+            exit(EXIT_FAILURE);
+        }
+        #if DEBUG == 1
+        Serial.println("OK");
+        #endif
+    }
+    return;
+}
+
+//bool littleFS_write(File* ptr){
+    //char filename[LFS_NAME_MAX]
+    //File myFile = LittleFS.open("/config.txt", "w");
+
+//}

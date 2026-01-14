@@ -21,6 +21,8 @@
 #endif
 
 #include <Arduino.h>
+#include <time.h>       
+#include <sys/time.h>   // Needed for settimeofday
 #include "minmea/minmea.h"
 #include "pico/stdlib.h"
 #include "hardware/gpio.h"
