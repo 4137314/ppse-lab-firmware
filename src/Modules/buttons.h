@@ -9,13 +9,24 @@
 #define SW_RIGHT  24
 #define SW_LEFT   25
 
-// Forward declarations delle funzioni che userai nel main
-bool buttonsInit();
-void buttonsUpdate();   // da chiamare nel loop
-bool isButtonPressed(uint8_t buttonPin); // lettura diretta, opzionale
 
+// Global variables
 extern int menuIndex;
 extern bool menuOpen;
 extern bool inSubmenu;
+
+extern volatile bool up_press;
+extern volatile bool down_press;
+extern volatile bool left_press;
+extern volatile bool right_press;
+
+long long debounce_callback(alarm_id_t id, void *user_data);
+void gpio_callback(uint gpio, uint32_t events);
+
+
+void buttonsInit();
+void buttonsUpdate();   // da chiamare nel loop
+
+
 
 #endif
