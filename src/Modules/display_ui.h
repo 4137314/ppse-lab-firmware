@@ -17,7 +17,6 @@
 #include <Arduino.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-#include <Adafruit_NeoPixel.h>
 #include <SPI.h>
 #include <Wire.h> // use uart as comm protocol
 

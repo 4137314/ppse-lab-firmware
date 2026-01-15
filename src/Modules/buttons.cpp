@@ -1,7 +1,4 @@
 #include "buttons.h"
-#include "display_ui.h"
-#include "leds.h"
-#include "gps.h"
 
 // Variabili globali per menu
 int menuIndex = 0;

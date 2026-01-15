@@ -14,6 +14,7 @@
 #define UART1_TX_PIN 4
 #define UART1_RX_PIN 5
 #define GPSBAUD 9600 //GPS module baud rate
+#define GPS_SYNC_TIMEOUT_MSEC 20000 //GPS msec sync timeout to fetch new date and time
 #define LED_ALIVE 20    // Led alive GPIO pin
 
 #ifndef DEBUG
@@ -54,5 +55,7 @@
     bool GetDate_and_Time();
 
     bool GetPosition_and_Satellites();
+
+    bool GPS_sync();
 
 #endif

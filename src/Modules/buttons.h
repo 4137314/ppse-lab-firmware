@@ -2,6 +2,12 @@
 #define BUTTONS_H
 
 #include <Arduino.h>
+#include "pico/stdlib.h"
+#include "hardware/gpio.h" // REFERENCE: https://www.raspberrypi.com/documentation/pico-sdk/hardware.html
+#include "display_ui.h"
+#include "leds.h"
+#include "gps.h"
+
 
 // Pulsanti pin (puoi anche includere da main con extern)
 #define SW_UP     22
@@ -20,9 +26,9 @@ extern volatile bool down_press;
 extern volatile bool left_press;
 extern volatile bool right_press;
 
+
 long long debounce_callback(alarm_id_t id, void *user_data);
 void gpio_callback(uint gpio, uint32_t events);
-
 
 void buttonsInit();
 void buttonsUpdate();   // da chiamare nel loop

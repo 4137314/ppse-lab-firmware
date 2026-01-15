@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <Arduino.h>
+#include <LittleFS.h> // REFERENCE: https://arduino-pico.readthedocs.io/en/latest/fs.html#file-system-object-littlefs-sd-sdfs-fatfs
 
 
 #include "buzzer.h"
@@ -11,7 +12,6 @@
 #include "leds.h"
 #include "temp.h"
 #include "gps.h"
-#include <LittleFS.h> // REFERENCE: https://arduino-pico.readthedocs.io/en/latest/fs.html#file-system-object-littlefs-sd-sdfs-fatfs
 
 
 // It is in milli seconds

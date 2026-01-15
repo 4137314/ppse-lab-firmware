@@ -5,19 +5,20 @@
 
 #include "Modules/Functions.h"
 #include "pico/stdlib.h" //Standard library for Pico
-#include "hardware/gpio.h" // REFERENCE: https://www.raspberrypi.com/documentation/pico-sdk/hardware.html
+
 
 
 void setup(){
+  littleFS_Setup();
   if (!init_All()) exit(1);
 }
 
 
 void loop(){
 
-  GetDate_and_Time();
+  GPS_sync();
 
-  GetPosition_and_Satellites();
-  
+  buttonsUpdate();
+
   delay(500);
 }

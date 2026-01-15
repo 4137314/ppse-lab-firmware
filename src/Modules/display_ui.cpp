@@ -1,6 +1,6 @@
 #include "display_ui.h"
 
-/*
+
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 const char* menuItems[] = {
@@ -20,7 +20,7 @@ const unsigned long timeout = 60000; // 60 sec
 bool displayInit() {
     bool status = true;
 
-    // Inizializza I2C
+    // Initialization of I2C
     Wire.setSDA(DISPLAY_SDA_I2C_PIN); // Imposta GPIO0 come SDA
     Wire.setSCL(DISPLAY_SCL_I2C_PIN); // Imposta GPIO1 come SCL
     Wire.begin();
@@ -72,7 +72,7 @@ void drawSettingsScreen() {
 
     display.setTextSize(1);
     display.setCursor(0, 25);
-    display.print("Brightness: "); display.println(strip.getBrightness()); // da led strip
+    //display.print("Brightness: "); display.println(strip.getBrightness()); // da led strip
     display.setCursor(0, 35);
     display.println("Volume: 75%"); // se hai un modulo volume reale puoi sostituire
     display.setCursor(0, 45);
@@ -109,7 +109,7 @@ void drawGPSScreen() {
     display.setTextColor(SSD1306_WHITE);
     display.setCursor(0, 0);
     display.println("GPS Info");
-
+/*
     display.setTextSize(1);
     if (gps.location.isValid()) {
         display.setCursor(0, 25);
@@ -124,7 +124,7 @@ void drawGPSScreen() {
         display.setCursor(0, 25);
         display.println("Waiting for GPS fix...");
     }
-
+*/
     display.display();
 }
 
@@ -189,4 +189,3 @@ void updateDisplayTimeout() {
         display.ssd1306_command(SSD1306_DISPLAYOFF);
     }
 }
-    */

@@ -20,7 +20,7 @@ bool gpsInit(){
     // Enable input for Pulse signal from gps
     pinMode(GPS_PPS_PIN, INPUT);
     Serial.print("Gps PPS pin: ");
-    Serial.print(LED_ALIVE);
+    Serial.print(GPS_PPS_PIN);
     Serial.println(" inizializzato come input.");
     
     //UART1 for the GPS. Serial2 maps to UART1 in Arduino framework!
@@ -282,5 +282,19 @@ bool GetPosition_and_Satellites(){
     #if DEBUG == 1
         Serial.println("ERROR in GetPosition_and_Satellites: failed to get data");
     #endif
+    return false;
+}
+
+bool GPS_sync(){
+    static uint32_t lastGPSsync = 0;
+
+    if (millis() - lastGPSsync > GPS_SYNC_TIMEOUT_MSEC)
+    {
+        if(GetDate_and_Time() && GetPosition_and_Satellites())
+        {
+            lastGPSsync=millis();
+            return true;
+        };
+    }
     return false;
 }

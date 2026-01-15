@@ -1,7 +1,7 @@
 #include "Functions.h"
 
 bool init_All(){
-    bool status;
+    bool status=true;
 
 //////////////// Serial over USB //////////////////
     Serial.begin(9600);
@@ -26,19 +26,19 @@ bool init_All(){
     TempInit();
 
 //////////////// OnBoard LEDs ////////////////////
-    //ledsInit();
+    ledsInit();
 
 //////////////// BUTTONS /////////////////////////  
-    //buttonsInit();
+    buttonsInit();
 
 ///////////////// BUZZER /////////////////////////
     //buzzerInit(BUZZER);
 
 //////////////// OLED DISPLAY ////////////////////
-    //displayInit();
+    status = status && displayInit();
 
 //////////////// GPS MODULE //////////////////////
-    status = gpsInit();
+    status = status && gpsInit();
 
     Serial.println("<<<< END of hardware initialization >>>>");
     return status;
