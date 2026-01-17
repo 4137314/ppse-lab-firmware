@@ -16,10 +16,26 @@ const uint32_t DEBOUNCE_DELAY = 40; // ms
 // Numero di voci menu
 const int MENU_LENGTH = 5;
 
+// Inizializzazione dei pulsanti
+void buttonsInit() {
+    const uint8_t SWpin[]={SW_UP,SW_DOWN,SW_LEFT,SW_RIGHT};
+
+    #if DEBUG == 1
+    Serial.println(F("Buttons and relative interrupts initialized"));
+    #endif
+
+    for(uint8_t i=0; i<sizeof(SWpin); ++i){
+        pinMode(SWpin[i], INPUT_PULLUP);
+        gpio_set_irq_enabled_with_callback(SWpin[i], GPIO_IRQ_EDGE_FALL, true, &buttons_callback);
+    }   
+
+    return;
+}
+
 
 // funzione handler per interrupt gpio
-void gpio_callback(uint gpio, uint32_t events) {
-   //if released re apply the fall edge irq and disable the rising one
+void buttons_callback(uint gpio, uint32_t events) {
+   //if released enables the fall edge irq and disable the rising one
     if(events == GPIO_IRQ_EDGE_RISE){
         gpio_set_irq_enabled(gpio, GPIO_IRQ_EDGE_RISE, false);
         gpio_set_irq_enabled(gpio, GPIO_IRQ_EDGE_FALL, true);
@@ -79,23 +95,6 @@ long long debounce_callback(alarm_id_t id, void *user_data){
     return 0;
 }
 
-
-
-// Inizializzazione dei pulsanti
-void buttonsInit() {
-    const uint8_t SWpin[]={SW_UP,SW_DOWN,SW_LEFT,SW_RIGHT};
-
-    #if DEBUG == 1
-    Serial.println(F("Buttons and relative interrupts initialized"));
-    #endif
-
-    for(uint8_t i=0; i<sizeof(SWpin); ++i){
-        pinMode(SWpin[i], INPUT_PULLUP);
-        gpio_set_irq_enabled_with_callback(SWpin[i], GPIO_IRQ_EDGE_FALL, true, &gpio_callback);
-    }   
-
-    return;
-}
 
 // Gestione dei pulsanti, da chiamare nel loop
 void buttonsUpdate() {
