@@ -26,6 +26,9 @@ void buttonsInit() {
 
     for(uint8_t i=0; i<sizeof(SWpin); ++i){
         pinMode(SWpin[i], INPUT_PULLUP);
+        gpio_set_irq_enabled_with_callback(SWpin[i], GPIO_IRQ_LEVEL_HIGH, false, &buttons_callback);
+        gpio_set_irq_enabled_with_callback(SWpin[i], GPIO_IRQ_LEVEL_LOW, false, &buttons_callback);
+        gpio_set_irq_enabled_with_callback(SWpin[i], GPIO_IRQ_EDGE_RISE, false, &buttons_callback);
         gpio_set_irq_enabled_with_callback(SWpin[i], GPIO_IRQ_EDGE_FALL, true, &buttons_callback);
     }   
 
