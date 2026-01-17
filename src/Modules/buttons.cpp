@@ -20,7 +20,7 @@ const int MENU_LENGTH = 5;
 // funzione handler per interrupt gpio
 void gpio_callback(uint gpio, uint32_t events) {
    //if released re apply the fall edge irq and disable the rising one
-    if(events & GPIO_IRQ_EDGE_RISE){
+    if(events == GPIO_IRQ_EDGE_RISE){
         gpio_set_irq_enabled(gpio, GPIO_IRQ_EDGE_RISE, false);
         gpio_set_irq_enabled(gpio, GPIO_IRQ_EDGE_FALL, true);
         return;
