@@ -14,15 +14,28 @@
 
 
 void setup(){
-  if (!init_All()) exit(1);
+  //if (!init_All()) exit(1);
+  //ledsInit();
+  if(!displayInit()){
+    while (1) ;
+  }
+  drawHomeScreen();
+  buttonsInit();
+  ledsInit();;
+  ledsShowInitAnimation();
+  //displayInit();
 }
 
 
 void loop(){
+  buttonsUpdate();
 
+  /*
   GetDate_and_Time();
 
   GetPosition_and_Satellites();
   
   delay(500);
+  */
+
 }

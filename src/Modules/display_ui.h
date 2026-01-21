@@ -21,7 +21,8 @@
 #include <SPI.h>
 #include <Wire.h> // use uart as comm protocol
 
-
+// Schermo stile
+    extern uint8_t ScreenStyle; // 1 = Simple, 0 = Highlight
     // Menu
     extern const char* menuItems[];
     extern const int menuLength;
@@ -34,6 +35,7 @@
     bool displayInit();
     void drawHomeScreen();
     void drawMenu(int index);
+    void drawMenu_evi(int index);
     void drawSelected(const char* title);
 
     void drawSettingsScreen();
@@ -44,5 +46,8 @@
 
     // Aggiorna timer attività e gestisce timeout
     void updateDisplayTimeout();
+    //
+    void setBrightness(uint8_t level);
+
 
 #endif

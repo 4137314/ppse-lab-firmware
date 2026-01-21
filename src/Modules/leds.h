@@ -9,7 +9,8 @@
 #define LED_TYPE    WS2812B     // Your LED strip type
 #define COLOR_ORDER GRB         // Color channel order
 
-bool ledsInit();
+void ledsInit();
 void ledsShowInitAnimation();
+void ledsNavigationAnimation();
 
 #endif
