@@ -46,7 +46,7 @@ bool init_All(){
 
 
 
-
+// Monta il file system
 void littleFS_Setup(){
     if (!LittleFS.begin()) 
     {        
