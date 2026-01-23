@@ -30,10 +30,12 @@ extern const uint32_t DISPLAY_TIMEOUT_MS ; // 15 secondi
 
 // led navigation animation
 extern int ledsNumber;
+enum KeyEvent : uint8_t { KEY_NONE, KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT };
+
 
 void buttonsInit();
 void buttonsUpdate();   // da chiamare nel loop
 void onLeftRightCombo();
-
+bool checkLeftRightCombo(KeyEvent ev);
 
 #endif

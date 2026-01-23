@@ -29,23 +29,46 @@ void ledsShowInitAnimation() {
 }
 
 void ledsNavigationAnimation() {
+    FastLED.clear();
     leds[ledsNumber] = CRGB::Blue;
     if(ledsNumber+1 == 8) {
-        leds[0] = CRGB::Blue;
+        leds[0] = CRGB::Red;
     } else {
         leds[ledsNumber+1] = CRGB::Red;
     }
     FastLED.show();
     delay(200);
+    FastLED.clear();
+    FastLED.show();
     leds[ledsNumber] = CRGB::Black;
     if(ledsNumber+1 == 8) {
         leds[0] = CRGB::Black;
     } else {
     leds[ledsNumber+1] = CRGB::Black;
     }
+}
+
+void ledsToggleAnimation() {
+    FastLED.clear();
+    for(int i=0; i<NUM_LEDS; i++) {
+        leds[i] = CRGB::Green;
+    }
+    FastLED.show();
+    delay(200);
+    FastLED.clear();
     FastLED.show();
 }
 
+void ledsIncativityAnimation() {
+    FastLED.clear();
+    for(int i=0; i<NUM_LEDS; i++) {
+        leds[i] = CRGB::Yellow;
+    }
+    FastLED.show();
+    delay(200);
+    FastLED.clear();
+    FastLED.show();
+}
 // -------------------------
 // Flash temporaneo due LED
 // -------------------------

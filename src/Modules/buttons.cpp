@@ -20,8 +20,8 @@ uint32_t tRight = 0;
 const uint32_t COMBO_MS = 500; // finestra per considerare "insieme"
 
 // attività timeout display
-    uint32_t lastActivity = 0;
-    const uint32_t DISPLAY_TIMEOUT_MS = 15000; // 15 secondi
+uint32_t lastActivity = 0;
+const uint32_t DISPLAY_TIMEOUT_MS = 15000; // 15 secondi
 // Debounce
 const uint32_t DEBOUNCE_DELAY = 40; // ms
 
@@ -29,13 +29,15 @@ const uint32_t DEBOUNCE_DELAY = 40; // ms
 const int MENU_LENGTH = 5;
 
 // leds navigation animation
+//  diffinito nel header enum KeyEvent : uint8_t { KEY_NONE, KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT };
 int ledsNumber = 0;
 
 //forward declaration
 long long debounce_callback(alarm_id_t id, void *user_data);
 void gpio_callback(uint gpio, uint32_t events);
 
-
+// Definizione enum per i sottomenu
+enum Submenu : uint8_t { SUB_NONE, SUB_SETTINGS, SUB_SENSORS, SUB_GPS, SUB_SYSTEM, SUB_INFO };
 
 // funzione handler per interrupt gpio
 void gpio_callback(uint gpio, uint32_t events) {
@@ -71,6 +73,9 @@ void gpio_callback(uint gpio, uint32_t events) {
 long long debounce_callback(alarm_id_t id, void *user_data){
     uint PinNum=(uint) user_data;
 
+    Serial.print("Debounce callback for pin ");
+    Serial.println(PinNum);
+
     if(!gpio_get( PinNum ))
     {
         switch( PinNum )
@@ -104,127 +109,146 @@ long long debounce_callback(alarm_id_t id, void *user_data){
 // Inizializzazione dei pulsanti
 void buttonsInit() {
     const uint8_t SWpin[]={SW_UP,SW_DOWN,SW_LEFT,SW_RIGHT};
-
+    
     #if DEBUG == 1
     Serial.println(F("Buttons and relative interrupts initialized"));
     #endif
-
+    
     for(uint8_t i=0; i<(sizeof(SWpin)/sizeof(SWpin[0])); ++i){
         pinMode(SWpin[i], INPUT_PULLUP);
         
     }   
     // Imposta interrupt sui pulsanti
-    gpio_set_irq_enabled_with_callback(SW_UP, GPIO_IRQ_EDGE_FALL, true, &gpio_callback);
+    gpio_set_irq_enabled_with_callback(SW_UP, GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE, true, &gpio_callback);
     for(uint8_t i= 1; i<(sizeof(SWpin)/sizeof(SWpin[0])); ++i){
-        gpio_set_irq_enabled(SWpin[i], GPIO_IRQ_EDGE_FALL, true);
+        gpio_set_irq_enabled(SWpin[i], GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE, true);
     }
-
+    
     return;
 }
 /*
 // Gestione dei pulsanti, da chiamare nel loop
 void buttonsUpdate() {
+    
+// --- Se siamo in un sottomenu ---
+if (inSubmenu) {
+    if (left_press) { // esci dal submenu
+    left_press = false;
+    inSubmenu = false;
+    drawMenu(menuIndex);
+}
+return;
+}
 
-    // --- Se siamo in un sottomenu ---
-    if (inSubmenu) {
-        if (left_press) { // esci dal submenu
-            left_press = false;
-            inSubmenu = false;
-            drawMenu(menuIndex);
-        }
-        return;
-    }
+// --- Menu aperto ---
+if (up_press) {           // scroll up
+up_press = false;
+menuIndex = (menuIndex == 0) ? MENU_LENGTH - 1 : menuIndex - 1;
+drawMenu(menuIndex);
+return;
+}
 
-    // --- Menu aperto ---
-    if (up_press) {           // scroll up
-        up_press = false;
-        menuIndex = (menuIndex == 0) ? MENU_LENGTH - 1 : menuIndex - 1;
-        drawMenu(menuIndex);
-        return;
-    }
+if (down_press) {         // scroll down
+down_press = false;
+menuIndex = (menuIndex + 1) % MENU_LENGTH;
+drawMenu(menuIndex);
+return;
+}
 
-    if (down_press) {         // scroll down
-        down_press = false;
-        menuIndex = (menuIndex + 1) % MENU_LENGTH;
-        drawMenu(menuIndex);
-        return;
-    }
+if (right_press) {        // entra nel submenu
+right_press = false;
+inSubmenu = true;
+switch (menuIndex) {
+    case 0: drawSettingsScreen(); break;
+    case 1: drawSensorsScreen();  break;
+    case 2: drawGPSScreen();      break;
+    case 3: drawSystemScreen();   break;
+    case 4: drawInfoScreen();     break;
+}
+}
 
-    if (right_press) {        // entra nel submenu
-        right_press = false;
-        inSubmenu = true;
-        switch (menuIndex) {
-            case 0: drawSettingsScreen(); break;
-            case 1: drawSensorsScreen();  break;
-            case 2: drawGPSScreen();      break;
-            case 3: drawSystemScreen();   break;
-            case 4: drawInfoScreen();     break;
-        }
-    }
-
-    if (left_press) {         // torni al menu (resta aperto)
-        left_press = false;
-        drawMenu(menuIndex);                 // utile se vuoi refresh manuale
-    }
+if (left_press) {         // torni al menu (resta aperto)
+left_press = false;
+drawMenu(menuIndex);                 // utile se vuoi refresh manuale
+}
 }
 */
 void buttonsUpdate() {
-
-    enum Submenu : uint8_t { SUB_NONE, SUB_SETTINGS, SUB_SENSORS, SUB_GPS, SUB_SYSTEM, SUB_INFO };
+    
+    
     static Submenu currentSubmenu = SUB_NONE;
-
-    bool anypress = left_press || right_press || up_press || down_press;
+    
+    KeyEvent ev = KEY_NONE;
+    
+    if (right_press) ev = KEY_RIGHT;
+    else if (left_press) ev = KEY_LEFT;
+    else if (up_press) ev = KEY_UP;
+    else if (down_press) ev = KEY_DOWN;
+    
+    bool anypress = (ev != KEY_NONE);
+    
+    
+    
     if (anypress) {
-        if (right_press){
+        // mapping per animazione LED
+        if (ev == KEY_RIGHT)      ledsNumber = 1;
+        else if (ev == KEY_LEFT)  ledsNumber = 5;
+        else if (ev == KEY_UP)    ledsNumber = 7;
+        else if (ev == KEY_DOWN)  ledsNumber = 3;
         
-            ledsNumber = 1;
-        } else if (left_press){
-          
-            ledsNumber = 5;
-        } else if (up_press){
-           
-            ledsNumber = 7;
-        } else if (down_press){
-           
-            ledsNumber = 3;
-        }
         ledsNavigationAnimation();
+        
+        // consuma i flag (così non si ripete)
+        up_press = down_press = left_press = right_press = false;
+        
         lastActivity = millis();
     }
-
-
-    // --- Se siamo in un ambiente display ---
-    if(ambientDisplay){
-        setBrightness(255); // luminosità ridotta
-        if(left_press || right_press || up_press || down_press){
-            left_press = false;
-            right_press = false;
-            up_press = false;
-            down_press = false;
-            ambientDisplay = false;
-            menuOpen = true;
-            drawMenu(menuIndex);
-        }
+    
+    if (lastActivity == 0) {
+        lastActivity = millis();
+    }
+    // Se ev è LEFT o RIGHT, gestisci combo/attesa
+    if (ev != KEY_NONE) {
+        if (checkLeftRightCombo(ev)) return; // se combo: toggle e fine
     }
 
+    // se ritorna false => nessuna combo: puoi eseguire l’azione singola (LEFT o RIGHT)
+    
+    if(!ambientDisplay && (millis() - lastActivity > DISPLAY_TIMEOUT_MS)) {
+        ambientDisplay = true;
+        menuOpen = false;
+        inSubmenu = false;
+        ledsIncativityAnimation();
+        drawHomeScreen();
+        return;
+    }
+    
+    // --- Se siamo in un ambiente display ---
+    if(ambientDisplay && anypress){
+        
+        ambientDisplay = false;
+        menuOpen = true;
+        drawMenu(menuIndex);
+        
+        return;
+    }
+    
+    // (NOTA: in questo punto left_press/right_press sono già stati consumati)*/
     
     // --- Menu aperto ---
-    if (up_press && menuOpen) {           // scroll up
-        up_press = false;
+    if (ev == KEY_UP && menuOpen) {           // scroll up
         menuIndex = (menuIndex == 0) ? MENU_LENGTH - 1 : menuIndex - 1;
         drawMenu(menuIndex);
         return;
     }
     
-    if (down_press && menuOpen) {         // scroll down
-        down_press = false;
+    if (ev == KEY_DOWN && menuOpen) {         // scroll down
         menuIndex = (menuIndex + 1) % MENU_LENGTH;
         drawMenu(menuIndex);
         return;
     }
     
-    if (right_press && menuOpen) {        // entra nel submenu
-        right_press = false;
+    if (ev == KEY_RIGHT && menuOpen) {        // entra nel submenu
         inSubmenu = true;
         menuOpen = false;
         switch (menuIndex) {
@@ -252,8 +276,7 @@ void buttonsUpdate() {
         }
         
         if(inSubmenu && currentSubmenu == SUB_SETTINGS){
-            if(right_press){
-            right_press = false;
+            if(ev == KEY_RIGHT){
             // Toggle menu style
             ScreenStyle = (ScreenStyle == 1) ? 0 : 1;
             drawSettingsScreen();
@@ -261,9 +284,8 @@ void buttonsUpdate() {
         }
         
        
-        if (left_press)
+        if (ev == KEY_LEFT)
         {
-            left_press = false;
             inSubmenu = false;
             menuOpen = true;
             drawMenu(menuIndex);
@@ -274,19 +296,11 @@ void buttonsUpdate() {
     }
 
     if (inSubmenu) {
-        if (left_press) { // esci dal submenu
-            left_press = false;
+        if (ev == KEY_LEFT) { // esci dal submenu
             inSubmenu = false;
             menuOpen = true;
             drawMenu(menuIndex);
         }
-        if (right_press)
-        {
-            right_press = false;
-
-            // Gestisci altre azioni nei sottomenu se necessario
-        }
-        
         return;
     }
     
@@ -298,24 +312,6 @@ void buttonsUpdate() {
         drawHomeScreen();
     }*/
 
-    uint32_t now = millis();
-    // --- Rilevamento combo LEFT + RIGHT (entro COMBO_MS) ---
-    if (left_press)  { left_press  = false; tLeft  = now; }
-    if (right_press) { right_press = false; tRight = now; }
-
-    // Se entrambi presenti e vicini nel tempo -> combo
-    if (tLeft && tRight && (uint32_t)abs((int32_t)tLeft - (int32_t)tRight) <= COMBO_MS) {
-        tLeft = 0;
-        tRight = 0;
-        onLeftRightCombo();
-        return;
-    }
-
-    // Opzionale: “scadenza” eventi per non tenerli appesi
-    if (tLeft && (now - tLeft > COMBO_MS))   tLeft = 0;
-    if (tRight && (now - tRight > COMBO_MS)) tRight = 0;
-
-    // (NOTA: in questo punto left_press/right_press sono già stati consumati)*/
 
 
     
@@ -325,9 +321,35 @@ void buttonsUpdate() {
 }
 
 
+// Ritorna true se ha gestito qualcosa (combo o attesa); false se puoi proseguire con azioni normali
+bool checkLeftRightCombo(KeyEvent ev) {
+    static uint32_t lastL = 0;
+    static uint32_t lastR = 0;
+
+    uint32_t now = millis();
+
+    if (ev == KEY_LEFT)  lastL = now;
+    if (ev == KEY_RIGHT) lastR = now;
+
+    if (lastL && lastR && (uint32_t)abs((int32_t)(lastL - lastR)) <= COMBO_MS) {
+        lastL = 0;
+        lastR = 0;
+        onLeftRightCombo();
+        return true;   // combo gestita
+    }
+
+    // pulizia (opzionale)
+    if (lastL && (now - lastL > COMBO_MS)) lastL = 0;
+    if (lastR && (now - lastR > COMBO_MS)) lastR = 0;
+
+    return false;
+}
+
+
 void onLeftRightCombo() {
-    menuOpen = !menuOpen;
-    if (menuOpen) {
+    ledsToggleAnimation();
+    ambientDisplay = !ambientDisplay;
+    if (!ambientDisplay) {
         ambientDisplay = false;
         drawMenu(menuIndex);
     } else {
@@ -335,3 +357,4 @@ void onLeftRightCombo() {
         drawHomeScreen();
     }
 }
+
