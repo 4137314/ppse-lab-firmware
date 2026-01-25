@@ -23,13 +23,15 @@ void setup(){
   buttonsInit();
   ledsInit();;
   ledsShowInitAnimation();
+  TempInit();
+  
   //displayInit();
-}
+  }
 
 
 void loop(){
   buttonsUpdate();
-
+  
   /*
   GetDate_and_Time();
 

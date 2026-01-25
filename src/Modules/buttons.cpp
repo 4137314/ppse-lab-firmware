@@ -17,7 +17,7 @@ volatile bool right_press=false;
 // funzioanlita combo
 uint32_t tLeft  = 0; 
 uint32_t tRight = 0;
-const uint32_t COMBO_MS = 500; // finestra per considerare "insieme"
+const uint32_t COMBO_MS = 300; // finestra per considerare "insieme"
 
 // attività timeout display
 uint32_t lastActivity = 0;
@@ -126,53 +126,7 @@ void buttonsInit() {
     
     return;
 }
-/*
-// Gestione dei pulsanti, da chiamare nel loop
-void buttonsUpdate() {
-    
-// --- Se siamo in un sottomenu ---
-if (inSubmenu) {
-    if (left_press) { // esci dal submenu
-    left_press = false;
-    inSubmenu = false;
-    drawMenu(menuIndex);
-}
-return;
-}
 
-// --- Menu aperto ---
-if (up_press) {           // scroll up
-up_press = false;
-menuIndex = (menuIndex == 0) ? MENU_LENGTH - 1 : menuIndex - 1;
-drawMenu(menuIndex);
-return;
-}
-
-if (down_press) {         // scroll down
-down_press = false;
-menuIndex = (menuIndex + 1) % MENU_LENGTH;
-drawMenu(menuIndex);
-return;
-}
-
-if (right_press) {        // entra nel submenu
-right_press = false;
-inSubmenu = true;
-switch (menuIndex) {
-    case 0: drawSettingsScreen(); break;
-    case 1: drawSensorsScreen();  break;
-    case 2: drawGPSScreen();      break;
-    case 3: drawSystemScreen();   break;
-    case 4: drawInfoScreen();     break;
-}
-}
-
-if (left_press) {         // torni al menu (resta aperto)
-left_press = false;
-drawMenu(menuIndex);                 // utile se vuoi refresh manuale
-}
-}
-*/
 void buttonsUpdate() {
     
     

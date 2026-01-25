@@ -1,6 +1,8 @@
 #include "temp.h"
+#include "pico/stdlib.h"
+#include "hardware/adc.h"
 
-
+/*
 // Inizializza il pin del sensore
 void TempInit() {
     pinMode(TEMP_PIN, INPUT);
@@ -27,4 +29,17 @@ float readTemp() {
     // RP2040 ADC 12bit, 3.3V
     float temp = ( (3300/ADC_MAX_VAL)*raw -500)/10 ; 
     return temp;
+}*/
+
+#include <Arduino.h>
+
+void TempInit() {
+  analogReadResolution(12); // dummy
+  analogReadTemp(); // dummy
+}
+
+float readTemp() {
+  uint16_t raw = analogReadTemp();
+  float v = raw * 3.3f / 4095.0f;
+  return (v - 0.5f) / 0.01f; // TC1047
 }
