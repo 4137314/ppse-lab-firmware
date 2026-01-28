@@ -76,8 +76,29 @@ void littleFS_Setup(){
     return;
 }
 
-//bool littleFS_write(File* ptr){
-    //char filename[LFS_NAME_MAX]
-    //File myFile = LittleFS.open("/config.txt", "w");
 
-//}
+bool flash_write(const char* path, const char* content, const char* mode = "w") {
+    // Apri il file
+    File file = LittleFS.open(path, mode);
+    
+    if (!file) {
+        Serial.printf("Errore: Impossibile aprire %s in modalità %s\n", path, mode);
+        return false;
+    }
+
+    // Scrivi il contenuto
+    size_t bytesWritten = file.print(content);
+    
+    // Chiudi sempre il file per salvare i dati fisicamente
+    file.close();
+
+    if (bytesWritten > 0) {
+        #if DEBUG == 1
+        Serial.printf("Scrittura su %s completata (%d bytes)\n", path, bytesWritten);
+        #endif
+        return true;
+    } else {
+        Serial.println("Errore durante la scrittura: 0 bytes scritti.");
+        return false;
+    }
+}

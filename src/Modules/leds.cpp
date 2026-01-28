@@ -1,5 +1,4 @@
 #include "leds.h"
-#include "display_ui.h"
 
 // RGB strip placeholder, verrà aggiornato in ledsInit()
 
