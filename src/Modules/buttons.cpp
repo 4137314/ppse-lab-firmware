@@ -29,7 +29,7 @@ const int MENU_LENGTH = 5;
 void buttonsInit() {
     const uint8_t SWpin[]={SW_UP,SW_DOWN,SW_LEFT,SW_RIGHT};
 
-    #if DEBUG == 1
+    #if DEBUG
     Serial.println(F("Buttons and relative interrupts initialized"));
     #endif
 
@@ -104,7 +104,7 @@ long long debounce_callback(alarm_id_t id, void *user_data){
 
             default:
             {
-                #if DEBUG == 1
+                #if DEBUG
                 Serial.println("ERROR in debounce_callback: PinNum not correct");
                 #endif
                 break;
@@ -165,7 +165,7 @@ void buttonsUpdate() {
         ambientDisplay = true;
         menuOpen = false;
         inSubmenu = false;
-        ledsIncativityAnimation();
+        ledsInactivityAnimation();
         drawHomeScreen();
         return;
     }

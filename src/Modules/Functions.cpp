@@ -50,7 +50,7 @@ bool init_All(){
 void littleFS_Setup(){
     if (!LittleFS.begin()) 
     {        
-        #if DEBUG == 1
+        #if DEBUG
         Serial.print("WARNING in littleFS_Setup: mount failed, trying to format and remount...");
         #endif 
 
@@ -69,7 +69,7 @@ void littleFS_Setup(){
             Serial.println("ERROR in littleFS_Setup: cannot format the filesystem");
             exit(EXIT_FAILURE);
         }
-        #if DEBUG == 1
+        #if DEBUG
         Serial.println("OK");
         #endif
     }
@@ -93,7 +93,7 @@ bool flash_write(const char* path, const char* content, const char* mode = "w") 
     file.close();
 
     if (bytesWritten > 0) {
-        #if DEBUG == 1
+        #if DEBUG
         Serial.printf("Scrittura su %s completata (%d bytes)\n", path, bytesWritten);
         #endif
         return true;

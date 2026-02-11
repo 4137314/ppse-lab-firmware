@@ -61,7 +61,7 @@ void ledsToggleAnimation() {
     FastLED.show();
 }
 
-void ledsIncativityAnimation() {
+void ledsInactivityAnimation() {
     FastLED.clear();
     for(int i=0; i<NUM_LEDS; i++) {
         leds[i] = CRGB::Yellow;

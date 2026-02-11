@@ -30,7 +30,7 @@ extern volatile bool right_press;
 
 
 long long debounce_callback(alarm_id_t id, void *user_data);
-void gpio_callback(uint gpio, uint32_t events);
+void buttons_callback(uint gpio, uint32_t events);
 
 
 extern uint32_t tLeft  ;

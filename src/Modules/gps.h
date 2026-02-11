@@ -21,6 +21,8 @@
 #define DEBUG 0
 #endif
 
+#define GPS_LOG_PATH "/gps_log.csv"
+
 #include <Arduino.h>
 #include <time.h>       
 #include <sys/time.h>   // Needed for settimeofday
@@ -59,5 +61,13 @@
     bool GetPosition_and_Satellites();
 
     bool GPS_sync();
+
+    // DEBUG functions
+    void print_NMEA_rmc(void* frame);
+    void print_NMEA_gga(void* frame);
+    void print_NMEA_gst(void* frame);
+    void print_NMEA_gsv(void* frame);
+    void print_NMEA_vtg(void* frame);
+    void print_NMEA_zda(void* frame);
 
 #endif
