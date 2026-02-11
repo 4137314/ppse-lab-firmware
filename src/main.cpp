@@ -31,19 +31,6 @@ void setup(){
   //displayInit();
 }
 
-void loop() {
-    // 1. Gestione GNSS (Non bloccante)
-    // GPS_sync() viene chiamato a ogni iterazione per processare i caratteri UART in arrivo
-    if (GPS_sync()) {
-        #if DEBUG == 1
-        Serial.println("Valid GNSS Sentence Received. Recording...");
-        #endif
-
-        // Logga i dati geografici indissolubilmente legati al timestamp
-        log_gps_data(); 
-    }
-
-
 void loop(){
   buttonsUpdate();
   
