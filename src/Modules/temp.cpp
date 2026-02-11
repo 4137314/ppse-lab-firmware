@@ -1,5 +1,9 @@
 #include "temp.h"
+#include "pico/stdlib.h"
+#include "hardware/adc.h"
 
+
+/*
 // Inizializza il pin del sensore
 void TempInit() {
     pinMode(TEMP_PIN, INPUT);
@@ -25,13 +29,21 @@ float readTemp() {
         return -999.0; // Valore sentinella per indicare errore
     }
 
-    // CONVERSIONE CORRETTA
-    // Usiamo .0 per forzare i calcoli float ed evitare la divisione intera
-    // Vout (mV) = (raw / ADC_MAX_VAL) * 3300.0
-    float vout = (static_cast<float>(raw) * 3300.0) / static_cast<float>(ADC_MAX_VAL);
-    
-    // Formula dal datasheet: Temp = (Vout - 500mV) / 10mV/C
-    float tempCelsius = (vout - 500.0) / 10.0;
+    // Conversione da raw a mV
+    // RP2040 ADC 12bit, 3.3V
+    float temp = ( (3300/ADC_MAX_VAL)*raw -500)/10 ; 
+    return temp;
+}*/
 
-    return tempCelsius;
+#include <Arduino.h>
+
+void TempInit() {
+  analogReadResolution(12); // dummy
+  analogReadTemp(); // dummy
+}
+
+float readTemp() {
+  uint16_t raw = analogReadTemp();
+  float v = raw * 3.3f / 4095.0f;
+  return (v - 0.5f) / 0.01f; // TC1047
 }

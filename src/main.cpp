@@ -16,31 +16,19 @@
 unsigned long lastSensorRead = 0;
 const unsigned long sensorInterval = 1000; // Leggi i sensori ogni secondo
 
-void setup() {
-    // Inizializzazione seriale per Debug (se connesso a PC)
-    #if DEBUG == 1
-    Serial.begin(115200);
-    // Attendi la connessione seriale solo per un breve timeout
-    unsigned long start = millis();
-    while (!Serial && (millis() - start) < 2000); 
-    Serial.println("System Initializing...");
-    #endif
+void setup(){
+  //if (!init_All()) exit(1);
+  //ledsInit();
+  if(!displayInit()){
+    while (1) ;
+  }
+  drawHomeScreen();
+  buttonsInit();
+  ledsInit();;
+  ledsShowInitAnimation();
+  TempInit();
 
-    // Inizializzazione Filesystem Fail-Safe
-    littleFS_Setup();
-
-    // Inizializzazione Hardware (I2C, GNSS, Sensori)
-    if (!init_All()) {
-        #if DEBUG == 1
-        Serial.println("CRITICAL ERROR: Hardware initialization failed!");
-        #endif
-        // Segnalazione errore visiva o blocco di sicurezza
-        exit(1);
-    }
-
-    #if DEBUG == 1
-    Serial.println("System Ready. High-Frequency Logging Active.");
-    #endif
+  //displayInit();
 }
 
 void loop() {
@@ -50,32 +38,20 @@ void loop() {
         #if DEBUG == 1
         Serial.println("Valid GNSS Sentence Received. Recording...");
         #endif
-        
+
         // Logga i dati geografici indissolubilmente legati al timestamp
         log_gps_data(); 
     }
 
-    // 2. Campionamento Sensori Ambientali (Timing controllato)
-    unsigned long currentMillis = millis();
-    if (currentMillis - lastSensorRead >= sensorInterval) {
-        lastSensorRead = currentMillis;
-        
-        // Leggi Accelerometro e Temperatura
-        update_Environmental_Data(); 
-        
-        #if DEBUG == 1
-        Serial.println("Environmental Data Updated.");
-        #endif
-    }
 
-    // 3. Gestione Interfaccia Utente
-    // Gestisce gli stati dei pulsanti (precedentemente catturati dagli interrupt)
-    buttonsUpdate();
+void loop(){
+  buttonsUpdate();
+  
+  /*
+  GetDate_and_Time();
 
-    // 4. Update Display
-    // Aggiorna l'OLED con i dati correnti
-    update_Display();
-
-    // NOTA: Abbiamo rimosso il delay(500). 
-    // Il loop deve girare alla massima velocità possibile per svuotare i buffer UART.
+  GetPosition_and_Satellites();
+  
+  delay(500);
+  */
 }

@@ -1,191 +1,146 @@
 #include "display_ui.h"
 
+//enum ScreenStyle : uint8_t {
+    //  STYLE_CLASSIC = 0,
+    //  STYLE_ROUNDED = 1
+    //};
 
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+static uint8_t settingsIndex = 0; // 0 = Menu Style (per ora)
+uint8_t ScreenStyle = 1; // 1 = Simple, 0 = Highlight
 
+
+// Definizioni REALI (non extern)
 const char* menuItems[] = {
-    "SETTINGS",
-    "SENSORS",
-    "GPS",
-    "SYSTEM",
-    "INFO"
+  "Settings",
+  "Sensors",
+  "GPS",
+  "System",
+  "Info"
 };
-const int menuLength = sizeof(menuItems)/sizeof(menuItems[0]);
 
-unsigned long lastActivity = 0;
-const unsigned long timeout = 60000; // 60 sec
+const int menuLength = sizeof(menuItems) / sizeof(menuItems[0]);
 
-// ----------------- Funzioni -----------------
-// Inizializzazione OLED completa
-bool displayInit() {
-    bool status = true;
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
-    // Initialization of I2C
-    Wire.setSDA(DISPLAY_SDA_I2C_PIN); // Imposta GPIO0 come SDA
-    Wire.setSCL(DISPLAY_SCL_I2C_PIN); // Imposta GPIO1 come SCL
+
+bool displayInit(){
+    Wire.setSDA(DISPLAY_SDA_I2C_PIN);
+    Wire.setSCL(DISPLAY_SCL_I2C_PIN);
     Wire.begin();
-    Serial.println(F("I2C used for display initialized"));
-
-    // Inizializzazione display
-    if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
-        Serial.println(F("Error: SSD1306 allocation failed"));
-        status = false;
-    } else {
-        display.clearDisplay();
-        display.setTextSize(1);
-        display.setTextColor(SSD1306_WHITE);
-        display.setCursor(0,0);
-        display.display();
-        Serial.println(F("OLED initialized correctly"));
-        drawMenu(0);
+    if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
+        Serial.println(F("SSD1306 allocation failed"));
+        return false ; // Exit if display initialization fails
     }
-    return status;
-}
 
-void drawMenu(int index) {
     display.clearDisplay();
-    for(int i=0;i<menuLength;i++){
-        if(i==index) display.setTextColor(SSD1306_BLACK,SSD1306_WHITE);
-        else display.setTextColor(SSD1306_WHITE);
-        display.setCursor(0, i*10);
-        display.println(menuItems[i]);
-    }
-    display.display();
-}
-
-void drawSelected(const char* title) {
-    display.clearDisplay();
-    display.setTextSize(2);
     display.setTextColor(SSD1306_WHITE);
+    display.setTextSize(1);
     display.setCursor(0,0);
-    display.println(title);
     display.display();
 }
 
-// ----------------- SETTINGS SCREEN -----------------
+void drawHomeScreen(){
+    display.clearDisplay();
+    display.setTextColor(SSD1306_WHITE);
+    display.setTextSize(1);
+    display.setCursor(0,0);
+    display.println("Home Screen");
+    display.display();
+}
+
+void drawMenu(int index){
+
+}
+
+void drawMenu_evi(int index) {
+    display.clearDisplay();
+    display.setTextSize(1);
+
+    // Titolo
+    display.setTextColor(SSD1306_WHITE);
+    display.setCursor(0, 0);
+    display.print("Menu");
+    display.drawLine(0, 10, 127, 10, SSD1306_WHITE);
+
+    // Layout
+    const int firstY = 14;   // inizio lista
+    const int lineH  = 10;   // altezza riga (8px font + spazio)
+    const int boxH   = 9;    // altezza box evidenziato
+
+    for (int i = 0; i < menuLength; i++) {
+        int y = firstY + i * lineH;
+
+        if (i == index) {
+            // rettangolo evidenziato
+            display.fillRect(0, y - 1, 128, boxH, SSD1306_WHITE);
+            display.setTextColor(SSD1306_BLACK); // testo nero sul bianco
+        } else {
+            display.setTextColor(SSD1306_WHITE);
+        }
+
+        display.setCursor(2, y);
+        display.print(menuItems[i]);
+    }
+
+    display.display();
+}
+
+
+
+
+// display_ui.cpp
+
 void drawSettingsScreen() {
-    display.clearDisplay();
-    display.setTextSize(2);
-    display.setTextColor(SSD1306_WHITE);
-    display.setCursor(0, 0);
-    display.println("SETTINGS");
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(SSD1306_WHITE);
 
-    display.setTextSize(1);
-    display.setCursor(0, 25);
-    //display.print("Brightness: "); display.println(strip.getBrightness()); // da led strip
-    display.setCursor(0, 35);
-    display.println("Volume: 75%"); // se hai un modulo volume reale puoi sostituire
-    display.setCursor(0, 45);
-    display.println("Back: [LEFT]");
+  display.setCursor(0,0);
+  display.print("Settings");
+  display.drawLine(0,10,127,10, SSD1306_WHITE);
 
-    display.display();
-}
+  display.setCursor(0, 16);
+  display.print(settingsIndex == 0 ? "> " : "  ");
+  display.print("Menu style: ");
+  display.print(ScreenStyle == 1 ? "Simple" : "Highlight");
 
-// ----------------- SENSORS SCREEN -----------------
-void drawSensorsScreen() {
-    float temp = readTemp();   // temperatura reale
-
-    display.clearDisplay();
-    display.setTextSize(2);
-    display.setTextColor(SSD1306_WHITE);
-    display.setCursor(0, 0);
-    display.println("SENSORS");
-
-    display.setTextSize(1);
-    display.setCursor(0, 25);
-    display.print("Temp: "); display.print(temp, 1); display.println(" C");
-
-    display.setCursor(0, 45);
-    display.println("Back: [LEFT]");
-
-    display.display();
-}
-
-void drawGPSScreen() {
-    //TinyGPSPlus& gps = getGPS();
-
-    display.clearDisplay();
-    display.setTextSize(2);
-    display.setTextColor(SSD1306_WHITE);
-    display.setCursor(0, 0);
-    display.println("GPS Info");
-/*
-    display.setTextSize(1);
-    if (gps.location.isValid()) {
-        display.setCursor(0, 25);
-        display.print("Lat: "); display.println(gps.location.lat(), 6);
-        display.setCursor(0, 35);
-        display.print("Lng: "); display.println(gps.location.lng(), 6);
-        display.setCursor(0, 45);
-        display.print("Alt: "); display.println(gps.altitude.meters());
-        display.setCursor(0, 55);
-        display.print("Sat: "); display.println(gps.satellites.value());
-    } else {
-        display.setCursor(0, 25);
-        display.println("Waiting for GPS fix...");
-    }
-*/
-    display.display();
+  display.setCursor(0, 54);
+  display.print("R=Change  L=Back");
+  display.display();
 }
 
 
-// ----------------- SYSTEM SCREEN -----------------
-void drawSystemScreen() {
-    unsigned long uptimeMs = millis();
-    unsigned long hours = uptimeMs / 3600000;
-    unsigned long minutes = (uptimeMs / 60000) % 60;
-    unsigned long seconds = (uptimeMs / 1000) % 60;
+void drawSensorsScreen() { drawSelected("Sensors"); }
+void drawGPSScreen()     { drawSelected("GPS"); }
+void drawSystemScreen()  { drawSelected("System"); }
+void drawInfoScreen()    { drawSelected("Info"); }
 
-    display.clearDisplay();
-    display.setTextSize(2);
-    display.setTextColor(SSD1306_WHITE);
-    display.setCursor(0, 0);
-    display.println("SYSTEM");
-
-    display.setTextSize(1);
-    display.setCursor(0, 25);
-    display.println("CPU: RP2040");
-    display.setCursor(0, 35);
-    display.print("Uptime: "); 
-    display.print(hours); display.print(":");
-    if(minutes<10) display.print("0");
-    display.print(minutes); display.print(":");
-    if(seconds<10) display.print("0");
-    display.print(seconds);
-    display.setCursor(0, 45);
-    display.println("Back: [LEFT]");
-
-    display.display();
+void drawSelected(const char* title){
+  display.clearDisplay();
+  display.setTextColor(SSD1306_WHITE);
+  display.setTextSize(1);
+  display.setCursor(0,0);
+  display.print("Selected:");
+  display.setCursor(0,12);
+  display.print(title);
+  display.display();
 }
 
-// ----------------- INFO SCREEN -----------------
-void drawInfoScreen() {
-    display.clearDisplay();
-    display.setTextSize(2);
-    display.setTextColor(SSD1306_WHITE);
-    display.setCursor(0, 0);
-    display.println("INFO");
-
-    display.setTextSize(1);
-    display.setCursor(0, 25);
-    display.println("Firmware v1.0");   // puoi renderlo dinamico
-    display.setCursor(0, 35);
-    display.println("Author: Mattia");
-    display.setCursor(0, 45);
-    display.println("Back: [LEFT]");
-
-    display.display();
-}
-
-// ----------------- Timeout -----------------
-void updateDisplayTimeout() {
-    if (!digitalRead(SW_UP) || !digitalRead(SW_DOWN) ||
-        !digitalRead(SW_LEFT) || !digitalRead(SW_RIGHT)) {
-        lastActivity = millis();
-        display.ssd1306_command(SSD1306_DISPLAYON);
-    }
-
-    if (millis() - lastActivity > timeout) {
-        display.ssd1306_command(SSD1306_DISPLAYOFF);
+void updateDisplayTimeout(){
+    if(menuOpen || inSubmenu){
+        if(millis()- lastActivity > DISPLAY_TIMEOUT_MS){
+            menuOpen = false;
+            inSubmenu = false;
+            ambientDisplay = true;
+            drawHomeScreen(); 
+        }
     }
 }
+
+void setBrightness(uint8_t level){
+    // Placeholder: Implement brightness control if hardware supports it
+    display.ssd1306_command(SSD1306_SETCONTRAST);
+    display.ssd1306_command(level);
+    // level 0-255
+}
+

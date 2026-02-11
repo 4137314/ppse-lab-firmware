@@ -11,5 +11,7 @@
 
 void ledsInit();
 void ledsShowInitAnimation();
-
+void ledsNavigationAnimation();
+void ledsToggleAnimation();
+void ledsIncativityAnimation();
 #endif
