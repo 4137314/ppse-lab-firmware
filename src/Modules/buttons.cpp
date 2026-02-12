@@ -1,10 +1,10 @@
 #include "buttons.h"
 
 // Variabili globali per menu
-int menuIndex = 0;
-bool menuOpen = false;      // Menu sempre visibile
-bool inSubmenu = false;
-bool ambientDisplay = true;
+volatile int menuIndex = 0;
+volatile bool menuOpen = false;      // Menu sempre visibile
+volatile bool inSubmenu = false;
+volatile bool ambientDisplay = true;
 
 volatile bool up_press=false;
 volatile bool down_press=false;

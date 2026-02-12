@@ -28,9 +28,9 @@
 #include <sys/time.h>   // Needed for settimeofday
 #include "minmea/minmea.h"
 #include "pico/stdlib.h"
-#include "hardware/gpio.h"
-#include <LittleFS.h>
+#include <hardware/gpio.h>
 #include "Functions.h"
+
 
    struct parsed_nmea{
         struct minmea_sentence_gbs parsed_gbs;

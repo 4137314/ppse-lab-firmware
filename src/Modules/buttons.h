@@ -17,10 +17,10 @@
 
 
 // Global variables
-extern int menuIndex;
-extern bool menuOpen;
-extern bool inSubmenu;
-extern bool ambientDisplay;
+extern volatile int menuIndex;
+extern volatile bool menuOpen;
+extern volatile bool inSubmenu;
+extern volatile bool ambientDisplay;
 
 extern volatile bool up_press;
 extern volatile bool down_press;

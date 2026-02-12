@@ -16,6 +16,7 @@
 unsigned long lastSensorRead = 0;
 const unsigned long sensorInterval = 1000; // Leggi i sensori ogni secondo
 
+
 void setup(){
   //if (!init_All()) exit(1);
   //ledsInit();

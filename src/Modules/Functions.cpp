@@ -46,59 +46,6 @@ bool init_All(){
 
 
 
-// Monta il file system
-void littleFS_Setup(){
-    if (!LittleFS.begin()) 
-    {        
-        #if DEBUG
-        Serial.print("WARNING in littleFS_Setup: mount failed, trying to format and remount...");
-        #endif 
+bool request_weather_data(){
 
-        // try formatting
-        if(!LittleFS.format()) 
-        {
-            Serial.println("");
-            Serial.println("ERROR in littleFS_Setup: cannot format the filesystem");
-            exit(EXIT_FAILURE);
-        }
-        
-        // try to remount
-        if (!LittleFS.begin()) 
-        {
-            Serial.println("");
-            Serial.println("ERROR in littleFS_Setup: cannot format the filesystem");
-            exit(EXIT_FAILURE);
-        }
-        #if DEBUG
-        Serial.println("OK");
-        #endif
-    }
-    return;
-}
-
-
-bool flash_write(const char* path, const char* content, const char* mode = "w") {
-    // Apri il file
-    File file = LittleFS.open(path, mode);
-    
-    if (!file) {
-        Serial.printf("Errore: Impossibile aprire %s in modalità %s\n", path, mode);
-        return false;
-    }
-
-    // Scrivi il contenuto
-    size_t bytesWritten = file.print(content);
-    
-    // Chiudi sempre il file per salvare i dati fisicamente
-    file.close();
-
-    if (bytesWritten > 0) {
-        #if DEBUG
-        Serial.printf("Scrittura su %s completata (%d bytes)\n", path, bytesWritten);
-        #endif
-        return true;
-    } else {
-        Serial.println("Errore durante la scrittura: 0 bytes scritti.");
-        return false;
-    }
 }
