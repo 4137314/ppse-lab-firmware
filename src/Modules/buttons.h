@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 
+
 // Pulsanti pin (puoi anche includere da main con extern)
 #define SW_UP     22
 #define SW_DOWN   23
@@ -31,6 +32,7 @@ extern const uint32_t DISPLAY_TIMEOUT_MS ; // 15 secondi
 // led navigation animation
 extern int ledsNumber;
 enum KeyEvent : uint8_t { KEY_NONE, KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT };
+
 
 
 void buttonsInit();

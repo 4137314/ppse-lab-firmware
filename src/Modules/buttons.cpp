@@ -2,6 +2,8 @@
 #include "display_ui.h"
 #include "leds.h"
 #include "gps.h"
+#include "weather.h"
+
 
 // Variabili globali per menu
 int menuIndex = 0;
@@ -21,7 +23,7 @@ const uint32_t COMBO_MS = 300; // finestra per considerare "insieme"
 
 // attività timeout display
 uint32_t lastActivity = 0;
-const uint32_t DISPLAY_TIMEOUT_MS = 15000; // 15 secondi
+const uint32_t DISPLAY_TIMEOUT_MS = 5000000; // 15 secondi
 // Debounce
 const uint32_t DEBOUNCE_DELAY = 40; // ms
 
@@ -41,15 +43,15 @@ enum Submenu : uint8_t { SUB_NONE, SUB_SETTINGS, SUB_SENSORS, SUB_GPS, SUB_SYSTE
 
 // funzione handler per interrupt gpio
 void gpio_callback(uint gpio, uint32_t events) {
-   //if released re apply the fall edge irq and disable the rising one
+    //if released re apply the fall edge irq and disable the rising one
     if(events & GPIO_IRQ_EDGE_RISE){
         gpio_set_irq_enabled(gpio, GPIO_IRQ_EDGE_RISE, false);
         gpio_set_irq_enabled(gpio, GPIO_IRQ_EDGE_FALL, true);
         return;
     }
-
+    
     switch(gpio){
-
+        
         case SW_UP:
         case SW_DOWN:
         case SW_LEFT:
@@ -60,11 +62,11 @@ void gpio_callback(uint gpio, uint32_t events) {
             //Add an alarm callback to be called after a delay specified in milliseconds.
             add_alarm_in_ms (DEBOUNCE_DELAY, &debounce_callback, (void*) gpio, true);
         } break; 
-
+        
         default:{
             ;
         }
-
+        
     } return; 
 }
 
@@ -72,22 +74,22 @@ void gpio_callback(uint gpio, uint32_t events) {
 
 long long debounce_callback(alarm_id_t id, void *user_data){
     uint PinNum=(uint) user_data;
-
+    
     Serial.print("Debounce callback for pin ");
     Serial.println(PinNum);
-
+    
     if(!gpio_get( PinNum ))
     {
         switch( PinNum )
         {
             case SW_UP: up_press=true; ; break;
-
+            
             case SW_DOWN: down_press=true; ; break;
-
+            
             case SW_LEFT: left_press=true; ; break;
-
+            
             case SW_RIGHT: right_press=true; ; break;
-
+            
             default:
             {
                 #if DEBUG == 1
@@ -96,9 +98,9 @@ long long debounce_callback(alarm_id_t id, void *user_data){
                 break;
             }
         }  
-            //re enables gpio interrupt but for complementary edge
-            gpio_set_irq_enabled(PinNum, GPIO_IRQ_EDGE_RISE, true);
-            return 0;
+        //re enables gpio interrupt but for complementary edge
+        gpio_set_irq_enabled(PinNum, GPIO_IRQ_EDGE_RISE, true);
+        return 0;
     }
     gpio_set_irq_enabled(PinNum, GPIO_IRQ_EDGE_FALL, true); 
     return 0;
@@ -128,9 +130,9 @@ void buttonsInit() {
 }
 
 void buttonsUpdate() {
-    
-    
     static Submenu currentSubmenu = SUB_NONE;
+    
+    
     
     KeyEvent ev = KEY_NONE;
     
@@ -229,7 +231,7 @@ void buttonsUpdate() {
             }
         }
         
-        if(inSubmenu && currentSubmenu == SUB_SETTINGS){
+        if(currentSubmenu == SUB_SETTINGS){
             if(ev == KEY_RIGHT){
             // Toggle menu style
             ScreenStyle = (ScreenStyle == 1) ? 0 : 1;
@@ -266,12 +268,33 @@ void buttonsUpdate() {
         drawHomeScreen();
     }*/
 
-
-
+   /*
+   if (inSubmenu && currentSubmenu == SUB_GPS) {
+    if (ev == KEY_UP) {
+        gpsDayIndex = (gpsDayIndex == 0) ? 6 : gpsDayIndex - 1;
+        drawGPSScreen();
+        return;
+    }
+    if (ev == KEY_DOWN) {
+        gpsDayIndex = (gpsDayIndex + 1) % 7;
+        drawGPSScreen();
+        return;
+    }
+    if (ev == KEY_LEFT) {
+        gpsHourIndex = (gpsHourIndex == 0) ? 23 : gpsHourIndex - 1;
+        drawGPSScreen();
+        return;
+    }
+    if (ev == KEY_RIGHT) {
+        gpsHourIndex = (gpsHourIndex + 1) % 24;
+        drawGPSScreen();
+        return;
+    }
+    */
     
-
-
-
+    // uscita dal submenu (se vuoi usare una combo o long press)
+  // esempio: LEFT+RIGHT combo già ce l’hai per toggle home/menu.
+  return;
 }
 
 

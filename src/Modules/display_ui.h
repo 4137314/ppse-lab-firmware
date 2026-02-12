@@ -27,9 +27,10 @@
     extern const char* menuItems[];
     extern const int menuLength;
 
-    // Timeout schermo
-    extern unsigned long lastActivity;
-    extern const unsigned long timeout;
+
+    // Meteo 
+    extern uint8_t gpsDayIndex;
+    extern uint8_t gpsHourIndex;
 
     // Funzioni principali
     bool displayInit();
@@ -49,5 +50,5 @@
     //
     void setBrightness(uint8_t level);
 
-
+    void GPSScreen_Tick();
 #endif

@@ -16,7 +16,7 @@ void ledsInit() {
 // -------------------------
 void ledsShowInitAnimation() {
     for(int i=0; i<NUM_LEDS; i++) {
-        leds[i] = CRGB::Purple;
+        leds[i] = CRGB::LightPink;
         FastLED.show();
         delay(50);
     }
@@ -27,6 +27,7 @@ void ledsShowInitAnimation() {
         delay(50);
     }
 }
+
 
 void ledsNavigationAnimation() {
     FastLED.clear();
@@ -46,6 +47,7 @@ void ledsNavigationAnimation() {
     } else {
     leds[ledsNumber+1] = CRGB::Black;
     }
+    FastLED.show();
 }
 
 void ledsToggleAnimation() {

@@ -1,12 +1,17 @@
 #include "display_ui.h"
+#include "weather.h"
+#include "gps.h"
 
-#include "display_ui.h"
+// meteo
+static uint32_t lastGpsUiMs = 0;
+uint8_t gpsDayIndex = 0;
+uint8_t gpsHourIndex = 0;
+static void normIndices() {
+    gpsDayIndex  %= 7;
+    gpsHourIndex %= 24;
+}
 
-//enum ScreenStyle : uint8_t {
-    //  STYLE_CLASSIC = 0,
-    //  STYLE_ROUNDED = 1
-    //};
-    
+
 static uint8_t settingsIndex = 0; // 0 = Menu Style (per ora)
 uint8_t ScreenStyle = 1; // 1 = Simple, 0 = Highlight
 
@@ -41,6 +46,7 @@ bool displayInit(){
     display.setTextSize(1);
     display.setCursor(0,0);
     display.display();
+    return true;
 }
 
 void drawHomeScreen(){
@@ -134,7 +140,77 @@ void drawSettingsScreen() {
 
 
 void drawSensorsScreen() { drawSelected("Sensors"); }
-void drawGPSScreen()     { drawSelected("GPS"); }
+
+
+void drawGPSScreen() {
+  //normIndices();
+
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(SSD1306_WHITE);
+
+  display.setCursor(0,0);
+  display.print("GPS & Meteo");
+  display.drawLine(0,10,127,10, SSD1306_WHITE);
+
+  auto &gga = global_parsed_nmea.parsed_gga;
+  auto &rmc = global_parsed_nmea.parsed_rmc;
+
+  bool fix = (gga.fix_quality > 0) && rmc.valid &&
+             (gga.latitude.scale != 0) && (gga.longitude.scale != 0);
+
+  float lat = fix ? minmea_tocoord(&gga.latitude) : NAN;
+  float lon = fix ? minmea_tocoord(&gga.longitude) : NAN;
+
+  // Riga: City + giorno selezionato
+  display.setCursor(0, 14);
+  display.print("City:");
+  display.print(wx.curValid ? wx.city : "NA");
+  display.print(" ");
+  uint8_t wd = (wx.weekday0 + gpsDayIndex) % 7;
+  display.print(Weather_WeekdayName(wd));
+
+  // Riga: Lat
+  display.setCursor(0, 24);
+  display.print("Lat:");
+  if (fix) display.print(lat, 5); else display.print("NA");
+
+  // Riga: Lon
+  display.setCursor(0, 34);
+  display.print("Lon:");
+  if (fix) display.print(lon, 5); else display.print("NA");
+
+  // Riga: Fix + sats
+  display.setCursor(0, 44);
+  display.print("FixQ:");
+  display.print(gga.fix_quality);
+  display.print(" Sat:");
+  display.print(gga.satellites_tracked);
+
+  // Riga: Meteo (ora selezionata)
+  display.setCursor(0, 54);
+  display.print("H");
+  if (gpsHourIndex < 10) display.print("0");
+  display.print(gpsHourIndex);
+  display.print(" ");
+
+  if (wx.fcValid) {
+    float t = wx.tempC[gpsDayIndex][gpsHourIndex];
+    int code = wx.wcode[gpsDayIndex][gpsHourIndex];
+    display.print(t, 1);
+    display.print("C ");
+    display.print(Weather_CodeToShortText(code));
+  } else if (wx.curValid) {
+    display.print(wx.curTempC, 1);
+    display.print("C ");
+    display.print(Weather_CodeToShortText(wx.curWcode));
+  } else {
+    display.print("WX:NA");
+  }
+
+  display.display();
+}
+
 void drawSystemScreen()  { drawSelected("System"); }
 void drawInfoScreen()    { drawSelected("Info"); }
 
@@ -166,3 +242,18 @@ void setBrightness(uint8_t level){
     // level 0-255
 }
 
+void GPSScreen_Tick() {
+  // Aggiorna solo se stai davvero guardando la schermata GPS
+  // Meglio: usa currentSubmenu == SUB_GPS (vedi sezione B)
+  // Qui uso un flag semplice: inSubmenu + schermata GPS selezionata da te.
+  
+  uint32_t now = millis();
+  if (now - lastGpsUiMs < 1000) return;
+  lastGpsUiMs = now;
+
+  // forza lettura gps
+  GPS_poolOnce(100);
+
+  // ridisegna
+  drawGPSScreen();
+}
