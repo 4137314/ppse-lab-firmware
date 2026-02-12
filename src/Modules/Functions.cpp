@@ -19,7 +19,11 @@ bool init_All(){
     }
 
     Serial.println("<<<< START of hardware initialization >>>>");
-    Serial.println("Serial is up!");
+    Serial.println("Initializing the Filesystem");
+    if (!FatFS_Setup()) return false;
+
+    Serial.println("Initializing the USB Flash Translation Layer");
+    if (!FatFSUSB_Setup()) return false;
 
 //////////////// TEMP SENSOR /////////////////////    
     Serial.print("Initializing temperture sensor...");
@@ -35,13 +39,13 @@ bool init_All(){
     //buzzerInit(BUZZER);
 
 //////////////// OLED DISPLAY ////////////////////
-    status = status && displayInit();
+    if (!displayInit()) return false; 
 
 //////////////// GPS MODULE //////////////////////
-    status = status && gpsInit();
+    if (!gpsInit()) return false;
 
     Serial.println("<<<< END of hardware initialization >>>>");
-    return status;
+    return true;
 }
 
 

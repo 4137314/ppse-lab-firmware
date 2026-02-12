@@ -1,8 +1,5 @@
 #include "gps.h"
 
-// GLOBAL VARIABLES
-struct parsed_nmea global_parsed_nmea = {0};
-
 
 bool gpsInit() {
   Serial.println("=== GPS Init ===");
@@ -47,6 +44,7 @@ bool gpsInit() {
 }
 
 
+
 void EmptyGpsBuffer() {
   Serial2.flush(); // waits for transmission to finish
   while (Serial2.available()) {
@@ -56,12 +54,19 @@ void EmptyGpsBuffer() {
 }
 
 
-bool nmea_gps_parse(String *nmea_message) {
+
+bool nmea_gps_parse(String *nmea_message, struct parsed_nmea* nmea_ptr) {
   bool state = true;
+
+  if(nmea_ptr = NULL)
+  {
+    Serial.println("ERROR in nmea_gps_parse: nmea struct is NULL");
+    return false;
+  }
 
   switch (minmea_sentence_id(nmea_message->c_str(), true)) {
     case MINMEA_SENTENCE_RMC: {
-      struct minmea_sentence_rmc *frame = &global_parsed_nmea.parsed_rmc;
+      struct minmea_sentence_rmc *frame = &(nmea_ptr->parsed_rmc);
       if (minmea_parse_rmc(frame, nmea_message->c_str()))
         print_NMEA_rmc(frame);
       else 
@@ -69,7 +74,7 @@ bool nmea_gps_parse(String *nmea_message) {
     } break;
 
     case MINMEA_SENTENCE_GGA: {
-      struct minmea_sentence_gga *frame = &global_parsed_nmea.parsed_gga;
+      struct minmea_sentence_gga *frame = &(nmea_ptr->parsed_gga);
       if (minmea_parse_gga(frame, nmea_message->c_str()))
         print_NMEA_gga(frame);
       else 
@@ -77,7 +82,7 @@ bool nmea_gps_parse(String *nmea_message) {
     } break;
 
     case MINMEA_SENTENCE_GST: {
-      struct minmea_sentence_gst *frame = &global_parsed_nmea.parsed_gst;
+      struct minmea_sentence_gst *frame = &(nmea_ptr->parsed_gst);
       if (minmea_parse_gst(frame, nmea_message->c_str()))
         print_NMEA_gst(frame);
       else 
@@ -85,7 +90,7 @@ bool nmea_gps_parse(String *nmea_message) {
     } break;
 
     case MINMEA_SENTENCE_GSV: {
-      struct minmea_sentence_gsv *frame = &global_parsed_nmea.parsed_gsv;
+      struct minmea_sentence_gsv *frame = &(nmea_ptr->parsed_gsv);
       if (minmea_parse_gsv(frame, nmea_message->c_str()))
         print_NMEA_gsv(frame);
       else 
@@ -93,7 +98,7 @@ bool nmea_gps_parse(String *nmea_message) {
     } break;
 
     case MINMEA_SENTENCE_VTG: {
-      struct minmea_sentence_vtg *frame = &global_parsed_nmea.parsed_vtg;
+      struct minmea_sentence_vtg *frame = &(nmea_ptr->parsed_vtg);
       if (minmea_parse_vtg(frame, nmea_message->c_str()))
         print_NMEA_vtg(frame);
       else 
@@ -101,7 +106,7 @@ bool nmea_gps_parse(String *nmea_message) {
     } break;
 
     case MINMEA_SENTENCE_ZDA: {
-      struct minmea_sentence_zda *frame = &global_parsed_nmea.parsed_zda;
+      struct minmea_sentence_zda *frame = &(nmea_ptr->parsed_zda);
       if (minmea_parse_zda(frame, nmea_message->c_str()))
         print_NMEA_zda(frame);
       else 
@@ -122,7 +127,7 @@ bool nmea_gps_parse(String *nmea_message) {
 
 
 
-bool gpsAcquire(enum minmea_sentence_id sentence_type) {
+bool gpsAcquire(enum minmea_sentence_id sentence_type, struct parsed_nmea *nmea_ptr) {
   String nmea_message;
 
   digitalWrite(LED_ALIVE, HIGH);
@@ -135,7 +140,7 @@ bool gpsAcquire(enum minmea_sentence_id sentence_type) {
       digitalWrite(LED_ALIVE, LOW);
 
       if (minmea_sentence_id(nmea_message.c_str(), true) == sentence_type) {
-        if (nmea_gps_parse(&nmea_message)) return true;
+        if (nmea_gps_parse(&nmea_message, nmea_ptr)) return true;
       }
     }
 
@@ -147,9 +152,10 @@ bool gpsAcquire(enum minmea_sentence_id sentence_type) {
 } 
 
 
-bool GetDate_and_Time() {
 
-  if (gpsAcquire(MINMEA_SENTENCE_RMC)) {
+bool GetDate_and_Time(struct parsed_nmea *nmea_ptr) {
+
+  if (gpsAcquire(MINMEA_SENTENCE_RMC, nmea_ptr)) {
     return true;
   }
   #if DEBUG
@@ -160,8 +166,8 @@ bool GetDate_and_Time() {
 
 
 
-bool GetPosition_and_Satellites() {
-  if (gpsAcquire(MINMEA_SENTENCE_GGA)) {
+bool GetPosition_and_Satellites(struct parsed_nmea *nmea_ptr) {
+  if (gpsAcquire(MINMEA_SENTENCE_GGA, nmea_ptr)) {
     return true;
   }
   #if DEBUG
@@ -172,12 +178,12 @@ bool GetPosition_and_Satellites() {
 
 
 
-bool GPS_sync() {
+bool GPS_sync(struct parsed_nmea *nmea_ptr) {
   // retain value across function calls
   static uint32_t lastGPSsync = 0;
 
   if (millis() - lastGPSsync > GPS_SYNC_TIMEOUT_MSEC) {
-    if (GetDate_and_Time() && GetPosition_and_Satellites()) {
+    if (GetDate_and_Time(nmea_ptr) && GetPosition_and_Satellites(nmea_ptr)) {
       lastGPSsync = millis();
       return true;
     }
@@ -188,10 +194,15 @@ bool GPS_sync() {
 
 
 /* Salva su Filesystem della FLASH */
-bool save_gps_data() {
-  struct minmea_sentence_rmc *rmc = &global_parsed_nmea.parsed_rmc;
+bool save_gps_data(struct parsed_nmea *nmea_ptr) {
+
+  if(inPrinting || driveConnected) return false; // if OS connected or data is being written exit
+
+  struct minmea_sentence_rmc *rmc = &(nmea_ptr->parsed_rmc);
   char buffer[128]="";
 
+
+  inPrinting = true;
   FILE* f = fopen("GPS_LOG_PATH", "a");
 
   if (f == NULL)
@@ -199,11 +210,11 @@ bool save_gps_data() {
     Serial.printf("ERROR in save_gps_data: cannot open gps log file");
   }
 
-  // Check for log size, if 20*buffer keep only the last logged data
+  // Check for log file size, if 20*buffer keep only the last logged data
   fseek(f, 0, SEEK_END);
   if(ftell(f) > (20*sizeof(buffer)))
   {
-    fseek(f, 0, SEEK_SET); // reset to beginning
+    fseek(f, 0, SEEK_SET); // reset to beginning of file
     while( fgets(buffer, sizeof(buffer), f)!=NULL ); //read all lines till the EOF
     fclose(f);
     fopen("GPS_LOG_PATH", "w"); // wipes data in file
@@ -211,7 +222,7 @@ bool save_gps_data() {
     if (f == NULL)
     {
       Serial.printf("ERROR in save_gps_data: cannot open gps log file");
-      return false;
+      return (inPrinting = false);
     }
   }
 
@@ -227,8 +238,11 @@ bool save_gps_data() {
 
   if(buffer != "") fwrite(buffer, sizeof(char), 128, f);
   fclose(f);
+
+  inPrinting = false;
   return true;
 }
+
 
 
 // Print functions (for debug)
@@ -252,11 +266,13 @@ void print_NMEA_rmc(void* frame) {
   return;
 }
 
+
 void print_NMEA_gga(void* frame) {
     struct minmea_sentence_gga* gga = (struct minmea_sentence_gga*)frame;
     Serial.printf("$xxGGA: fix quality: %d\n", gga->fix_quality);
     return;
 }
+
 
 void print_NMEA_gst(void* frame) {
   #if DEBUG
@@ -277,6 +293,7 @@ void print_NMEA_gst(void* frame) {
   return;
 }
 
+
 void print_NMEA_gsv(void* frame) {
   #if DEBUG
   struct minmea_sentence_gsv* gsv = (struct minmea_sentence_gsv*)frame;
@@ -291,6 +308,7 @@ void print_NMEA_gsv(void* frame) {
   return;
 }
 
+
 void print_NMEA_vtg(void* frame) {
   #if DEBUG
   struct minmea_sentence_vtg* vtg = (struct minmea_sentence_vtg*)frame;
@@ -301,6 +319,7 @@ void print_NMEA_vtg(void* frame) {
   #endif
   return;
 }
+
 
 void print_NMEA_zda(void* frame) {
   #if DEBUG

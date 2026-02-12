@@ -47,8 +47,9 @@ void unplug(uint32_t i) {
   (void) i;
   driveConnected = false;
   updated = true;
-  FatFS.begin();
+  FatFS_Setup();
 }
+
 
 // Called by FatFSUSB when the drive is mounted by the PC.  Have to stop FatFS, since the drive data can change, note it, and continue.
 void plug(uint32_t i) {
@@ -57,6 +58,7 @@ void plug(uint32_t i) {
   FatFS.end();
 }
 
+
 // Called by FatFSUSB to determine if it is safe to let the PC mount the USB drive.  If we're accessing the FS in any way, have any Files open, etc. then it's not safe to let the PC mount the drive.
 bool mountable(uint32_t i) {
   (void) i;
@@ -64,16 +66,18 @@ bool mountable(uint32_t i) {
 }
 
 
-/*
-void loop() {
-  if (updated && !driveConnected) {
-    inPrinting = true;
-    Serial.println("\n\nDisconnected, new file listing:");
-    FatFS.end();
-    FatFS.begin();
-    printDirectory("/", 0);
-    updated = false;
-    inPrinting = false;
-  }
+
+bool sync_files() {
+    bool ret = true;
+
+    if (updated && !driveConnected) 
+    {
+        inPrinting = true;
+        Serial.println("\n\nDisconnected, new file listing:");
+        FatFS.end();
+        ret = FatFS_Setup();
+        updated = false;
+        inPrinting = false;
+    }
+    return ret;
 }
-*/

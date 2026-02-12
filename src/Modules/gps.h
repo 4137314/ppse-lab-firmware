@@ -1,6 +1,10 @@
 #ifndef GPS_H
 #define GPS_H
 
+#ifndef DEBUG
+#define DEBUG 0
+#endif
+
 //NEEDED for non overwriting of uart1 on GPIO 4 and 5
 #define UART0_TX_PIN 16
 #define UART0_RX_PIN 17
@@ -17,11 +21,8 @@
 #define GPS_SYNC_TIMEOUT_MSEC 20000 //GPS msec sync timeout to fetch new date and time
 #define LED_ALIVE 20    // Led alive GPIO pin
 
-#ifndef DEBUG
-#define DEBUG 0
-#endif
-
 #define GPS_LOG_PATH "/gps_log.csv"
+
 
 #include <Arduino.h>
 #include <time.h>       
@@ -29,23 +30,20 @@
 #include "minmea/minmea.h"
 #include "pico/stdlib.h"
 #include <hardware/gpio.h>
-#include "Functions.h"
+#include "Filesystem.h"
 
 
-   struct parsed_nmea{
-        struct minmea_sentence_gbs parsed_gbs;
-        struct minmea_sentence_rmc parsed_rmc;
-        struct minmea_sentence_gga parsed_gga;
-        struct minmea_sentence_gsa parsed_gsa;
-        struct minmea_sentence_gll parsed_gll;
-        struct minmea_sentence_gst parsed_gst;
-        struct minmea_sentence_gsv parsed_gsv;
-        struct minmea_sentence_vtg parsed_vtg;
-        struct minmea_sentence_zda parsed_zda;
-    };
-    
-    //GLOBAL VARIABLE
-    extern struct parsed_nmea global_parsed_nmea;
+struct parsed_nmea{
+    struct minmea_sentence_gbs parsed_gbs;
+    struct minmea_sentence_rmc parsed_rmc;
+    struct minmea_sentence_gga parsed_gga;
+    struct minmea_sentence_gsa parsed_gsa;
+    struct minmea_sentence_gll parsed_gll;
+    struct minmea_sentence_gst parsed_gst;
+    struct minmea_sentence_gsv parsed_gsv;
+    struct minmea_sentence_vtg parsed_vtg;
+    struct minmea_sentence_zda parsed_zda;
+};
     
     
     bool gpsInit();

@@ -10,6 +10,7 @@
 #include "gps.h"
 #include "leds.h"
 #include "temp.h"
+#include "Filesystem.h"
 
 // It is in milli seconds
 #define SERIAL_MAX_SETUP_TIME 20000

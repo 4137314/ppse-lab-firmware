@@ -18,11 +18,10 @@ const unsigned long sensorInterval = 1000; // Leggi i sensori ogni secondo
 
 
 void setup(){
-  //if (!init_All()) exit(1);
-  //ledsInit();
+
   if(!displayInit()){
-    while (1) ;
-  }
+    while (1) delay(10);
+  } 
   drawHomeScreen();
   buttonsInit();
   ledsInit();;
@@ -33,13 +32,15 @@ void setup(){
 }
 
 void loop(){
+  struct parsed_nmea ParsedNMEA = {0};
+
   buttonsUpdate();
-  
+
   /*
   GetDate_and_Time();
 
   GetPosition_and_Satellites();
-  
+
   delay(500);
-  */
+*/
 }
