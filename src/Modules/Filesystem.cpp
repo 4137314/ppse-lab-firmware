@@ -35,7 +35,7 @@ bool FatFSUSB_Setup(){
         Serial.println("FATAL failed to start USB Mass Storage");
         while (1) delay(10);
     }
-    delay(2000); // TinyUSB seems to have a race condition, see https://github.com/hathach/tinyusb/discussions/1764
+    delay(2000); 
     Serial.println("USB Mass Storage started");
 
     return true;

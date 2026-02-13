@@ -22,7 +22,10 @@
 #define LED_ALIVE 20    // Led alive GPIO pin
 
 #define GPS_LOG_PATH "/gps_log.csv"
+#define GPS_WRITE_FREQ 600000 // Frequency for writing to GPS_LOG_PATH in msec
 
+#define GPS_SYNC_REQ 0xA
+#define GPS_SYNC_ACK 0xB
 
 #include <Arduino.h>
 #include <time.h>       
@@ -48,17 +51,19 @@ struct parsed_nmea{
     
     bool gpsInit();
     
-    bool nmea_gps_parse(String* nmea_message);
+    bool nmea_gps_parse(String* nmea_message, struct parsed_nmea *nmea_ptr);
     
-    bool gpsAcquire(enum minmea_sentence_id sentence_type);
+    bool gpsAcquire(enum minmea_sentence_id sentence_type, struct parsed_nmea *nmea_ptr);
 
     void EmptyGpsBuffer();
 
-    bool GetDate_and_Time();
+    bool GetDate_and_Time(struct parsed_nmea *nmea_ptr);
 
-    bool GetPosition_and_Satellites();
+    bool GetPosition_and_Satellites(struct parsed_nmea *nmea_ptr);
 
-    bool GPS_sync();
+    bool GPS_sync(struct parsed_nmea *nmea_ptr, bool force);
+
+    bool save_gps_data(struct parsed_nmea *nmea_ptr);
 
     // DEBUG functions
     void print_NMEA_rmc(void* frame);

@@ -178,17 +178,29 @@ bool GetPosition_and_Satellites(struct parsed_nmea *nmea_ptr) {
 
 
 
-bool GPS_sync(struct parsed_nmea *nmea_ptr) {
+bool GPS_sync(struct parsed_nmea *nmea_ptr, bool force) {
   // retain value across function calls
-  static uint32_t lastGPSsync = 0;
+  static unsigned long lastGPSsync = 0, lastGPSwrite = 0;
 
-  if (millis() - lastGPSsync > GPS_SYNC_TIMEOUT_MSEC) {
-    if (GetDate_and_Time(nmea_ptr) && GetPosition_and_Satellites(nmea_ptr)) {
+  if ((millis() - lastGPSsync > GPS_SYNC_TIMEOUT_MSEC) || force) 
+  {
+    if (GetDate_and_Time(nmea_ptr) && GetPosition_and_Satellites(nmea_ptr)) 
+    {
       lastGPSsync = millis();
-      return true;
+      if(((lastGPSwrite - millis()) > GPS_WRITE_FREQ) || force) //Write only at a certain frequency otherwise flash will wear out
+      {
+        if (save_gps_data(nmea_ptr)) lastGPSwrite=millis();
+        else return false;
+      }
+    }
+    else // It's only a warning so return true at the end
+    {
+      #if DEBUG
+        Serial.println("WARNING in GPS_sync: failed to get data");
+      #endif
     }
   }
-  return false;
+  return true;
 }
 
 
@@ -196,18 +208,19 @@ bool GPS_sync(struct parsed_nmea *nmea_ptr) {
 /* Salva su Filesystem della FLASH */
 bool save_gps_data(struct parsed_nmea *nmea_ptr) {
 
-  if(inPrinting || driveConnected) return false; // if OS connected or data is being written exit
+  if(inPrinting || driveConnected || updated) return false; // if OS connected or data is being written exit
 
   struct minmea_sentence_rmc *rmc = &(nmea_ptr->parsed_rmc);
   char buffer[128]="";
 
 
-  inPrinting = true;
+  inPrinting = true; // Acquire "LOCK"
   FILE* f = fopen("GPS_LOG_PATH", "a");
 
   if (f == NULL)
   {
     Serial.printf("ERROR in save_gps_data: cannot open gps log file");
+    return (inPrinting = false);
   }
 
   // Check for log file size, if 20*buffer keep only the last logged data
