@@ -11,7 +11,6 @@ static void normIndices() {
     gpsHourIndex %= 24;
 }
 
-
 static uint8_t settingsIndex = 0; // 0 = Menu Style (per ora)
 uint8_t ScreenStyle = 1; // 1 = Simple, 0 = Highlight
 
@@ -26,8 +25,6 @@ const char* menuItems[] = {
 };
 
 const int menuLength = sizeof(menuItems) / sizeof(menuItems[0]);
-
-
 
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
@@ -60,25 +57,6 @@ void drawHomeScreen(){
 
 void drawMenu(int index){
 
-    if(ScreenStyle == 1){
-        display.clearDisplay();
-        display.setTextColor(SSD1306_WHITE);
-        display.setTextSize(1);
-        display.setCursor(0,0);
-        display.println("Menu:");
-        for(int i=0; i<menuLength; i++){
-        if(i==index){
-            display.print("> ");
-        } else {
-            display.print("  ");
-        }
-            display.println(menuItems[i]);
-        }
-        display.display();
-        return;
-    } else {
-        drawMenu_evi(index);
-    }
 }
 
 void drawMenu_evi(int index) {
@@ -235,6 +213,7 @@ void updateDisplayTimeout(){
         }
     }
 }
+
 void setBrightness(uint8_t level){
     // Placeholder: Implement brightness control if hardware supports it
     display.ssd1306_command(SSD1306_SETCONTRAST);
