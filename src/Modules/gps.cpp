@@ -1,6 +1,4 @@
- #include "gps.h"
-
-struct parsed_nmea global_parsed_nmea; // global variable to hold parsed nmea sentences
+#include "gps.h"
 
 
 bool gpsInit() {
@@ -11,7 +9,7 @@ bool gpsInit() {
   digitalWrite(LED_ALIVE, LOW); // LED alive off
   Serial.print("Led alive pin: ");
   Serial.print(LED_ALIVE);
-  Serial.println(" iniz
+  Serial.println(" inizializzato come output.");
 
   // Enable GPS module
   pinMode(GPS_EN_PIN, OUTPUT);
@@ -38,13 +36,14 @@ bool gpsInit() {
 
   if (i == 1000) {
     Serial.println("ERROR: Canot start the GPS module");
-
     return false;
   }
   Serial.println("OK!");
 
   return true;
 }
+
+
 
 void EmptyGpsBuffer() {
   Serial2.flush(); // waits for transmission to finish
@@ -185,7 +184,7 @@ bool GPS_sync(struct parsed_nmea *nmea_ptr, bool force) {
 
   if ((millis() - lastGPSsync > GPS_SYNC_TIMEOUT_MSEC) || force) 
   {
-    if (GetDate_and_Time(nmea_ptr) && GetPosition_and_Satellites(nmea_ptr)) 
+    if (GetPosition_and_Satellites(nmea_ptr)) 
     {
       lastGPSsync = millis();
       if(((lastGPSwrite - millis()) > GPS_WRITE_FREQ) || force) //Write only at a certain frequency otherwise flash will wear out

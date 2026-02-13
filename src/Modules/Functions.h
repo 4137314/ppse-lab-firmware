@@ -15,7 +15,7 @@
 // It is in milli seconds
 #define SERIAL_MAX_SETUP_TIME 20000
 
-void check_GPS_sync_req(queue_t *Q_ptr, struct parsed_nmea *nmea_ptr);
+void check_GPS_sync_req(queue_t *recv_queue, queue_t *send_queue, struct parsed_nmea *nmea_ptr);
 
 
 
