@@ -362,6 +362,11 @@ bool gpsGetLatLon(float* latitude, float* longitude){
 
 
 void printGpsStatus() {
+    if(!gpsAcquire(MINMEA_SENTENCE_RMC) || !gpsAcquire(MINMEA_SENTENCE_GGA)){
+        Serial.println("ERROR in printGpsStatus: failed to acquire GPS data");
+        return;
+    }
+
     auto &rmc = global_parsed_nmea.parsed_rmc;
     auto &gga = global_parsed_nmea.parsed_gga;
 
@@ -385,7 +390,7 @@ void printGpsStatus() {
     Serial.print(rmc.date.month); Serial.print("/");    
     Serial.println(rmc.date.year);
     Serial.print("Time (HH:MM:SS): ");
-    Serial.print(rmc.time.hours); Serial.print(":");
+    Serial.print(rmc.time.hours + 1 ); Serial.print(":");
     Serial.print(rmc.time.minutes); Serial.print(":");    
     Serial.println(rmc.time.seconds);
 
@@ -476,11 +481,13 @@ void GPS_sendToPC_periodic() {
 
 bool GPS_poolOnce(int timeoutMs) {
     delay(timeoutMs) ; //give some time to gps to respond
-
-
-
-  bool okGGA = gpsAcquire(MINMEA_SENTENCE_GGA);
+    auto &gga = global_parsed_nmea.parsed_gga;
+    auto &rmc = global_parsed_nmea.parsed_rmc;
+    bool okGGA = gpsAcquire(MINMEA_SENTENCE_GGA);
     bool okRMC = gpsAcquire(MINMEA_SENTENCE_RMC);
+    Serial.print("GPS_poolOnce: GGA ");    Serial.print(okGGA ? "OK" : "FAIL");
+    Serial.print(", RMC ");    Serial.println(okRMC ? "OK" : "FAIL");
+
     return okGGA || okRMC;
 }
 /*

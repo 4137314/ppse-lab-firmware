@@ -10,6 +10,7 @@ struct WeatherState {
 
     float curTempC = NAN;
     float curWindKmh = NAN;
+    int curHumidity = -1;
     int curWcode = -1;
 
     //forecast 7 giorni 24 ore

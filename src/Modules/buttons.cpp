@@ -39,7 +39,7 @@ long long debounce_callback(alarm_id_t id, void *user_data);
 void gpio_callback(uint gpio, uint32_t events);
 
 // Definizione enum per i sottomenu
-enum Submenu : uint8_t { SUB_NONE, SUB_SETTINGS, SUB_SENSORS, SUB_GPS, SUB_SYSTEM, SUB_INFO };
+enum Submenu : uint8_t { SUB_NONE, SUB_SETTINGS, SUB_METEO, SUB_GPS, SUB_SYSTEM, SUB_INFO };
 
 // funzione handler per interrupt gpio
 void gpio_callback(uint gpio, uint32_t events) {
@@ -213,8 +213,8 @@ void buttonsUpdate() {
                 currentSubmenu = SUB_SETTINGS;
                 break;
                 case 1: 
-                drawSensorsScreen(); 
-                currentSubmenu = SUB_SENSORS; 
+                drawMeteoScreen(); 
+                currentSubmenu = SUB_METEO; 
                 break;
                 case 2: 
                 drawGPSScreen();  
@@ -227,6 +227,29 @@ void buttonsUpdate() {
                 case 4: 
                 drawInfoScreen(); 
                 currentSubmenu = SUB_INFO;
+                break;
+            }
+        }
+        if(currentSubmenu == SUB_METEO){
+            switch (ev)
+            {
+            case KEY_LEFT:
+                gpsDayIndex = (gpsDayIndex + 6) % 7;
+                drawMeteoScreen();
+                return;
+            case KEY_RIGHT:
+                gpsDayIndex = (gpsDayIndex + 1) % 7;
+                drawMeteoScreen();
+                return;
+            case KEY_UP:
+                gpsHourIndex = (gpsHourIndex + 23) % 24;
+                drawMeteoScreen();
+                return;
+            case KEY_DOWN:
+                gpsHourIndex = (gpsHourIndex + 1) % 24;
+                drawMeteoScreen();
+                return;
+            default:
                 break;
             }
         }
@@ -250,6 +273,13 @@ void buttonsUpdate() {
         return;
         
     }
+
+    if (inSubmenu && currentSubmenu == SUB_GPS)
+    {
+        GPSScreen_Tick();
+    }
+    
+
 
     if (inSubmenu) {
         if (ev == KEY_LEFT) { // esci dal submenu

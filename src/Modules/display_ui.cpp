@@ -6,9 +6,10 @@
 static uint32_t lastGpsUiMs = 0;
 uint8_t gpsDayIndex = 0;
 uint8_t gpsHourIndex = 0;
-static void normIndices() {
-    gpsDayIndex  %= 7;
-    gpsHourIndex %= 24;
+
+
+static inline bool dayHasForecast(uint8_t d) {
+    return (wx.recvMask & (1u << (d))) != 0;
 }
 
 
@@ -18,11 +19,11 @@ uint8_t ScreenStyle = 1; // 1 = Simple, 0 = Highlight
 
 // Definizioni REALI (non extern)
 const char* menuItems[] = {
-  "Settings",
-  "Sensors",
-  "GPS",
-  "System",
-  "Info"
+    "Settings",
+    "Meteo",
+    "GPS",
+    "System",
+    "Info"
 };
 
 const int menuLength = sizeof(menuItems) / sizeof(menuItems[0]);
@@ -40,7 +41,7 @@ bool displayInit(){
         Serial.println(F("SSD1306 allocation failed"));
         return false ; // Exit if display initialization fails
     }
-
+    
     display.clearDisplay();
     display.setTextColor(SSD1306_WHITE);
     display.setTextSize(1);
@@ -48,13 +49,36 @@ bool displayInit(){
     display.display();
     return true;
 }
+static void print2d(uint8_t v){
+    if (v < 10) display.print("0");
+        display.print(v);
+}
 
 void drawHomeScreen(){
     display.clearDisplay();
     display.setTextColor(SSD1306_WHITE);
     display.setTextSize(1);
     display.setCursor(0,0);
-    display.println("Home Screen");
+    display.println("Weather:");
+    display.drawLine(0,10,127,10, SSD1306_WHITE);
+    display.setCursor(0, 14);
+    display.print(wx.curValid ? wx.city : "NA");
+    display.setCursor(0, 24);
+    if (wx.curValid) {
+        display.print(wx.curTempC, 1);
+        display.print("C ");
+        display.print(Weather_CodeToShortText(wx.curWcode));
+
+    } else {
+        display.print("NA");
+    }
+    display.setCursor(0, 34);
+    display.print("Hum: ");
+    if (!wx.curValid || isnan(wx.curHumidity)) display.print("--");
+    else { display.print((int)roundf(wx.curHumidity)); display.print("%"); }
+    display.print("City:");
+
+
     display.display();
 }
 
@@ -139,7 +163,72 @@ void drawSettingsScreen() {
 }
 
 
-void drawSensorsScreen() { drawSelected("Sensors"); }
+void drawMeteoScreen() { 
+    display.clearDisplay();
+    display.setTextSize(1);
+    display.setTextColor(SSD1306_WHITE);    
+
+    // Titolo
+    display.setCursor(0,0);
+    display.print("Meteo:");
+    display.drawLine(0,10,127,10, SSD1306_WHITE);
+    display.setCursor(0, 14);
+
+    // Citta+giorno
+    display.print("City:");
+    display.print(wx.curValid ? wx.city : "NA");
+    display.print(" ");
+    uint8_t wd = (wx.weekday0 + gpsDayIndex) % 7;
+    display.print(Weather_WeekdayName(wd));
+
+    // Riga: giorno selezionato + ora selezionata
+    display.setCursor(0, 24);
+    display.print("g");
+    display.print(gpsDayIndex);
+    display.print(" h");
+    display.print(gpsHourIndex);
+
+    display.setCursor(0, 34);
+
+    if (dayHasForecast(gpsDayIndex)) {
+    float t = wx.tempC[gpsDayIndex][gpsHourIndex];
+    uint8_t code = wx.wcode[gpsDayIndex][gpsHourIndex];
+
+    display.print("Fc: ");
+    if (isnan(t)) display.print("--");
+    else { display.print(t, 1); display.print("C "); }
+
+    if (code == 255) display.print("--");
+    else display.print(Weather_CodeToShortText(code));
+  } else {
+    display.print("Fc: no data");
+  }
+
+  // Riga 4: Now (corrente) + Humidita corrente
+  display.setCursor(0, 46);
+  display.print("Now: ");
+  if (wx.curValid) {
+    display.print(wx.curTempC, 1);
+    display.print("C ");
+    display.print(Weather_CodeToShortText(wx.curWcode));
+  } else {
+    display.print("NA");
+  }
+
+  display.setCursor(0, 56);
+  display.print("Hum: ");
+  // usa il NOME che hai realmente in WeatherState:
+  // se lo hai chiamato curHumPct:
+  if (!wx.curValid || isnan(wx.curHumidity)) display.print("--");
+  else { display.print((int)roundf(wx.curHumidity)); display.print("%"); }
+
+  display.display();
+
+
+  Serial.println(gpsDayIndex);
+  Serial.println(gpsHourIndex);
+   
+}
 
 
 void drawGPSScreen() {
@@ -163,51 +252,39 @@ void drawGPSScreen() {
   float lon = fix ? minmea_tocoord(&gga.longitude) : NAN;
 
   // Riga: City + giorno selezionato
-  display.setCursor(0, 14);
-  display.print("City:");
-  display.print(wx.curValid ? wx.city : "NA");
-  display.print(" ");
-  uint8_t wd = (wx.weekday0 + gpsDayIndex) % 7;
-  display.print(Weather_WeekdayName(wd));
-
   // Riga: Lat
-  display.setCursor(0, 24);
+  display.setCursor(0, 14);
   display.print("Lat:");
   if (fix) display.print(lat, 5); else display.print("NA");
 
   // Riga: Lon
-  display.setCursor(0, 34);
+  display.setCursor(0, 24);
   display.print("Lon:");
   if (fix) display.print(lon, 5); else display.print("NA");
 
   // Riga: Fix + sats
-  display.setCursor(0, 44);
+  display.setCursor(0, 34);
   display.print("FixQ:");
   display.print(gga.fix_quality);
   display.print(" Sat:");
   display.print(gga.satellites_tracked);
 
   // Riga: Meteo (ora selezionata)
-  display.setCursor(0, 54);
-  display.print("H");
-  if (gpsHourIndex < 10) display.print("0");
-  display.print(gpsHourIndex);
-  display.print(" ");
-
-  if (wx.fcValid) {
-    float t = wx.tempC[gpsDayIndex][gpsHourIndex];
-    int code = wx.wcode[gpsDayIndex][gpsHourIndex];
-    display.print(t, 1);
-    display.print("C ");
-    display.print(Weather_CodeToShortText(code));
-  } else if (wx.curValid) {
-    display.print(wx.curTempC, 1);
-    display.print("C ");
-    display.print(Weather_CodeToShortText(wx.curWcode));
-  } else {
-    display.print("WX:NA");
-  }
-
+  display.setCursor(0, 44);
+  display.print("Time: ");
+  display.print(rmc.time.hours + 1);
+  display.print(":");
+  display.print(rmc.time.minutes);
+  display.print(":");
+  display.print(rmc.time.seconds);
+  display.display();
+  display.setCursor(40, 14);
+  display.print("Date: ");
+  display.print(rmc.date.day);
+  display.print("/");
+  display.print(rmc.date.month);
+  display.print("/");
+  display.print(rmc.date.year);
   display.display();
 }
 
@@ -248,12 +325,11 @@ void GPSScreen_Tick() {
   // Qui uso un flag semplice: inSubmenu + schermata GPS selezionata da te.
   
   uint32_t now = millis();
-  if (now - lastGpsUiMs < 1000) return;
+  if (now - lastGpsUiMs < 10) return;
   lastGpsUiMs = now;
 
   // forza lettura gps
-  GPS_poolOnce(100);
-
+  if(GPS_poolOnce(100))  drawGPSScreen();
   // ridisegna
-  drawGPSScreen();
+  //drawGPSScreen();
 }

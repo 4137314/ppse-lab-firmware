@@ -31,6 +31,7 @@
     // Meteo 
     extern uint8_t gpsDayIndex;
     extern uint8_t gpsHourIndex;
+    
 
     // Funzioni principali
     bool displayInit();
@@ -40,7 +41,7 @@
     void drawSelected(const char* title);
 
     void drawSettingsScreen();
-    void drawSensorsScreen();
+    void drawMeteoScreen();
     void drawSystemScreen();
     void drawInfoScreen();
     void drawGPSScreen();

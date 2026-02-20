@@ -29,12 +29,13 @@ static bool splitField(const String &s, int &pos, String &out){
 
 void Weather_HandleLine(const String& line) {    
     if (line.startsWith("WXC,")) {
-    // WXC,city,curTemp,curWind,curWcode,weekday0
+    // WXC,city,curTemp,curWind,curHum,curWcode,weekday0
     int pos = 4;
-    String city, t, w, code, wd;
+    String city, t, w, hum, code, wd;
     if (!splitField(line, pos, city)) return;
     if (!splitField(line, pos, t)) return;
     if (!splitField(line, pos, w)) return;
+    if (!splitField(line, pos, hum)) return;
     if (!splitField(line, pos, code)) return;
     if (!splitField(line, pos, wd)) return;
 
@@ -42,6 +43,7 @@ void Weather_HandleLine(const String& line) {
     city.toCharArray(wx.city, sizeof(wx.city));
     wx.curTempC = t.toFloat();
     wx.curWindKmh = w.toFloat();
+    wx.curHumidity = hum.toInt();
     wx.curWcode = code.toInt();
     wx.weekday0 = (uint8_t)wd.toInt();
     wx.curValid = true;

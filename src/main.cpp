@@ -50,8 +50,8 @@ void setup(){
 void loop(){
   //PC_Link_Update();
   buttonsUpdate();
-  GPS_poolOnce(250);
-  printGpsStatus();
+  //GPS_poolOnce(0);
+  //printGpsStatus();
   //GPSScreen_Tick();
   //GPS_sendToPC_periodic();
 
