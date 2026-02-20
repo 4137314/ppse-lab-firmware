@@ -1,54 +1,87 @@
+// Se la macro non viene iniettata dal Makefile/Compiler, 
+// allora definiscila come 0 (Safe default)
 #ifndef DEBUG
   #define DEBUG 0
 #endif
 
-#include "Modules/gps.h"
-#include "Modules/buzzer.h"
-#include "Modules/buttons.h"
-#include "Modules/display_ui.h"
-#include "Modules/leds.h"
-#include "Modules/temp.h"
+// Se vuoi automatizzare il comportamento del Beep nel codice
+#ifndef BUZZER_INIT_BEEP
+  #define BUZZER_INIT_BEEP 1
+#endif
+
 #include "Modules/Functions.h"
-#include "pico/stdlib.h" //Standard library for Pico
-#include "hardware/gpio.h" // REFERENCE: https://www.raspberrypi.com/documentation/pico-sdk/hardware.html
-#include "Modules/pc_link.h"
-#include "Modules/weather.h"
+#include "pico/stdlib.h" 
+#include "pico/multicore.h" //https://picodocs.pinout.xyz/group__pico__multicore.html#details
+#include "pico/mutex.h" //https://www.raspberrypi.com/documentation/pico-sdk/high_level.html#group_mutex
+#include "pico/util/queue.h"
+
+// Variabili per timing non bloccante
+unsigned long lastSensorRead = 0;
+const unsigned long sensorInterval = 1000; // Leggi i sensori ogni secondo
+
+bool core1_separate_stack = true; // Enables 8KB stack for each core (instead of 4KB each)
+queue_t Qctrl_0_to_1, Qctrl_1_to_0;
+queue_t Qdata;
+
+void setup(){ //CORE0 setup
+  Serial.begin(9600);
+
+  int i=0;
+  while (!Serial && i<SERIAL_MAX_SETUP_TIME){
+      delay(1);
+      ++i;
+  }
+  if (i==1000)
+  {
+      Serial.println("ERROR: Serial over USB setup timed out");
+      exit(EXIT_FAILURE);
+  }
+  Serial.println("<<<< START of hardware initialization >>>>");
+  Serial.println("Initializing the Filesystem");
+  if (!FatFS_Setup()) exit(EXIT_FAILURE);
+
+  Serial.println("Initializing the USB Flash Translation Layer");
+  if (!FatFSUSB_Setup()) exit(EXIT_FAILURE);
+
+  if (!gpsInit()) exit(EXIT_FAILURE);
+}
 
 
-static uint32_t lastWx = 0;
-const uint32_t WX_PERIOD_MS = 30UL * 60UL * 1000UL; // 30 minutes
 
-void setup(){
-  //if (!init_All()) exit(1);
-  //ledsInit();
-  //if(!displayInit()){
-  //  while (1) ;
-  //}
-
-  Serial.begin(115200);
-  delay(1000); //wait for serial to initialize
-  Serial.println("=== System Init ===");
-
-  //PC_Link_Init();
-  //Weather_Init();
-  displayInit();
+void setup1(){ //CORE 1 setup
+  if(!displayInit()){
+    while (1) delay(10);
+  }
   drawHomeScreen();
   buttonsInit();
   ledsInit();;
   ledsShowInitAnimation();
-  Serial.println("Boot complete.");
- 
-  if(!gpsInit()){
-    Serial.println("GPS initialization failed.");
-  } else {
-    Serial.println("GPS initialized successfully.");
-  }
+  TempInit();
+  
+  queue_init(&Qctrl_1_to_0, sizeof(uint8_t), 2);
+  queue_init(&Qctrl_0_to_1, sizeof(uint8_t), 2);
 }
 
-                 
-                 
-void loop(){
-  //PC_Link_Update();
+
+
+void loop(){ //CORE 0 main
+  struct parsed_nmea ParsedNMEA = {0};
+  bool ret_code = true;
+
+  while(driveConnected && !updated) delay(10); //if flash mounted and file is not written loop
+  if(sync_files()) exit(EXIT_FAILURE); // sync FileSystem registry
+
+  check_GPS_sync_req(&Qctrl_1_to_0, &Qctrl_0_to_1, &ParsedNMEA); // check if core 1 has requested a gps sync
+
+  if (GPS_sync(&ParsedNMEA, false)) exit(EXIT_FAILURE); // Auto sync after tot time
+  
+  delay(10);
+}
+
+
+
+void loop1(){ // CORE 1 main
+  static uint8_t req = GPS_SYNC_REQ;
   buttonsUpdate();
   //GPS_poolOnce(0);
   //printGpsStatus();
@@ -69,3 +102,7 @@ void loop(){
   }
 
 
+  //if required GPS sync with menu entry, must call:
+  // If queue is full, we just skip (prevents hanging)
+  // if (queue_try_add(&queue_CTRL, &req));
+}

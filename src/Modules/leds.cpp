@@ -1,6 +1,7 @@
 #include "leds.h"
 #include "display_ui.h"
 #include "buttons.h"
+
 // RGB strip placeholder, verrà aggiornato in ledsInit()
 
 // -------------------------
@@ -10,6 +11,7 @@ CRGB leds[NUM_LEDS];
 
 void ledsInit() {
     FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS); //Fastled init
+    return;
 }
 // -------------------------
 // Animazione iniziale LED
@@ -61,7 +63,7 @@ void ledsToggleAnimation() {
     FastLED.show();
 }
 
-void ledsIncativityAnimation() {
+void ledsInactivityAnimation() {
     FastLED.clear();
     for(int i=0; i<NUM_LEDS; i++) {
         leds[i] = CRGB::Yellow;
@@ -74,6 +76,7 @@ void ledsIncativityAnimation() {
 // -------------------------
 // Flash temporaneo due LED
 // -------------------------
+
 /*void ledsFlashPair(uint8_t a, uint8_t b, uint32_t color, uint16_t duration) {
-  
+
 }*/

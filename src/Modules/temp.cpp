@@ -2,29 +2,33 @@
 #include "pico/stdlib.h"
 #include "hardware/adc.h"
 
+
 /*
 // Inizializza il pin del sensore
 void TempInit() {
     pinMode(TEMP_PIN, INPUT);
-    analogReadResolution(ADC_BITS); //set ADC resolution bits
+    // Assicuriamoci che l'ADC sia impostato alla risoluzione corretta (es. 12 bit)
+    analogReadResolution(ADC_BITS); 
 
-    Serial.print("Sensore di temperatura: pin ");
+    Serial.print("Sensore TC1047A: pin ");
     Serial.print(TEMP_PIN);
-    Serial.println(" inizializzato come input.");
-
-    return;
+    Serial.println(" inizializzato.");
 }
 
-// Lettura valore ADC
+// Lettura valore ADC e conversione in Celsius
 float readTemp() {
-
     int raw = analogRead(TEMP_PIN);
-    Serial.print("raw:");
+    
+    // Debug del valore grezzo
+    Serial.print("ADC Raw: ");
     Serial.println(raw);
+
+    // Controllo range (opzionale ma utile per cavi scollegati)
     if(raw < 0 || raw > ADC_MAX_VAL) {
-        Serial.println("Warning: valore ADC fuori range");
-        return raw;
+        Serial.println("Errore: Valore ADC fuori range!");
+        return -999.0; // Valore sentinella per indicare errore
     }
+
     // Conversione da raw a mV
     // RP2040 ADC 12bit, 3.3V
     float temp = ( (3300/ADC_MAX_VAL)*raw -500)/10 ; 

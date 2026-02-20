@@ -1,363 +1,167 @@
- #include "gps.h"
-
-struct parsed_nmea global_parsed_nmea; // global variable to hold parsed nmea sentences
-
-bool gpsInit(){
-    Serial.println("=== GPS Init ===");
-    
-    // Led alive init
-    pinMode(LED_ALIVE, OUTPUT);
-    digitalWrite(LED_ALIVE, LOW);     // LED alive off
-    Serial.print("Led alive pin: ");
-    Serial.print(LED_ALIVE);
-    Serial.println(" inizializzato come output.");
-
-    // Enable GPS module
-    pinMode(GPS_EN_PIN, OUTPUT);
-    digitalWrite(GPS_EN_PIN, LOW);  //bring down GPS_EN signal to enable (pmos)
-    Serial.print("GPS enable pin: ");
-    Serial.print(GPS_EN_PIN);
-    Serial.println(" alimentato.");
-
-    // Enable input for Pulse signal from gps
-    pinMode(GPS_PPS_PIN, INPUT);
-    Serial.print("Gps PPS pin: ");
-    Serial.print(GPS_PPS_PIN);
-    Serial.println(" inizializzato come input.");
-    
-    //UART1 for the GPS. Serial2 maps to UART1 in Arduino framework!
-    Serial2.setTX(UART1_TX_PIN);
-    Serial2.setRX(UART1_RX_PIN);
-    Serial2.begin(GPSBAUD); // start uart1
-    Serial.println("UART1 started on Serial2, listening for GPS data...");
+#include "gps.h"
 
 
-    int i=0;
-    while( i<1000 && (Serial2.available() == 0) ) //Wait at least 10 sec for a GPS string.
-    { 
-        delay(1);
-        ++i;
-    }
-    
-    if (i==1000)
-    {
-        Serial.println("ERROR: No data from GPS module");
-        return false;
-    }
-    Serial.println("OK!");
+bool gpsInit() {
+  Serial.println("=== GPS Init ===");
 
-    return true;
-}
+  // Led alive init
+  pinMode(LED_ALIVE, OUTPUT);
+  digitalWrite(LED_ALIVE, LOW); // LED alive off
+  Serial.print("Led alive pin: ");
+  Serial.print(LED_ALIVE);
+  Serial.println(" inizializzato come output.");
 
-/*
-void EmptyGpsBuffer(){
-    Serial2.flush(); //waits for transmission to finish
-    while(Serial2.available()) {
-        Serial2.read();  // Read and discard
-    }
-    Serial2.readStringUntil('\n');
-    Serial2.flush(); //waits for transmission to finish
-}
-*/
+  // Enable GPS module
+  pinMode(GPS_EN_PIN, OUTPUT);
+  digitalWrite(GPS_EN_PIN, LOW); // bring down GPS_EN signal to enable (pmos)
+  Serial.print("GPS enable pin: ");
+  Serial.print(GPS_EN_PIN);
+  Serial.println(" alimentato.");
 
+  // Enable input for Pulse signal from gps
+  pinMode(GPS_PPS_PIN, INPUT);
+  Serial.print("Gps PPS pin: ");
+  Serial.print(GPS_PPS_PIN);
+  Serial.println(" inizializzato come input.");
 
-void EmptyGpsBuffer(){
-    while(Serial2.available()) {
-        Serial2.read();  // Read and discard
-    }
-}
+  // UART1 for the GPS. Serial2 maps to UART1 in Arduino framework!
+  Serial2.setTX(UART1_TX_PIN);
+  Serial2.setRX(UART1_RX_PIN);
+  Serial2.begin(GPSBAUD); // start uart1
+  Serial.println("UART1 started on Serial2, listening for GPS data...");
 
+  // Wait at least 10 sec for a GPS string.
+  int i;
+  for(i=0; i < 1000 && (Serial2.available() == 0); ++i) delay(1);
 
-
-bool nmea_gps_parse (String* nmea_message){
-
-    //GLOBAL VARIABLE
-    //struct parsed_nmea global_parsed_nmea;
-
-    switch ( minmea_sentence_id(nmea_message->c_str(), true)) {
-        case MINMEA_SENTENCE_RMC: {
-            struct minmea_sentence_rmc *frame = &global_parsed_nmea.parsed_rmc;
-            if (minmea_parse_rmc(frame, nmea_message->c_str())) {
-                #if DEBUG == 1
-                Serial.printf("$xxRMC: raw coordinates and speed: (%d/%d,%d/%d) %d/%d\n",
-                        frame->latitude.value, frame->latitude.scale,
-                        frame->longitude.value, frame->longitude.scale,
-                        frame->speed.value, frame->speed.scale);
-                Serial.printf("$xxRMC fixed-point coordinates and speed scaled to three decimal places: (%d,%d) %d\n",
-                        minmea_rescale(frame->latitude, 1000),
-                        minmea_rescale(frame->longitude, 1000),
-                        minmea_rescale(frame->speed, 1000));
-                Serial.printf("$xxRMC floating point degree coordinates and speed: (%f,%f) %f\n",
-                        minmea_tocoord(frame->latitude),
-                        minmea_tocoord(frame->longitude),
-                        minmea_tofloat(frame->speed));
-                #endif
-            }
-            else {
-                #if DEBUG == 1
-                Serial.printf("$xxRMC sentence is not parsed\n");
-                #endif
-                return false;
-            }
-        } break;
-
-        case MINMEA_SENTENCE_GGA: {
-            struct minmea_sentence_gga *frame = &global_parsed_nmea.parsed_gga;
-            if (minmea_parse_gga(frame, nmea_message->c_str())) {
-                #if DEBUG == 1
-                Serial.printf("$xxGGA: fix quality: %d\n", frame->fix_quality);
-                #endif
-            }
-            else {
-                #if DEBUG == 1
-                Serial.printf("$xxGGA sentence is not parsed\n");
-                #endif
-                return false;
-            }
-        } break;
-    
-        case MINMEA_SENTENCE_GST: {
-            struct minmea_sentence_gst *frame = &global_parsed_nmea.parsed_gst;
-            if (minmea_parse_gst(frame, nmea_message->c_str())) {
-                #if DEBUG == 1
-                Serial.printf("$xxGST: raw latitude,longitude and altitude error deviation: (%d/%d,%d/%d,%d/%d)\n",
-                        frame->latitude_error_deviation.value, frame->latitude_error_deviation.scale,
-                        frame->longitude_error_deviation.value, frame->longitude_error_deviation.scale,
-                        frame->altitude_error_deviation.value, frame->altitude_error_deviation.scale);
-                Serial.printf("$xxGST fixed point latitude,longitude and altitude error deviation"
-                        " scaled to one decimal place: (%d,%d,%d)\n",
-                        minmea_rescale(frame->latitude_error_deviation, 10),
-                        minmea_rescale(frame->longitude_error_deviation, 10),
-                        minmea_rescale(frame->altitude_error_deviation, 10));
-                Serial.printf("$xxGST floating point degree latitude, longitude and altitude error deviation: (%f,%f,%f)",
-                        minmea_tofloat(frame->latitude_error_deviation),
-                        minmea_tofloat(frame->longitude_error_deviation),
-                        minmea_tofloat(frame->altitude_error_deviation));
-                #endif
-            }
-            else {
-                #if DEBUG == 1
-                Serial.printf("$xxGST sentence is not parsed\n");
-                #endif
-                return false;
-            }
-        } break;
-
-        case MINMEA_SENTENCE_GSV: {
-            struct minmea_sentence_gsv *frame = &global_parsed_nmea.parsed_gsv;
-            if (minmea_parse_gsv(frame, nmea_message->c_str())) {
-                #if DEBUG == 1
-                Serial.printf("$xxGSV: message %d of %d\n", frame->msg_nr, frame->total_msgs);
-                Serial.printf("$xxGSV: satellites in view: %d\n", frame->total_sats);
-                for (int i = 0; i < 4; i++)
-                    Serial.printf("$xxGSV: sat nr %d, elevation: %d, azimuth: %d, snr: %d dbm\n",
-                        frame->sats[i].nr,
-                        frame->sats[i].elevation,
-                        frame->sats[i].azimuth,
-                        frame->sats[i].snr);
-                #endif
-            }
-            else {
-                #if DEBUG == 1
-                Serial.printf("$xxGSV sentence is not parsed\n");
-                #endif
-                return false;
-            }
-        } break;
-
-        case MINMEA_SENTENCE_VTG: {
-            struct minmea_sentence_vtg *frame = &global_parsed_nmea.parsed_vtg;
-            if (minmea_parse_vtg(frame, nmea_message->c_str())) {
-                #if DEBUG == 1
-                Serial.printf("$xxVTG: true track degrees = %f\n",
-                        minmea_tofloat(frame->true_track_degrees));
-                Serial.printf("        magnetic track degrees = %f\n",
-                        minmea_tofloat(frame->magnetic_track_degrees));
-                Serial.printf("        speed knots = %f\n",
-                        minmea_tofloat(frame->speed_knots));
-                Serial.printf("        speed kph = %f\n",
-                        minmea_tofloat(frame->speed_kph));
-                #endif
-            }
-            else {
-                #if DEBUG == 1
-                Serial.printf("$xxVTG sentence is not parsed\n");
-                #endif
-                return false;
-            }
-        } break;
-
-        case MINMEA_SENTENCE_ZDA: {
-            struct minmea_sentence_zda *frame = &global_parsed_nmea.parsed_zda;
-            if (minmea_parse_zda(frame, nmea_message->c_str())) {
-                #if DEBUG == 1
-                Serial.printf("$xxZDA: %d:%d:%d %02d.%02d.%d UTC%+03d:%02d\n",
-                        frame->time.hours,
-                        frame->time.minutes,
-                        frame->time.seconds,
-                        frame->date.day,
-                        frame->date.month,
-                        frame->date.year,
-                        frame->hour_offset,
-                        frame->minute_offset);
-                #endif
-            }
-            else {
-                #if DEBUG == 1
-                Serial.printf("$xxZDA sentence is not parsed\n");
-                #endif
-                return false;
-            }
-        } break;
-
-        case MINMEA_INVALID: {
-            #if DEBUG == 1
-            Serial.print("WARNING: Could not parse this nmea string ");
-            Serial.println(nmea_message->c_str());
-            #endif
-        } return false;
-
-        default: {
-            #if DEBUG == 1
-            Serial.print("WARNING: Could not parse this nmea string ");
-            Serial.println(nmea_message->c_str());
-            #endif
-        } return false;
-    }
-
-    return true;
-}
-
-
-/*
-bool gpsAcquire(enum minmea_sentence_id sentence_type){
-    
-String nmea_message;
-
-digitalWrite(LED_ALIVE, LOW);
-
-if( Serial2.available() > 0) //check buffer for data (max 64B)
-{
-    digitalWrite(LED_ALIVE, HIGH);
-    
-    EmptyGpsBuffer();
-    
-    for(int i=0; i<GPS_ACQUIRE_MAX_TRIES; ++i)
-    {   
-        nmea_message = Serial2.readStringUntil('\n');
-        
-        if ( minmea_sentence_id(nmea_message.c_str(), true) == sentence_type){
-            if(nmea_gps_parse(&nmea_message)) {
-                digitalWrite(LED_ALIVE, LOW);
-                return true;
-            }
-        }
-        EmptyGpsBuffer();
-        
-    }
-    digitalWrite(LED_ALIVE, LOW);
-    #if DEBUG == 1 
-    Serial.println("ERROR in gpsAcquire: max tries reached before correctly acquiring the requested gps message");
-    #endif
+  if (i == 1000) {
+    Serial.println("ERROR: Canot start the GPS module");
     return false;
-}
-else
-{
-    #if DEBUG == 1
-    Serial.println("WARNING: No data to read from GPS module");  
-    #endif
-    return false;
-}
-}
-//*/
-
-
-bool gpsAcquire(enum minmea_sentence_id sentence_type) {
-  uint32_t start = millis();
-
-  while (millis() - start < 1200) { // finestra 1.2s
-    if (Serial2.available()) {
-      String nmea = Serial2.readStringUntil('\n');
-
-      if (minmea_sentence_id(nmea.c_str(), true) == sentence_type) {
-        return nmea_gps_parse(&nmea);
-      }
-    }
-    delay(1);
   }
+  Serial.println("OK!");
+
+  return true;
+}
+
+
+
+void EmptyGpsBuffer() {
+  Serial2.flush(); // waits for transmission to finish
+  while (Serial2.available()) {
+    Serial2.read(); // Read and discard
+  }
+  Serial2.readStringUntil('\n');
+}
+
+
+
+bool nmea_gps_parse(String *nmea_message, struct parsed_nmea* nmea_ptr) {
+  bool state = true;
+
+  if(nmea_ptr = NULL)
+  {
+    Serial.println("ERROR in nmea_gps_parse: nmea struct is NULL");
+    return false;
+  }
+
+  switch (minmea_sentence_id(nmea_message->c_str(), true)) {
+    case MINMEA_SENTENCE_RMC: {
+      struct minmea_sentence_rmc *frame = &(nmea_ptr->parsed_rmc);
+      if (minmea_parse_rmc(frame, nmea_message->c_str()))
+        print_NMEA_rmc(frame);
+      else 
+        (state = false);
+    } break;
+
+    case MINMEA_SENTENCE_GGA: {
+      struct minmea_sentence_gga *frame = &(nmea_ptr->parsed_gga);
+      if (minmea_parse_gga(frame, nmea_message->c_str()))
+        print_NMEA_gga(frame);
+      else 
+        (state = false);
+    } break;
+
+    case MINMEA_SENTENCE_GST: {
+      struct minmea_sentence_gst *frame = &(nmea_ptr->parsed_gst);
+      if (minmea_parse_gst(frame, nmea_message->c_str()))
+        print_NMEA_gst(frame);
+      else 
+        (state = false);
+    } break;
+
+    case MINMEA_SENTENCE_GSV: {
+      struct minmea_sentence_gsv *frame = &(nmea_ptr->parsed_gsv);
+      if (minmea_parse_gsv(frame, nmea_message->c_str()))
+        print_NMEA_gsv(frame);
+      else 
+        (state = false);
+    } break;
+
+    case MINMEA_SENTENCE_VTG: {
+      struct minmea_sentence_vtg *frame = &(nmea_ptr->parsed_vtg);
+      if (minmea_parse_vtg(frame, nmea_message->c_str()))
+        print_NMEA_vtg(frame);
+      else 
+        (state = false);
+    } break;
+
+    case MINMEA_SENTENCE_ZDA: {
+      struct minmea_sentence_zda *frame = &(nmea_ptr->parsed_zda);
+      if (minmea_parse_zda(frame, nmea_message->c_str()))
+        print_NMEA_zda(frame);
+      else 
+        (state = false);
+    } break;
+    default: {
+      (state = false);
+    }
+  }
+
+  if (state) return true;
+  #if DEBUG
+  Serial.print("WARNING: Could not parse this nmea string ");
+  Serial.println(nmea_message->c_str());
+  #endif
   return false;
 }
 
 
 
-bool GetDate_and_Time(){
+bool gpsAcquire(enum minmea_sentence_id sentence_type, struct parsed_nmea *nmea_ptr) {
+  String nmea_message;
 
-    if(gpsAcquire(MINMEA_SENTENCE_RMC)){
-        return true;
-    }
-    #if DEBUG == 1
-        Serial.println("ERROR in GetDate_and_Time: failed to get data");
-    #endif
-    return false;
-}
+  digitalWrite(LED_ALIVE, HIGH);
 
+    for (int i = 0; i < GPS_ACQUIRE_MAX_TRIES; ++i) {
+      EmptyGpsBuffer();
+      for(int c=0; Serial2.available() == 0; ++c) delay(1);
 
+      nmea_message = Serial2.readStringUntil('\n');
+      digitalWrite(LED_ALIVE, LOW);
 
-
-bool GetPosition_and_Satellites(){
-    if(gpsAcquire(MINMEA_SENTENCE_GGA)){
-        return true;
-    }
-    #if DEBUG == 1
-    Serial.println("ERROR in GetPosition_and_Satellites: failed to get data");
-    #endif
-    return false;
-}
-
-bool gpsGetLatLon(float* latitude, float* longitude){
-    if(!latitude || !longitude){
-        #if DEBUG == 1
-        Serial.println("ERROR in gpsGetLatLon: null pointer provided");
-        #endif
-        return false;
+      if (minmea_sentence_id(nmea_message.c_str(), true) == sentence_type) {
+        if (nmea_gps_parse(&nmea_message, nmea_ptr)) return true;
+      }
     }
 
-    if(!gpsAcquire(MINMEA_SENTENCE_RMC)){
-        #if DEBUG == 1
-        Serial.println("ERROR in gpsGetLatLon: failed to get data");
-        #endif
-        return false;
-    }
-
-    const auto& rmc = global_parsed_nmea.parsed_rmc;
-
-    if(!rmc.valid){
-        #if DEBUG == 1
-        Serial.println("ERROR in gpsGetLatLon: no fix available");
-        #endif
-        return false;
-    }
-
-    float lat = minmea_tocoord(&rmc.latitude);
-    float lon = minmea_tocoord(&rmc.longitude);
+  #if DEBUG
+  Serial.println("WARNING in gpsAcquire: max tries reached before correctly "
+                  "acquiring the requested gps message\n");
+  #endif
+  return false;
+} 
 
 
-    if(isnan(lat) || isnan(lon)){
-        #if DEBUG == 1
-        Serial.println("ERROR in gpsGetLatLon: latitude or longitude is NaN");
-        #endif
-        return false;
-    }
-    if(!(lat>=-90.0f && lat<=90.0f && lon>=-180.0f && lon<=180.0f)){
-        #if DEBUG == 1
-        Serial.println("ERROR in gpsGetLatLon: invalid latitude or longitude");
-        #endif
-        return false;
-    }
-    *latitude = lat;
-    *longitude = lon;
+
+bool GetDate_and_Time(struct parsed_nmea *nmea_ptr) {
+
+  if (gpsAcquire(MINMEA_SENTENCE_RMC, nmea_ptr)) {
     return true;
-
+  }
+  #if DEBUG
+  Serial.println("WARNING in GetDate_and_Time: failed to get data");
+  #endif
+  return false;
 }
 
 
@@ -395,88 +199,148 @@ void printGpsStatus() {
     Serial.println(rmc.time.seconds);
 
 
-    Serial.print("RMC valid: ");
-    Serial.println(rmc.valid ? "YES" : "NO");
 
-    if (rmc.valid && gga.fix_quality > 0) {
-        float lat = minmea_tocoord(&rmc.latitude);
-        float lon = minmea_tocoord(&rmc.longitude);
+bool GPS_sync(struct parsed_nmea *nmea_ptr, bool force) {
+  // retain value across function calls
+  static unsigned long lastGPSsync = 0, lastGPSwrite = 0;
 
-        Serial.print("Latitude : ");
-        Serial.println(lat, 6);
-
-        Serial.print("Longitude: ");
-        Serial.println(lon, 6);
-    } else {
-        Serial.println("NO FIX");
+  if ((millis() - lastGPSsync > GPS_SYNC_TIMEOUT_MSEC) || force) 
+  {
+    if (GetPosition_and_Satellites(nmea_ptr)) 
+    {
+      lastGPSsync = millis();
+      if(((lastGPSwrite - millis()) > GPS_WRITE_FREQ) || force) //Write only at a certain frequency otherwise flash will wear out
+      {
+        if (save_gps_data(nmea_ptr)) lastGPSwrite=millis();
+        else return false;
+      }
     }
-
-    Serial.println("--------------------");
-}
-
-
-// Ritorna true se fix valido e lat/lon disponibili
-bool GPS_getFix(float &lat, float &lon, float &alt, int &sats, int &fixQ) {
-  auto &gga = global_parsed_nmea.parsed_gga;
-  auto &rmc = global_parsed_nmea.parsed_rmc;
-
-  fixQ = gga.fix_quality;
-  sats = gga.satellites_tracked;
-
-  bool fix = (gga.fix_quality > 0) &&
-             rmc.valid &&
-             (gga.latitude.scale != 0) &&
-             (gga.longitude.scale != 0);
-
-  if (!fix) return false;
-
-  lat = minmea_tocoord(&gga.latitude);
-  lon = minmea_tocoord(&gga.longitude);
-
-  alt = (gga.altitude.scale != 0) ? minmea_tofloat(&gga.altitude) : NAN;
-
+    else // It's only a warning so return true at the end
+    {
+      #if DEBUG
+        Serial.println("WARNING in GPS_sync: failed to get data");
+      #endif
+    }
+  }
   return true;
 }
 
-void GPS_sendToPC_periodic() {
-  static bool firstFixSent = false;
-  static uint32_t lastSendMs = 0;
 
-  const uint32_t PERIOD_MS = 30UL * 60UL * 1000UL;
 
-  float lat, lon, alt;
-  int sats, fixQ;
+/* Salva su Filesystem della FLASH */
+bool save_gps_data(struct parsed_nmea *nmea_ptr) {
 
-  // prova a leggere un po’ (se già fai GPS_pollOnce altrove, puoi anche ometterlo)
-  // GPS_pollOnce();
+  if(inPrinting || driveConnected || updated) return false; // if OS connected or data is being written exit
 
-  bool ok = GPS_getFix(lat, lon, alt, sats, fixQ);
-  if (!ok) {
-    // se perdi fix, permetti nuovo "primo fix" quando torna
-    firstFixSent = false;
+  struct minmea_sentence_rmc *rmc = &(nmea_ptr->parsed_rmc);
+  char buffer[128]="";
+
+
+  inPrinting = true; // Acquire "LOCK"
+  FILE* f = fopen("GPS_LOG_PATH", "a");
+
+  if (f == NULL)
+  {
+    Serial.printf("ERROR in save_gps_data: cannot open gps log file");
+    return (inPrinting = false);
+  }
+
+  // Check for log file size, if 20*buffer keep only the last logged data
+  fseek(f, 0, SEEK_END);
+  if(ftell(f) > (20*sizeof(buffer)))
+  {
+    fseek(f, 0, SEEK_SET); // reset to beginning of file
+    while( fgets(buffer, sizeof(buffer), f)!=NULL ); //read all lines till the EOF
+    fclose(f);
+    fopen("GPS_LOG_PATH", "w"); // wipes data in file
+
+    if (f == NULL)
+    {
+      Serial.printf("ERROR in save_gps_data: cannot open gps log file");
+      return (inPrinting = false);
+    }
+  }
+
+  // Aggiorniamo buffer solo se il fix è valido (Status 'A' in RMC)
+  if (rmc->valid) {
+    float lat = minmea_tocoord(&(rmc->latitude));
+    float lon = minmea_tocoord(&(rmc->longitude));
+
+    // Formato CSV: HHMMSS, LAT, LON, SPEED
+    snprintf(buffer, sizeof(buffer), "%02d%02d%02d,%.6f,%.6f,%.2f\n",
+             rmc->time.hours, rmc->time.minutes, rmc->time.seconds, lat, lon); 
+  }
+
+  if(buffer != "") fwrite(buffer, sizeof(char), 128, f);
+  fclose(f);
+
+  inPrinting = false;
+  return true;
+}
+
+
+
+// Print functions (for debug)
+// Print functions for each NMEA sentence type
+void print_NMEA_rmc(void* frame) {
+  #if DEBUG
+  struct minmea_sentence_rmc* rmc = (struct minmea_sentence_rmc*)frame;
+  Serial.printf("$xxRMC: raw coordinates and speed: (%d/%d,%d/%d) %d/%d\n",
+                rmc->latitude.value, rmc->latitude.scale,
+                rmc->longitude.value, rmc->longitude.scale,
+                rmc->speed.value, rmc->speed.scale);
+  Serial.printf("$xxRMC fixed-point coordinates and speed scaled to three "
+                "decimal places: (%d,%d) %d\n",
+                minmea_rescale(rmc->latitude, 1000),
+                minmea_rescale(rmc->longitude, 1000),
+                minmea_rescale(rmc->speed, 1000));
+  Serial.printf("$xxRMC floating point degree coordinates and speed: (%f,%f) %f\n",
+                minmea_tocoord(rmc->latitude), minmea_tocoord(rmc->longitude),
+                minmea_tofloat(rmc->speed));
+  #endif
+  return;
+}
+
+
+void print_NMEA_gga(void* frame) {
+    struct minmea_sentence_gga* gga = (struct minmea_sentence_gga*)frame;
+    Serial.printf("$xxGGA: fix quality: %d\n", gga->fix_quality);
     return;
+}
+
+
+void print_NMEA_gst(void* frame) {
+  #if DEBUG
+  struct minmea_sentence_gst* gst = (struct minmea_sentence_gst*)frame;
+  Serial.printf("$xxGST: raw latitude,longitude and altitude error deviation: (%d/%d,%d/%d,%d/%d)\n",
+                gst->latitude_error_deviation.value, gst->latitude_error_deviation.scale,
+                gst->longitude_error_deviation.value, gst->longitude_error_deviation.scale,
+                gst->altitude_error_deviation.value, gst->altitude_error_deviation.scale);
+  Serial.printf("$xxGST fixed point latitude,longitude and altitude error deviation scaled to one decimal place: (%d,%d,%d)\n",
+                minmea_rescale(gst->latitude_error_deviation, 10),
+                minmea_rescale(gst->longitude_error_deviation, 10),
+                minmea_rescale(gst->altitude_error_deviation, 10));
+  Serial.printf("$xxGST floating point degree latitude, longitude and altitude error deviation: (%f,%f,%f)",
+                minmea_tofloat(gst->latitude_error_deviation),
+                minmea_tofloat(gst->longitude_error_deviation),
+                minmea_tofloat(gst->altitude_error_deviation));
+  #endif
+  return;
+}
+
+
+void print_NMEA_gsv(void* frame) {
+  #if DEBUG
+  struct minmea_sentence_gsv* gsv = (struct minmea_sentence_gsv*)frame;
+  Serial.printf("$xxGSV: message %d of %d\n", gsv->msg_nr, gsv->total_msgs);
+  Serial.printf("$xxGSV: satellites in view: %d\n", gsv->total_sats);
+  for (int i = 0; i < 4; i++) {
+      Serial.printf("$xxGSV: sat nr %d, elevation: %d, azimuth: %d, snr: %d dbm\n",
+                    gsv->sats[i].nr, gsv->sats[i].elevation, gsv->sats[i].azimuth,
+                    gsv->sats[i].snr);
   }
-
-  uint32_t now = millis();
-
-  // manda subito al primo fix
-  if (!firstFixSent) {
-    firstFixSent = true;
-    lastSendMs = now;
-  } else {
-    // poi ogni 30 min
-    if (now - lastSendMs < PERIOD_MS) return;
-    lastSendMs = now;
-  }
-
-  Serial.print("GPS,");
-  Serial.print(lat, 6); Serial.print(",");
-  Serial.print(lon, 6); Serial.print(",");
-  if (isnan(alt)) Serial.print("NA");
-  else Serial.print(alt, 1);
-  Serial.print(",");
-  Serial.print(sats); Serial.print(",");
-  Serial.println(fixQ);
+  #endif
+  return;
 }
 
 bool GPS_poolOnce(int timeoutMs) {
@@ -533,143 +397,14 @@ static bool nmea_gps_parse_cstr(const char *line) {
     }
 }
 
-// --- Init: solo hardware/UART ---
-bool gpsInit() {
-    Serial.println("=== GPS Init ===");
-    
-    pinMode(LED_ALIVE, OUTPUT);
-    digitalWrite(LED_ALIVE, LOW);
-    
-    pinMode(GPS_EN_PIN, OUTPUT);
-    digitalWrite(GPS_EN_PIN, LOW); // active low enable
-    
-    pinMode(GPS_PPS_PIN, INPUT);
-    
-    Serial2.setTX(UART1_TX_PIN);
-    Serial2.setRX(UART1_RX_PIN);
-    Serial2.begin(GPSBAUD);
-    
-    Serial.println("UART1 started on Serial2, listening for GPS data...");
-    // Non bloccare qui ad aspettare dati: arrivano quando arrivano.
-    return true;
-}
 
-// --- Poll non bloccante: chiamala spesso nel loop() ---
-void gpsPoll() {
-    // LED activity (facoltativo): acceso se arrivano byte
-    bool any = false;
-    
-    while (Serial2.available() > 0) {
-        any = true;
-        char c = (char)Serial2.read();
-        
-        // Gestione CR/LF
-        if (c == '\r') continue;
-        
-        if (c == '\n') {
-            // Fine linea: chiudi stringa e parse
-            nmeaLine[nmeaLen] = '\0';
-            if (nmeaLen > 6) {
-                nmea_gps_parse_cstr(nmeaLine);
-            }
-            nmeaLen = 0; // reset per prossima linea
-            continue;
-        }
-        
-        // Accumula se spazio disponibile
-        if (nmeaLen < MINMEA_MAX_SENTENCE_LENGTH) {
-            nmeaLine[nmeaLen++] = c;
-        } else {
-            // Overflow: reset (linea corrotta)
-            nmeaLen = 0;
-        }
-    }
-    
-    digitalWrite(LED_ALIVE, any ? HIGH : LOW);
+void print_NMEA_zda(void* frame) {
+  #if DEBUG
+  struct minmea_sentence_zda* zda = (struct minmea_sentence_zda*)frame;
+  Serial.printf("$xxZDA: %d:%d:%d %02d.%02d.%d UTC%+03d:%02d\n",
+                zda->time.hours, zda->time.minutes, zda->time.seconds,
+                zda->date.day, zda->date.month, zda->date.year,
+                zda->hour_offset, zda->minute_offset);
+  #endif
+  return;
 }
-
-// --- API: non leggono Serial2, leggono SOLO lo stato ---
-bool gpsHasFix(uint32_t freshnessMs = 2000) {
-    const auto &gga = global_parsed_nmea.parsed_gga;
-    const auto &rmc = global_parsed_nmea.parsed_rmc;
-    
-    uint32_t now = millis();
-    bool fresh = (now - lastGgaMs <= freshnessMs) && (now - lastRmcMs <= freshnessMs);
-    
-    return fresh && (gga.fix_quality > 0) && rmc.valid;
-}
-
-bool gpsGetLatLon(float *latitude, float *longitude) {
-    if (!latitude || !longitude) return false;
-    
-    const auto &rmc = global_parsed_nmea.parsed_rmc;
-    if (!rmc.valid) return false;
-    
-    float lat = minmea_tocoord(&rmc.latitude);
-    float lon = minmea_tocoord(&rmc.longitude);
-    
-    if (isnan(lat) || isnan(lon)) return false;
-    if (!(lat >= -90.0f && lat <= 90.0f && lon >= -180.0f && lon <= 180.0f)) return false;
-    
-    *latitude = lat;
-    *longitude = lon;
-    return true;
-}
-
-// Versione coerente della tua GPS_getFix (ora non chiama gpsAcquire)
-bool GPS_getFix(float &lat, float &lon, float &alt, int &sats, int &fixQ) {
-    auto &gga = global_parsed_nmea.parsed_gga;
-    auto &rmc = global_parsed_nmea.parsed_rmc;
-    
-    fixQ = gga.fix_quality;
-    sats = gga.satellites_tracked;
-    
-    // Richiede fix + RMC valido
-    bool fix = (gga.fix_quality > 0) && rmc.valid &&
-    (gga.latitude.scale != 0) && (gga.longitude.scale != 0);
-    
-    if (!fix) return false;
-    
-    lat = minmea_tocoord(&gga.latitude);
-    lon = minmea_tocoord(&gga.longitude);
-    alt = (gga.altitude.scale != 0) ? minmea_tofloat(&gga.altitude) : NAN;
-    
-    return true;
-}
-
-// Periodico verso PC: presuppone che gpsPoll() venga chiamata nel loop
-void GPS_sendToPC_periodic() {
-    static bool firstFixSent = false;
-    static uint32_t lastSendMs = 0;
-    
-    const uint32_t PERIOD_MS = 30UL * 60UL * 1000UL;
-    float lat, lon, alt;
-    int sats, fixQ;
-    
-    bool ok = GPS_getFix(lat, lon, alt, sats, fixQ);
-    if (!ok) {
-        firstFixSent = false;
-        return;
-    }
-    
-    uint32_t now = millis();
-    
-    if (!firstFixSent) {
-        firstFixSent = true;
-        lastSendMs = now;
-    } else {
-        if (now - lastSendMs < PERIOD_MS) return;
-        lastSendMs = now;
-    }
-    
-    Serial.print("GPS,");
-    Serial.print(lat, 6); Serial.print(",");
-    Serial.print(lon, 6); Serial.print(",");
-    if (isnan(alt)) Serial.print("NA");
-    else Serial.print(alt, 1);
-    Serial.print(",");
-    Serial.print(sats); Serial.print(",");
-    Serial.println(fixQ);
-}
-
-*/
