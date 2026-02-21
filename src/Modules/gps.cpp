@@ -44,79 +44,77 @@ bool gpsInit() {
 }
 
 
-
-void EmptyGpsBuffer() {
-  Serial2.flush(); // waits for transmission to finish
-  while (Serial2.available()) {
-    Serial2.read(); // Read and discard
-  }
-  Serial2.readStringUntil('\n');
+void EmptyGpsBuffer(){
+    while(Serial2.available()) {
+        Serial2.read();  // Read and discard
+    }
 }
+
 
 
 
 bool nmea_gps_parse(String *nmea_message, struct parsed_nmea* nmea_ptr) {
   bool state = true;
-
+  
   if(nmea_ptr = NULL)
   {
     Serial.println("ERROR in nmea_gps_parse: nmea struct is NULL");
     return false;
   }
-
+  
   switch (minmea_sentence_id(nmea_message->c_str(), true)) {
     case MINMEA_SENTENCE_RMC: {
       struct minmea_sentence_rmc *frame = &(nmea_ptr->parsed_rmc);
       if (minmea_parse_rmc(frame, nmea_message->c_str()))
-        print_NMEA_rmc(frame);
+      print_NMEA_rmc(frame);
       else 
-        (state = false);
+      (state = false);
     } break;
-
+    
     case MINMEA_SENTENCE_GGA: {
       struct minmea_sentence_gga *frame = &(nmea_ptr->parsed_gga);
       if (minmea_parse_gga(frame, nmea_message->c_str()))
-        print_NMEA_gga(frame);
+      print_NMEA_gga(frame);
       else 
-        (state = false);
+      (state = false);
     } break;
-
+    
     case MINMEA_SENTENCE_GST: {
       struct minmea_sentence_gst *frame = &(nmea_ptr->parsed_gst);
       if (minmea_parse_gst(frame, nmea_message->c_str()))
-        print_NMEA_gst(frame);
+      print_NMEA_gst(frame);
       else 
-        (state = false);
+      (state = false);
     } break;
-
+    
     case MINMEA_SENTENCE_GSV: {
       struct minmea_sentence_gsv *frame = &(nmea_ptr->parsed_gsv);
       if (minmea_parse_gsv(frame, nmea_message->c_str()))
-        print_NMEA_gsv(frame);
+      print_NMEA_gsv(frame);
       else 
-        (state = false);
+      (state = false);
     } break;
-
+    
     case MINMEA_SENTENCE_VTG: {
       struct minmea_sentence_vtg *frame = &(nmea_ptr->parsed_vtg);
       if (minmea_parse_vtg(frame, nmea_message->c_str()))
-        print_NMEA_vtg(frame);
+      print_NMEA_vtg(frame);
       else 
-        (state = false);
+      (state = false);
     } break;
-
+    
     case MINMEA_SENTENCE_ZDA: {
       struct minmea_sentence_zda *frame = &(nmea_ptr->parsed_zda);
       if (minmea_parse_zda(frame, nmea_message->c_str()))
-        print_NMEA_zda(frame);
+      print_NMEA_zda(frame);
       else 
-        (state = false);
+      (state = false);
     } break;
     default: {
       (state = false);
     }
   }
-
+  
   if (state) return true;
   #if DEBUG
   Serial.print("WARNING: Could not parse this nmea string ");
@@ -126,6 +124,193 @@ bool nmea_gps_parse(String *nmea_message, struct parsed_nmea* nmea_ptr) {
 }
 
 
+/* VEcchia versione, con struct globale
+bool nmea_gps_parse (String* nmea_message){
+  
+//GLOBAL VARIABLE
+//struct parsed_nmea global_parsed_nmea;
+
+switch ( minmea_sentence_id(nmea_message->c_str(), true)) {
+        case MINMEA_SENTENCE_RMC: {
+          struct minmea_sentence_rmc *frame = &global_parsed_nmea.parsed_rmc;
+          if (minmea_parse_rmc(frame, nmea_message->c_str())) {
+            #if DEBUG == 1
+            Serial.printf("$xxRMC: raw coordinates and speed: (%d/%d,%d/%d) %d/%d\n",
+                        frame->latitude.value, frame->latitude.scale,
+                        frame->longitude.value, frame->longitude.scale,
+                        frame->speed.value, frame->speed.scale);
+                        Serial.printf("$xxRMC fixed-point coordinates and speed scaled to three decimal places: (%d,%d) %d\n",
+                        minmea_rescale(frame->latitude, 1000),
+                        minmea_rescale(frame->longitude, 1000),
+                        minmea_rescale(frame->speed, 1000));
+                        Serial.printf("$xxRMC floating point degree coordinates and speed: (%f,%f) %f\n",
+                        minmea_tocoord(frame->latitude),
+                        minmea_tocoord(frame->longitude),
+                        minmea_tofloat(frame->speed));
+                        #endif
+                      }
+                      else {
+                        #if DEBUG == 1
+                        Serial.printf("$xxRMC sentence is not parsed\n");
+                        #endif
+                        return false;
+                      }
+                    } break;
+                    
+                    case MINMEA_SENTENCE_GGA: {
+                      struct minmea_sentence_gga *frame = &global_parsed_nmea.parsed_gga;
+                      if (minmea_parse_gga(frame, nmea_message->c_str())) {
+                        #if DEBUG == 1
+                        Serial.printf("$xxGGA: fix quality: %d\n", frame->fix_quality);
+                        #endif
+                      }
+                      else {
+                        #if DEBUG == 1
+                        Serial.printf("$xxGGA sentence is not parsed\n");
+                        #endif
+                        return false;
+                      }
+                    } break;
+                    
+                    case MINMEA_SENTENCE_GST: {
+                      struct minmea_sentence_gst *frame = &global_parsed_nmea.parsed_gst;
+                      if (minmea_parse_gst(frame, nmea_message->c_str())) {
+                        #if DEBUG == 1
+                        Serial.printf("$xxGST: raw latitude,longitude and altitude error deviation: (%d/%d,%d/%d,%d/%d)\n",
+                        frame->latitude_error_deviation.value, frame->latitude_error_deviation.scale,
+                        frame->longitude_error_deviation.value, frame->longitude_error_deviation.scale,
+                        frame->altitude_error_deviation.value, frame->altitude_error_deviation.scale);
+                        Serial.printf("$xxGST fixed point latitude,longitude and altitude error deviation"
+                        " scaled to one decimal place: (%d,%d,%d)\n",
+                        minmea_rescale(frame->latitude_error_deviation, 10),
+                        minmea_rescale(frame->longitude_error_deviation, 10),
+                        minmea_rescale(frame->altitude_error_deviation, 10));
+                        Serial.printf("$xxGST floating point degree latitude, longitude and altitude error deviation: (%f,%f,%f)",
+                        minmea_tofloat(frame->latitude_error_deviation),
+                        minmea_tofloat(frame->longitude_error_deviation),
+                        minmea_tofloat(frame->altitude_error_deviation));
+                        #endif
+                      }
+                      else {
+                        #if DEBUG == 1
+                        Serial.printf("$xxGST sentence is not parsed\n");
+                        #endif
+                        return false;
+                      }
+                    } break;
+                    
+                    case MINMEA_SENTENCE_GSV: {
+                      struct minmea_sentence_gsv *frame = &global_parsed_nmea.parsed_gsv;
+                      if (minmea_parse_gsv(frame, nmea_message->c_str())) {
+                        #if DEBUG == 1
+                        Serial.printf("$xxGSV: message %d of %d\n", frame->msg_nr, frame->total_msgs);
+                        Serial.printf("$xxGSV: satellites in view: %d\n", frame->total_sats);
+                        for (int i = 0; i < 4; i++)
+                        Serial.printf("$xxGSV: sat nr %d, elevation: %d, azimuth: %d, snr: %d dbm\n",
+                        frame->sats[i].nr,
+                        frame->sats[i].elevation,
+                        frame->sats[i].azimuth,
+                        frame->sats[i].snr);
+                        #endif
+                      }
+                      else {
+                        #if DEBUG == 1
+                        Serial.printf("$xxGSV sentence is not parsed\n");
+                        #endif
+                        return false;
+                      }
+                    } break;
+                    
+                    case MINMEA_SENTENCE_VTG: {
+                      struct minmea_sentence_vtg *frame = &global_parsed_nmea.parsed_vtg;
+                      if (minmea_parse_vtg(frame, nmea_message->c_str())) {
+                        #if DEBUG == 1
+                        Serial.printf("$xxVTG: true track degrees = %f\n",
+                        minmea_tofloat(frame->true_track_degrees));
+                        Serial.printf("        magnetic track degrees = %f\n",
+                        minmea_tofloat(frame->magnetic_track_degrees));
+                        Serial.printf("        speed knots = %f\n",
+                        minmea_tofloat(frame->speed_knots));
+                        Serial.printf("        speed kph = %f\n",
+                        minmea_tofloat(frame->speed_kph));
+                        #endif
+            }
+            else {
+              #if DEBUG == 1
+              Serial.printf("$xxVTG sentence is not parsed\n");
+              #endif
+              return false;
+            }
+          } break;
+          
+          case MINMEA_SENTENCE_ZDA: {
+            struct minmea_sentence_zda *frame = &global_parsed_nmea.parsed_zda;
+            if (minmea_parse_zda(frame, nmea_message->c_str())) {
+              #if DEBUG == 1
+              Serial.printf("$xxZDA: %d:%d:%d %02d.%02d.%d UTC%+03d:%02d\n",
+              frame->time.hours,
+              frame->time.minutes,
+              frame->time.seconds,
+              frame->date.day,
+              frame->date.month,
+              frame->date.year,
+              frame->hour_offset,
+              frame->minute_offset);
+              #endif
+            }
+            else {
+              #if DEBUG == 1
+              Serial.printf("$xxZDA sentence is not parsed\n");
+              #endif
+              return false;
+            }
+          } break;
+          
+          case MINMEA_INVALID: {
+            #if DEBUG == 1
+            Serial.print("WARNING: Could not parse this nmea string ");
+            Serial.println(nmea_message->c_str());
+            #endif
+          } return false;
+          
+          default: {
+            #if DEBUG == 1
+            Serial.print("WARNING: Could not parse this nmea string ");
+            Serial.println(nmea_message->c_str());
+            #endif
+          } return false;
+        }
+        
+        return true;
+      }
+      
+      
+      
+      
+      /*
+      bool gpsAcquire(enum minmea_sentence_id sentence_type, struct parsed_nmea *nmea_ptr) {
+        String nmea_message;
+        
+        digitalWrite(LED_ALIVE, HIGH);
+        
+        for (int i = 0; i < GPS_ACQUIRE_MAX_TRIES; ++i) {
+          EmptyGpsBuffer();
+          for(int c=0; Serial2.available() == 0; ++c) delay(1);
+          
+          nmea_message = Serial2.readStringUntil('\n');
+          digitalWrite(LED_ALIVE, LOW);
+          
+          if (minmea_sentence_id(nmea_message.c_str(), true) == sentence_type) {
+            if (nmea_gps_parse(&nmea_message, nmea_ptr)) return true;
+    }
+  }
+  
+  #if DEBUG
+  Serial.println("WARNING in gpsAcquire: max tries reached before correctly "
+  "acquiring the requested gps message\n");
+  #endif
+  return false;
+} */
 
 bool gpsAcquire(enum minmea_sentence_id sentence_type, struct parsed_nmea *nmea_ptr) {
   String nmea_message;
@@ -152,6 +337,16 @@ bool gpsAcquire(enum minmea_sentence_id sentence_type, struct parsed_nmea *nmea_
 } 
 
 
+bool GetPosition_and_Satellites(struct parsed_nmea *nmea_ptr) {
+  if (gpsAcquire(MINMEA_SENTENCE_GGA, nmea_ptr)) {
+    return true;
+  }
+  #if DEBUG
+  Serial.println("WARNING in GetPosition_and_Satellites: failed to get data");
+  #endif
+  return false;
+}
+
 
 bool GetDate_and_Time(struct parsed_nmea *nmea_ptr) {
 
@@ -163,41 +358,6 @@ bool GetDate_and_Time(struct parsed_nmea *nmea_ptr) {
   #endif
   return false;
 }
-
-
-void printGpsStatus() {
-    if(!gpsAcquire(MINMEA_SENTENCE_RMC) || !gpsAcquire(MINMEA_SENTENCE_GGA)){
-        Serial.println("ERROR in printGpsStatus: failed to acquire GPS data");
-        return;
-    }
-
-    auto &rmc = global_parsed_nmea.parsed_rmc;
-    auto &gga = global_parsed_nmea.parsed_gga;
-
-    Serial.println("---- GPS STATUS ----");
-
-    Serial.print("Fix quality: ");
-    Serial.println(gga.fix_quality);
-
-    Serial.print("Satellites tracked: ");
-    Serial.println(gga.satellites_tracked);
-    Serial.print("HDOP: ");
-    Serial.println(minmea_tofloat(&gga.hdop));  
-    Serial.print("Altitude: "); 
-    Serial.println(minmea_tofloat(&gga.altitude));
-    Serial.print("Speed (knots): ");
-    Serial.println(minmea_tofloat(&rmc.speed)); 
-    Serial.print("Course (degrees): ");
-    Serial.println(minmea_tofloat(&rmc.course));
-    Serial.print("Date (DD/MM/YYYY): ");
-    Serial.print(rmc.date.day); Serial.print("/");
-    Serial.print(rmc.date.month); Serial.print("/");    
-    Serial.println(rmc.date.year);
-    Serial.print("Time (HH:MM:SS): ");
-    Serial.print(rmc.time.hours + 1 ); Serial.print(":");
-    Serial.print(rmc.time.minutes); Serial.print(":");    
-    Serial.println(rmc.time.seconds);
-
 
 
 bool GPS_sync(struct parsed_nmea *nmea_ptr, bool force) {
@@ -343,60 +503,6 @@ void print_NMEA_gsv(void* frame) {
   return;
 }
 
-bool GPS_poolOnce(int timeoutMs) {
-    delay(timeoutMs) ; //give some time to gps to respond
-    auto &gga = global_parsed_nmea.parsed_gga;
-    auto &rmc = global_parsed_nmea.parsed_rmc;
-    bool okGGA = gpsAcquire(MINMEA_SENTENCE_GGA);
-    bool okRMC = gpsAcquire(MINMEA_SENTENCE_RMC);
-    Serial.print("GPS_poolOnce: GGA ");    Serial.print(okGGA ? "OK" : "FAIL");
-    Serial.print(", RMC ");    Serial.println(okRMC ? "OK" : "FAIL");
-
-    return okGGA || okRMC;
-}
-/*
-
-
-// nuovo gps.cpp
-
-// gps.cpp (estratto rifattorizzato)
-
-#include "gps.h"
-#include <Arduino.h>
-#include <string.h>
-#include <math.h>
-
-struct parsed_nmea global_parsed_nmea;
-
-// Timestamp ultimo aggiornamento (ms)
-static uint32_t lastRmcMs = 0;
-static uint32_t lastGgaMs = 0;
-
-// Buffer linea NMEA (evita String -> più stabile)
-static char nmeaLine[MINMEA_MAX_SENTENCE_LENGTH + 4];
-static size_t nmeaLen = 0;
-
-// --- Parsing su C-string (no String) ---
-static bool nmea_gps_parse_cstr(const char *line) {
-    switch (minmea_sentence_id(line, true)) {
-        case MINMEA_SENTENCE_RMC: {
-            auto *frame = &global_parsed_nmea.parsed_rmc;
-            if (!minmea_parse_rmc(frame, line)) return false;
-            lastRmcMs = millis();
-            return true;
-        }
-        case MINMEA_SENTENCE_GGA: {
-            auto *frame = &global_parsed_nmea.parsed_gga;
-            if (!minmea_parse_gga(frame, line)) return false;
-            lastGgaMs = millis();
-            return true;
-        }
-        // Se vuoi, puoi aggiungere anche GSA/GSV/VTG/ZDA, ma NON è necessario per fix base.
-        default:
-        return false;
-    }
-}
-
 
 void print_NMEA_zda(void* frame) {
   #if DEBUG
@@ -405,6 +511,18 @@ void print_NMEA_zda(void* frame) {
                 zda->time.hours, zda->time.minutes, zda->time.seconds,
                 zda->date.day, zda->date.month, zda->date.year,
                 zda->hour_offset, zda->minute_offset);
+  #endif
+  return;
+}
+
+
+void print_NMEA_vtg(void* frame) {
+  #if DEBUG
+  struct minmea_sentence_vtg* vtg = (struct minmea_sentence_vtg*)frame;
+  Serial.printf("$xxVTG: true track degrees = %f\n", minmea_tofloat(vtg->true_track_degrees));
+  Serial.printf("magnetic track degrees = %f\n", minmea_tofloat(vtg->magnetic_track_degrees));
+  Serial.printf("speed knots = %f\n", minmea_tofloat(vtg->speed_knots));
+  Serial.printf("speed kph = %f\n", minmea_tofloat    (vtg->speed_kph));
   #endif
   return;
 }

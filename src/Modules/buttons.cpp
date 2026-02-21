@@ -6,10 +6,10 @@
 
 
 // Variabili globali per menu
-volatile int menuIndex = 0;
-volatile bool menuOpen = false;      // Menu sempre visibile
-volatile bool inSubmenu = false;
-volatile bool ambientDisplay = true;
+int menuIndex = 0;
+bool menuOpen = false;      // Menu sempre visibile
+bool inSubmenu = false;
+bool ambientDisplay = true;
 
 volatile bool up_press=false;
 volatile bool down_press=false;
@@ -30,38 +30,21 @@ const uint32_t DEBOUNCE_DELAY = 40; // ms
 // Numero di voci menu
 const int MENU_LENGTH = 5;
 
-// Inizializzazione dei pulsanti
-void buttonsInit() {
-    const uint8_t SWpin[]={SW_UP,SW_DOWN,SW_LEFT,SW_RIGHT};
-
-    #if DEBUG
-    Serial.println(F("Buttons and relative interrupts initialized"));
-    #endif
-
-    for(uint8_t i=0; i<sizeof(SWpin); ++i){
-        pinMode(SWpin[i], INPUT_PULLUP);
-        gpio_set_irq_enabled_with_callback(SWpin[i], GPIO_IRQ_LEVEL_HIGH, false, &buttons_callback);
-        gpio_set_irq_enabled_with_callback(SWpin[i], GPIO_IRQ_LEVEL_LOW, false, &buttons_callback);
-        gpio_set_irq_enabled_with_callback(SWpin[i], GPIO_IRQ_EDGE_RISE, false, &buttons_callback);
-        gpio_set_irq_enabled_with_callback(SWpin[i], GPIO_IRQ_EDGE_FALL, true, &buttons_callback);
-    }
-
-    return;
-}
-
-
 // leds navigation animation
 //  diffinito nel header enum KeyEvent : uint8_t { KEY_NONE, KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT };
 int ledsNumber = 0;
 
+//forward declaration
+long long debounce_callback(alarm_id_t id, void *user_data);
+void gpio_callback(uint gpio, uint32_t events);
+
 // Definizione enum per i sottomenu
 enum Submenu : uint8_t { SUB_NONE, SUB_SETTINGS, SUB_METEO, SUB_GPS, SUB_SYSTEM, SUB_INFO };
 
-
 // funzione handler per interrupt gpio
-void buttons_callback(uint gpio, uint32_t events) {
-   //if released enables the fall edge irq and disable the rising one
-    if(events == GPIO_IRQ_EDGE_RISE){
+void gpio_callback(uint gpio, uint32_t events) {
+    //if released re apply the fall edge irq and disable the rising one
+    if(events & GPIO_IRQ_EDGE_RISE){
         gpio_set_irq_enabled(gpio, GPIO_IRQ_EDGE_RISE, false);
         gpio_set_irq_enabled(gpio, GPIO_IRQ_EDGE_FALL, true);
         return;
@@ -92,8 +75,6 @@ void buttons_callback(uint gpio, uint32_t events) {
 long long debounce_callback(alarm_id_t id, void *user_data){
     uint PinNum=(uint) user_data;
     
-    Serial.print("Debounce callback for pin ");
-    Serial.println(PinNum);
     
     if(!gpio_get( PinNum ))
     {
@@ -109,7 +90,7 @@ long long debounce_callback(alarm_id_t id, void *user_data){
             
             default:
             {
-                #if DEBUG
+                #if DEBUG == 1
                 Serial.println("ERROR in debounce_callback: PinNum not correct");
                 #endif
                 break;
@@ -124,6 +105,27 @@ long long debounce_callback(alarm_id_t id, void *user_data){
 }
 
 
+
+// Inizializzazione dei pulsanti
+void buttonsInit() {
+    const uint8_t SWpin[]={SW_UP,SW_DOWN,SW_LEFT,SW_RIGHT};
+    
+    #if DEBUG == 1
+    Serial.println(F("Buttons and relative interrupts initialized"));
+    #endif
+    
+    for(uint8_t i=0; i<(sizeof(SWpin)/sizeof(SWpin[0])); ++i){
+        pinMode(SWpin[i], INPUT_PULLUP);
+        
+    }   
+    // Imposta interrupt sui pulsanti
+    gpio_set_irq_enabled_with_callback(SW_UP, GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE, true, &gpio_callback);
+    for(uint8_t i= 1; i<(sizeof(SWpin)/sizeof(SWpin[0])); ++i){
+        gpio_set_irq_enabled(SWpin[i], GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE, true);
+    }
+    
+    return;
+}
 
 void buttonsUpdate() {
     static Submenu currentSubmenu = SUB_NONE;
@@ -160,7 +162,7 @@ void buttonsUpdate() {
         lastActivity = millis();
     }
     // Se ev è LEFT o RIGHT, gestisci combo/attesa
-    if (ev != KEY_NONE) {
+    if (ev == KEY_LEFT || ev == KEY_RIGHT) {
         if (checkLeftRightCombo(ev)) return; // se combo: toggle e fine
     }
 
@@ -170,7 +172,7 @@ void buttonsUpdate() {
         ambientDisplay = true;
         menuOpen = false;
         inSubmenu = false;
-        ledsInactivityAnimation();
+        //ledsInactivityAnimation();
         drawHomeScreen();
         return;
     }
@@ -272,7 +274,7 @@ void buttonsUpdate() {
 
     if (inSubmenu && currentSubmenu == SUB_GPS)
     {
-        GPSScreen_Tick();
+        //GPSScreen_Tick();
     }
     
 

@@ -15,9 +15,9 @@ bool FatFS_Setup(){
             Serial.println("FATAL: FatFS format/mount failed!");
             while (1) delay(10);
         }
-        Serial.println("Fat filesystem started");
-        inPrinting = false;
     }
+    inPrinting = false;
+    Serial.println("Fat filesystem started");
     VFS.root(FatFS); // Enables POSIX functions for I/O
     return true;
 }
@@ -47,7 +47,7 @@ void unplug(uint32_t i) {
   (void) i;
   driveConnected = false;
   updated = true;
-  FatFS_Setup();
+  //FatFS_Setup();
 }
 
 
@@ -72,12 +72,12 @@ bool sync_files() {
 
     if (updated && !driveConnected) 
     {
-        inPrinting = true;
+        //inPrinting = true;
         Serial.println("\n\nDisconnected, new file listing:");
         FatFS.end();
-        ret = FatFS_Setup();
+        ret  = FatFS_Setup();
         updated = false;
-        inPrinting = false;
+        //inPrinting = false;
     }
     return ret;
 }

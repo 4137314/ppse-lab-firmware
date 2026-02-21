@@ -7,6 +7,7 @@ static uint32_t lastGpsUiMs = 0;
 uint8_t gpsDayIndex = 0;
 uint8_t gpsHourIndex = 0;
 
+struct parsed_nmea gpsData; // global struct with the last gps data parsed
 
 static inline bool dayHasForecast(uint8_t d) {
     return (wx.recvMask & (1u << (d))) != 0;
@@ -80,7 +81,26 @@ void drawHomeScreen(){
 }
 
 void drawMenu(int index){
-
+    
+    if(ScreenStyle == 1){
+        display.clearDisplay();
+        display.setTextColor(SSD1306_WHITE);
+        display.setTextSize(1);
+        display.setCursor(0,0);
+        display.println("Menu:");
+        for(int i=0; i<menuLength; i++){
+        if(i==index){
+            display.print("> ");
+        } else {
+            display.print("  ");
+        }
+            display.println(menuItems[i]);
+        }
+        display.display();
+        return;
+    } else {
+        drawMenu_evi(index);
+    }
 }
 
 void drawMenu_evi(int index) {
@@ -220,8 +240,8 @@ void drawGPSScreen() {
   display.print("GPS & Meteo");
   display.drawLine(0,10,127,10, SSD1306_WHITE);
 
-  auto &gga = global_parsed_nmea.parsed_gga;
-  auto &rmc = global_parsed_nmea.parsed_rmc;
+struct minmea_sentence_rmc rmc = gpsData.parsed_rmc;
+struct minmea_sentence_gga gga = gpsData.parsed_gga;
 
   bool fix = (gga.fix_quality > 0) && rmc.valid &&
              (gga.latitude.scale != 0) && (gga.longitude.scale != 0);
@@ -296,19 +316,4 @@ void setBrightness(uint8_t level){
     display.ssd1306_command(SSD1306_SETCONTRAST);
     display.ssd1306_command(level);
     // level 0-255
-}
-
-void GPSScreen_Tick() {
-  // Aggiorna solo se stai davvero guardando la schermata GPS
-  // Meglio: usa currentSubmenu == SUB_GPS (vedi sezione B)
-  // Qui uso un flag semplice: inSubmenu + schermata GPS selezionata da te.
-  
-  uint32_t now = millis();
-  if (now - lastGpsUiMs < 10) return;
-  lastGpsUiMs = now;
-
-  // forza lettura gps
-  if(GPS_poolOnce(100))  drawGPSScreen();
-  // ridisegna
-  //drawGPSScreen();
 }
