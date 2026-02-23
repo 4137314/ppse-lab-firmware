@@ -35,8 +35,8 @@ bool FatFSUSB_Setup(){
         Serial.println("FATAL failed to start USB Mass Storage");
         while (1) delay(10);
     }
-    delay(2000); 
-    Serial.println("USB Mass Storage started");
+    delay(3000); 
+    if(Serial) Serial.println("USB Mass Storage started");
 
     return true;
 }

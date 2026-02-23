@@ -78,6 +78,8 @@ long long debounce_callback(alarm_id_t id, void *user_data){
     
     if(!gpio_get( PinNum ))
     {
+        Serial.print("Button press detected on pin ");
+        Serial.println(PinNum);
         switch( PinNum )
         {
             case SW_UP: up_press=true; ; break;
@@ -215,8 +217,9 @@ void buttonsUpdate() {
                 currentSubmenu = SUB_METEO; 
                 break;
                 case 2: 
-                drawGPSScreen();  
-                currentSubmenu = SUB_GPS;
+                 currentSubmenu = SUB_GPS;
+                drawGPSScreen();    // disegna subito
+                break;
                 break;
                 case 3: 
                 drawSystemScreen();  
@@ -274,7 +277,13 @@ void buttonsUpdate() {
 
     if (inSubmenu && currentSubmenu == SUB_GPS)
     {
-        //GPSScreen_Tick();
+        int timer= 500; // ms
+        unsigned int lastMillis = millis();
+        if(millis() - lastMillis > timer){
+            lastMillis = millis();
+            drawGPSScreen();    // disegna subito
+        }
+
     }
     
 

@@ -2,7 +2,7 @@
 #define GPS_H
 
 #ifndef DEBUG
-#define DEBUG 0
+#define DEBUG 1
 #endif
 
 //NEEDED for non overwriting of uart1 on GPIO 4 and 5
@@ -18,7 +18,7 @@
 #define UART1_TX_PIN 4
 #define UART1_RX_PIN 5
 #define GPSBAUD 9600 //GPS module baud rate
-#define GPS_SYNC_TIMEOUT_MSEC 20000 //GPS msec sync timeout to fetch new date and time
+#define GPS_SYNC_TIMEOUT_MSEC 20 //GPS msec sync timeout to fetch new date and time
 #define LED_ALIVE 20    // Led alive GPIO pin
 
 #define GPS_LOG_PATH "/gps_log.csv"
@@ -47,15 +47,17 @@ struct parsed_nmea{
     struct minmea_sentence_vtg parsed_vtg;
     struct minmea_sentence_zda parsed_zda;
 };
-    
-    
-    bool gpsInit();
-    
-    bool nmea_gps_parse(String* nmea_message, struct parsed_nmea *nmea_ptr);
-    
+
+extern uint32_t lastUiGpsMs;
+extern volatile bool gpsDirty;
+
+bool gpsInit();
+
+bool nmea_gps_parse(String* nmea_message, struct parsed_nmea *nmea_ptr);
+
     bool gpsAcquire(enum minmea_sentence_id sentence_type, struct parsed_nmea *nmea_ptr);
 
-    void EmptyGpsBuffer();
+    //void EmptyGpsBuffer();
 
     bool GetDate_and_Time(struct parsed_nmea *nmea_ptr);
 
@@ -73,5 +75,6 @@ struct parsed_nmea{
     void print_NMEA_vtg(void* frame);
     void print_NMEA_zda(void* frame);
 
-    void printGpsStatus();
+    void GPSScreen_Tick();
+    void gpsSerialDebugLog();
 #endif

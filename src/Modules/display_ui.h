@@ -25,7 +25,7 @@
     // Menu
     extern const char* menuItems[];
     extern const int menuLength;
-
+    extern struct parsed_nmea gpsData; // global struct with the last gps data parsed
 
     // Meteo 
     extern uint8_t gpsDayIndex;
@@ -50,5 +50,4 @@
     //
     void setBrightness(uint8_t level);
 
-    void GPSScreen_Tick();
 #endif

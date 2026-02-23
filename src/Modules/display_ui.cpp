@@ -2,12 +2,14 @@
 #include "weather.h"
 #include "gps.h"
 
+extern volatile bool gpsDirty;
+extern struct parsed_nmea gpsData; // global struct with the last gps data parsed
 // meteo
 static uint32_t lastGpsUiMs = 0;
 uint8_t gpsDayIndex = 0;
 uint8_t gpsHourIndex = 0;
 
-struct parsed_nmea gpsData; // global struct with the last gps data parsed
+//struct parsed_nmea gpsData; // global struct with the last gps data parsed
 
 static inline bool dayHasForecast(uint8_t d) {
     return (wx.recvMask & (1u << (d))) != 0;
@@ -240,14 +242,14 @@ void drawGPSScreen() {
   display.print("GPS & Meteo");
   display.drawLine(0,10,127,10, SSD1306_WHITE);
 
-struct minmea_sentence_rmc rmc = gpsData.parsed_rmc;
-struct minmea_sentence_gga gga = gpsData.parsed_gga;
+  struct minmea_sentence_rmc rmc = gpsData.parsed_rmc;
+  struct minmea_sentence_gga gga = gpsData.parsed_gga;
 
   bool fix = (gga.fix_quality > 0) && rmc.valid &&
              (gga.latitude.scale != 0) && (gga.longitude.scale != 0);
 
-  float lat = fix ? minmea_tocoord(&gga.latitude) : NAN;
-  float lon = fix ? minmea_tocoord(&gga.longitude) : NAN;
+  float lat = minmea_tocoord(&gga.latitude);
+  float lon = minmea_tocoord(&gga.longitude);
 
   // Riga: City + giorno selezionato
   // Riga: Lat
@@ -270,11 +272,11 @@ struct minmea_sentence_gga gga = gpsData.parsed_gga;
   // Riga: Meteo (ora selezionata)
   display.setCursor(0, 44);
   display.print("Time: ");
-  display.print(rmc.time.hours + 1);
+  display.print(gga.time.hours + 1);
   display.print(":");
-  display.print(rmc.time.minutes);
+  display.print(gga.time.minutes);
   display.print(":");
-  display.print(rmc.time.seconds);
+  display.print(gga.time.seconds);
   display.display();
   display.setCursor(40, 14);
   display.print("Date: ");
