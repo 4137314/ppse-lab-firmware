@@ -1,34 +1,51 @@
-# ppse-lab-firmware
+# PPSE-Lab Firmware 🚀
 
-## FEATURES da implementare METEO
-Prende la posizione con il gps, e la trasmette all'API che restituisce dati meteo del posto in cui ci troviamo.
-I dati sono salvati sulla memoria della scheda e danno un'indicazione dell'ultimo aggiornamento (funziona anche offline).
-Lo schermo serve per vedere i dati meteo e consultarli in base alle ore/giornate precedenti e sccessive. 
-I led seguono il meteo corrente visualizzato. Di giorno hanno luminositá alta e di notte bassa.
-Comunicazione con pc come chiavetta (filesystem) e salvataggio dati in flash.
+[![Milestone](https://img.shields.io/badge/Milestone-MVP-blue)](https://github.com/4137314/ppse-lab-firmware/milestones)
+[![PlatformIO](https://img.shields.io/badge/Platform-ESP32-orange)](https://platformio.org/)
 
-## LATO PCB
-### Boot
-- Buzzer e led per segnalare accensione
-- Orologio non sincronizzato, parte da una data standard, fin quando non arriva il primo dato del gps valido
-- usare timepulse quando valido per aggiornare il clock al secondo.
-  
-### DISPLAY MENU
-- Homepage come ambient display (vedi anmazioni in future work): info correnti minime, qualitá aria, temperatura, ora, ultimo aggiornamento dati
-- Alla pressione di un tasto schermata home con possibili scelte
-   - Info meteo, viene visualizzato il giorno corrente ed é possibile swipare fra i giorni a dx e sx con i tasti. se premuto tasto giú viene scrollata la pagina e visualizzato il meteo per le ore       della giornata selezionata prima di premere tasto giú
-   - Erase memoria
-   - Silenzioso (buzzer e led spenti)
-   - Luminositá automatica con toggle
-   - Init dei singoli moduli (tipo init led, buzzer etc)
+Firmware avanzato per il monitoraggio ambientale e meteo con integrazione GPS, gestione energetica e interfaccia UI dinamica. Il progetto punta a un'esperienza utente fluida con supporto offline e sincronizzazione dati intelligente.
 
-#### shortcuts
-- Shortcuts per uscire dai menu (doppio click sinistro)
-- Shortcuts per riaggiornare i dati (es tieni premuto dx e sx x almeno un sec)
-- Shortcut per uscire al main menu (non menu precedente ma il primo)
-- etc...
-- 
+---
 
-## future work
-- animazioni
-- Fuso orario basato sulla posizione (o usare stato riportato da API)
+## 🛠 Functional Features (MVP)
+
+### 🌤 Meteo & Data Management
+- **Smart Fetching:** Acquisizione posizione tramite GPS e sincronizzazione con API Meteo.
+- **Offline First:** Archiviazione dei dati in Flash Memory per consultazione senza connettività; indicatore di timestamp "Last Update".
+- **Interactive Visualization:** Consultazione storica e previsioni tramite display OLED (navigazione giornaliera/oraria).
+- **Adaptive UI:** Luminosità automatica dei LED basata sul ciclo circadiano (Day/Night mode).
+- **USB Interface:** Il dispositivo viene riconosciuto dal PC come memoria di massa (Mass Storage Class) per l'accesso diretto ai file di log.
+
+### 🔌 Hardware & System Logic
+- **Boot Sequence:** Feedback immediato all'accensione tramite pattern sonori (Buzzer) e visivi (LED).
+- **Clock Sync:** Sistema RTC integrato. All'avvio utilizza un tempo standard, sincronizzandosi al secondo tramite segnale GPS `Timepulse` non appena disponibile.
+- **Power & Resource Management:** Ottimizzazione dei cicli di scrittura su Flash per preservare l'hardware.
+
+---
+
+## 🖥 User Interface (UI) Structure
+
+### 1. Ambient Display (Idle Mode)
+Visualizzazione dei dati critici in tempo reale:
+- Qualità dell'aria e temperatura.
+- Timestamp dell'ultimo aggiornamento.
+- Orologio di sistema e stato del fix GPS.
+
+### 2. Main Menu & Navigation
+- **Meteo Browser:** Navigazione orizzontale (Swipe giorni) e verticale (Dettaglio orario).
+- **System Tools:** - `Erase Memory`: Formattazione sicura della partizione dati.
+    - `Silent Mode`: Toggle rapido per feedback sonori e luminosi.
+    - `Auto-Brightness`: Sensore di luce ambientale / Toggle manuale.
+    - `Module Init`: Debug e inizializzazione singola dei driver (LED, Buzzer, GPS).
+
+### 3. Smart Shortcuts
+- **Quick Exit:** Doppio click sinistro per chiudere i menu.
+- **Force Sync:** Pressione prolungata (1s) Destra + Sinistra per aggiornamento dati meteo.
+- **Home Reset:** Shortcut dedicata per il ritorno immediato all'Ambient Display.
+
+---
+
+## 📅 Roadmap & Future Work
+- [ ] Implementazione animazioni fluide per transizioni menu.
+- [ ] Calcolo automatico del Fuso Orario basato sulle coordinate GPS.
+- [ ] Ottimizzazione consumi in Deep Sleep.
