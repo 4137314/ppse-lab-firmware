@@ -28,6 +28,7 @@
 
 #define GPS_SYNC_REQ 0xA
 #define GPS_SYNC_ACK 0xB
+#define SERIAL_MAX_SETUP_TIME 20000
 
 #include <Arduino.h>
 #include <time.h>       
@@ -70,6 +71,7 @@ bool nmea_gps_parse(String* nmea_message, struct parsed_nmea *nmea_ptr);
     bool save_gps_last(struct parsed_nmea *nmea_ptr);
 
     bool save_gps_log20(struct parsed_nmea *nmea_ptr);
+    void check_GPS_sync_req(queue_t *recv_queue, queue_t *send_queue, struct parsed_nmea *nmea_ptr);
 
     // DEBUG functions
     void print_NMEA_rmc(void* frame);
@@ -79,6 +81,8 @@ bool nmea_gps_parse(String* nmea_message, struct parsed_nmea *nmea_ptr);
     void print_NMEA_vtg(void* frame);
     void print_NMEA_zda(void* frame);
 
-    void gpsSerialDebugLog();
+
+
+
 
 #endif

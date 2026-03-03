@@ -9,8 +9,14 @@
   #define BUZZER_INIT_BEEP 1
 #endif
 
+#include "Modules/buttons.h"
+#include "Modules/buzzer.h"
+#include "Modules/display_ui.h"
+#include "Modules/gps.h"
+#include "Modules/leds.h"
+#include "Modules/temp.h"
+#include "Modules/Filesystem.h"
 #include "hardware/gpio.h"
-#include "Modules/Functions.h"
 #include "pico/stdlib.h" 
 #include "pico/multicore.h" //https://picodocs.pinout.xyz/group__pico__multicore.html#details
 #include "pico/mutex.h" //https://www.raspberrypi.com/documentation/pico-sdk/high_level.html#group_mutex
@@ -39,8 +45,7 @@ void setup1(){ //CORE1 setup
   queue_init(&Qctrl_0_to_1, sizeof(uint8_t), 2);
   queue_init(&Qdata, sizeof(ParsedNMEA), 6); // buffer per 15 secondi a 4Hz
   Serial.println("Initializing the Filesystem");
-  
- if (!FatFS_Setup()) {
+  if (!FatFS_Setup()) {
   Serial.println("ERROR: Filesystem setup failed");
   exit(EXIT_FAILURE);
 }  
@@ -76,7 +81,7 @@ void setup(){ //CORE 0 setup
   }
   Serial.println("Display initialized successfully");
   drawHomeScreen();
-  ledsInit();;
+  ledsInit();
   ledsShowInitAnimation();
   TempInit();
  
@@ -88,9 +93,7 @@ void setup(){ //CORE 0 setup
 
 void loop1(){ //CORE 1 main
   bool ret_code = true;
- 
- 
- static bool said = false;
+  static bool said = false;
   if (driveConnected) {
     if (!said && Serial) { Serial.println("Drive connected: pausing file writes"); said = true; }
     delay(10);
