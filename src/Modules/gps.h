@@ -21,7 +21,9 @@
 #define GPS_SYNC_TIMEOUT_MSEC 20 //GPS msec sync timeout to fetch new date and time
 #define LED_ALIVE 20    // Led alive GPIO pin
 
-#define GPS_LOG_PATH "/gps_log.csv"
+#define GPS_LOG_PATH "/gps_log.csv" // File path for GPS log on the SD card. Each line is a fix, with format:
+#define GPS_LAST_PATH  "/gps_last.csv"     // una sola riga: ultimo fix
+#define GPS_MAX_LINES  20
 #define GPS_WRITE_FREQ 600000 // Frequency for writing to GPS_LOG_PATH in msec
 
 #define GPS_SYNC_REQ 0xA
@@ -65,7 +67,9 @@ bool nmea_gps_parse(String* nmea_message, struct parsed_nmea *nmea_ptr);
 
     bool GPS_sync(struct parsed_nmea *nmea_ptr, bool force);
 
-    bool save_gps_data(struct parsed_nmea *nmea_ptr);
+    bool save_gps_last(struct parsed_nmea *nmea_ptr);
+
+    bool save_gps_log20(struct parsed_nmea *nmea_ptr);
 
     // DEBUG functions
     void print_NMEA_rmc(void* frame);
@@ -75,6 +79,6 @@ bool nmea_gps_parse(String* nmea_message, struct parsed_nmea *nmea_ptr);
     void print_NMEA_vtg(void* frame);
     void print_NMEA_zda(void* frame);
 
-    void GPSScreen_Tick();
     void gpsSerialDebugLog();
+
 #endif

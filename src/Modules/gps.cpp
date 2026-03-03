@@ -183,7 +183,7 @@ bool GPS_sync(struct parsed_nmea *nmea_ptr, bool force) {
       lastGPSsync = millis();
       if(((millis() - lastGPSwrite) > GPS_WRITE_FREQ) || force) //Write only at a certain frequency otherwise flash will wear out
       {
-        if (save_gps_data(nmea_ptr)) lastGPSwrite=millis();
+        if (save_gps_last(nmea_ptr)) lastGPSwrite=millis();
         else return false;
       }
     }
@@ -200,56 +200,89 @@ bool GPS_sync(struct parsed_nmea *nmea_ptr, bool force) {
 
 
 /* Salva su Filesystem della FLASH */
-bool save_gps_data(struct parsed_nmea *nmea_ptr) {
-  
-  if(inPrinting || driveConnected || updated) return false; // if OS connected or data is being written exit
-  
-  struct minmea_sentence_rmc *rmc = &(nmea_ptr->parsed_rmc);
-  char buffer[128]="";
-  
-  
-  inPrinting = true; // Acquire "LOCK"
-  FILE* f = fopen(GPS_LOG_PATH, "a");
-  
-  if (f == NULL)
-  {
-    Serial.printf("ERROR in save_gps_data: cannot open gps log file");
-    return (inPrinting = false);
-  }
-  
-  // Check for log file size, if 20*buffer keep only the last logged data
-  fseek(f, 0, SEEK_END);
-  if(ftell(f) > (20*sizeof(buffer)))
-  {
-    fseek(f, 0, SEEK_SET); // reset to beginning of file
-    while( fgets(buffer, sizeof(buffer), f)!=NULL ); //read all lines till the EOF
-    fclose(f);
-    f = fopen(GPS_LOG_PATH, "w"); // wipes data in file
-    
-    if (f == NULL)
-    {
-      Serial.printf("ERROR in save_gps_data: cannot open gps log file");
-      return (inPrinting = false);
-    }
-  }
-  
-  // Aggiorniamo buffer solo se il fix è valido (Status 'A' in RMC)
-  if (rmc->valid) {
-    float lat = minmea_tocoord(&(rmc->latitude));
-    float lon = minmea_tocoord(&(rmc->longitude));
-    
-    // Formato CSV: HHMMSS, LAT, LON, SPEED
-    snprintf(buffer, sizeof(buffer), "%02d%02d%02d,%.6f,%.6f,%.2f\n",
-    rmc->time.hours, rmc->time.minutes, rmc->time.seconds, lat, lon); 
-  }
-  
-  if(buffer != "") fwrite(buffer, sizeof(char), 128, f);
+bool save_gps_last(struct parsed_nmea *nmea_ptr) {
+  if (inPrinting || driveConnected || updated) return false;
+
+  struct minmea_sentence_gga *gga = &(nmea_ptr->parsed_gga);
+  if (!gga->fix_quality <= 0) return false;
+
+  char line[96];
+  float lat = minmea_tocoord(&(gga->latitude));
+  float lon = minmea_tocoord(&(gga->longitude));
+
+  inPrinting = true;
+  FILE *f = fopen(GPS_LAST_PATH, "w");   // sovrascrive sempre
+  if (!f) { inPrinting = false; return false; }
+  int n = snprintf(line, sizeof(line), "%.6f,%.6f\n",
+                   lat, lon);
+  fwrite(line, 1, (size_t)n, f);
   fclose(f);
-  
   inPrinting = false;
   return true;
 }
 
+bool save_gps_log20(struct parsed_nmea *nmea_ptr) {
+  if (inPrinting || driveConnected || updated) return false;
+
+  struct minmea_sentence_rmc *rmc = &(nmea_ptr->parsed_rmc);
+  if (!rmc->valid) return false;
+
+  // nuova riga da aggiungere
+  char newline[96];
+  float lat = minmea_tocoord(&(rmc->latitude));
+  float lon = minmea_tocoord(&(rmc->longitude));
+  int newn = snprintf(newline, sizeof(newline), "%.6f,%.6f\n", lat, lon);
+  if (newn <= 0) return false;
+
+  // buffer per massimo 20 righe
+  char lines[GPS_MAX_LINES][96] = {{0}};
+  int count = 0;
+
+  inPrinting = true;
+
+  // 1) leggi file esistente (se c'è)
+  FILE *f = fopen(GPS_LOG_PATH, "r");
+  if (f) {
+    char tmp[96];
+    while (fgets(tmp, sizeof(tmp), f)) {
+      // copia la riga, limitando dimensione
+      strncpy(lines[count % GPS_MAX_LINES], tmp, sizeof(lines[0]) - 1);
+      lines[count % GPS_MAX_LINES][sizeof(lines[0]) - 1] = '\0';
+      count++;
+      if (count > 200) break; // safety (non dovrebbe mai succedere)
+    }
+    fclose(f);
+  }
+
+  // 2) costruisci nuova lista: ultime 19 + nuova
+  int start = (count > GPS_MAX_LINES - 1) ? (count - (GPS_MAX_LINES - 1)) : 0;
+  int outCount = 0;
+
+  char out[GPS_MAX_LINES][96] = {{0}};
+  for (int i = start; i < count; i++) {
+    strncpy(out[outCount], lines[i % GPS_MAX_LINES], sizeof(out[0]) - 1);
+    out[outCount][sizeof(out[0]) - 1] = '\0';
+    outCount++;
+  }
+
+  // aggiungi nuova riga
+  strncpy(out[outCount], newline, sizeof(out[0]) - 1);
+  out[outCount][sizeof(out[0]) - 1] = '\0';
+  outCount++;
+
+  // 3) riscrivi file con esattamente outCount righe (max 20)
+  f = fopen(GPS_LOG_PATH, "w");
+  if (!f) { inPrinting = false; return false; }
+
+  for (int i = 0; i < outCount; i++) {
+    size_t n = strlen(out[i]);
+    if (n) fwrite(out[i], 1, n, f);
+  }
+  fclose(f);
+
+  inPrinting = false;
+  return true;
+}
 
 
 // Print functions (for debug)

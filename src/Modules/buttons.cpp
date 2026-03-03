@@ -255,10 +255,17 @@ void buttonsUpdate() {
             }
         }
         
+        if(currentSubmenu == SUB_GPS && (ev==KEY_RIGHT)){
+            // Save GPS data to log file
+            save_gps_log20(&gpsData);
+            save_gps_last(&gpsData);
+            drawGPSScreen();    // aggiorna schermata dopo salvataggio
+        }
+
         if(currentSubmenu == SUB_SETTINGS){
             if(ev == KEY_RIGHT){
             // Toggle menu style
-            ScreenStyle = (ScreenStyle == 1) ? 0 : 1;
+            ScreenStyle = (ScreenStyle == 0) ? 1 : 0;
             drawSettingsScreen();
             return;
         }

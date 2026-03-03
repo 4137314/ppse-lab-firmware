@@ -104,14 +104,14 @@ void loop1(){ //CORE 1 main
   check_GPS_sync_req(&Qctrl_0_to_1, &Qctrl_1_to_0, &ParsedNMEA); // check if core 1 has requested a gps sync
   
   if (!GPS_sync(&ParsedNMEA, false)) exit(EXIT_FAILURE); // Auto sync after tot time
-  Serial.println("Core 1: GPS sync done");
-  Serial.printf("rmc valid: %d\n", ParsedNMEA.parsed_rmc.valid);
-  Serial.printf("rmc date: %02d/%02d/%02d\n", ParsedNMEA.parsed_rmc.date.day, ParsedNMEA.parsed_rmc.date.month, ParsedNMEA.parsed_rmc.date.year);
-  Serial.printf("rmc time: %02d:%02d:%02d\n", ParsedNMEA.parsed_rmc.time.hours, ParsedNMEA.parsed_rmc.time.minutes, ParsedNMEA.parsed_rmc.time.seconds);
-  Serial.printf("GPS: fix=%d q=%u sat=%u lat=%.6f lon=%.6f\n",
-  ParsedNMEA.parsed_gga.fix_quality > 0, ParsedNMEA.parsed_gga.fix_quality, ParsedNMEA.parsed_gga.satellites_tracked,
-  minmea_tocoord(&ParsedNMEA.parsed_gga.latitude), minmea_tocoord(&ParsedNMEA.parsed_gga.longitude));
-  Serial.println("gga time: " + String(ParsedNMEA.parsed_gga.time.hours) + ":" + String(ParsedNMEA.parsed_gga.time.minutes) + ":" + String(ParsedNMEA.parsed_gga.time.seconds));
+  //Serial.println("Core 1: GPS sync done");
+  //Serial.printf("rmc valid: %d\n", ParsedNMEA.parsed_rmc.valid);
+  //Serial.printf("rmc date: %02d/%02d/%02d\n", ParsedNMEA.parsed_rmc.date.day, ParsedNMEA.parsed_rmc.date.month, ParsedNMEA.parsed_rmc.date.year);
+  //Serial.printf("rmc time: %02d:%02d:%02d\n", ParsedNMEA.parsed_rmc.time.hours, ParsedNMEA.parsed_rmc.time.minutes, ParsedNMEA.parsed_rmc.time.seconds);
+  //Serial.printf("GPS: fix=%d q=%u sat=%u lat=%.6f lon=%.6f\n",
+  //ParsedNMEA.parsed_gga.fix_quality > 0, ParsedNMEA.parsed_gga.fix_quality, ParsedNMEA.parsed_gga.satellites_tracked,
+  //minmea_tocoord(&ParsedNMEA.parsed_gga.latitude), minmea_tocoord(&ParsedNMEA.parsed_gga.longitude));
+  //Serial.println("gga time: " + String(ParsedNMEA.parsed_gga.time.hours) + ":" + String(ParsedNMEA.parsed_gga.time.minutes) + ":" + String(ParsedNMEA.parsed_gga.time.seconds));
   static uint32_t lastSendMs = 0;
   
   if (millis() - lastSendMs >= 250) { // 4 Hz verso UI
@@ -147,16 +147,21 @@ void loop(){ // CORE 0 main
   static uint32_t lastPrint = 0;
   if (updated && Serial && millis() - lastPrint >= 1000) {
     lastPrint = millis();
-    Serial.printf("core 0: received new GPS data from core 1\n");
-    Serial.printf("GPS: fix=%d q=%u sat=%u lat=%.6f lon=%.6f\n",
-  gpsData.parsed_gga.fix_quality > 0, gpsData.parsed_gga.fix_quality, gpsData.parsed_gga.satellites_tracked, minmea_tocoord(&gpsData.parsed_gga.latitude), minmea_tocoord(&gpsData.parsed_gga.longitude));
-      Serial.printf("GPS: time=%02d:%02d:%02d\n",
-  gpsData.parsed_gga.time.hours, gpsData.parsed_gga.time.minutes, gpsData.parsed_gga.time.seconds);
+   // Serial.printf("core 0: received new GPS data from core 1\n");
+   // Serial.printf("GPS: fix=%d q=%u sat=%u lat=%.6f lon=%.6f\n",
+  //gpsData.parsed_gga.fix_quality > 0, gpsData.parsed_gga.fix_quality, gpsData.parsed_gga.satellites_tracked, minmea_tocoord(&gpsData.parsed_gga.latitude), minmea_tocoord(&gpsData.parsed_gga.longitude));
+    //  Serial.printf("GPS: time=%02d:%02d:%02d\n",
+  //gpsData.parsed_gga.time.hours, gpsData.parsed_gga.time.minutes, gpsData.parsed_gga.time.seconds);
   }
     // qui aggiorni la schermata GPS usando lastParsedNMEA
     // es: showGps(lastGps.fix_valid, lastGps.lat, lastGps.lon, lastGps.sats, lastGps.age_ms);
    
-  
+  static uint32_t lastUpdate = 0;
+  if (pkt.parsed_rmc.valid == 1 && (lastUpdate == 0 || millis() - lastUpdate >= 1000000)) { // aggiorna schermata GPS ogni tot tempo, o se è la prima volta
+    lastUpdate = millis();
+    save_gps_last(&pkt);
+    gpsDirty = false;
+  }
 
   
   /*

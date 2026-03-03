@@ -62,6 +62,7 @@ void drawHomeScreen(){
     display.println("Weather:");
     display.drawLine(0,10,127,10, SSD1306_WHITE);
     display.setCursor(0, 14);
+    display.print("City: ");
     display.print(wx.curValid ? wx.city : "NA");
     display.setCursor(0, 24);
     if (wx.curValid) {
@@ -76,8 +77,22 @@ void drawHomeScreen(){
     display.print("Hum: ");
     if (!wx.curValid || isnan(wx.curHumidity)) display.print("--");
     else { display.print((int)roundf(wx.curHumidity)); display.print("%"); }
-    display.print("City:");
-
+    display.setCursor(0, 44);
+    struct minmea_sentence_rmc rmc = gpsData.parsed_rmc;
+    struct minmea_sentence_gga gga = gpsData.parsed_gga;
+    display.print("Time: ");
+    display.print(gga.time.hours);
+    display.print(":");
+    display.print(gga.time.minutes);
+    display.print(":");
+    display.print(gga.time.seconds);
+    display.setCursor(0, 54);
+    display.print("Date: ");
+    display.print(rmc.date.day);
+    display.print("/");
+    display.print(rmc.date.month);
+    display.print("/");
+    display.print(rmc.date.year);
 
     display.display();
 }
@@ -240,18 +255,18 @@ void drawGPSScreen() {
 
   display.setCursor(0,0);
   display.print("GPS & Meteo");
+  display.setCursor(50,0);
+  display.print("R = Save data to log");
   display.drawLine(0,10,127,10, SSD1306_WHITE);
 
   struct minmea_sentence_rmc rmc = gpsData.parsed_rmc;
   struct minmea_sentence_gga gga = gpsData.parsed_gga;
 
-  bool fix = (gga.fix_quality > 0) && rmc.valid &&
-             (gga.latitude.scale != 0) && (gga.longitude.scale != 0);
+  bool fix =  gga.fix_quality > 0;
 
   float lat = minmea_tocoord(&gga.latitude);
   float lon = minmea_tocoord(&gga.longitude);
 
-  // Riga: City + giorno selezionato
   // Riga: Lat
   display.setCursor(0, 14);
   display.print("Lat:");
@@ -278,7 +293,7 @@ void drawGPSScreen() {
   display.print(":");
   display.print(gga.time.seconds);
   display.display();
-  display.setCursor(40, 14);
+  display.setCursor(0, 54);
   display.print("Date: ");
   display.print(rmc.date.day);
   display.print("/");
