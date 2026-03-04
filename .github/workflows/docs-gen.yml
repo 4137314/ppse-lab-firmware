@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main ] # Valida la compilazione prima del merge
+    branches: [ main ]
 
 permissions:
   contents: write
@@ -21,11 +21,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y doxygen graphviz
 
-      # 1. Generazione Documentazione Tecnica (Doxygen)
       - name: Generate Doxygen
         run: doxygen Doxyfile
 
-      # 2. Compilazione Report Accademico (LaTeX)
       - name: Compile Academic Report
         uses: xu-cheng/latex-action@v3
         with:
@@ -33,22 +31,14 @@ jobs:
           working_directory: report
           args: "-pdf -file-line-error -halt-on-error -interaction=nonstopmode"
 
-      # 3. Assemblaggio Sito (Solo su push a main)
       - name: Prepare Site Structure
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           mkdir -p public/api
-          
-          # Copia la dashboard statica dalla tua codebase
           cp site/index.html public/
-          
-          # Sposta l'output Doxygen nella sottocartella /api
           cp -r docs/html/* public/api/
-          
-          # Copia il report compilato rinominandolo per il download
           cp report/main.pdf public/Academic_Report_PPSE.pdf
 
-      # 4. Deploy su gh-pages (Solo su push a main)
       - name: Deploy to GitHub Pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3

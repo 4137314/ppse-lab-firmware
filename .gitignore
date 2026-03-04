@@ -25,3 +25,6 @@ report/*.synctex.gz
 # --- BUILD ARTIFACTS ---
 public/
 dist/
+
+# --- OS ---
+.DS_Store
