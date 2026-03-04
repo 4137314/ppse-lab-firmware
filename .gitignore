@@ -8,11 +8,9 @@
 # --- DOXYGEN ---
 docs/html/
 docs/latex/
-# Escludiamo i log e i file temporanei
 doxygen_sqlite3.db
 
 # --- LATEX (Report Accademico) ---
-# Escludiamo i PDF compilati localmente e i file ausiliari
 report/*.pdf
 report/*.aux
 report/*.log
@@ -24,6 +22,6 @@ report/*.bcf
 report/*.run.xml
 report/*.synctex.gz
 
-# --- VARIE ---
-.DS_Store
-node_modules/
+# --- BUILD ARTIFACTS ---
+public/
+dist/
