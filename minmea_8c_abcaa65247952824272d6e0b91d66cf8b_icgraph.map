@@ -1,0 +1,7 @@
+<map id="hex2int" name="hex2int">
+<area shape="rect" id="Node000001" title=" " alt="" coords="384,5,455,31"/>
+<area shape="rect" id="Node000002" href="$minmea_8c.html#a47a3de8df9224ba2db8278ffc570b157" title=" " alt="" coords="215,5,336,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="370,21,336,21,336,15,370,15"/>
+<area shape="rect" id="Node000003" href="$minmea_8c.html#ad147c6c4489f367099832a74f93e578d" title=" " alt="" coords="5,5,167,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="201,21,167,21,167,15,201,15"/>
+</map>

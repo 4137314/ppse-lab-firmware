@@ -1,0 +1,9 @@
+<map id="minmea_sentence_gbs" name="minmea_sentence_gbs">
+<area shape="rect" id="Node000001" title=" " alt="" coords="113,167,285,192"/>
+<area shape="rect" id="Node000002" href="$unionminmea__type.html" title=" " alt="" coords="5,5,117,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="80,40,116,88,162,141,187,164,183,168,158,145,112,91,75,43"/>
+<area shape="rect" id="Node000003" href="$structminmea__time.html" title=" " alt="" coords="142,5,255,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="201,44,201,166,196,166,196,44"/>
+<area shape="rect" id="Node000004" href="$structminmea__float.html" title=" " alt="" coords="280,5,392,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="322,43,286,91,241,145,215,168,211,165,237,141,282,88,318,40"/>
+</map>

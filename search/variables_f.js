@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['satellites_5ftracked_0',['satellites_tracked',['../structminmea__sentence__gga.html#a38abc4b4c9c1ba927a24300211ac0bdc',1,'minmea_sentence_gga']]],
+  ['sats_1',['sats',['../structminmea__sentence__gsa.html#a14a5138748d4d472923c7ad4ccc0c8aa',1,'minmea_sentence_gsa::sats'],['../structminmea__sentence__gsv.html#a53450409833dff8187f75d043a748bc5',1,'minmea_sentence_gsv::sats']]],
+  ['scale_2',['scale',['../structminmea__float.html#afd0abed339378ab1147ebcefbfe42f88',1,'minmea_float']]],
+  ['screenstyle_3',['screenstyle',['../display__ui_8h.html#aabafd531a5b544c5a67cbbc4f06f1152',1,'ScreenStyle:&#160;display_ui.cpp'],['../display__ui_8cpp.html#aabafd531a5b544c5a67cbbc4f06f1152',1,'ScreenStyle:&#160;display_ui.cpp']]],
+  ['seconds_4',['seconds',['../structminmea__time.html#a826ce4cae9eff6c6c595d9b3b48a488a',1,'minmea_time']]],
+  ['semi_5fmajor_5fdeviation_5',['semi_major_deviation',['../structminmea__sentence__gst.html#aa7b975c0820235d5124213737f36f2e1',1,'minmea_sentence_gst']]],
+  ['semi_5fmajor_5forientation_6',['semi_major_orientation',['../structminmea__sentence__gst.html#aca433d13735fcfc1e208d50027bf22a2',1,'minmea_sentence_gst']]],
+  ['semi_5fminor_5fdeviation_7',['semi_minor_deviation',['../structminmea__sentence__gst.html#aae8a39bc20daed4b29f73fafb417cf8a',1,'minmea_sentence_gst']]],
+  ['sensorinterval_8',['sensorInterval',['../main_8cpp.html#a8cf96dcbd7fb78c292e99eba690ae844',1,'main.cpp']]],
+  ['sentence_5fid_9',['sentence_id',['../unionminmea__type.html#adedcb6c1abb7e4433537fe47cba51fe3',1,'minmea_type']]],
+  ['sentence_5fid_5fmap_10',['sentence_id_map',['../minmea_8c.html#aba668e25df20af439a735338323f4b70',1,'minmea.c']]],
+  ['settingsindex_11',['settingsIndex',['../display__ui_8cpp.html#a33596fc4fdfac44ff7f923b429be9146',1,'display_ui.cpp']]],
+  ['snr_12',['snr',['../structminmea__sat__info.html#a05e0130b0df62963b93023afdc1fad27',1,'minmea_sat_info']]],
+  ['speed_13',['speed',['../structminmea__sentence__rmc.html#a5674b8d1ba4da61ffe2e9dad9b929330',1,'minmea_sentence_rmc']]],
+  ['speed_5fknots_14',['speed_knots',['../structminmea__sentence__vtg.html#a685743058795f7eeb34d2de5e7c2d643',1,'minmea_sentence_vtg']]],
+  ['speed_5fkph_15',['speed_kph',['../structminmea__sentence__vtg.html#a20f2b5aaedf76de69e129bf333edc497',1,'minmea_sentence_vtg']]],
+  ['status_16',['status',['../structminmea__sentence__gll.html#ad8639143e5ee317590d3afd04229afb6',1,'minmea_sentence_gll']]],
+  ['stddev_17',['stddev',['../structminmea__sentence__gbs.html#a483af1c6954ccc79cda81887ad9f7d3f',1,'minmea_sentence_gbs']]],
+  ['str_18',['str',['../structsentence__id__map__entry.html#a8c953ba0bfc9a93ff4af6c4365673406',1,'sentence_id_map_entry']]],
+  ['svid_19',['svid',['../structminmea__sentence__gbs.html#a3d32cebfd5820ac57bcffbd8dc89343c',1,'minmea_sentence_gbs']]]
+];

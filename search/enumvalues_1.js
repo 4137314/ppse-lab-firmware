@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['minmea_5ffaa_5fmode_5fautonomous_0',['MINMEA_FAA_MODE_AUTONOMOUS',['../minmea_8h.html#a47a3ba8d93aa98f2dc708178413f81bca018a4885bb447ed27e07b184cbf8af84',1,'minmea.h']]],
+  ['minmea_5ffaa_5fmode_5fdifferential_1',['MINMEA_FAA_MODE_DIFFERENTIAL',['../minmea_8h.html#a47a3ba8d93aa98f2dc708178413f81bcab7d479a5489ec04cc0009a243f1b85fe',1,'minmea.h']]],
+  ['minmea_5ffaa_5fmode_5festimated_2',['MINMEA_FAA_MODE_ESTIMATED',['../minmea_8h.html#a47a3ba8d93aa98f2dc708178413f81bcae9b5acdaf3ed842098c0a8937f922e56',1,'minmea.h']]],
+  ['minmea_5ffaa_5fmode_5fmanual_3',['MINMEA_FAA_MODE_MANUAL',['../minmea_8h.html#a47a3ba8d93aa98f2dc708178413f81bcadf9a2cb42bc29cf6ff2e3fd7fcdff391',1,'minmea.h']]],
+  ['minmea_5ffaa_5fmode_5fnot_5fvalid_4',['MINMEA_FAA_MODE_NOT_VALID',['../minmea_8h.html#a47a3ba8d93aa98f2dc708178413f81bcab8ffa84e0fce3b4dc81435dd2a1fe83e',1,'minmea.h']]],
+  ['minmea_5ffaa_5fmode_5fprecise_5',['MINMEA_FAA_MODE_PRECISE',['../minmea_8h.html#a47a3ba8d93aa98f2dc708178413f81bca403bae0bb0ddd32e84fa0ea693cb6746',1,'minmea.h']]],
+  ['minmea_5ffaa_5fmode_5fsimulated_6',['MINMEA_FAA_MODE_SIMULATED',['../minmea_8h.html#a47a3ba8d93aa98f2dc708178413f81bcacc832c57c68ee22414ddfadfeaaced96',1,'minmea.h']]],
+  ['minmea_5fgll_5fstatus_5fdata_5fnot_5fvalid_7',['MINMEA_GLL_STATUS_DATA_NOT_VALID',['../minmea_8h.html#a2cdc98ff04649393d46acbe5376e1e4ca8fc74591d460b7bdd0357acc498f0f55',1,'minmea.h']]],
+  ['minmea_5fgll_5fstatus_5fdata_5fvalid_8',['MINMEA_GLL_STATUS_DATA_VALID',['../minmea_8h.html#a2cdc98ff04649393d46acbe5376e1e4ca9dbc4823c96944026558e410bb7e6e5b',1,'minmea.h']]],
+  ['minmea_5fgpgsa_5ffix_5f2d_9',['MINMEA_GPGSA_FIX_2D',['../minmea_8h.html#a8d6fd43c9749a78386d465a4af33fb27a8f8eed55c2dba251876d609f6dfb60be',1,'minmea.h']]],
+  ['minmea_5fgpgsa_5ffix_5f3d_10',['MINMEA_GPGSA_FIX_3D',['../minmea_8h.html#a8d6fd43c9749a78386d465a4af33fb27aaf32e76201b0dc19335cf2d9fb085e01',1,'minmea.h']]],
+  ['minmea_5fgpgsa_5ffix_5fnone_11',['MINMEA_GPGSA_FIX_NONE',['../minmea_8h.html#a8d6fd43c9749a78386d465a4af33fb27a64ab2c955b3ecbf211a32ac9130bb018',1,'minmea.h']]],
+  ['minmea_5fgpgsa_5fmode_5fauto_12',['MINMEA_GPGSA_MODE_AUTO',['../minmea_8h.html#ae80a25dfe814d10a91c7955107eec34aa7b08279351d6c073dcf99850316c58e4',1,'minmea.h']]],
+  ['minmea_5fgpgsa_5fmode_5fforced_13',['MINMEA_GPGSA_MODE_FORCED',['../minmea_8h.html#ae80a25dfe814d10a91c7955107eec34aa3d25634fda3f2c293243568ef8b097f4',1,'minmea.h']]],
+  ['minmea_5finvalid_14',['MINMEA_INVALID',['../minmea_8h.html#ac97694ad00f8bc631580b30e2a086f6eaa53faa0664a01c663917c7d3fb4ff2c5',1,'minmea.h']]],
+  ['minmea_5fsentence_5fgbs_15',['MINMEA_SENTENCE_GBS',['../minmea_8h.html#ac97694ad00f8bc631580b30e2a086f6ea50ba02fe170563b1bc16db408d725ddc',1,'minmea.h']]],
+  ['minmea_5fsentence_5fgga_16',['MINMEA_SENTENCE_GGA',['../minmea_8h.html#ac97694ad00f8bc631580b30e2a086f6ea32eddad5f55b05e5d6f547a659fa0885',1,'minmea.h']]],
+  ['minmea_5fsentence_5fgll_17',['MINMEA_SENTENCE_GLL',['../minmea_8h.html#ac97694ad00f8bc631580b30e2a086f6ea3311231909785058c5a84f282687ac34',1,'minmea.h']]],
+  ['minmea_5fsentence_5fgsa_18',['MINMEA_SENTENCE_GSA',['../minmea_8h.html#ac97694ad00f8bc631580b30e2a086f6eaba3e3da8723075b4344b85abf07a96fc',1,'minmea.h']]],
+  ['minmea_5fsentence_5fgst_19',['MINMEA_SENTENCE_GST',['../minmea_8h.html#ac97694ad00f8bc631580b30e2a086f6ea3362adc3cd646d5ce64cc976c2ad8841',1,'minmea.h']]],
+  ['minmea_5fsentence_5fgsv_20',['MINMEA_SENTENCE_GSV',['../minmea_8h.html#ac97694ad00f8bc631580b30e2a086f6ea2a903f80b4e6cba83ed26fd4ea756e6d',1,'minmea.h']]],
+  ['minmea_5fsentence_5frmc_21',['MINMEA_SENTENCE_RMC',['../minmea_8h.html#ac97694ad00f8bc631580b30e2a086f6eade039ed395cc28cbd75ba848c4be3b1b',1,'minmea.h']]],
+  ['minmea_5fsentence_5fvtg_22',['MINMEA_SENTENCE_VTG',['../minmea_8h.html#ac97694ad00f8bc631580b30e2a086f6eaf84bf37c1c96f0b7236a97a46a91b32d',1,'minmea.h']]],
+  ['minmea_5fsentence_5fzda_23',['MINMEA_SENTENCE_ZDA',['../minmea_8h.html#ac97694ad00f8bc631580b30e2a086f6eaa6553e613abf599bff8f8658f17880db',1,'minmea.h']]],
+  ['minmea_5funknown_24',['MINMEA_UNKNOWN',['../minmea_8h.html#ac97694ad00f8bc631580b30e2a086f6ea31fae9a47ad8b14f89b65c4647870be2',1,'minmea.h']]]
+];

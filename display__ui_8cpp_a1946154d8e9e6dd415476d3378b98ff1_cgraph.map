@@ -1,0 +1,7 @@
+<map id="drawHomeScreen" name="drawHomeScreen">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,143,56"/>
+<area shape="rect" id="Node000002" href="$display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" title=" " alt="" coords="251,5,321,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="142,33,237,21,238,26,143,38"/>
+<area shape="rect" id="Node000003" href="$weather_8cpp.html#a8e2b5c9b7658529d8dae9d6ea9d56de7" title=" " alt="" coords="191,55,381,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="143,48,177,52,176,58,142,54"/>
+</map>

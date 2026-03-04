@@ -1,0 +1,11 @@
+<map id="minmea_sentence_id" name="minmea_sentence_id">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,167,56"/>
+<area shape="rect" id="Node000002" href="$minmea_8c.html#a47a3de8df9224ba2db8278ffc570b157" title=" " alt="" coords="215,5,336,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,30,201,25,201,31,167,35"/>
+<area shape="rect" id="Node000004" href="$minmea_8c.html#a15e9012d03411f7471ca65649f206cc0" title=" " alt="" coords="219,55,332,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="167,51,205,56,204,61,167,56"/>
+<area shape="rect" id="Node000003" href="$minmea_8c.html#abcaa65247952824272d6e0b91d66cf8b" title=" " alt="" coords="410,5,481,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="336,15,396,15,396,21,336,21"/>
+<area shape="rect" id="Node000005" href="$minmea_8h.html#acd31fbf84ad0c2e5dac349ca993248be" title=" " alt="" coords="384,55,507,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="332,65,370,65,370,70,332,70"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="drawGPSScreen" name="drawGPSScreen">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,129,56"/>
+<area shape="rect" id="Node000002" href="$display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" title=" " alt="" coords="209,5,278,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,32,195,22,196,27,130,37"/>
+<area shape="rect" id="Node000003" href="$minmea_8h.html#a82cdc79749798023b4a1952faf84f1ca" title=" " alt="" coords="177,55,309,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="130,49,164,54,164,59,129,54"/>
+</map>

@@ -1,0 +1,21 @@
+<map id="src/minmea/minmea.c" name="src/minmea/minmea.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="303,5,471,31"/>
+<area shape="rect" id="Node000002" href="$minmea_8h.html" title=" " alt="" coords="193,79,281,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="364,33,275,75,273,70,362,28"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="305,79,376,104"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="382,32,358,69,354,66,377,30"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="400,79,471,104"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="397,30,422,66,418,69,393,33"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="495,79,570,104"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="412,28,498,70,496,75,410,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,152,76,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="206,107,86,150,85,145,204,102"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="100,152,171,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="222,106,165,146,162,142,219,102"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="195,152,278,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="239,104,239,138,234,138,234,104"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="302,152,366,177"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="254,102,308,141,305,146,251,106"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="391,152,459,177"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="268,102,382,144,380,149,266,107"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="updateDisplayTimeout" name="updateDisplayTimeout">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,176,56"/>
+<area shape="rect" id="Node000002" href="$display__ui_8cpp.html#a1946154d8e9e6dd415476d3378b98ff1" title=" " alt="" coords="224,31,361,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,41,210,41,210,46,177,46"/>
+<area shape="rect" id="Node000003" href="$display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" title=" " alt="" coords="470,5,539,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="361,33,456,21,456,26,362,38"/>
+<area shape="rect" id="Node000004" href="$weather_8cpp.html#a8e2b5c9b7658529d8dae9d6ea9d56de7" title=" " alt="" coords="409,55,600,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="362,48,396,52,395,58,361,54"/>
+</map>

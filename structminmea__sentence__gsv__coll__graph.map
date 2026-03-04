@@ -1,0 +1,7 @@
+<map id="minmea_sentence_gsv" name="minmea_sentence_gsv">
+<area shape="rect" id="Node000001" title=" " alt="" coords="49,93,221,119"/>
+<area shape="rect" id="Node000002" href="$unionminmea__type.html" title=" " alt="" coords="5,5,117,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="82,39,126,91,122,95,78,43"/>
+<area shape="rect" id="Node000003" href="$structminmea__sat__info.html" title=" " alt="" coords="142,5,277,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="192,43,147,95,143,91,188,39"/>
+</map>
