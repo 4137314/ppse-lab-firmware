@@ -141,7 +141,7 @@ void loop(){ // CORE 0 main
   //GPSScreen_Tick();
   //GPS_sendToPC_periodic();
   struct parsed_nmea pkt;
-  bool hashUpdat = false;
+  bool hashUpdate = false;
   while (queue_try_remove(&Qdata, &pkt)) {
     gpsData = pkt;      // tengo l’ultimo
     updated = true;
