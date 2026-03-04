@@ -27,7 +27,7 @@ jobs:
       - name: Compile Academic Report
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: report/main.tex
+          root_file: main.tex
           working_directory: report
           args: "-pdf -file-line-error -halt-on-error -interaction=nonstopmode"
 
