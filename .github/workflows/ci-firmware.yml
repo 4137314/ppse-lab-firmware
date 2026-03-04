@@ -1,7 +1,7 @@
 name: Firmware Build Check
 
 on:
-  # Attiva la build su ogni push in QUALSIASI branch
+  # Attiva la build su ogni push in QUALSIASI branch (massima visibilità per il team)
   push:
     branches:
       - '**'
@@ -23,15 +23,22 @@ jobs:
       with:
         python-version: '3.x'
 
-    # --- SUB-ISSUE 3: CACHE ---
+    # --- ISSUE: CACHE DELLE DIPENDENZE PLATFORMIO (OTTIMIZZATA) ---
+    # Memorizza compilatori, framework e librerie per abbattere i tempi di build
     - name: Cache PlatformIO
       uses: actions/cache@v4
       with:
         path: |
           ~/.cache/pip
           ~/.platformio/.cache
-          .pio
+          ~/.platformio/packages
+          ~/.platformio/platforms
+          .pio/libdeps
+        # La chiave cambia solo se modifichi il file di configurazione platformio.ini
         key: ${{ runner.os }}-pio-${{ hashFiles('**/platformio.ini') }}
+        # Se la chiave non coincide, recupera comunque l'ultima cache disponibile
+        restore-keys: |
+          ${{ runner.os }}-pio-
 
     - name: Install PlatformIO
       run: |
@@ -39,5 +46,6 @@ jobs:
         pip install -U platformio
 
     # --- SUB-ISSUE 1: REFACTORING BUILD ---
+    # Utilizza l'astrazione del Makefile per garantire coerenza tra locale e CI
     - name: Run Build via Makefile
       run: make build
