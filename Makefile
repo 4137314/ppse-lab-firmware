@@ -53,6 +53,13 @@ run-debug:
 fs:
 	$(PIO) run --target uploadfs
 
+# --- ANALISI STATICA (Issue #29) ---
+# Esegue cppcheck sulla cartella sorgente
+lint:
+	@echo "--- ESECUZIONE ANALISI STATICA (cppcheck) ---"
+	cppcheck --enable=all --suppress=missingIncludeSystem --error-exitcode=1 src/
+	@echo "---------------------------------------------"
+
 # Pulizia completa dei file temporanei e della cache
 clean:
 	$(PIO) run --target clean
