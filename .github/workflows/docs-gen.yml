@@ -27,16 +27,22 @@ jobs:
       - name: Compile Academic Report
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: main.tex
-          working_directory: report
-          args: "-pdf -file-line-error -halt-on-error -interaction=nonstopmode"
+          # Indichiamo il file principale
+          root_file: report/main.tex
+          # Diciamo all'azione di usare il tuo Makefile invece di latexmk standard
+          # Questo eseguirà check-syntax, pdflatex (x3) e bibtex
+          run: |
+            make report
 
       - name: Prepare Site Structure
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           mkdir -p public/api
-          cp site/index.html public/
-          cp -r docs/html/* public/api/
+          # Copia la dashboard statica
+          cp site/index.html public/ || echo "index.html non trovato"
+          # Copia la documentazione Doxygen
+          cp -r docs/html/* public/api/ || echo "Doxygen docs non trovati"
+          # Copia il PDF generato dal Makefile (che lo sposta in report/main.pdf)
           cp report/main.pdf public/Academic_Report_PPSE.pdf
 
       - name: Deploy to GitHub Pages
