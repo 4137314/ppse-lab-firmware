@@ -72,7 +72,7 @@ L'adozione degli \textbf{interrupt hardware (IRQ)} sposta la gestione dell'event
 
 
 \paragraph{Architettura degli Interrupt sull'RP2040}
-L'efficienza di questa implementazione è legata alla specifica architettura del SoC RP2040. Come documentato nel datasheet \cite[\href{https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf#page=240}{Sez. 2.19.3}]{rp2040_ds}, il sistema non assegna un vettore di interrupt dedicato ad ogni singolo pin, ma aggrega le richieste tramite una logica \textbf{OR-wired} per ogni banco di memoria GPIO. 
+L'efficienza di questa implementazione è legata alla specifica architettura del SoC RP2040. Come documentato nel datasheet \cite[\href{https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf\#page=240}{Sez. 2.19.3}]{rp2040_ds}, il sistema non assegna un vettore di interrupt dedicato ad ogni singolo pin, ma aggrega le richieste tramite una logica \textbf{OR-wired} per ogni banco di memoria GPIO. 
 
 Dato che tutti i pulsanti del dispositivo afferiscono allo stesso banco, la logica di gestione è stata strutturata in due fasi logiche:
 \begin{enumerate}

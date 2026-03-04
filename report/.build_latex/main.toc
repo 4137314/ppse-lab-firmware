@@ -1,0 +1,43 @@
+\babel@toc {italian}{}\relax 
+\babel@toc {italian}{}\relax 
+\contentsline {section}{\numberline {1}Introduzione}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Contesto e Scenario Applicativo}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Motivazioni Progettuali}{2}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Obiettivi del Lavoro}{2}{subsection.1.3}%
+\contentsline {section}{\numberline {2}Architettura di Sistema}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Analisi dei Livelli Architetturali}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Integrazione e Flusso Dati}{4}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Sottosistema Hardware}{5}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Implementazione Fisica e Tecniche di Assemblaggio SMT}{5}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Alimentazione e Power Integrity}{5}{subsection.3.2}%
+\contentsline {paragraph}{Regolatore Buck: TPS563201}{6}{subsection.3.2}%
+\contentsline {paragraph}{Dual-Stage Regulation: Buck + LDO}{6}{subsection.3.2}%
+\contentsline {paragraph}{Integrità del segnale GNSS}{6}{subsection.3.2}%
+\contentsline {paragraph}{Rete di Disaccoppiamento e MLCC}{6}{subsection.3.2}%
+\contentsline {paragraph}{Ground Plane e Stabilità del Bus}{6}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Il SoC Raspberry Pi RP2040}{6}{subsection.3.3}%
+\contentsline {paragraph}{Architettura degli Interrupt sull'RP2040}{7}{subsection.3.3}%
+\contentsline {paragraph}{Condizionamento e Pull-up}{7}{Item.5}%
+\contentsline {section}{\numberline {4}Sottosistema Firmware}{8}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Strumenti di Sviluppo}{8}{subsection.4.1}%
+\contentsline {paragraph}{Configurazione del progetto: platformio.ini}{8}{subsection.4.1}%
+\contentsline {paragraph}{Workflow da terminale}{8}{subsection.4.1}%
+\contentsline {paragraph}{Analisi dello Stack Software e Dipendenze}{8}{subsection.4.1}%
+\contentsline {paragraph}{Parsing GNSS: minmea}{9}{subsection.4.1}%
+\contentsline {paragraph}{Interfaccia Visuale: SSD1306 e Adafruit GFX}{9}{subsection.4.1}%
+\contentsline {paragraph}{Feedback Cromatico: FastLED e Offloading PIO}{9}{subsection.4.1}%
+\contentsline {paragraph}{Filesystem: LittleFS}{9}{subsection.4.1}%
+\contentsline {paragraph}{Sincronizzazione e Protocollo WS2812B}{10}{subsection.4.1}%
+\contentsline {paragraph}{Gestione dei Conflitti di Interrupt}{10}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Periferiche e Persistenza}{10}{subsection.4.2}%
+\contentsline {section}{\numberline {5}Conclusioni e Sviluppi Futuri}{12}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Analisi dei Risultati e Validazione Tecnica}{12}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Riflessioni sul Design Ibrido}{12}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Sviluppi Futuri e Scalabilità}{12}{subsection.5.3}%
+\contentsline {section}{\numberline {A}Documentazione del Codice Sorgente}{14}{appendix.Alph1}%
+\contentsline {subsection}{\numberline {A.1}Struttura del Repository}{14}{subsection.Alph1.1}%
+\contentsline {subsection}{\numberline {A.2}Configurazione e Riproducibilità dell'Ambiente}{14}{subsection.Alph1.2}%
+\contentsline {subsection}{\numberline {A.3}Implementazione dei Moduli Hardware}{16}{subsection.Alph1.3}%
+\contentsline {paragraph}{Implementazione della logica interrupt}{16}{subsection.Alph1.3}%
+\contentsline {section}{\numberline {B}Progetto Hardware e Documentazione Tecnica}{20}{appendix.Alph2}%
+\contentsline {subsection}{\numberline {B.1}Schemi Elettrici}{20}{subsection.Alph2.1}%
