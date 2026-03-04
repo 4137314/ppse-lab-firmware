@@ -19,8 +19,24 @@ jobs:
       with:
         python-version: '3.x'
 
-    - name: Install PlatformIO
-      run: pip install -U platformio
+    # --- SUB-ISSUE 3: CACHE ---
+    # Velocizza le build successive ricordando le librerie scaricate
+    - name: Cache PlatformIO
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cache/pip
+          ~/.platformio/.cache
+          .pio
+        key: ${{ runner.os }}-pio-${{ hashFiles('**/platformio.ini') }}
 
-    - name: Run PlatformIO Build
-      run: pio run
+    - name: Install PlatformIO
+      run: |
+        python -m pip install --upgrade pip
+        pip install -U platformio
+
+    # --- SUB-ISSUE 1: REFACTORING BUILD ---
+    # Qui usiamo l'astrazione del Makefile. 
+    # Vantaggio: se cambi i flag nel Makefile, la CI si aggiorna da sola.
+    - name: Run Build via Makefile
+      run: make build
