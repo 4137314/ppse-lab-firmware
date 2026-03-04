@@ -1,0 +1,46 @@
+% config/listings.tex
+
+% --- Palette Pastello "Cyber-Nerd" ---
+\definecolor{nerd_bg}{RGB}{245, 245, 250}      % Sfondo grigio-azzurrino chiarissimo
+\definecolor{nerd_keyword}{RGB}{135, 95, 215}  % Viola pastello (Keyword)
+\definecolor{nerd_comment}{RGB}{120, 150, 120} % Verde salvia (Commenti)
+\definecolor{nerd_string}{RGB}{215, 95, 135}   % Rosa/Rosso pastello (Stringhe)
+\definecolor{nerd_num}{RGB}{95, 135, 175}      % Blu avio (Numeri e Costanti)
+\definecolor{nerd_frame}{RGB}{200, 210, 230}   % Bordo pastello
+\definecolor{nerd_line}{RGB}{150, 160, 190}    % Linea numeri di riga
+
+\usepackage{inconsolata} % Il font "Nerd" per eccellenza
+
+\lstset{
+    language=C++,
+    backgroundcolor={},   
+    % --- Tipografia Mega Nerd ---
+    basicstyle=\fontfamily{zi4}\selectfont\footnotesize\linespread{1.05},
+    commentstyle=\color{nerd_comment}\itshape,
+    keywordstyle=\color{nerd_keyword}\bfseries,
+    numberstyle=\tiny\color{nerd_line},
+    stringstyle=\color{nerd_string},
+    identifierstyle=\color{black!80},
+    % --- Struttura ---
+    numbers=none,                    
+    numbersep=12pt,                  
+    xleftmargin=30pt,                
+    framexleftmargin=5pt,
+    tabsize=2,
+    breaklines=true,
+    breakatwhitespace=false,
+    % --- Estetica Pastello ---
+    frame=single, 
+    framerule=1pt,
+    rulecolor=\color{nerd_frame},
+    captionpos=b,
+    abovecaptionskip=12pt,
+    % --- Legature "Nerd" simulate ---
+    literate={->}{{$\rightarrow$}}2 {>=}{{$\ge$}}2 {<=}{{$\le$}}2 {==}{{$==$}}2 {!=}{{$\neq$}}2,
+    % --- Keywords Speciali (Highlight personalizzato) ---
+    emph={setup, loop, PIN_LED, Serial, LittleFS, GNSS, uint16_t, uint32_t},
+    emphstyle=\color{nerd_num}\bfseries
+}
+
+% Macro per il testo "Nerd" nel corpo della relazione
+\newcommand{\nt}[1]{\texttt{\color{nerd_keyword}#1}}
