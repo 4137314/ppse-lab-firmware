@@ -27,23 +27,39 @@ jobs:
       - name: Compile Academic Report
         uses: xu-cheng/latex-action@v3
         with:
-          # Il file principale rispetto alla root del repo
-          root_file: report/main.tex
-          # Cruciale: installiamo 'make' nell'ambiente LaTeX
-          extra_system_packages: "make"
-          # Eseguiamo il TUO Makefile. 
-          # Questo risolve i problemi di bibliografia (&) e i percorsi.
-          run: |
-            make report
+          # Il file principale (relativo alla working_directory)
+          root_file: main.tex
+          # Entriamo nella cartella report per risolvere i percorsi relativi
+          working_directory: report
+          # Forza l'azione a operare dentro la cartella del file root
+          work_in_root_file_dir: true
+          # Parametri per la compilazione completa (PDF + BibTeX automatico)
+          args: "-pdf -file-line-error -halt-on-error -interaction=nonstopmode"
 
       - name: Prepare Site Structure
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
+          # Crea la struttura per le GitHub Pages
           mkdir -p public/api
-          # Copia dashboard, docs API e il PDF finale generato dal Makefile
-          cp site/index.html public/ || echo "index.html non trovato"
-          cp -r docs/html/* public/api/ || echo "Doxygen docs non trovati"
-          cp report/main.pdf public/Academic_Report_PPSE.pdf
+          
+          # Copia la dashboard se esiste
+          cp site/index.html public/ || echo "Dashboard non trovata, salto."
+          
+          # Copia i documenti Doxygen (HTML)
+          if [ -d "docs/html" ]; then
+            cp -r docs/html/* public/api/
+          else
+            echo "Doxygen docs non trovati!"
+          fi
+          
+          # Copia il Report Accademico PDF generato
+          # L'azione lo lascia in report/main.pdf
+          if [ -f "report/main.pdf" ]; then
+            cp report/main.pdf public/Academic_Report_PPSE.pdf
+          else
+            echo "ERRORE: PDF del report non trovato!"
+            exit 1
+          fi
 
       - name: Deploy to GitHub Pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
