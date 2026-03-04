@@ -11,7 +11,11 @@ docs/latex/
 doxygen_sqlite3.db
 
 # --- LATEX (Report Accademico) ---
+# Ignora la cartella di build e il PDF finale
+report/.build_latex/
 report/*.pdf
+
+# File ausiliari di LaTeX
 report/*.aux
 report/*.log
 report/*.toc
@@ -21,13 +25,20 @@ report/*.blg
 report/*.bcf
 report/*.run.xml
 report/*.synctex.gz
+report/*.fdb_latexmk
+report/*.fls
 
 # --- BUILD ARTIFACTS ---
+# Cartella usata dalla pipeline per il deploy
 public/
 dist/
 
 # --- OS ---
 .DS_Store
 
-# --- Git WorkFLow in Locale ---
+# --- Git Workflow & Binari locali ---
+# Blocca la cartella dei binari ovunque sia
 bin/
+*.bin
+*.elf
+*.hex
