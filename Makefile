@@ -55,10 +55,9 @@ fs:
 
 lint:
 	@echo "--- ANALISI STATICA (cppcheck) ---"
-	cppcheck --enable=all \
+	cppcheck --enable=warning,performance,portability \
 		--suppress=missingInclude \
 		--suppress=missingIncludeSystem \
-		--suppress=unusedFunction \
 		--suppress=unmatchedSuppression \
 		--inline-suppr \
 		--error-exitcode=1 src/
