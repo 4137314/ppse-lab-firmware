@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPSE Lab - Project Dashboard</title>
+    <style>
+        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 850px; margin: 40px auto; padding: 0 20px; color: #24292e; background-color: #f6f8fa; }
+        .header { text-align: center; margin-bottom: 40px; border-bottom: 1px solid #d1d5da; padding-bottom: 20px; }
+        .card { background: white; border: 1px solid #d1d5da; border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(27,31,35,0.12); transition: transform 0.2s; }
+        .card:hover { transform: translateY(-2px); }
+        h1 { color: #0366d6; margin-bottom: 5px; }
+        h2 { margin-top: 0; color: #1b1f23; }
+        .tag { font-size: 0.8em; background: #e1f5fe; color: #01579b; padding: 4px 8px; border-radius: 4px; font-weight: bold; }
+        .btn { display: inline-block; background-color: #2ea44f; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 600; margin-top: 15px; }
+        .btn-api { background-color: #0366d6; }
+        .footer { text-align: center; font-size: 0.85em; color: #586069; margin-top: 50px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📊 PPSE Lab Firmware Dashboard</h1>
+        <p>Repository: <code>4137314/ppse-lab-firmware</code></p>
+    </div>
+    
+    <div class="card">
+        <span class="tag">DOCUMENTAZIONE UFFICIALE</span>
+        <h2>🎓 Report Accademico (LaTeX)</h2>
+        <p>Relazione tecnica completa del progetto. Contiene le scelte architetturali, la descrizione dell'hardware e l'analisi dei risultati sperimentali.</p>
+        <a href="Academic_Report_PPSE.pdf" class="btn">Scarica il Report (PDF)</a>
+    </div>
+
+    <div class="card">
+        <span class="tag">CODICE SORGENTE</span>
+        <h2>💻 Documentazione API (Doxygen)</h2>
+        <p>Documentazione generata automaticamente dal codice C++. Include gerarchia delle classi, grafici delle chiamate e specifiche dei driver firmware.</p>
+        <a href="api/index.html" class="btn btn-api">Esplora API Online</a>
+    </div>
+
+    <div class="footer">
+        Progetto sviluppato per il corso di Progettazione di Sistemi Embedded<br>
+        <strong>Università degli Studi di Trento</strong> • 2026
+    </div>
+</body>
+</html>
