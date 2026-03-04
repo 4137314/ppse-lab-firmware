@@ -141,14 +141,14 @@ void loop(){ // CORE 0 main
   //GPSScreen_Tick();
   //GPS_sendToPC_periodic();
   struct parsed_nmea pkt;
-  bool updated = false;
+  bool hashUpdat = false;
   while (queue_try_remove(&Qdata, &pkt)) {
     gpsData = pkt;      // tengo l’ultimo
     updated = true;
   }
-  if (updated) gpsDirty = true;
+  if (hashUpdate) gpsDirty = true;
   static uint32_t lastPrint = 0;
-  if (updated && Serial && millis() - lastPrint >= 1000) {
+  if (hashUpdate && Serial && millis() - lastPrint >= 1000) {
     lastPrint = millis();
    // Serial.printf("core 0: received new GPS data from core 1\n");
    // Serial.printf("GPS: fix=%d q=%u sat=%u lat=%.6f lon=%.6f\n",
