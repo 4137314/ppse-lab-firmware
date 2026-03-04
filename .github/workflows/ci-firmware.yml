@@ -52,13 +52,12 @@ jobs:
     - name: Run Build via Makefile
       run: make build
 
-    # --- ARTIFACT UPLOAD ---
-    # github.ref_name estrae il nome del branch senza slash (es: 24-cicd)
-    # format(sha) prende i primi 7 caratteri per brevità
+        # --- ARTIFACT UPLOAD ---
     - name: Upload Firmware Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: firmware-${{ github.ref_name }}-${{ github.run_number }}
+        # Usiamo 'run_id' che è un numero puro, evitando ogni conflitto di nomi
+        name: firmware-build-id-${{ github.run_id }}
         path: |
           .pio/build/**/firmware.bin
           .pio/build/**/firmware.elf
