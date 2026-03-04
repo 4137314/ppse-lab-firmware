@@ -1,0 +1,36 @@
+name: "Docs-Gen: Generate & Deploy Documentation"
+
+on:
+  push:
+    branches:
+      - main  # Il sito si aggiorna solo quando unisci il codice al main
+
+permissions:
+  contents: write  # Necessario per permettere alla Action di scrivere sul branch gh-pages
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Doxygen and Graphviz
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz
+
+      - name: Generate Documentation
+        run: |
+          # Crea la cartella di output se non esiste
+          mkdir -p docs
+          # Esegue doxygen usando il file di configurazione Setup Doxygen Configuration #8
+          doxygen Doxyfile
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/html  # Assicurati che coincida con OUTPUT_DIRECTORY nel Doxyfile
+          commit_message: "docs: update documentation via GitHub Actions [skip ci]"
