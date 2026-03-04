@@ -3,3 +3,11 @@
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/ipch
+
+# --- DOXYGEN ---
+# Escludiamo i risultati della generazione locale
+docs/html/
+docs/latex/
+# Se preferisci escludere tutto ciò che sta dentro docs tranne il Doxyfile:
+# docs/*
+# !docs/Doxyfile
