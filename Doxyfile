@@ -1,0 +1,32 @@
+# --- Identità del Progetto ---
+PROJECT_NAME           = "ppse-firmware"
+PROJECT_NUMBER         = "v1.0.0"
+PROJECT_BRIEF          = "Integrated System on Raspberry Pi Pico (RP2040)"
+OUTPUT_DIRECTORY       = docs
+
+# --- Ingressi e Lingua ---
+# Assicurati di includere la tua cartella src/
+INPUT                  = README.md src
+RECURSIVE              = YES
+OPTIMIZE_OUTPUT_FOR_C  = YES  # Fondamentale per il firmware
+USE_MDFILE_AS_MAINPAGE = README.md
+
+# --- Estrazione e Analisi ---
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+
+# --- Grafica e Diagrammi (Richiede Graphviz installato) ---
+# Questi renderanno la documentazione "professionale"
+HAVE_DOT               = YES
+CALL_GRAPH             = YES  # Mostra chi chiama la funzione
+CALLER_GRAPH           = YES  # Mostra da chi è chiamata la funzione
+DIRECTORY_GRAPH        = YES
+GENERATE_LEGEND        = YES
+DOT_IMAGE_FORMAT       = svg
+INTERACTIVE_SVG        = YES
+
+# --- Formato Output ---
+GENERATE_HTML          = YES
+HTML_EXTRA_STYLESHEET  = # Lascia vuoto o usa un tema moderno
+GENERATE_LATEX         = YES  # Serve per il report PDF che volevi
