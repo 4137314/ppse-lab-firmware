@@ -1,10 +1,14 @@
 name: Firmware Build Check
 
 on:
-  pull_request:
-    branches: [ "main" ]
+  # Attiva la build su ogni push in QUALSIASI branch
   push:
-    branches: [ "main" ]
+    branches:
+      - '**'
+  # Attiva la build per ogni Pull Request verso il main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
@@ -20,7 +24,6 @@ jobs:
         python-version: '3.x'
 
     # --- SUB-ISSUE 3: CACHE ---
-    # Velocizza le build successive ricordando le librerie scaricate
     - name: Cache PlatformIO
       uses: actions/cache@v4
       with:
@@ -36,7 +39,5 @@ jobs:
         pip install -U platformio
 
     # --- SUB-ISSUE 1: REFACTORING BUILD ---
-    # Qui usiamo l'astrazione del Makefile. 
-    # Vantaggio: se cambi i flag nel Makefile, la CI si aggiorna da sola.
     - name: Run Build via Makefile
       run: make build
