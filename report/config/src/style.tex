@@ -50,10 +50,15 @@
 \renewcommand{\headrulewidth}{0.5pt}
 \renewcommand{\footrulewidth}{0.5pt}
 \addtolength{\headwidth}{0pt}
-% Colore per le linee di head/foot
+
+% Colore per le linee di head/foot (Versione corretta per GitHub Actions)
 \makeatletter
-\def\headrule{{\if@fan@odd\color{deepsky!20}\hrule\@width\headwidth\@height\headrulewidth\fi}}
-\def\footrule{{\if@fan@odd\color{deepsky!20}\hrule\@width\headwidth\@height\footrulewidth\fi}}
+\renewcommand{\headrule}{%
+    {\color{deepsky!20}\hrule\@width\headwidth\@height\headrulewidth}%
+}
+\renewcommand{\footrule}{%
+    {\color{deepsky!20}\hrule\@width\headwidth\@height\footrulewidth}%
+}
 \makeatother
 
 % --- 4. ELEMENTI TIPOGRAFICI GENERALI ---
