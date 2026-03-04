@@ -23,7 +23,7 @@ jobs:
       with:
         python-version: '3.x'
 
-    # --- ISSUE: CACHE DELLE DIPENDENZE PLATFORMIO ---
+    # --- CACHE DELLE DIPENDENZE PLATFORMIO ---
     - name: Cache PlatformIO
       uses: actions/cache@v4
       with:
@@ -44,8 +44,7 @@ jobs:
         pip install -U platformio
         sudo apt-get update && sudo apt-get install -y cppcheck
 
-    # --- ISSUE #29: VALIDAZIONE STATICA (LINTING) ---
-    # Fallisce se cppcheck trova errori critici (--error-exitcode=1 nel Makefile)
+    # --- VALIDAZIONE STATICA (LINTING) ---
     - name: Run Static Analysis (Lint)
       run: make lint
 
@@ -53,11 +52,13 @@ jobs:
     - name: Run Build via Makefile
       run: make build
 
-    # --- ISSUE #28: ARTIFACT UPLOAD ---
+    # --- ARTIFACT UPLOAD ---
+    # github.ref_name estrae il nome del branch senza slash (es: 24-cicd)
+    # format(sha) prende i primi 7 caratteri per brevità
     - name: Upload Firmware Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: firmware-${{ github.ref_name }}-${{ github.sha }}
+        name: firmware-${{ github.ref_name }}-${{ github.run_number }}
         path: |
           .pio/build/**/firmware.bin
           .pio/build/**/firmware.elf
