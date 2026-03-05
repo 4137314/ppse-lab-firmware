@@ -34,3 +34,8 @@ Tutte le informazioni dettagliate sono centralizzate nelle seguenti risorse este
 
 ### 🤝 Contributi e Sviluppo
 Se desideri contribuire o compilare il firmware localmente, consulta la sezione **Sviluppo** nella [Wiki del progetto](../../wiki). Per segnalazioni di bug, apri una **Issue** o una **Pull Request**.
+
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init()
+</script>
