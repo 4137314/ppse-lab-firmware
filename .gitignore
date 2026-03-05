@@ -42,3 +42,9 @@ bin/
 *.bin
 *.elf
 *.hex
+
+# Python & Database caches
+*.sqlite
+.cache/
+__pycache__/
+*.py[cod]
