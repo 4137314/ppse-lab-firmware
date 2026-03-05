@@ -1,3 +1,5 @@
+# mk/firmware.mk
+
 # --- RILEVAMENTO PIO ---
 PIO_CMD := $(shell command -v pio 2>/dev/null)
 ifeq ($(PIO_CMD),)
@@ -11,15 +13,14 @@ endif
 DEBUG ?= 0
 BEEP ?= 1
 
-# ATTENZIONE: Rimosso 'export'. Le flag vengono passate solo al momento del run.
-# Aggiungiamo -Dtimegm=mktime che serviva per la gestione del tempo.
+# Uniamo le flag: teniamo il tuo -std=gnu++17 che è vitale per le nuove librerie
 FLAGS = -Os -Dtimegm=mktime -DDEBUG=$(DEBUG) -DBUZZER_INIT_BEEP=$(BEEP) -std=gnu++17
 
 .PHONY: build debug run-silent fs lint clean-firmware clean-all
 
 build:
 	@echo "--- BUILD FIRMWARE (DEBUG=$(DEBUG) BEEP=$(BEEP)) ---"
-	# Passiamo le flags come variabile d'ambiente temporanea per questo comando
+	# Usiamo il tuo metodo: passiamo le flags come variabile temporanea per pulizia
 	PLATFORMIO_BUILD_FLAGS="$(FLAGS)" $(PIO) run
 
 debug: 
@@ -46,7 +47,7 @@ lint:
 clean-firmware:
 	$(PIO) run --target clean
 
-# Se FastLED rompe ancora, questo resetta le librerie scaricate male
+# Teniamo il tuo comando clean-all per resettare le librerie se FastLED dà problemi
 clean-all:
 	$(PIO) run --target clean
 	rm -rf .pio
