@@ -1,0 +1,27 @@
+var display__ui_8cpp =
+[
+    [ "dayHasForecast", "display__ui_8cpp.html#a640ebbdef8018c8e91e8661db6c9bb36", null ],
+    [ "display", "display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b", null ],
+    [ "displayInit", "display__ui_8cpp.html#ad84e2073edf05b4e109ecaecca07a99d", null ],
+    [ "drawGPSScreen", "display__ui_8cpp.html#ab67f2470dd94c5b293ea60d38b9fae8e", null ],
+    [ "drawHomeScreen", "display__ui_8cpp.html#a1946154d8e9e6dd415476d3378b98ff1", null ],
+    [ "drawInfoScreen", "display__ui_8cpp.html#a863fa83c4f8c55f3d65de3d448e88467", null ],
+    [ "drawMenu", "display__ui_8cpp.html#a0cc779d48595c7be531222945c8a5f10", null ],
+    [ "drawMenu_evi", "display__ui_8cpp.html#a4720a85c38264632abe90b06cd0a878a", null ],
+    [ "drawMeteoScreen", "display__ui_8cpp.html#ae8a9d818fdd539d4b669b43222987fc7", null ],
+    [ "drawSelected", "display__ui_8cpp.html#ab52c20747552f9ca473a8074aa0df6f5", null ],
+    [ "drawSettingsScreen", "display__ui_8cpp.html#a14c5649f6c7cf2ce771664a9d9fb7490", null ],
+    [ "drawSystemScreen", "display__ui_8cpp.html#a373a756ed10c316c735042c6aa4807cc", null ],
+    [ "print2d", "display__ui_8cpp.html#a870af3825a3fc68ae1be66a8cea2b6ec", null ],
+    [ "setBrightness", "display__ui_8cpp.html#a092026f930f769c4ca0f38798212d2ee", null ],
+    [ "updateDisplayTimeout", "display__ui_8cpp.html#a326e6bbb9afdeb1b938398087d9408a5", null ],
+    [ "gpsData", "display__ui_8cpp.html#a5c6f156bb25fb0b8dc1c8ecffc44c880", null ],
+    [ "gpsDayIndex", "display__ui_8cpp.html#a72633eb7d635fdcd67c3ba83a0ff6210", null ],
+    [ "gpsDirty", "display__ui_8cpp.html#a10b5067a83bd080a4dde61dd9a3a84c0", null ],
+    [ "gpsHourIndex", "display__ui_8cpp.html#a66912dc5c284804679e383d79920fe10", null ],
+    [ "lastGpsUiMs", "display__ui_8cpp.html#a2f7032968434a0bb3785e42b29f6af22", null ],
+    [ "menuItems", "display__ui_8cpp.html#a477ea6363106d20b974ef84a74df01d3", null ],
+    [ "menuLength", "display__ui_8cpp.html#a3ca3840a7c8f0771b1dd707083572319", null ],
+    [ "ScreenStyle", "display__ui_8cpp.html#aabafd531a5b544c5a67cbbc4f06f1152", null ],
+    [ "settingsIndex", "display__ui_8cpp.html#a33596fc4fdfac44ff7f923b429be9146", null ]
+];

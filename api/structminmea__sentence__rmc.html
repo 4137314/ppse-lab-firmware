@@ -9,6 +9,10 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -47,6 +51,23 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('structminmea__sentence__rmc.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -68,7 +89,6 @@ $(function() {
 </div>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
@@ -81,7 +101,7 @@ $(function() {
 Collaboration diagram for minmea_sentence_rmc:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="structminmea__sentence__rmc__coll__graph.svg" width="534" height="183"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
@@ -104,7 +124,10 @@ Data Fields</h2></td></tr>
 <tr class="memitem:a1225021fab6aa6b0f0db807a4d787c52" id="r_a1225021fab6aa6b0f0db807a4d787c52"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structminmea__float.html">minmea_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structminmea__sentence__rmc.html#a1225021fab6aa6b0f0db807a4d787c52">variation</a></td></tr>
 <tr class="separator:a1225021fab6aa6b0f0db807a4d787c52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Field Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock">
+<p class="definition">Definition at line <a class="el" href="minmea_8h_source.html#l00084">84</a> of file <a class="el" href="minmea_8h_source.html">minmea.h</a>.</p>
+</div><h2 class="groupheader">Field Documentation</h2>
 <a id="adf96bf0ec3aaf7f61ff971525b759e46" name="adf96bf0ec3aaf7f61ff971525b759e46"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adf96bf0ec3aaf7f61ff971525b759e46">&#9670;&#160;</a></span>course</h2>
 
@@ -116,6 +139,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="minmea_8h_source.html#l00091">91</a> of file <a class="el" href="minmea_8h_source.html">minmea.h</a>.</p>
 
 </div>
 </div>
@@ -131,6 +156,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="minmea_8h_source.html#l00092">92</a> of file <a class="el" href="minmea_8h_source.html">minmea.h</a>.</p>
+
 </div>
 </div>
 <a id="a72d9f4f5591e8203130a3c713d8b1ea5" name="a72d9f4f5591e8203130a3c713d8b1ea5"></a>
@@ -144,6 +171,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="minmea_8h_source.html#l00088">88</a> of file <a class="el" href="minmea_8h_source.html">minmea.h</a>.</p>
 
 </div>
 </div>
@@ -159,6 +188,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="minmea_8h_source.html#l00089">89</a> of file <a class="el" href="minmea_8h_source.html">minmea.h</a>.</p>
+
 </div>
 </div>
 <a id="a5674b8d1ba4da61ffe2e9dad9b929330" name="a5674b8d1ba4da61ffe2e9dad9b929330"></a>
@@ -172,6 +203,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="minmea_8h_source.html#l00090">90</a> of file <a class="el" href="minmea_8h_source.html">minmea.h</a>.</p>
 
 </div>
 </div>
@@ -187,6 +220,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="minmea_8h_source.html#l00086">86</a> of file <a class="el" href="minmea_8h_source.html">minmea.h</a>.</p>
+
 </div>
 </div>
 <a id="aa2f087764c87fb1f257cb61a1644cc85" name="aa2f087764c87fb1f257cb61a1644cc85"></a>
@@ -200,6 +235,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="minmea_8h_source.html#l00085">85</a> of file <a class="el" href="minmea_8h_source.html">minmea.h</a>.</p>
 
 </div>
 </div>
@@ -215,6 +252,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="minmea_8h_source.html#l00087">87</a> of file <a class="el" href="minmea_8h_source.html">minmea.h</a>.</p>
+
 </div>
 </div>
 <a id="a1225021fab6aa6b0f0db807a4d787c52" name="a1225021fab6aa6b0f0db807a4d787c52"></a>
@@ -229,15 +268,21 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="minmea_8h_source.html#l00093">93</a> of file <a class="el" href="minmea_8h_source.html">minmea.h</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li>src/minmea/<a class="el" href="minmea_8h_source.html">minmea.h</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="structminmea__sentence__rmc.html">minmea_sentence_rmc</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
 </body>
 </html>

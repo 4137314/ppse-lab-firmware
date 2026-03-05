@@ -9,6 +9,10 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -47,6 +51,23 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('buttons_8cpp.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -68,11 +89,6 @@ $(function() {
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_eeb7fcc90d516a232deaaf4de23f9c95.html">Modules</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#enum-members">Enumerations</a> &#124;
@@ -94,7 +110,9 @@ Include dependency graph for buttons.cpp:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="buttons_8cpp__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
-</div><table class="memberdecls">
+</div>
+<p><a href="buttons_8cpp_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:afbb123f163deb2e4979c67b8e812604b" id="r_afbb123f163deb2e4979c67b8e812604b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buttons_8cpp.html#afbb123f163deb2e4979c67b8e812604b">Submenu</a> : uint8_t { <br />
@@ -175,6 +193,8 @@ Variables</h2></td></tr>
 <ul>
 <li>Questo modulo implementa la logica di navigazione tramite pulsanti GPIO, utilizzando interrupt (IRQ) e allarmi hardware per il debounce. Gestisce inoltre la logica di timeout del display e le combo di tasti. </li>
 </ul>
+
+<p class="definition">Definition in file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
 </div><h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="afbb123f163deb2e4979c67b8e812604b" name="afbb123f163deb2e4979c67b8e812604b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afbb123f163deb2e4979c67b8e812604b">&#9670;&#160;</a></span>Submenu</h2>
@@ -207,6 +227,8 @@ Variables</h2></td></tr>
 </td></tr>
 </table>
 
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00047">47</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
@@ -227,6 +249,8 @@ Variables</h2></td></tr>
 
 <p>Inizializza i pin dei pulsanti e configura gli interrupt. </p>
 <p>Inizializza i pin GPIO e configura gli interrupt per tutti i pulsanti. </p>
+
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00141">141</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -260,6 +284,8 @@ Here is the caller graph for this function:</div>
 <ul>
 <li>Gestisce la navigazione, l'attivazione dei sottomenu, le animazioni LED e il timeout per l'autospegnimento del menu (Ambient Display). </li>
 </ul>
+
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00166">166</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -301,6 +327,8 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>true se la combo è stata rilevata e gestita. </dd></dl>
 </li>
 </ul>
+
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00383">383</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -354,6 +382,8 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>long long 0 per indicare che l'allarme non deve ripetersi. </dd></dl>
 </li>
 </ul>
+
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00104">104</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -400,6 +430,8 @@ Here is the caller graph for this function:</div>
 </dl>
 </li>
 </ul>
+
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00067">67</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -430,6 +462,8 @@ Here is the caller graph for this function:</div>
 
 <p>Azione eseguita al rilevamento della combo LEFT+RIGHT. Esegue il toggle tra modalità Home (Ambient) e Menu. </p>
 <p>Gestisce l'azione combinata (pressione simultanea) di LEFT e RIGHT. Tipicamente utilizzata per il toggle tra Home e Menu. </p>
+
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00410">410</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -457,6 +491,8 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <p>Stato del display: true se in modalità risparmio/home. </p>
 
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00021">21</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
+
 </div>
 </div>
 <a id="acd7f8e3b50369ddc556dd33930c2806b" name="acd7f8e3b50369ddc556dd33930c2806b"></a>
@@ -471,6 +507,8 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 <p>Finestra temporale (ms) per rilevare una pressione simultanea. </p>
+
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00036">36</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
 
 </div>
 </div>
@@ -487,6 +525,8 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <p>Delay (ms) per il filtraggio del rimbalzo meccanico. </p>
 
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00039">39</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
+
 </div>
 </div>
 <a id="a11f94697b3263d4cbe4e2ad8e99364c7" name="a11f94697b3263d4cbe4e2ad8e99364c7"></a>
@@ -501,6 +541,8 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 <p>Timeout (ms) per il ritorno automatico alla Home. </p>
+
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00038">38</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
 
 </div>
 </div>
@@ -517,6 +559,8 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <p>Flag IRQ per pulsante DOWN. </p>
 
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00027">27</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
+
 </div>
 </div>
 <a id="ad048545f4e2df18a7031d8f2c91d4ef0" name="ad048545f4e2df18a7031d8f2c91d4ef0"></a>
@@ -532,6 +576,8 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <p>Flag di presenza all'interno di un sottomenu. </p>
 
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00020">20</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
+
 </div>
 </div>
 <a id="a0dc34359e4e7824dc1e0c2086ee5974c" name="a0dc34359e4e7824dc1e0c2086ee5974c"></a>
@@ -546,6 +592,8 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 <p>Timestamp dell'ultima interazione utente. </p>
+
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00037">37</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
 
 </div>
 </div>
@@ -564,6 +612,8 @@ Here is the caller graph for this function:</div>
 <p>Identificatore per l'animazione dei LED di navigazione. </p>
 <p>Identificativo LED per animazione navigazione. </p>
 
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00043">43</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
+
 </div>
 </div>
 <a id="a63946a1a3635cd7f6fae2e956409a985" name="a63946a1a3635cd7f6fae2e956409a985"></a>
@@ -578,6 +628,8 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 <p>Flag IRQ per pulsante LEFT. </p>
+
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00028">28</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
 
 </div>
 </div>
@@ -594,6 +646,8 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <p>Numero totale di voci nel menu principale. </p>
 
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00042">42</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
+
 </div>
 </div>
 <a id="a5f8e88cec6297972de98d6751a7d69be" name="a5f8e88cec6297972de98d6751a7d69be"></a>
@@ -608,6 +662,8 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 <p>Indice della voce di menu selezionata. </p>
+
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00018">18</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
 
 </div>
 </div>
@@ -624,6 +680,8 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <p>Stato di apertura del menu principale. </p>
 
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00019">19</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
+
 </div>
 </div>
 <a id="a973dc2a7f3f3d4d08b25023a8bc4664b" name="a973dc2a7f3f3d4d08b25023a8bc4664b"></a>
@@ -638,6 +696,8 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 <p>Flag IRQ per pulsante RIGHT. </p>
+
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00029">29</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
 
 </div>
 </div>
@@ -654,6 +714,8 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <p>Timestamp dell'ultima pressione sinistra per rilevamento combo. </p>
 
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00034">34</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
+
 </div>
 </div>
 <a id="afe106fdf64af4b4e440bdd17ef8b35e2" name="afe106fdf64af4b4e440bdd17ef8b35e2"></a>
@@ -668,6 +730,8 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 <p>Timestamp dell'ultima pressione destra per rilevamento combo. </p>
+
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00035">35</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
 
 </div>
 </div>
@@ -684,12 +748,18 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <p>Flag IRQ per pulsante UP. </p>
 
+<p class="definition">Definition at line <a class="el" href="buttons_8cpp_source.html#l00026">26</a> of file <a class="el" href="buttons_8cpp_source.html">buttons.cpp</a>.</p>
+
 </div>
 </div>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_eeb7fcc90d516a232deaaf4de23f9c95.html">Modules</a></li><li class="navelem"><a class="el" href="buttons_8cpp.html">buttons.cpp</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
 </body>
 </html>

@@ -11,7 +11,7 @@
 <g id="clust1" class="cluster">
 <title>clusterdir_68267d1309a1af8e8297ef4c3efbcdba</title>
 <g id="a_clust1"><a xlink:href="dir_68267d1309a1af8e8297ef4c3efbcdba.html" target="_top">
-<polygon fill="#edf0f7" stroke="#404040" stroke-width="2" points="8,-8 8,-153 82,-153 82,-8 8,-8"/>
+<polygon fill="#f0f1f4" stroke="#404040" stroke-width="2" points="8,-8 8,-153 82,-153 82,-8 8,-8"/>
 </a>
 </g>
 </g>
@@ -24,7 +24,7 @@
 <g id="node3" class="node">
 <title>dir_eeb7fcc90d516a232deaaf4de23f9c95</title>
 <g id="a_node3"><a xlink:href="dir_eeb7fcc90d516a232deaaf4de23f9c95.html" target="_top" xlink:title="Modules">
-<polygon fill="#a2b4d6" stroke="#404040" points="74,-90 16,-90 16,-71 74,-71 74,-90"/>
+<polygon fill="#b2b9c7" stroke="#404040" points="74,-90 16,-90 16,-71 74,-71 74,-90"/>
 <text text-anchor="middle" x="45" y="-78" font-family="Helvetica,sans-Serif" font-size="10.00">Modules</text>
 </a>
 </g>
@@ -46,7 +46,7 @@
 <g id="node2" class="node">
 <title>dir_e27f3aa9d2efa78f733a484c0ae23cea</title>
 <g id="a_node2"><a xlink:href="dir_e27f3aa9d2efa78f733a484c0ae23cea.html" target="_top" xlink:title="minmea">
-<polygon fill="#a2b4d6" stroke="#404040" points="73.5,-35 16.5,-35 16.5,-16 73.5,-16 73.5,-35"/>
+<polygon fill="#b2b9c7" stroke="#404040" points="73.5,-35 16.5,-35 16.5,-16 73.5,-16 73.5,-35"/>
 <text text-anchor="middle" x="45" y="-23" font-family="Helvetica,sans-Serif" font-size="10.00">minmea</text>
 </a>
 </g>

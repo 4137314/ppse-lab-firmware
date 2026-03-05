@@ -9,6 +9,10 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -48,6 +52,22 @@ $(function() {
 </script>
 <div id="main-nav"></div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('files.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -77,32 +97,35 @@ $(function() {
 <div class="levels">[detail level <span onclick="javascript:toggleLevel(1);">1</span><span onclick="javascript:toggleLevel(2);">2</span><span onclick="javascript:toggleLevel(3);">3</span>]</div><table class="directory">
 <tr id="row_0_" class="even"><td class="entry"><span style="width:0px;display:inline-block;">&#160;</span><span id="arr_0_" class="arrow" onclick="toggleFolder('0_')">&#9660;</span><span id="img_0_" class="iconfopen" onclick="toggleFolder('0_')">&#160;</span><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html" target="_self">src</a></td><td class="desc"></td></tr>
 <tr id="row_0_0_" class="odd"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><span id="arr_0_0_" class="arrow" onclick="toggleFolder('0_0_')">&#9660;</span><span id="img_0_0_" class="iconfopen" onclick="toggleFolder('0_0_')">&#160;</span><a class="el" href="dir_e27f3aa9d2efa78f733a484c0ae23cea.html" target="_self">minmea</a></td><td class="desc"></td></tr>
-<tr id="row_0_0_0_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="minmea_8c.html" target="_self">minmea.c</a></td><td class="desc"></td></tr>
+<tr id="row_0_0_0_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="minmea_8c_source.html"><span class="icondoc"></span></a><a class="el" href="minmea_8c.html" target="_self">minmea.c</a></td><td class="desc"></td></tr>
 <tr id="row_0_0_1_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="minmea_8h_source.html"><span class="icondoc"></span></a><a class="el" href="minmea_8h.html" target="_self">minmea.h</a></td><td class="desc"></td></tr>
 <tr id="row_0_1_" class="even"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><span id="arr_0_1_" class="arrow" onclick="toggleFolder('0_1_')">&#9660;</span><span id="img_0_1_" class="iconfopen" onclick="toggleFolder('0_1_')">&#160;</span><a class="el" href="dir_eeb7fcc90d516a232deaaf4de23f9c95.html" target="_self">Modules</a></td><td class="desc"></td></tr>
-<tr id="row_0_1_0_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="buttons_8cpp.html" target="_self">buttons.cpp</a></td><td class="desc">Gestione dell'input utente, sitema di debounce e macchina a stati del menu </td></tr>
+<tr id="row_0_1_0_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="buttons_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="buttons_8cpp.html" target="_self">buttons.cpp</a></td><td class="desc">Gestione dell'input utente, sitema di debounce e macchina a stati del menu </td></tr>
 <tr id="row_0_1_1_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="buttons_8h_source.html"><span class="icondoc"></span></a><a class="el" href="buttons_8h.html" target="_self">buttons.h</a></td><td class="desc">Definizioni e prototipi per la gestione degli input utente e della UI </td></tr>
-<tr id="row_0_1_2_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="buzzer_8cpp.html" target="_self">buzzer.cpp</a></td><td class="desc">Driver per la gestione del feedback acustico tramite buzzer piezoelettrico </td></tr>
+<tr id="row_0_1_2_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="buzzer_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="buzzer_8cpp.html" target="_self">buzzer.cpp</a></td><td class="desc">Driver per la gestione del feedback acustico tramite buzzer piezoelettrico </td></tr>
 <tr id="row_0_1_3_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="buzzer_8h_source.html"><span class="icondoc"></span></a><a class="el" href="buzzer_8h.html" target="_self">buzzer.h</a></td><td class="desc">Definizioni e prototipi per il controllo del feedback sonoro </td></tr>
-<tr id="row_0_1_4_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="display__ui_8cpp.html" target="_self">display_ui.cpp</a></td><td class="desc">Implementazione dell'interfaccia utente (UI) su display OLED SSD1306 </td></tr>
+<tr id="row_0_1_4_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="display__ui_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="display__ui_8cpp.html" target="_self">display_ui.cpp</a></td><td class="desc">Implementazione dell'interfaccia utente (UI) su display OLED SSD1306 </td></tr>
 <tr id="row_0_1_5_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="display__ui_8h_source.html"><span class="icondoc"></span></a><a class="el" href="display__ui_8h.html" target="_self">display_ui.h</a></td><td class="desc">Definizioni hardware e prototipi per l'interfaccia utente OLED </td></tr>
-<tr id="row_0_1_6_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="Filesystem_8cpp.html" target="_self">Filesystem.cpp</a></td><td class="desc">Gestione del File System FatFS e interfaccia USB Mass Storage </td></tr>
+<tr id="row_0_1_6_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="Filesystem_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="Filesystem_8cpp.html" target="_self">Filesystem.cpp</a></td><td class="desc">Gestione del File System FatFS e interfaccia USB Mass Storage </td></tr>
 <tr id="row_0_1_7_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="Filesystem_8h_source.html"><span class="icondoc"></span></a><a class="el" href="Filesystem_8h.html" target="_self">Filesystem.h</a></td><td class="desc">Interfaccia per la gestione del filesystem FatFS e l'integrazione USB Mass Storage </td></tr>
-<tr id="row_0_1_8_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="gps_8cpp.html" target="_self">gps.cpp</a></td><td class="desc">Implementazione del driver GPS e gestione della telemetria NMEA </td></tr>
+<tr id="row_0_1_8_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="gps_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="gps_8cpp.html" target="_self">gps.cpp</a></td><td class="desc">Implementazione del driver GPS e gestione della telemetria NMEA </td></tr>
 <tr id="row_0_1_9_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="gps_8h_source.html"><span class="icondoc"></span></a><a class="el" href="gps_8h.html" target="_self">gps.h</a></td><td class="desc">Definizioni, macro e strutture per la gestione della telemetria GPS </td></tr>
-<tr id="row_0_1_10_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="leds_8cpp.html" target="_self">leds.cpp</a></td><td class="desc">Implementazione dei feedback visivi tramite LED RGB </td></tr>
+<tr id="row_0_1_10_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="leds_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="leds_8cpp.html" target="_self">leds.cpp</a></td><td class="desc">Implementazione dei feedback visivi tramite LED RGB </td></tr>
 <tr id="row_0_1_11_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="leds_8h_source.html"><span class="icondoc"></span></a><a class="el" href="leds_8h.html" target="_self">leds.h</a></td><td class="desc">Definizioni hardware e prototipi per la gestione dei LED RGB </td></tr>
-<tr id="row_0_1_12_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="temp_8cpp.html" target="_self">temp.cpp</a></td><td class="desc">Implementazione della lettura della temperatura analogica </td></tr>
+<tr id="row_0_1_12_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="temp_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="temp_8cpp.html" target="_self">temp.cpp</a></td><td class="desc">Implementazione della lettura della temperatura analogica </td></tr>
 <tr id="row_0_1_13_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="temp_8h_source.html"><span class="icondoc"></span></a><a class="el" href="temp_8h.html" target="_self">temp.h</a></td><td class="desc">Definizioni hardware e prototipi per la lettura della temperatura </td></tr>
-<tr id="row_0_1_14_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="weather_8cpp.html" target="_self">weather.cpp</a></td><td class="desc">Implementazione della gestione dati Meteo e parsing protocollo WX </td></tr>
+<tr id="row_0_1_14_" class="odd"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="weather_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="weather_8cpp.html" target="_self">weather.cpp</a></td><td class="desc">Implementazione della gestione dati Meteo e parsing protocollo WX </td></tr>
 <tr id="row_0_1_15_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="weather_8h_source.html"><span class="icondoc"></span></a><a class="el" href="weather_8h.html" target="_self">weather.h</a></td><td class="desc">Definizioni della struttura dati e prototipi per il modulo Meteo </td></tr>
-<tr id="row_0_2_" class="odd"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="main_8cpp.html" target="_self">main.cpp</a></td><td class="desc">Orchestratore di sistema e gestione Multicore </td></tr>
+<tr id="row_0_2_" class="odd"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="main_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="main_8cpp.html" target="_self">main.cpp</a></td><td class="desc">Orchestratore di sistema e gestione Multicore </td></tr>
 </table>
 </div><!-- directory -->
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
 </body>
 </html>

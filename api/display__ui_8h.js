@@ -1,0 +1,27 @@
+var display__ui_8h =
+[
+    [ "DISPLAY_SCL_I2C_PIN", "display__ui_8h.html#a1dbcce5d954c9aa959211a18db753bda", null ],
+    [ "DISPLAY_SDA_I2C_PIN", "display__ui_8h.html#a30441c9d79411f6230da2a9df078a606", null ],
+    [ "OLED_RESET", "display__ui_8h.html#a619e07239fb3b9b14d40646ab41d5b4f", null ],
+    [ "SCREEN_ADDRESS", "display__ui_8h.html#a4dc358585abdaa9531e340bab60ae0b5", null ],
+    [ "SCREEN_HEIGHT", "display__ui_8h.html#a6974d08a74da681b3957b2fead2608b8", null ],
+    [ "SCREEN_WIDTH", "display__ui_8h.html#a2cd109632a6dcccaa80b43561b1ab700", null ],
+    [ "displayInit", "display__ui_8h.html#ad84e2073edf05b4e109ecaecca07a99d", null ],
+    [ "drawGPSScreen", "display__ui_8h.html#ab67f2470dd94c5b293ea60d38b9fae8e", null ],
+    [ "drawHomeScreen", "display__ui_8h.html#a1946154d8e9e6dd415476d3378b98ff1", null ],
+    [ "drawInfoScreen", "display__ui_8h.html#a863fa83c4f8c55f3d65de3d448e88467", null ],
+    [ "drawMenu", "display__ui_8h.html#a0cc779d48595c7be531222945c8a5f10", null ],
+    [ "drawMenu_evi", "display__ui_8h.html#a4720a85c38264632abe90b06cd0a878a", null ],
+    [ "drawMeteoScreen", "display__ui_8h.html#ae8a9d818fdd539d4b669b43222987fc7", null ],
+    [ "drawSelected", "display__ui_8h.html#ab52c20747552f9ca473a8074aa0df6f5", null ],
+    [ "drawSettingsScreen", "display__ui_8h.html#a14c5649f6c7cf2ce771664a9d9fb7490", null ],
+    [ "drawSystemScreen", "display__ui_8h.html#a373a756ed10c316c735042c6aa4807cc", null ],
+    [ "setBrightness", "display__ui_8h.html#a092026f930f769c4ca0f38798212d2ee", null ],
+    [ "updateDisplayTimeout", "display__ui_8h.html#a326e6bbb9afdeb1b938398087d9408a5", null ],
+    [ "gpsData", "display__ui_8h.html#a5c6f156bb25fb0b8dc1c8ecffc44c880", null ],
+    [ "gpsDayIndex", "display__ui_8h.html#a72633eb7d635fdcd67c3ba83a0ff6210", null ],
+    [ "gpsHourIndex", "display__ui_8h.html#a66912dc5c284804679e383d79920fe10", null ],
+    [ "menuItems", "display__ui_8h.html#a477ea6363106d20b974ef84a74df01d3", null ],
+    [ "menuLength", "display__ui_8h.html#a3ca3840a7c8f0771b1dd707083572319", null ],
+    [ "ScreenStyle", "display__ui_8h.html#aabafd531a5b544c5a67cbbc4f06f1152", null ]
+];

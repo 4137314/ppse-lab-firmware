@@ -9,6 +9,10 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -47,6 +51,23 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('structWeatherState.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -68,7 +89,6 @@ $(function() {
 </div>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
@@ -114,6 +134,8 @@ Data Fields</h2></td></tr>
 <ul>
 <li>Memorizza i dati correnti (temperatura, vento, umidità) e una matrice 7x24 per le previsioni orarie della settimana. Utilizza una maschera di bit per tracciare la ricezione completa dei dati dal server. </li>
 </ul>
+
+<p class="definition">Definition at line <a class="el" href="weather_8h_source.html#l00021">21</a> of file <a class="el" href="weather_8h_source.html">weather.h</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="a922da72669573ff5f3bd0c21a7705f8b" name="a922da72669573ff5f3bd0c21a7705f8b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a922da72669573ff5f3bd0c21a7705f8b">&#9670;&#160;</a></span>city</h2>
@@ -127,6 +149,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Nome della città (max 23 caratteri + null terminator). </p>
+
+<p class="definition">Definition at line <a class="el" href="weather_8h_source.html#l00024">24</a> of file <a class="el" href="weather_8h_source.html">weather.h</a>.</p>
 
 </div>
 </div>
@@ -143,6 +167,8 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>Percentuale di umidità attuale (0-100). </p>
 
+<p class="definition">Definition at line <a class="el" href="weather_8h_source.html#l00028">28</a> of file <a class="el" href="weather_8h_source.html">weather.h</a>.</p>
+
 </div>
 </div>
 <a id="a572806f6846b76d699de4208f353a62e" name="a572806f6846b76d699de4208f353a62e"></a>
@@ -157,6 +183,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Temperatura attuale in gradi Celsius. </p>
+
+<p class="definition">Definition at line <a class="el" href="weather_8h_source.html#l00026">26</a> of file <a class="el" href="weather_8h_source.html">weather.h</a>.</p>
 
 </div>
 </div>
@@ -173,6 +201,8 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>True se i dati meteo correnti sono stati popolati correttamente. </p>
 
+<p class="definition">Definition at line <a class="el" href="weather_8h_source.html#l00022">22</a> of file <a class="el" href="weather_8h_source.html">weather.h</a>.</p>
+
 </div>
 </div>
 <a id="af8d77e3b6c405263bb0bd0362d407a2d" name="af8d77e3b6c405263bb0bd0362d407a2d"></a>
@@ -187,6 +217,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Codice WMO delle condizioni meteo attuali. </p>
+
+<p class="definition">Definition at line <a class="el" href="weather_8h_source.html#l00029">29</a> of file <a class="el" href="weather_8h_source.html">weather.h</a>.</p>
 
 </div>
 </div>
@@ -203,6 +235,8 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>Velocità del vento attuale in km/h. </p>
 
+<p class="definition">Definition at line <a class="el" href="weather_8h_source.html#l00027">27</a> of file <a class="el" href="weather_8h_source.html">weather.h</a>.</p>
+
 </div>
 </div>
 <a id="a22b24b00e0a3150427dd16391ea491dd" name="a22b24b00e0a3150427dd16391ea491dd"></a>
@@ -217,6 +251,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>True se tutte le previsioni (7 giorni) sono state ricevute. </p>
+
+<p class="definition">Definition at line <a class="el" href="weather_8h_source.html#l00023">23</a> of file <a class="el" href="weather_8h_source.html">weather.h</a>.</p>
 
 </div>
 </div>
@@ -233,6 +269,8 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>Timestamp (millis) dell'ultimo aggiornamento ricevuto. </p>
 
+<p class="definition">Definition at line <a class="el" href="weather_8h_source.html#l00040">40</a> of file <a class="el" href="weather_8h_source.html">weather.h</a>.</p>
+
 </div>
 </div>
 <a id="a435077fe710ebe1847064dbe122d67de" name="a435077fe710ebe1847064dbe122d67de"></a>
@@ -247,6 +285,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Maschera bitwise: il bit i-esimo è 1 se il giorno i è stato ricevuto. </p>
+
+<p class="definition">Definition at line <a class="el" href="weather_8h_source.html#l00038">38</a> of file <a class="el" href="weather_8h_source.html">weather.h</a>.</p>
 
 </div>
 </div>
@@ -263,6 +303,8 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>Matrice delle temperature orarie previste. </p>
 
+<p class="definition">Definition at line <a class="el" href="weather_8h_source.html#l00033">33</a> of file <a class="el" href="weather_8h_source.html">weather.h</a>.</p>
+
 </div>
 </div>
 <a id="ab6483182b5e0ba9a148832b350771a31" name="ab6483182b5e0ba9a148832b350771a31"></a>
@@ -277,6 +319,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Matrice dei codici meteo orari previsti. </p>
+
+<p class="definition">Definition at line <a class="el" href="weather_8h_source.html#l00034">34</a> of file <a class="el" href="weather_8h_source.html">weather.h</a>.</p>
 
 </div>
 </div>
@@ -293,15 +337,21 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>Indice del giorno della settimana corrente (0=Lun, 6=Dom). </p>
 
+<p class="definition">Definition at line <a class="el" href="weather_8h_source.html#l00037">37</a> of file <a class="el" href="weather_8h_source.html">weather.h</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li>src/Modules/<a class="el" href="weather_8h_source.html">weather.h</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="structWeatherState.html">WeatherState</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
 </body>
 </html>

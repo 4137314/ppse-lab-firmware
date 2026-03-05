@@ -9,6 +9,10 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -47,6 +51,23 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('display__ui_8cpp.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -68,11 +89,6 @@ $(function() {
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_eeb7fcc90d516a232deaaf4de23f9c95.html">Modules</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#func-members">Functions</a> &#124;
@@ -91,7 +107,9 @@ Include dependency graph for display_ui.cpp:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="display__ui_8cpp__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
-</div><table class="memberdecls">
+</div>
+<p><a href="display__ui_8cpp_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ab460e1bb5537313cb79cfffa7e93c58b" id="r_ab460e1bb5537313cb79cfffa7e93c58b"><td class="memItemLeft" align="right" valign="top">Adafruit_SSD1306&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b">display</a> (<a class="el" href="display__ui_8h.html#a2cd109632a6dcccaa80b43561b1ab700">SCREEN_WIDTH</a>, <a class="el" href="display__ui_8h.html#a6974d08a74da681b3957b2fead2608b8">SCREEN_HEIGHT</a>, &amp;Wire, -1)</td></tr>
@@ -170,6 +188,8 @@ Variables</h2></td></tr>
 <ul>
 <li>Gestisce il rendering delle schermate Home, Menu, Meteo e GPS. Include la logica per il cambio di stile del menu (Simple vs Highlight) e il timeout del display. </li>
 </ul>
+
+<p class="definition">Definition in file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a640ebbdef8018c8e91e8661db6c9bb36" name="a640ebbdef8018c8e91e8661db6c9bb36"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a640ebbdef8018c8e91e8661db6c9bb36">&#9670;&#160;</a></span>dayHasForecast()</h2>
@@ -203,6 +223,8 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true Se i dati sono presenti nel bitmask. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00075">75</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -276,6 +298,8 @@ Here is the caller graph for this function:</div>
 <p>Inizializza l'hardware del display e il bus I2C. </p>
 <p>Inizializza il bus I2C e il controller SSD1306.</p>
 <dl class="section return"><dt>Returns</dt><dd>true Se l'inizializzazione ha successo, false altrimenti. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00044">44</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -309,6 +333,8 @@ Here is the caller graph for this function:</div>
 <ul>
 <li>Estrae e formatta le coordinate geografiche (Latitudine/Longitudine), la qualità del fix e le informazioni satellitari dalle sentenze NMEA GGA e RMC. Include un'indicazione per il salvataggio dei log su SD/Flash. </li>
 </ul>
+
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00293">293</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -339,6 +365,8 @@ Here is the caller graph for this function:</div>
 
 <p>Disegna la schermata principale (Ambient Display). Mostra i dati meteo correnti, l'ora e la data recuperate dal GPS. </p>
 <p>Renderizza la schermata Home con ora, data e meteo corrente. </p>
+
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00084">84</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -369,6 +397,8 @@ Here is the caller graph for this function:</div>
 
 <p>Renderizza la schermata Info. </p>
 <p>Renderizza la schermata crediti e informazioni. </p>
+
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00368">368</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -406,6 +436,8 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
+
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00131">131</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -443,6 +475,8 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
+
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00158">158</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -476,6 +510,8 @@ Here is the caller graph for this function:</div>
 <ul>
 <li>Visualizza la città, il giorno della settimana calcolato dinamicamente e le previsioni (forecast) per l'ora e il giorno selezionati tramite i pulsanti. Mostra inoltre le condizioni attuali (temperatura e umidità) recuperate dal server. </li>
 </ul>
+
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00220">220</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -513,6 +549,8 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
+
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00354">354</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -543,6 +581,8 @@ Here is the caller graph for this function:</div>
 
 <p>Disegna la schermata dei dati GPS in tempo reale. Mostra coordinate, qualità del fix e numero di satelliti. </p>
 <p>Renderizza la schermata di configurazione impostazioni. </p>
+
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00195">195</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -573,6 +613,8 @@ Here is the caller graph for this function:</div>
 
 <p>Renderizza la schermata System. </p>
 <p>Renderizza la schermata di stato del sistema. </p>
+
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00366">366</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -617,6 +659,8 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
+
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00065">65</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -649,6 +693,8 @@ Here is the call graph for this function:</div>
   </table>
   </dd>
 </dl>
+
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00391">391</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -677,6 +723,8 @@ Here is the call graph for this function:</div>
 <ul>
 <li>Se il menu è aperto o l'utente è in un sottomenu, verifica il tempo trascorso dall'ultima interazione. Superato il limite <a class="el" href="buttons_8cpp.html#a11f94697b3263d4cbe4e2ad8e99364c7">DISPLAY_TIMEOUT_MS</a>, riporta il sistema alla <a class="el" href="display__ui_8cpp.html#a1946154d8e9e6dd415476d3378b98ff1">drawHomeScreen</a>. </li>
 </ul>
+
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00376">376</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -709,6 +757,8 @@ Here is the call graph for this function:</div>
 <p>Struttura globale contenente gli ultimi dati GPS validi. </p>
 <p>Struttura globale contenente gli ultimi dati NMEA parsati. </p>
 
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00049">49</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+
 </div>
 </div>
 <a id="a72633eb7d635fdcd67c3ba83a0ff6210" name="a72633eb7d635fdcd67c3ba83a0ff6210"></a>
@@ -723,6 +773,8 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 <p>Indice del giorno selezionato per le previsioni meteo. </p>
+
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00018">18</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
 
 </div>
 </div>
@@ -748,6 +800,8 @@ Here is the call graph for this function:</div>
 <p>Flag che indica la presenza di nuovi dati GPS da processare.</p>
 <p>Flag: i dati GPS sono cambiati e richiedono redraw. </p>
 
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00065">65</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+
 </div>
 </div>
 <a id="a66912dc5c284804679e383d79920fe10" name="a66912dc5c284804679e383d79920fe10"></a>
@@ -762,6 +816,8 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 <p>Indice dell'ora selezionata per le previsioni meteo. </p>
+
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00019">19</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
 
 </div>
 </div>
@@ -785,6 +841,8 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 <p>Timestamp dell'ultimo aggiornamento della UI GPS. </p>
+
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00017">17</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
 
 </div>
 </div>
@@ -812,6 +870,8 @@ Here is the call graph for this function:</div>
 <li></li>
 </ul>
 
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00026">26</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
+
 </div>
 </div>
 <a id="a3ca3840a7c8f0771b1dd707083572319" name="a3ca3840a7c8f0771b1dd707083572319"></a>
@@ -829,6 +889,8 @@ Here is the call graph for this function:</div>
 <p>Numero totale di voci nel menu. </p>
 <p>Numero totale di elementi nel menu. </p>
 
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00035">35</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
+
 </div>
 </div>
 <a id="aabafd531a5b544c5a67cbbc4f06f1152" name="aabafd531a5b544c5a67cbbc4f06f1152"></a>
@@ -843,6 +905,8 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 <p>Stile del menu: 1 = Semplice, 0 = Evidenziato (Highlight). </p>
+
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00021">21</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
 
 </div>
 </div>
@@ -867,12 +931,18 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p>Indice della voce selezionata nel menu Settings. </p>
 
+<p class="definition">Definition at line <a class="el" href="display__ui_8cpp_source.html#l00020">20</a> of file <a class="el" href="display__ui_8cpp_source.html">display_ui.cpp</a>.</p>
+
 </div>
 </div>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_eeb7fcc90d516a232deaaf4de23f9c95.html">Modules</a></li><li class="navelem"><a class="el" href="display__ui_8cpp.html">display_ui.cpp</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
 </body>
 </html>

@@ -9,6 +9,10 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -47,6 +51,23 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('gps_8h.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -68,11 +89,6 @@ $(function() {
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_eeb7fcc90d516a232deaaf4de23f9c95.html">Modules</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
@@ -218,6 +234,8 @@ Variables</h2></td></tr>
 <ul>
 <li>Questo header definisce l'interfaccia per il modulo GPS, incluse le mappature dei pin UART per RP2040, le impostazioni di logging su filesystem e la struttura dati che aggrega i risultati del parsing della libreria minmea. </li>
 </ul>
+
+<p class="definition">Definition in file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ad72dbcf6d0153db1b8d8a58001feed83" name="ad72dbcf6d0153db1b8d8a58001feed83"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad72dbcf6d0153db1b8d8a58001feed83">&#9670;&#160;</a></span>DEBUG</h2>
@@ -232,6 +250,8 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Abilita o disabilita l'output di debug seriale. </p>
+
+<p class="definition">Definition at line <a class="el" href="gps_8h_source.html#l00014">14</a> of file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
 
 </div>
 </div>
@@ -248,6 +268,8 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Tentativi massimi di lettura sentenze per ogni chiamata gpsAcquire. </p>
 
+<p class="definition">Definition at line <a class="el" href="gps_8h_source.html#l00027">27</a> of file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
+
 </div>
 </div>
 <a id="ad168ea4f5cdee8a5709e47e55e7352a6" name="ad168ea4f5cdee8a5709e47e55e7352a6"></a>
@@ -262,6 +284,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Pin di abilitazione alimentazione modulo (Attivo Basso). </p>
+
+<p class="definition">Definition at line <a class="el" href="gps_8h_source.html#l00033">33</a> of file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
 
 </div>
 </div>
@@ -278,6 +302,8 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Percorso del file con l'ultima posizione nota. </p>
 
+<p class="definition">Definition at line <a class="el" href="gps_8h_source.html#l00044">44</a> of file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
+
 </div>
 </div>
 <a id="a8db1fde37e33f26379238e0d67e7bdae" name="a8db1fde37e33f26379238e0d67e7bdae"></a>
@@ -292,6 +318,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Percorso del file log rotativo (CSV). </p>
+
+<p class="definition">Definition at line <a class="el" href="gps_8h_source.html#l00043">43</a> of file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
 
 </div>
 </div>
@@ -308,6 +336,8 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Numero massimo di righe per il log rotativo. </p>
 
+<p class="definition">Definition at line <a class="el" href="gps_8h_source.html#l00045">45</a> of file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
+
 </div>
 </div>
 <a id="a0ce809cb17fb06c7373abc0ae56eb911" name="a0ce809cb17fb06c7373abc0ae56eb911"></a>
@@ -322,6 +352,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Pin per il segnale Pulse Per Second (PPS) dal GPS. </p>
+
+<p class="definition">Definition at line <a class="el" href="gps_8h_source.html#l00032">32</a> of file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
 
 </div>
 </div>
@@ -338,6 +370,8 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Risposta di avvenuta sincronizzazione. </p>
 
+<p class="definition">Definition at line <a class="el" href="gps_8h_source.html#l00052">52</a> of file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
+
 </div>
 </div>
 <a id="a54fb54b5a641fa6c3d8ef24c298ea0af" name="a54fb54b5a641fa6c3d8ef24c298ea0af"></a>
@@ -352,6 +386,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Comando di richiesta sincronizzazione GPS. </p>
+
+<p class="definition">Definition at line <a class="el" href="gps_8h_source.html#l00051">51</a> of file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
 
 </div>
 </div>
@@ -368,6 +404,8 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Timeout per la sincronizzazione di data e ora. </p>
 
+<p class="definition">Definition at line <a class="el" href="gps_8h_source.html#l00042">42</a> of file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
+
 </div>
 </div>
 <a id="a80e517639c444b77a2c13f4600a2969a" name="a80e517639c444b77a2c13f4600a2969a"></a>
@@ -382,6 +420,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Frequenza minima di scrittura su Flash (ms) per protezione usura. </p>
+
+<p class="definition">Definition at line <a class="el" href="gps_8h_source.html#l00046">46</a> of file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
 
 </div>
 </div>
@@ -398,6 +438,8 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Baud rate predefinito del modulo GPS. </p>
 
+<p class="definition">Definition at line <a class="el" href="gps_8h_source.html#l00036">36</a> of file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
+
 </div>
 </div>
 <a id="abe7debd9f7a65494c72dc2353b28956d" name="abe7debd9f7a65494c72dc2353b28956d"></a>
@@ -412,6 +454,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>GPIO per il LED di segnalazione attività (Heartbeat). </p>
+
+<p class="definition">Definition at line <a class="el" href="gps_8h_source.html#l00037">37</a> of file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
 
 </div>
 </div>
@@ -428,6 +472,8 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Lunghezza massima di una riga NMEA standard. </p>
 
+<p class="definition">Definition at line <a class="el" href="gps_8h_source.html#l00026">26</a> of file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
+
 </div>
 </div>
 <a id="af99e6777e3f2418cba487ab9c928f769" name="af99e6777e3f2418cba487ab9c928f769"></a>
@@ -442,6 +488,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="gps_8h_source.html#l00021">21</a> of file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
+
 </div>
 </div>
 <a id="af7018c3d4c500f40da605793cb4fcd6d" name="af7018c3d4c500f40da605793cb4fcd6d"></a>
@@ -455,6 +503,8 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="gps_8h_source.html#l00020">20</a> of file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
 
 </div>
 </div>
@@ -471,6 +521,8 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Pin RX per comunicazione UART con il modulo. </p>
 
+<p class="definition">Definition at line <a class="el" href="gps_8h_source.html#l00035">35</a> of file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
+
 </div>
 </div>
 <a id="a37b225cce113e8cf383598b1529e4e46" name="a37b225cce113e8cf383598b1529e4e46"></a>
@@ -485,6 +537,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Pin TX per comunicazione UART con il modulo. </p>
+
+<p class="definition">Definition at line <a class="el" href="gps_8h_source.html#l00034">34</a> of file <a class="el" href="gps_8h_source.html">gps.h</a>.</p>
 
 </div>
 </div>
@@ -534,6 +588,8 @@ Variables</h2></td></tr>
 </dl>
 </li>
 </ul>
+
+<p class="definition">Definition at line <a class="el" href="gps_8cpp_source.html#l00503">503</a> of file <a class="el" href="gps_8cpp_source.html">gps.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -564,6 +620,8 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Estrae data e ora dai messaggi RMC. </p>
+
+<p class="definition">Definition at line <a class="el" href="gps_8cpp_source.html#l00189">189</a> of file <a class="el" href="gps_8cpp_source.html">gps.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -594,6 +652,8 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Estrae posizione e numero satelliti dai messaggi GGA. </p>
+
+<p class="definition">Definition at line <a class="el" href="gps_8cpp_source.html#l00179">179</a> of file <a class="el" href="gps_8cpp_source.html">gps.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -647,6 +707,8 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>true Sempre, emette solo warning in caso di errore dati. </dd></dl>
 </li>
 </ul>
+
+<p class="definition">Definition at line <a class="el" href="gps_8cpp_source.html#l00209">209</a> of file <a class="el" href="gps_8cpp_source.html">gps.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -699,6 +761,8 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>true Se la sentenza corretta è stata ricevuta e decodificata entro <a class="el" href="gps_8h.html#a5934c22dd84dadbcf073ac5f90f677de">GPS_ACQUIRE_MAX_TRIES</a>. </dd></dl>
 </li>
 </ul>
+
+<p class="definition">Definition at line <a class="el" href="gps_8cpp_source.html#l00153">153</a> of file <a class="el" href="gps_8cpp_source.html">gps.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -734,6 +798,8 @@ Here is the caller graph for this function:</div>
 <li><dl class="section return"><dt>Returns</dt><dd>true Se il modulo risponde correttamente, false in caso di timeout. </dd></dl>
 </li>
 </ul>
+
+<p class="definition">Definition at line <a class="el" href="gps_8cpp_source.html#l00018">18</a> of file <a class="el" href="gps_8cpp_source.html">gps.cpp</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -782,6 +848,8 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>true Se il parsing ha avuto successo per una sentenza supportata. </dd></dl>
 </li>
 </ul>
+
+<p class="definition">Definition at line <a class="el" href="gps_8cpp_source.html#l00077">77</a> of file <a class="el" href="gps_8cpp_source.html">gps.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -818,6 +886,8 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
+
+<p class="definition">Definition at line <a class="el" href="gps_8cpp_source.html#l00377">377</a> of file <a class="el" href="gps_8cpp_source.html">gps.cpp</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -849,6 +919,8 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
+
+<p class="definition">Definition at line <a class="el" href="gps_8cpp_source.html#l00388">388</a> of file <a class="el" href="gps_8cpp_source.html">gps.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -885,6 +957,8 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
+
+<p class="definition">Definition at line <a class="el" href="gps_8cpp_source.html#l00417">417</a> of file <a class="el" href="gps_8cpp_source.html">gps.cpp</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -916,6 +990,8 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
+
+<p class="definition">Definition at line <a class="el" href="gps_8cpp_source.html#l00354">354</a> of file <a class="el" href="gps_8cpp_source.html">gps.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -952,6 +1028,8 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
+
+<p class="definition">Definition at line <a class="el" href="gps_8cpp_source.html#l00451">451</a> of file <a class="el" href="gps_8cpp_source.html">gps.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -988,6 +1066,8 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
+
+<p class="definition">Definition at line <a class="el" href="gps_8cpp_source.html#l00436">436</a> of file <a class="el" href="gps_8cpp_source.html">gps.cpp</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1025,6 +1105,8 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>true Se il file è stato scritto correttamente. </dd></dl>
 </li>
 </ul>
+
+<p class="definition">Definition at line <a class="el" href="gps_8cpp_source.html#l00242">242</a> of file <a class="el" href="gps_8cpp_source.html">gps.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1067,6 +1149,8 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>true Se l'operazione di rotazione e scrittura ha successo. </dd></dl>
 </li>
 </ul>
+
+<p class="definition">Definition at line <a class="el" href="gps_8cpp_source.html#l00273">273</a> of file <a class="el" href="gps_8cpp_source.html">gps.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1103,6 +1187,8 @@ Here is the caller graph for this function:</div>
 <p>Flag per indicare dati GPS non ancora processati.</p>
 <p>Flag: i dati GPS sono cambiati e richiedono redraw. </p>
 
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00065">65</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+
 </div>
 </div>
 <a id="a81989d83d84e6b682b2d9b11b63c8afb" name="a81989d83d84e6b682b2d9b11b63c8afb"></a>
@@ -1127,12 +1213,18 @@ Here is the caller graph for this function:</div>
 <p>Timestamp dell'ultimo aggiornamento UI dei dati GPS.</p>
 <p>Ultimo aggiornamento grafico GPS. </p>
 
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00064">64</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+
 </div>
 </div>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_eeb7fcc90d516a232deaaf4de23f9c95.html">Modules</a></li><li class="navelem"><a class="el" href="gps_8h.html">gps.h</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
 </body>
 </html>
