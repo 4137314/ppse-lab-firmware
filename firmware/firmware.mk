@@ -1,4 +1,4 @@
-# mk/firmware.mk
+# --- firmware/firmware.mk ---
 
 # --- RILEVAMENTO PIO ---
 PIO_CMD := $(shell command -v pio 2>/dev/null)
@@ -16,38 +16,54 @@ BEEP ?= 1
 # Uniamo le flag: teniamo il tuo -std=gnu++17 che è vitale per le nuove librerie
 FLAGS = -Os -Dtimegm=mktime -DDEBUG=$(DEBUG) -DBUZZER_INIT_BEEP=$(BEEP) -std=gnu++17
 
+# Approccio basato su directory context (risolve l'errore del flex scanner)
+# Entriamo in firmware/ prima di ogni comando PIO
+PIO_RUN_CMD := cd firmware && PLATFORMIO_BUILD_FLAGS="$(FLAGS)" $(PIO) run
+
 .PHONY: build debug run-silent fs lint clean-firmware clean-all
 
 build:
 	@echo "--- BUILD FIRMWARE (DEBUG=$(DEBUG) BEEP=$(BEEP)) ---"
-	# Usiamo il tuo metodo: passiamo le flags come variabile temporanea per pulizia
-	PLATFORMIO_BUILD_FLAGS="$(FLAGS)" $(PIO) run
+	$(PIO_RUN_CMD)
 
 debug: 
-	$(MAKE) -f mk/firmware.mk run-debug DEBUG=1 BEEP=1
+	$(MAKE) run-debug DEBUG=1 BEEP=1
 
 run-silent:
-	$(MAKE) -f mk/firmware.mk run-debug DEBUG=1 BEEP=0
+	$(MAKE) run-debug DEBUG=1 BEEP=0
 
 run-debug:
-	PLATFORMIO_BUILD_FLAGS="$(FLAGS)" $(PIO) run --target upload
-	$(PIO) device monitor
+	$(PIO_RUN_CMD) --target upload
+	cd firmware && $(PIO) device monitor
 
 fs:
-	$(PIO) run --target uploadfs
+	$(PIO_RUN_CMD) --target uploadfs
 
 lint:
 	@echo "--- ANALISI STATICA (cppcheck) ---"
+	# Analizziamo i path relativi dalla root del progetto
 	cppcheck --enable=warning,performance,portability \
 		--suppress=missingInclude \
 		--suppress=missingIncludeSystem \
 		--inline-suppr \
-		--error-exitcode=1 src/
+		--error-exitcode=1 \
+		firmware/main.cpp firmware/src/ firmware/include/
 
 clean-firmware:
-	$(PIO) run --target clean
+	$(PIO_RUN_CMD) --target clean
 
-# Teniamo il tuo comando clean-all per resettare le librerie se FastLED dà problemi
+
 clean-all:
-	$(PIO) run --target clean
-	rm -rf .pio
+	$(PIO_RUN_CMD) --target clean
+	rm -rf firmware/build_pio
+
+# Analisi dell'occupazione di memoria
+size:
+	cd firmware && pio run -t sizedata
+
+# Ispezione statica dei simboli (richiede che il build sia già stato fatto)
+inspect:
+	cd firmware && pio device inspect
+
+format:
+	find firmware/src firmware/include -type f \( -name "*.h" -o -name "*.cpp" \) | xargs /usr/bin/clang-format -i -style=file
