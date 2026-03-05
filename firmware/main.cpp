@@ -24,13 +24,13 @@
  * e Core 1 (GPS/Storage). La comunicazione avviene tramite code FIFO
  * sicure per il multicore.
  */
-#include "Modules/buttons.h"
-#include "Modules/buzzer.h"
-#include "Modules/gps.h"
-#include "Modules/leds.h"
-#include "Modules/display_ui.h"
-#include "Modules/temp.h"
-#include "Modules/Filesystem.h"
+#include "buttons.h"
+#include "buzzer.h"
+#include "gps.h"
+#include "leds.h"
+#include "display_ui.h"
+#include "temp.h"
+#include "filesystem.h"
 #include "hardware/gpio.h"
 #include "pico/stdlib.h" 
 #include "pico/multicore.h" //https://picodocs.pinout.xyz/group__pico__multicore.html#details

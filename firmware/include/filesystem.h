@@ -1,9 +1,10 @@
 /**
  * @file Filesystem.h
- * @brief Interfaccia per la gestione del filesystem FatFS e l'integrazione USB Mass Storage.
- * * Questo header definisce le funzioni e i flag globali necessari per gestire la memoria
- * flash interna come disco FAT, permettendo la condivisione sicura dei dati tra il
- * firmware dell'RP2040 e un PC esterno.
+ * @brief Interfaccia per la gestione del filesystem FatFS e l'integrazione USB
+ * Mass Storage.
+ * * Questo header definisce le funzioni e i flag globali necessari per gestire
+ * la memoria flash interna come disco FAT, permettendo la condivisione sicura
+ * dei dati tra il firmware dell'RP2040 e un PC esterno.
  */
 
 #ifndef FILESYSTEM_H
@@ -11,8 +12,8 @@
 
 #include <FatFS.h>
 #include <FatFSUSB.h>
-#include <stdint.h>
 #include <VFS.h>
+#include <stdint.h>
 
 /* --- Variabili di stato globali --- */
 
@@ -25,14 +26,16 @@ extern volatile bool updated;
 
 /**
  * @brief Stato della connessione USB.
- * * Vale @c true se il PC ha preso il controllo del filesystem (mount effettuato).
+ * * Vale @c true se il PC ha preso il controllo del filesystem (mount
+ * effettuato).
  */
 extern volatile bool driveConnected;
 
 /**
  * @brief Semaforo di accesso al filesystem.
- * * Vale @c true quando il firmware sta scrivendo o leggendo attivamente dalla flash.
- * Impedisce al PC di montare il disco contemporaneamente per evitare corruzione.
+ * * Vale @c true quando il firmware sta scrivendo o leggendo attivamente dalla
+ * flash. Impedisce al PC di montare il disco contemporaneamente per evitare
+ * corruzione.
  */
 extern volatile bool inPrinting;
 
@@ -66,7 +69,8 @@ void plug(uint32_t i);
 
 /**
  * @brief Funzione di verifica per il mount sicuro su PC.
- * * Controlla il flag @ref inPrinting per decidere se concedere l'accesso al PC.
+ * * Controlla il flag @ref inPrinting per decidere se concedere l'accesso al
+ * PC.
  * @param i Identificativo dell'interfaccia USB.
  * @return true se il filesystem è libero e montabile dall'host.
  */
@@ -80,4 +84,4 @@ bool mountable(uint32_t i);
  */
 bool sync_files();
 
-#endif // FILESYSTEM_H
+#endif  // FILESYSTEM_H
