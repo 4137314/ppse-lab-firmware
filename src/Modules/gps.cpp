@@ -1,5 +1,20 @@
+/**
+ * @file gps.cpp
+ * @brief Implementazione del driver GPS e gestione della telemetria NMEA.
+ * * Gestisce l'inizializzazione del modulo hardware (Pico UART1), il parsing delle
+ * sentenze NMEA (RMC, GGA, etc.) e la memorizzazione delle coordinate sulla 
+ * memoria Flash interna per la persistenza dei dati.
+ */
+
 #include "gps.h"
 
+/**
+ * @brief Inizializza l'hardware dedicato al GPS.
+ * * Configura i pin di Enable (PMOS), il LED di stato (LED_ALIVE), il pin PPS
+ * e la Serial2 (UART1) con il baudrate @ref GPSBAUD. Esegue un test di 
+ * comunicazione attendendo una stringa valida per 10 secondi.
+ * * @return true Se il modulo risponde correttamente, false in caso di timeout.
+ */
 bool gpsInit() {
   Serial.println("=== GPS Init ===");
 
@@ -51,6 +66,14 @@ void EmptyGpsBuffer(){
 }
 */
 
+/**
+ * @brief Smista e decodifica una stringa NMEA grezza nella struttura dati corrispondente.
+ * * Utilizza la libreria @c minmea per identificare il tipo di sentenza e 
+ * aggiornare i campi della struttura @ref parsed_nmea.
+ * * @param nmea_message Stringa NMEA da parsare.
+ * @param nmea_ptr Puntatore alla struttura di destinazione globale.
+ * @return true Se il parsing ha avuto successo per una sentenza supportata.
+ */
 bool nmea_gps_parse(String *nmea_message, struct parsed_nmea *nmea_ptr) {
   bool state = true;
 
@@ -121,6 +144,12 @@ bool nmea_gps_parse(String *nmea_message, struct parsed_nmea *nmea_ptr) {
   return false;
 }
 
+/**
+ * @brief Tenta di acquisire un tipo specifico di sentenza NMEA dalla seriale.
+ * * @param sentence_type ID della sentenza cercata (es. MINMEA_SENTENCE_GGA).
+ * @param nmea_ptr Struttura dove salvare i dati estratti.
+ * @return true Se la sentenza corretta è stata ricevuta e decodificata entro @ref GPS_ACQUIRE_MAX_TRIES.
+ */
 bool gpsAcquire(enum minmea_sentence_id sentence_type,
                 struct parsed_nmea *nmea_ptr) {
   String nmea_message;
@@ -168,6 +197,15 @@ bool GetDate_and_Time(struct parsed_nmea *nmea_ptr) {
   return false;
 }
 
+/**
+ * @brief Sincronizza i dati GPS globali e gestisce il salvataggio su Flash.
+ * * Esegue l'acquisizione di posizione (GGA) e data/ora (RMC). Se i dati sono validi,
+ * provvede al salvataggio su file system rispettando la frequenza @ref GPS_WRITE_FREQ
+ * per preservare i cicli di scrittura della memoria Flash.
+ * * @param nmea_ptr Struttura dati da aggiornare.
+ * @param force Forza la sincronizzazione ignorando i timer.
+ * @return true Sempre, emette solo warning in caso di errore dati.
+ */
 bool GPS_sync(struct parsed_nmea *nmea_ptr, bool force) {
   // retain value across function calls
   static unsigned long lastGPSsync = 0, lastGPSwrite = 0;
@@ -194,7 +232,13 @@ bool GPS_sync(struct parsed_nmea *nmea_ptr, bool force) {
   return true;
 }
 
-/* Salva su Filesystem della FLASH */
+/**
+ * @brief Salva le ultime coordinate valide in un file di testo (modalità overwrite).
+ * * Il file puntato da @ref GPS_LAST_PATH conterrà solo l'ultima posizione nota
+ * nel formato "lat,lon".
+ * * @param nmea_ptr Dati da salvare.
+ * @return true Se il file è stato scritto correttamente.
+ */
 bool save_gps_last(struct parsed_nmea *nmea_ptr) {
   if (inPrinting || driveConnected || updated)
     return false;
@@ -219,6 +263,13 @@ bool save_gps_last(struct parsed_nmea *nmea_ptr) {
   return true;
 }
 
+/**
+ * @brief Implementa un log rotativo (circular buffer) delle ultime 20 posizioni.
+ * * Legge il file esistente, mantiene le ultime 19 posizioni e aggiunge la nuova in coda,
+ * garantendo che il file non superi mai le @ref GPS_MAX_LINES righe.
+ * * @param nmea_ptr Dati da aggiungere al log.
+ * @return true Se l'operazione di rotazione e scrittura ha successo.
+ */
 bool save_gps_log20(struct parsed_nmea *nmea_ptr) {
   if (inPrinting || driveConnected || updated)
     return false;
@@ -290,8 +341,16 @@ bool save_gps_log20(struct parsed_nmea *nmea_ptr) {
   return true;
 }
 
-// Print functions (for debug)
-// Print functions for each NMEA sentence type
+/** @name Funzioni di Debug e Stampa NMEA
+ * Queste funzioni vengono compilate solo se la macro @ref DEBUG è definita.
+ * Permettono di ispezionare il contenuto delle sentenze GPS sulla porta seriale.
+ * @{ */
+
+/**
+ * @brief Stampa i dettagli di una sentenza $xxRMC (Recommended Minimum Navigation Information).
+ * @details Mostra coordinate e velocità in tre formati: grezzo (frazione), fixed-point e floating point.
+ * @param frame Puntatore generico alla struttura @c minmea_sentence_rmc.
+ */
 void print_NMEA_rmc(void *frame) {
 #if DEBUG
   struct minmea_sentence_rmc *rmc = (struct minmea_sentence_rmc *)frame;
@@ -311,12 +370,21 @@ void print_NMEA_rmc(void *frame) {
   return;
 }
 
+/**
+ * @brief Stampa la qualità del fix da una sentenza $xxGGA (Global Positioning System Fix Data).
+ * @param frame Puntatore generico alla struttura @c minmea_sentence_gga.
+ */
 void print_NMEA_gga(void *frame) {
   struct minmea_sentence_gga *gga = (struct minmea_sentence_gga *)frame;
   Serial.printf("$xxGGA: fix quality: %d\n", gga->fix_quality);
   return;
 }
 
+/**
+ * @brief Stampa gli errori di deviazione da una sentenza $xxGST (GPS Pseudorange Noise Statistics).
+ * @details Utile per monitorare la precisione della posizione in metri (Lat/Lon/Alt error).
+ * @param frame Puntatore generico alla struttura @c minmea_sentence_gst.
+ */
 void print_NMEA_gst(void *frame) {
 #if DEBUG
   struct minmea_sentence_gst *gst = (struct minmea_sentence_gst *)frame;
@@ -341,6 +409,11 @@ void print_NMEA_gst(void *frame) {
   return;
 }
 
+/**
+ * @brief Stampa lo stato dei satelliti in vista da una sentenza $xxGSV (Satellites in View).
+ * @details Elenca numero, elevazione, azimut e SNR (rapporto segnale/rumore) per i primi 4 satelliti.
+ * @param frame Puntatore generico alla struttura @c minmea_sentence_gsv.
+ */
 void print_NMEA_gsv(void *frame) {
 #if DEBUG
   struct minmea_sentence_gsv *gsv = (struct minmea_sentence_gsv *)frame;
@@ -356,6 +429,10 @@ void print_NMEA_gsv(void *frame) {
   return;
 }
 
+/**
+ * @brief Stampa data e ora UTC da una sentenza $xxZDA (Time & Date).
+ * @param frame Puntatore generico alla struttura @c minmea_sentence_zda.
+ */
 void print_NMEA_zda(void *frame) {
 #if DEBUG
   struct minmea_sentence_zda *zda = (struct minmea_sentence_zda *)frame;
@@ -367,6 +444,10 @@ void print_NMEA_zda(void *frame) {
   return;
 }
 
+/**
+ * @brief Stampa rotta e velocità al suolo da una sentenza $xxVTG (Track Made Good and Ground Speed).
+ * @param frame Puntatore generico alla struttura @c minmea_sentence_vtg.
+ */
 void print_NMEA_vtg(void *frame) {
 #if DEBUG
   struct minmea_sentence_vtg *vtg = (struct minmea_sentence_vtg *)frame;
@@ -380,6 +461,13 @@ void print_NMEA_vtg(void *frame) {
   return;
 }
 
+/** @} */ // Fine gruppo Debug
+
+/**
+ * @brief Legge la seriale del GPS e stampa le stringhe NMEA grezze (RAW) sulla Serial Console.
+ * @details Implementa un buffer statico per ricostruire la riga fino al carattere @c \n.
+ * Ideale per diagnosticare problemi di ricezione hardware.
+ */
 void gpsSerialDebugLog() {
 
   static char nmea[MINMEA_MAX_SENTENCE_LENGTH];
@@ -404,6 +492,14 @@ void gpsSerialDebugLog() {
   }
 }
 
+/**
+ * @brief Monitora la coda dei messaggi inter-core per richieste di sincronizzazione GPS.
+ * @details Se viene ricevuto il comando @ref GPS_SYNC_REQ, avvia una sincronizzazione forzata
+ * dei dati e risponde con un @ref GPS_SYNC_ACK sulla coda di invio.
+ * * @param recv_queue Coda di ricezione dei comandi.
+ * @param send_queue Coda di invio per le conferme (Acknowledge).
+ * @param nmea_ptr Puntatore alla struttura dati GPS da aggiornare.
+ */
 void check_GPS_sync_req(queue_t *recv_queue, queue_t *send_queue,
                         struct parsed_nmea *nmea_ptr) {
   if (!queue_is_empty(recv_queue)) {

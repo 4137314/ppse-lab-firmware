@@ -12,23 +12,25 @@ endif
 # --- CONFIGURAZIONE BUILD ---
 DEBUG ?= 0
 BEEP ?= 1
-FLAGS = -Os -Dtimegm=mktime -DDEBUG=$(DEBUG) -DBUZZER_INIT_BEEP=$(BEEP)
-export PLATFORMIO_BUILD_FLAGS = $(FLAGS)
 
-.PHONY: build debug run-silent fs lint clean-firmware
+# Uniamo le flag: teniamo il tuo -std=gnu++17 che è vitale per le nuove librerie
+FLAGS = -Os -Dtimegm=mktime -DDEBUG=$(DEBUG) -DBUZZER_INIT_BEEP=$(BEEP) -std=gnu++17
+
+.PHONY: build debug run-silent fs lint clean-firmware clean-all
 
 build:
 	@echo "--- BUILD FIRMWARE (DEBUG=$(DEBUG) BEEP=$(BEEP)) ---"
-	$(PIO) run
+	# Usiamo il tuo metodo: passiamo le flags come variabile temporanea per pulizia
+	PLATFORMIO_BUILD_FLAGS="$(FLAGS)" $(PIO) run
 
 debug: 
-	$(MAKE) run-debug DEBUG=1 BEEP=1
+	$(MAKE) -f mk/firmware.mk run-debug DEBUG=1 BEEP=1
 
 run-silent:
-	$(MAKE) run-debug DEBUG=1 BEEP=0
+	$(MAKE) -f mk/firmware.mk run-debug DEBUG=1 BEEP=0
 
 run-debug:
-	$(PIO) run --target upload
+	PLATFORMIO_BUILD_FLAGS="$(FLAGS)" $(PIO) run --target upload
 	$(PIO) device monitor
 
 fs:
@@ -43,5 +45,9 @@ lint:
 		--error-exitcode=1 src/
 
 clean-firmware:
+	$(PIO) run --target clean
+
+# Teniamo il tuo comando clean-all per resettare le librerie se FastLED dà problemi
+clean-all:
 	$(PIO) run --target clean
 	rm -rf .pio

@@ -1,10 +1,30 @@
-#include"Filesystem.h"
+/**
+ * @file Filesystem.cpp
+ * @brief Gestione del File System FatFS e interfaccia USB Mass Storage.
+ * * Questo modulo gestisce l'inizializzazione della memoria flash interna tramite FatFS
+ * e la sincronizzazione con l'host USB, garantendo l'accesso esclusivo al filesystem
+ * per evitare corruzione dei dati.
+ */
 
+#include "Filesystem.h"
+
+/** @brief Flag di notifica aggiornamento stato filesystem. */
 volatile bool updated = false;
+
+/** @brief Stato della connessione USB (true se montato su PC). */
 volatile bool driveConnected = false;
-volatile bool inPrinting = false; // flag for FatFS Accessing
+
+/** @brief Flag di semaforo per l'accesso al filesystem (evita race condition con USB). */
+volatile bool inPrinting = false; 
 
 
+/**
+ * @brief Inizializza il filesystem FatFS sulla memoria Flash.
+ * * Tenta il mount del filesystem. Se fallisce, procede alla formattazione automatica.
+ * Abilita le funzioni POSIX tramite VFS per le operazioni di I/O standard.
+ * * @return true se l'inizializzazione ha successo.
+ * @note Blocca l'esecuzione (while 1) in caso di errore critico hardware.
+ */
 bool FatFS_Setup(){
     inPrinting = true;
     if (!FatFS.begin()) 
@@ -23,7 +43,12 @@ bool FatFS_Setup(){
 }
 
 
-
+/**
+ * @brief Configura l'interfaccia USB Mass Storage.
+ * * Associa i callback per gli eventi di plug, unplug e controllo di mountability
+ * per la condivisione della memoria flash via USB.
+ * * @return true se l'inizializzazione del dispositivo USB ha successo.
+ */
 bool FatFSUSB_Setup(){
     // Set up callbacks
     FatFSUSB.onUnplug(unplug);
@@ -42,16 +67,23 @@ bool FatFSUSB_Setup(){
 }
 
 
-// Called by FatFSUSB when the drive is released.  We note this, restart FatFS, and tell the main loop to rescan.
+/**
+ * @brief Callback eseguito alla disconnessione USB.
+ * * @param i Parametro di istanza (inutilizzato).
+ */
 void unplug(uint32_t i) {
   (void) i;
   driveConnected = false;
   updated = true;
-  //FatFS_Setup();
 }
 
 
-// Called by FatFSUSB when the drive is mounted by the PC.  Have to stop FatFS, since the drive data can change, note it, and continue.
+/**
+ * @brief Callback eseguito alla connessione USB.
+ * * Termina l'istanza locale di FatFS per cedere il controllo esclusivo 
+ * del disco all'host USB (PC).
+ * * @param i Parametro di istanza (inutilizzato).
+ */
 void plug(uint32_t i) {
   (void) i;
   driveConnected = true;
@@ -59,25 +91,32 @@ void plug(uint32_t i) {
 }
 
 
-// Called by FatFSUSB to determine if it is safe to let the PC mount the USB drive.  If we're accessing the FS in any way, have any Files open, etc. then it's not safe to let the PC mount the drive.
+/**
+ * @brief Verifica se il filesystem è pronto per essere montato dall'host USB.
+ * * @param i Parametro di istanza (inutilizzato).
+ * @return true se non ci sono operazioni di scrittura/lettura locali in corso.
+ */
 bool mountable(uint32_t i) {
   (void) i;
   return !inPrinting;
 }
 
 
-
+/**
+ * @brief Sincronizza lo stato del filesystem e gestisce la rimonta dopo l'uso USB.
+ * * Se il dispositivo è stato scollegato dal PC, riesegue il setup di FatFS
+ * per rendere nuovamente disponibili i file al firmware.
+ * * @return true se la sincronizzazione avviene correttamente.
+ */
 bool sync_files() {
     bool ret = true;
 
     if (updated && !driveConnected) 
     {
-        //inPrinting = true;
         Serial.println("\n\nDisconnected, new file listing:");
         FatFS.end();
         ret  = FatFS_Setup();
         updated = false;
-        //inPrinting = false;
     }
     return ret;
 }
