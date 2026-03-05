@@ -3,30 +3,71 @@ PROJECT_NAME           = "ppse-firmware"
 PROJECT_NUMBER         = "v1.0.0"
 PROJECT_BRIEF          = "Integrated System on Raspberry Pi Pico (RP2040)"
 OUTPUT_DIRECTORY       = docs
+CREATE_SUBDIRS         = NO
+ALLOW_UNICODE_NAMES    = YES
 
 # --- Ingressi e Lingua ---
-# Assicurati di includere la tua cartella src/
+# Include la root per il README e la cartella dei sorgenti
 INPUT                  = README.md src
 RECURSIVE              = YES
-OPTIMIZE_OUTPUT_FOR_C  = YES  # Fondamentale per il firmware
+OPTIMIZE_OUTPUT_FOR_C  = YES
+MARKDOWN_SUPPORT       = YES
 USE_MDFILE_AS_MAINPAGE = README.md
+SOURCE_BROWSER         = YES  # Permette di vedere il codice sorgente cliccando sulle funzioni
 
 # --- Estrazione e Analisi ---
 EXTRACT_ALL            = YES
 EXTRACT_PRIVATE        = YES
 EXTRACT_STATIC         = YES
+EXTRACT_LOCAL_CLASSES  = YES
+HIDE_UNDOC_MEMBERS     = NO
+INTERNAL_DOCS          = NO
+CASE_SENSE_NAMES       = YES
 
-# --- Grafica e Diagrammi (Richiede Graphviz installato) ---
-# Questi renderanno la documentazione "professionale"
+# --- Interfaccia Utente (Layout & Sidebar) ---
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+HTML_FILE_EXTENSION    = .html
+
+# Attiva la barra di navigazione laterale a sinistra
+GENERATE_TREEVIEW      = YES
+TREEVIEW_WIDTH         = 280
+DISABLE_INDEX          = NO
+FULL_SIDEBAR           = YES
+HTML_DYNAMIC_MENUS     = YES
+
+# Pulizia estetica
+HTML_TIMESTAMP         = NO    # Toglie la data per evitare conflitti Git inutili
+HTML_INDEX_NUM_ENTRIES = 100
+HTML_COLORSTYLE_HUE    = 220   # Tonalità blu/moderna
+HTML_COLORSTYLE_SAT    = 40
+HTML_COLORSTYLE_GAMMA  = 80
+
+# --- Grafica e Diagrammi (Graphviz) ---
+# Se Graphviz è installato, genera grafici a frecce spettacolari
 HAVE_DOT               = YES
-CALL_GRAPH             = YES  # Mostra chi chiama la funzione
-CALLER_GRAPH           = YES  # Mostra da chi è chiamata la funzione
-DIRECTORY_GRAPH        = YES
-GENERATE_LEGEND        = YES
 DOT_IMAGE_FORMAT       = svg
 INTERACTIVE_SVG        = YES
+DOT_TRANSPARENT        = YES
 
-# --- Formato Output ---
-GENERATE_HTML          = YES
-HTML_EXTRA_STYLESHEET  = # Lascia vuoto o usa un tema moderno
-GENERATE_LATEX         = YES  # Serve per il report PDF che volevi
+# Quali grafici mostrare
+CLASS_GRAPH            = YES
+COLLABORATION_GRAPH    = YES
+GROUP_GRAPHS           = YES
+INCLUDE_GRAPH          = YES
+INCLUDED_BY_GRAPH      = YES
+CALL_GRAPH             = YES   # Chi chiama questa funzione?
+CALLER_GRAPH          = YES   # Chi viene chiamato?
+DIRECTORY_GRAPH        = YES
+GENERATE_LEGEND        = YES
+
+# --- Formati Extra ---
+GENERATE_LATEX         = YES
+LATEX_OUTPUT           = latex
+COMPACT_LATEX          = YES
+PDF_HYPERLINKS         = YES
+
+# --- Altre impostazioni ---
+QUIET                  = NO
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = YES
