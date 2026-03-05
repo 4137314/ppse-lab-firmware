@@ -1,5 +1,4 @@
 # --- Configurazione Moduli ---
-# Ora carichiamo la logica direttamente dalle cartelle dei moduli
 include firmware/firmware.mk
 include doc/website/docs.mk
 include doc/academic-report/report.mk

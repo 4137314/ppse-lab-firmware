@@ -16,6 +16,9 @@ report/.build_latex/
 report/*.pdf
 
 # File ausiliari di LaTeX
+doc/academic-report/.build_report/
+doc/academic-report/main.pdf
+
 report/*.aux
 report/*.log
 report/*.toc
@@ -48,3 +51,13 @@ bin/
 .cache/
 __pycache__/
 *.py[cod]
+
+# PlatformIO build directory
+firmware/.build_pio/
+firmware/.pio/
+firmware/.vscode/
+
+# Binari e oggetti compilati
+*.elf
+*.bin
+*.uf2

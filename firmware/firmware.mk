@@ -50,8 +50,12 @@ lint:
 		firmware/main.cpp firmware/src/ firmware/include/
 
 clean-firmware:
+	@echo "--- PULIZIA PROFONDA FIRMWARE ---"
+	# Pulizia standard di PlatformIO (rimuove .o, .elf, .bin)
 	$(PIO_RUN_CMD) --target clean
-
+	# Rimozione fisica della cartella di build e della cache delle librerie
+	rm -rf firmware/.build_pio/
+	rm -rf firmware/.pio/
 
 clean-all:
 	$(PIO_RUN_CMD) --target clean
