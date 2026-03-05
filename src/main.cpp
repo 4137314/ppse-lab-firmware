@@ -1,14 +1,29 @@
-// Se la macro non viene iniettata dal Makefile/Compiler, 
-// allora definiscila come 0 (Safe default)
+/**
+ * @name Flag di Compilazione e Debug
+ * @{ */
+
+/** * @brief Abilita/Disabilita i messaggi di log sulla Serial USB.
+ * 0 = Silenzioso, 1 = Verboso. Se non definita esternamente, il default è 1 (Safe).
+ */
 #ifndef DEBUG
   #define DEBUG 1
 #endif
 
-// Se vuoi automatizzare il comportamento del Beep nel codice
+/** * @brief Determina se il buzzer deve emettere un suono alla fine del setup.
+ * Utile per feedback "blind" senza guardare il display.
+ */
 #ifndef BUZZER_INIT_BEEP
   #define BUZZER_INIT_BEEP 1
 #endif
+/** @} */
 
+/**
+ * @file main.cpp
+ * @brief Orchestratore di sistema e gestione Multicore.
+ * * Questo file implementa la logica principale divisa tra Core 0 (UI/Input)
+ * e Core 1 (GPS/Storage). La comunicazione avviene tramite code FIFO
+ * sicure per il multicore.
+ */
 #include "Modules/buttons.h"
 #include "Modules/buzzer.h"
 #include "Modules/display_ui.h"
@@ -22,22 +37,40 @@
 #include "pico/mutex.h" //https://www.raspberrypi.com/documentation/pico-sdk/high_level.html#group_mutex
 #include "pico/util/queue.h"
 
+/* --- Variabili Globali e Sincronizzazione --- */
+
+/** @brief Flag di stato per segnalare che il Core 1 ha completato l'init hardware. */
 volatile bool core1_ready = false;
 struct parsed_nmea ParsedNMEA = {0};
+
+/** @brief Struttura globale contenente gli ultimi dati GPS validi. */
 struct parsed_nmea gpsData;
-// Variabili per timing non bloccante
-unsigned long lastSensorRead = 0;
-const unsigned long sensorInterval = 1000; // Leggi i sensori ogni secondo
 
+/** @brief Forza l'allocazione di 8KB di stack per ciascun core (default 4KB). */
 bool core1_separate_stack = true; // Enables 8KB stack for each core (instead of 4KB each)
-queue_t Qctrl_0_to_1, Qctrl_1_to_0;
-queue_t Qdata;
 
+/** @name Code di Comunicazione Inter-Core
+ * @{ */
+queue_t Qctrl_0_to_1;		/**< Coda per comandi inviati da Core 0 a Core 1. */
+queue_t Qctrl_1_to_0;		/**< Coda per feedback inviati da Core 1 a Core 0. */
+queue_t Qdata;			/**< Coda per il trasferimento dei pacchetti @ref parsed_nmea. */
+/** @} */
 
+bool updated = false;
 
-uint32_t lastUiGpsMs = 0;
-volatile bool gpsDirty = false;
+/* --- Variabili di Timing e UI Flags --- */
+unsigned long lastSensorRead = 0;			/**< Timestamp ultima lettura sensori. */
+const unsigned long sensorInterval = 1000;		/**< Intervallo campionamento (1Hz). */
+uint32_t lastUiGpsMs = 0;				/**< Ultimo aggiornamento grafico GPS. */
+volatile bool gpsDirty = false;				/**< Flag: i dati GPS sono cambiati e richiedono redraw. */
 
+/* --- CORE 1: Inizializzazione Hardware Critico --- */
+
+/**
+ * @brief Configurazione iniziale per il Core 1.
+ * @details Inizializza il modulo GPS, le code di comunicazione e il 
+ * Filesystem (FatFS). Se il setup fallisce, il sistema entra in EXIT_FAILURE.
+ */
 void setup1(){ //CORE1 setup
   if (!gpsInit()) exit(EXIT_FAILURE);
   Serial.println("<<<< START of hardware initialization >>>>");
@@ -58,39 +91,13 @@ if (!FatFSUSB_Setup()) exit(EXIT_FAILURE);
   core1_ready = true;
 }
 
-
-
-void setup(){ //CORE 0 setup
-  Serial.begin(9600);
-  core1_ready = false;
-  int i=0;
-  while (!Serial && i<SERIAL_MAX_SETUP_TIME){
-    delay(1);
-    ++i;
-  }
-  if (i==1000)
-  {
-    Serial.println("ERROR: Serial over USB setup timed out");
-    exit(EXIT_FAILURE);
-  }
-
-
-  buttonsInit();
-  if(!displayInit()){
-    while (1) delay(10);
-  }
-  Serial.println("Display initialized successfully");
-  drawHomeScreen();
-  ledsInit();
-  ledsShowInitAnimation();
-  TempInit();
- 
-  
-  
-}
-
-
-
+/**
+ * @brief Loop principale del Core 1.
+ * @details Gestisce in background:
+ * 1. Sincronizzazione dei file su SD.
+ * 2. Parsing dei dati GPS NMEA.
+ * 3. Invio periodico (4Hz) dei dati processati al Core 0 tramite @ref Qdata.
+ */
 void loop1(){ //CORE 1 main
   bool ret_code = true;
   static bool said = false;
@@ -128,7 +135,49 @@ void loop1(){ //CORE 1 main
 }
 
 
+/* --- CORE 0: Logica UI e Input Utente --- */
 
+/**
+ * @brief Configurazione iniziale per il Core 0.
+ * @details Inizializza la comunicazione seriale, i pulsanti, il display OLED,
+ * i LED RGB e il sensore di temperatura.
+ */
+void setup(){ //CORE 0 setup
+  Serial.begin(9600);
+  core1_ready = false;
+  int i=0;
+  while (!Serial && i<SERIAL_MAX_SETUP_TIME){
+    delay(1);
+    ++i;
+  }
+  if (i==1000)
+  {
+    Serial.println("ERROR: Serial over USB setup timed out");
+    exit(EXIT_FAILURE);
+  }
+
+
+  buttonsInit();
+  if(!displayInit()){
+    while (1) delay(10);
+  }
+  Serial.println("Display initialized successfully");
+  drawHomeScreen();
+  ledsInit();
+  ledsShowInitAnimation();
+  TempInit();
+ 
+  
+  
+}
+
+/**
+ * @brief Loop principale del Core 0.
+ * @details Gestisce l'interazione in tempo reale:
+ * 1. Aggiorna lo stato dei pulsanti (@ref buttonsUpdate).
+ * 2. Svuota la coda @ref Qdata per ricevere gli ultimi dati GPS dal Core 1.
+ * 3. Salva periodicamente l'ultima posizione valida.
+ */
 void loop(){ // CORE 0 main
   if(!core1_ready) {
     Serial.println("Waiting for core 1 to be ready...");

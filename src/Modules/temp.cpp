@@ -1,49 +1,48 @@
+/**
+ * @file temp.cpp
+ * @brief Implementazione della lettura della temperatura analogica.
+ * * Gestisce l'interfaccia con il sensore di temperatura (tipicamente un TC1047A) 
+ * attraverso il convertitore Analogico-Digitale (ADC) dell'RP2040. 
+ * Include le formule di conversione dai valori grezzi (raw) ai gradi Celsius.
+ */
+
 #include "temp.h"
 #include "pico/stdlib.h"
 #include "hardware/adc.h"
-
-
-/*
-// Inizializza il pin del sensore
-void TempInit() {
-    pinMode(TEMP_PIN, INPUT);
-    // Assicuriamoci che l'ADC sia impostato alla risoluzione corretta (es. 12 bit)
-    analogReadResolution(ADC_BITS); 
-
-    Serial.print("Sensore TC1047A: pin ");
-    Serial.print(TEMP_PIN);
-    Serial.println(" inizializzato.");
-}
-
-// Lettura valore ADC e conversione in Celsius
-float readTemp() {
-    int raw = analogRead(TEMP_PIN);
-    
-    // Debug del valore grezzo
-    Serial.print("ADC Raw: ");
-    Serial.println(raw);
-
-    // Controllo range (opzionale ma utile per cavi scollegati)
-    if(raw < 0 || raw > ADC_MAX_VAL) {
-        Serial.println("Errore: Valore ADC fuori range!");
-        return -999.0; // Valore sentinella per indicare errore
-    }
-
-    // Conversione da raw a mV
-    // RP2040 ADC 12bit, 3.3V
-    float temp = ( (3300/ADC_MAX_VAL)*raw -500)/10 ; 
-    return temp;
-}*/
-
 #include <Arduino.h>
 
+/**
+ * @brief Inizializza l'hardware dell'ADC per la lettura termica.
+ * * Configura la risoluzione dell'ADC a 12 bit (0-4095) per garantire 
+ * la massima precisione consentita dall'hardware RP2040.
+ */
 void TempInit() {
-  analogReadResolution(12); // dummy
-  analogReadTemp(); // dummy
+  // Imposta la risoluzione ADC a 12 bit (standard per RP2040)
+  analogReadResolution(12); 
+  
+  // Esegue una lettura a vuoto per stabilizzare l'ADC
+  analogReadTemp(); 
 }
 
+/**
+ * @brief Legge il sensore e calcola la temperatura in Celsius.
+ * * @details La conversione segue le specifiche del sensore TC1047:
+ * 1. Acquisisce il valore grezzo dall'ADC (12 bit).
+ * 2. Converte il valore in tensione ($V_{out}$) considerando il riferimento a 3.3V.
+ * 3. Applica la formula: $T = \frac{V_{out} - 0.5V}{10mV/°C}$.
+ * * @return float La temperatura misurata in gradi Celsius (°C).
+ */
 float readTemp() {
+  // Legge il valore grezzo dall'ADC (0 - 4095)
   uint16_t raw = analogReadTemp();
+  
+  // Conversione in tensione (Volt)
   float v = raw * 3.3f / 4095.0f;
-  return (v - 0.5f) / 0.01f; // TC1047
+  
+  /**
+   * Formula di conversione per TC1047:
+   * Vout = 500mV a 0°C, con un coefficiente di 10mV/°C.
+   * Temp = (Vout - 0.5) / 0.01
+   */
+  return (v - 0.5f) / 0.01f; 
 }
