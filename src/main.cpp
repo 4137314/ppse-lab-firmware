@@ -26,9 +26,9 @@
  */
 #include "Modules/buttons.h"
 #include "Modules/buzzer.h"
-#include "Modules/display_ui.h"
 #include "Modules/gps.h"
 #include "Modules/leds.h"
+#include "Modules/display_ui.h"
 #include "Modules/temp.h"
 #include "Modules/Filesystem.h"
 #include "hardware/gpio.h"
@@ -36,6 +36,8 @@
 #include "pico/multicore.h" //https://picodocs.pinout.xyz/group__pico__multicore.html#details
 #include "pico/mutex.h" //https://www.raspberrypi.com/documentation/pico-sdk/high_level.html#group_mutex
 #include "pico/util/queue.h"
+
+#define SERIAL_MAX_SETUP_TIME 5000
 
 /* --- Variabili Globali e Sincronizzazione --- */
 
@@ -55,8 +57,6 @@ queue_t Qctrl_0_to_1;		/**< Coda per comandi inviati da Core 0 a Core 1. */
 queue_t Qctrl_1_to_0;		/**< Coda per feedback inviati da Core 1 a Core 0. */
 queue_t Qdata;			/**< Coda per il trasferimento dei pacchetti @ref parsed_nmea. */
 /** @} */
-
-bool updated = false;
 
 /* --- Variabili di Timing e UI Flags --- */
 unsigned long lastSensorRead = 0;			/**< Timestamp ultima lettura sensori. */
