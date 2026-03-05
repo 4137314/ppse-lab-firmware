@@ -21,7 +21,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Callback richiamato al distacco del cavo USB.">
 <polygon fill="#999999" stroke="#666666" points="267,-19 217,-19 217,0 267,0 267,-19"/>
 <text text-anchor="middle" x="242" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">unplug</text>
 </a>
@@ -30,7 +30,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="Filesystem_8cpp.html#aadf4a6d086b5111da73b529111a54e2f" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="Filesystem_8cpp.html#aadf4a6d086b5111da73b529111a54e2f" target="_top" xlink:title="Configura l&#39;interfaccia USB Mass Storage.">
 <polygon fill="white" stroke="#666666" points="181,-19 86,-19 86,0 181,0 181,-19"/>
 <text text-anchor="middle" x="133.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">FatFSUSB_Setup</text>
 </a>
@@ -48,7 +48,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="main_8cpp.html#ac764ee28e2916a7de10b22927e02d1a4" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="main_8cpp.html#ac764ee28e2916a7de10b22927e02d1a4" target="_top" xlink:title="Configurazione iniziale per il Core 1.">
 <polygon fill="white" stroke="#666666" points="50,-19 0,-19 0,0 50,0 50,-19"/>
 <text text-anchor="middle" x="25" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">setup1</text>
 </a>

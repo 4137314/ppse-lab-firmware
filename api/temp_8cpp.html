@@ -79,6 +79,9 @@ $(function() {
   <div class="headertitle"><div class="title">temp.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Implementazione della lettura della temperatura analogica.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="temp_8h_source.html">temp.h</a>&quot;</code><br />
 <code>#include &quot;pico/stdlib.h&quot;</code><br />
 <code>#include &quot;hardware/adc.h&quot;</code><br />
@@ -92,11 +95,18 @@ Include dependency graph for temp.cpp:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a58739d6d0d1d87e784cc1a5482ea13a6" id="r_a58739d6d0d1d87e784cc1a5482ea13a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="temp_8cpp.html#a58739d6d0d1d87e784cc1a5482ea13a6">TempInit</a> ()</td></tr>
+<tr class="memdesc:a58739d6d0d1d87e784cc1a5482ea13a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inizializza l'hardware dell'ADC per la lettura termica.  <br /></td></tr>
 <tr class="separator:a58739d6d0d1d87e784cc1a5482ea13a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adcb1f451e49c065311acc9b8ae095237" id="r_adcb1f451e49c065311acc9b8ae095237"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="temp_8cpp.html#adcb1f451e49c065311acc9b8ae095237">readTemp</a> ()</td></tr>
+<tr class="memdesc:adcb1f451e49c065311acc9b8ae095237"><td class="mdescLeft">&#160;</td><td class="mdescRight">Legge il sensore e calcola la temperatura in Celsius.  <br /></td></tr>
 <tr class="separator:adcb1f451e49c065311acc9b8ae095237"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Implementazione della lettura della temperatura analogica. </p>
+<ul>
+<li>Gestisce l'interfaccia con il sensore di temperatura (tipicamente un TC1047A) attraverso il convertitore Analogico-Digitale (ADC) dell'RP2040. Include le formule di conversione dai valori grezzi (raw) ai gradi Celsius. </li>
+</ul>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a id="adcb1f451e49c065311acc9b8ae095237" name="adcb1f451e49c065311acc9b8ae095237"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adcb1f451e49c065311acc9b8ae095237">&#9670;&#160;</a></span>readTemp()</h2>
 
@@ -111,6 +121,22 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Legge il sensore e calcola la temperatura in Celsius. </p>
+<p>Esegue la lettura analogica e restituisce il valore in gradi Celsius.</p>
+<ul>
+<li>La conversione segue le specifiche del sensore TC1047:</li>
+</ul>
+<ol type="1">
+<li>Acquisisce il valore grezzo dall'ADC (12 bit).</li>
+<li>Converte il valore in tensione ($V_{out}$) considerando il riferimento a 3.3V.</li>
+<li>Applica la formula: $T = \frac{V_{out} - 0.5V}{10mV/°C}$.</li>
+</ol>
+<ul>
+<li><dl class="section return"><dt>Returns</dt><dd>float La temperatura misurata in gradi Celsius (°C). </dd></dl>
+</li>
+</ul>
+<p>Formula di conversione per TC1047: Vout = 500mV a 0°C, con un coefficiente di 10mV/°C. Temp = (Vout - 0.5) / 0.01</p>
 
 </div>
 </div>
@@ -128,6 +154,12 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Inizializza l'hardware dell'ADC per la lettura termica. </p>
+<p>Inizializza il pin del sensore e configura i parametri dell'ADC.</p>
+<ul>
+<li>Configura la risoluzione dell'ADC a 12 bit (0-4095) per garantire la massima precisione consentita dall'hardware RP2040. </li>
+</ul>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">

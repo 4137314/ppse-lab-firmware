@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['🚀_0',['PPSE-Lab Firmware 🚀',['../index.html',1,'']]],
-  ['🚀_20sviluppo_1',['🚀 Sviluppo',['../index.html#autotoc_md6',1,'']]]
+  ['📖_20risorse_20e_20documentazione_0',['📖 Risorse e Documentazione',['../index.html#autotoc_md4',1,'']]]
 ];

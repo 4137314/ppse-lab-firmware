@@ -57,7 +57,7 @@ var sectionId = 'dynsection-13';
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Esegue il parsing di una stringa NMEA.">
 <polygon fill="#999999" stroke="#666666" points="99,-222 0,-222 0,-203 99,-203 99,-222"/>
 <text text-anchor="middle" x="49.5" y="-210" font-family="Helvetica,sans-Serif" font-size="10.00">nmea_gps_parse</text>
 </a>
@@ -174,7 +174,7 @@ var sectionId = 'dynsection-13';
 <!-- Node10 -->
 <g id="Node000010" class="node">
 <title>Node10</title>
-<g id="a_Node000010"><a xlink:href="gps_8cpp.html#ae7e06054042f4d22ce3f7641a654dfba" target="_top" xlink:title=" ">
+<g id="a_Node000010"><a xlink:href="gps_8cpp.html#ae7e06054042f4d22ce3f7641a654dfba" target="_top" xlink:title="Stampa la qualità del fix da una sentenza $xxGGA (Global Positioning System Fix Data).">
 <polygon fill="white" stroke="#666666" points="240,-204 143,-204 143,-185 240,-185 240,-204"/>
 <text text-anchor="middle" x="191.5" y="-192" font-family="Helvetica,sans-Serif" font-size="10.00">print_NMEA_gga</text>
 </a>
@@ -192,7 +192,7 @@ var sectionId = 'dynsection-13';
 <!-- Node11 -->
 <g id="Node000011" class="node">
 <title>Node11</title>
-<g id="a_Node000011"><a xlink:href="gps_8cpp.html#a86800585d87c13db519115d7d460aac0" target="_top" xlink:title=" ">
+<g id="a_Node000011"><a xlink:href="gps_8cpp.html#a86800585d87c13db519115d7d460aac0" target="_top" xlink:title="Stampa gli errori di deviazione da una sentenza $xxGST (GPS Pseudorange Noise Statistics).">
 <polygon fill="white" stroke="#666666" points="238.5,-130 144.5,-130 144.5,-111 238.5,-111 238.5,-130"/>
 <text text-anchor="middle" x="191.5" y="-118" font-family="Helvetica,sans-Serif" font-size="10.00">print_NMEA_gst</text>
 </a>
@@ -210,7 +210,7 @@ var sectionId = 'dynsection-13';
 <!-- Node14 -->
 <g id="Node000014" class="node">
 <title>Node14</title>
-<g id="a_Node000014"><a xlink:href="gps_8cpp.html#a6ec6b5a4090671490d31c770fe6afa0d" target="_top" xlink:title=" ">
+<g id="a_Node000014"><a xlink:href="gps_8cpp.html#a6ec6b5a4090671490d31c770fe6afa0d" target="_top" xlink:title="Stampa lo stato dei satelliti in vista da una sentenza $xxGSV (Satellites in View).">
 <polygon fill="white" stroke="#666666" points="239.5,-56 143.5,-56 143.5,-37 239.5,-37 239.5,-56"/>
 <text text-anchor="middle" x="191.5" y="-44" font-family="Helvetica,sans-Serif" font-size="10.00">print_NMEA_gsv</text>
 </a>
@@ -228,7 +228,7 @@ var sectionId = 'dynsection-13';
 <!-- Node15 -->
 <g id="Node000015" class="node">
 <title>Node15</title>
-<g id="a_Node000015"><a xlink:href="gps_8cpp.html#a4650a0bef4037f605b746db3e8dce5bf" target="_top" xlink:title=" ">
+<g id="a_Node000015"><a xlink:href="gps_8cpp.html#a4650a0bef4037f605b746db3e8dce5bf" target="_top" xlink:title="Stampa i dettagli di una sentenza $xxRMC (Recommended Minimum Navigation Information).">
 <polygon fill="white" stroke="#666666" points="240.5,-93 142.5,-93 142.5,-74 240.5,-74 240.5,-93"/>
 <text text-anchor="middle" x="191.5" y="-81" font-family="Helvetica,sans-Serif" font-size="10.00">print_NMEA_rmc</text>
 </a>
@@ -246,7 +246,7 @@ var sectionId = 'dynsection-13';
 <!-- Node17 -->
 <g id="Node000017" class="node">
 <title>Node17</title>
-<g id="a_Node000017"><a xlink:href="gps_8cpp.html#a77ab7d9e159a0a804e5467a44204eebd" target="_top" xlink:title=" ">
+<g id="a_Node000017"><a xlink:href="gps_8cpp.html#a77ab7d9e159a0a804e5467a44204eebd" target="_top" xlink:title="Stampa rotta e velocità al suolo da una sentenza $xxVTG (Track Made Good and Ground Speed).">
 <polygon fill="white" stroke="#666666" points="239,-167 144,-167 144,-148 239,-148 239,-167"/>
 <text text-anchor="middle" x="191.5" y="-155" font-family="Helvetica,sans-Serif" font-size="10.00">print_NMEA_vtg</text>
 </a>
@@ -264,7 +264,7 @@ var sectionId = 'dynsection-13';
 <!-- Node18 -->
 <g id="Node000018" class="node">
 <title>Node18</title>
-<g id="a_Node000018"><a xlink:href="gps_8cpp.html#ac1555845e4e7fe4d8de83d57a2a6c949" target="_top" xlink:title=" ">
+<g id="a_Node000018"><a xlink:href="gps_8cpp.html#ac1555845e4e7fe4d8de83d57a2a6c949" target="_top" xlink:title="Stampa data e ora UTC da una sentenza $xxZDA (Time &amp; Date).">
 <polygon fill="white" stroke="#666666" points="239.5,-19 143.5,-19 143.5,0 239.5,0 239.5,-19"/>
 <text text-anchor="middle" x="191.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">print_NMEA_zda</text>
 </a>

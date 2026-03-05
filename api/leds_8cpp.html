@@ -80,6 +80,9 @@ $(function() {
   <div class="headertitle"><div class="title">leds.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Implementazione dei feedback visivi tramite LED RGB.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="leds_8h_source.html">leds.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="display__ui_8h_source.html">display_ui.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="buttons_8h_source.html">buttons.h</a>&quot;</code><br />
@@ -92,22 +95,33 @@ Include dependency graph for leds.cpp:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:aadcaa5aaa722b9e5699f50c6d9ca7bfe" id="r_aadcaa5aaa722b9e5699f50c6d9ca7bfe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="leds_8cpp.html#aadcaa5aaa722b9e5699f50c6d9ca7bfe">ledsInit</a> ()</td></tr>
+<tr class="memdesc:aadcaa5aaa722b9e5699f50c6d9ca7bfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inizializza l'hardware dei LED.  <br /></td></tr>
 <tr class="separator:aadcaa5aaa722b9e5699f50c6d9ca7bfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6adf4836bb1cbe26b640aeb5a177071d" id="r_a6adf4836bb1cbe26b640aeb5a177071d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="leds_8cpp.html#a6adf4836bb1cbe26b640aeb5a177071d">ledsShowInitAnimation</a> ()</td></tr>
+<tr class="memdesc:a6adf4836bb1cbe26b640aeb5a177071d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Esegue l'animazione di avvio del sistema.  <br /></td></tr>
 <tr class="separator:a6adf4836bb1cbe26b640aeb5a177071d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9c4cbf122cf8fe3ce3a4e9913c366bda" id="r_a9c4cbf122cf8fe3ce3a4e9913c366bda"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="leds_8cpp.html#a9c4cbf122cf8fe3ce3a4e9913c366bda">ledsNavigationAnimation</a> ()</td></tr>
+<tr class="memdesc:a9c4cbf122cf8fe3ce3a4e9913c366bda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fornisce un feedback visivo durante la navigazione dei menu.  <br /></td></tr>
 <tr class="separator:a9c4cbf122cf8fe3ce3a4e9913c366bda"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20b9a2822d58fc522e9aef69e6e52cbe" id="r_a20b9a2822d58fc522e9aef69e6e52cbe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="leds_8cpp.html#a20b9a2822d58fc522e9aef69e6e52cbe">ledsToggleAnimation</a> ()</td></tr>
+<tr class="memdesc:a20b9a2822d58fc522e9aef69e6e52cbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Esegue un flash verde per confermare un'azione (Toggle).  <br /></td></tr>
 <tr class="separator:a20b9a2822d58fc522e9aef69e6e52cbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa71ec3cdc7932a4bdc30d356cb7c0a69" id="r_aa71ec3cdc7932a4bdc30d356cb7c0a69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="leds_8cpp.html#aa71ec3cdc7932a4bdc30d356cb7c0a69">ledsInactivityAnimation</a> ()</td></tr>
+<tr class="memdesc:aa71ec3cdc7932a4bdc30d356cb7c0a69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Esegue un flash giallo per segnalare l'imminente timeout dello schermo.  <br /></td></tr>
 <tr class="separator:aa71ec3cdc7932a4bdc30d356cb7c0a69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a1b4f26a01e11d7eb2848bc41b0f6dd9d" id="r_a1b4f26a01e11d7eb2848bc41b0f6dd9d"><td class="memItemLeft" align="right" valign="top">CRGB&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="leds_8cpp.html#a1b4f26a01e11d7eb2848bc41b0f6dd9d">leds</a> [<a class="el" href="leds_8h.html#a4c4ae9a4146ce8d6a5debc90300d9abd">NUM_LEDS</a>]</td></tr>
+<tr class="memdesc:a1b4f26a01e11d7eb2848bc41b0f6dd9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array globale che rappresenta lo stato dei colori della striscia LED.  <br /></td></tr>
 <tr class="separator:a1b4f26a01e11d7eb2848bc41b0f6dd9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Implementazione dei feedback visivi tramite LED RGB. </p>
+<ul>
+<li>Questo modulo utilizza la libreria FastLED per gestire una striscia di LED RGB, fornendo segnali visivi per l'inizializzazione del sistema, la navigazione nei menu e gli avvisi di inattività. </li>
+</ul>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a id="aa71ec3cdc7932a4bdc30d356cb7c0a69" name="aa71ec3cdc7932a4bdc30d356cb7c0a69"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa71ec3cdc7932a4bdc30d356cb7c0a69">&#9670;&#160;</a></span>ledsInactivityAnimation()</h2>
 
@@ -122,6 +136,12 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Esegue un flash giallo per segnalare l'imminente timeout dello schermo. </p>
+<p>Esegue un flash Giallo per segnalare il ritorno alla Home per inattività.</p>
+<ul>
+<li>Questa animazione viene richiamata dal timer di inattività prima che il display torni alla schermata Home. </li>
+</ul>
 
 </div>
 </div>
@@ -139,6 +159,12 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Inizializza l'hardware dei LED. </p>
+<p>Inizializza il controller FastLED con i parametri definiti nelle macro.</p>
+<ul>
+<li>Configura il controller FastLED utilizzando il tipo di LED, il pin e l'ordine dei colori definiti in <a class="el" href="leds_8h.html">leds.h</a>. </li>
+</ul>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -161,6 +187,12 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Fornisce un feedback visivo durante la navigazione dei menu. </p>
+<p>Esegue un lampeggio Blu/Rosso per confermare lo spostamento nel menu.</p>
+<ul>
+<li>Accende un LED Blu nella posizione corrente e un LED Rosso nella posizione successiva, quindi esegue un rapido lampeggio per confermare il movimento dell'indice. Gestisce automaticamente il rollover della striscia (se l'indice raggiunge <a class="el" href="leds_8h.html#a4c4ae9a4146ce8d6a5debc90300d9abd">NUM_LEDS</a>). </li>
+</ul>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -183,6 +215,12 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Esegue l'animazione di avvio del sistema. </p>
+<p>Esegue una sequenza di accensione e spegnimento iniziale (Pink fade).</p>
+<ul>
+<li>Accende sequenzialmente i LED con un colore rosa (LightPink) e li spegne nello stesso ordine, creando un effetto di "caricamento" visivo. </li>
+</ul>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -205,6 +243,12 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Esegue un flash verde per confermare un'azione (Toggle). </p>
+<p>Esegue un flash Verde per confermare una selezione o un cambio stato.</p>
+<ul>
+<li>Utilizzato tipicamente quando l'utente conferma una selezione o cambia un'impostazione nel menu. </li>
+</ul>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -225,6 +269,11 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Array globale che rappresenta lo stato dei colori della striscia LED. </p>
+<ul>
+<li></li>
+</ul>
 
 </div>
 </div>

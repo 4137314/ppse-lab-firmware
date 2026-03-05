@@ -80,6 +80,9 @@ $(function() {
   <div class="headertitle"><div class="title">display_ui.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Implementazione dell'interfaccia utente (UI) su display OLED SSD1306.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="display__ui_8h_source.html">display_ui.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="weather_8h_source.html">weather.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="gps_8h_source.html">gps.h</a>&quot;</code><br />
@@ -91,42 +94,65 @@ Include dependency graph for display_ui.cpp:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a640ebbdef8018c8e91e8661db6c9bb36" id="r_a640ebbdef8018c8e91e8661db6c9bb36"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#a640ebbdef8018c8e91e8661db6c9bb36">dayHasForecast</a> (uint8_t d)</td></tr>
-<tr class="separator:a640ebbdef8018c8e91e8661db6c9bb36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab460e1bb5537313cb79cfffa7e93c58b" id="r_ab460e1bb5537313cb79cfffa7e93c58b"><td class="memItemLeft" align="right" valign="top">Adafruit_SSD1306&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b">display</a> (<a class="el" href="display__ui_8h.html#a2cd109632a6dcccaa80b43561b1ab700">SCREEN_WIDTH</a>, <a class="el" href="display__ui_8h.html#a6974d08a74da681b3957b2fead2608b8">SCREEN_HEIGHT</a>, &amp;Wire, -1)</td></tr>
+<tr class="memdesc:ab460e1bb5537313cb79cfffa7e93c58b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Istanza del driver del display SSD1306.  <br /></td></tr>
 <tr class="separator:ab460e1bb5537313cb79cfffa7e93c58b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad84e2073edf05b4e109ecaecca07a99d" id="r_ad84e2073edf05b4e109ecaecca07a99d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#ad84e2073edf05b4e109ecaecca07a99d">displayInit</a> ()</td></tr>
+<tr class="memdesc:ad84e2073edf05b4e109ecaecca07a99d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inizializza l'hardware del display e il bus I2C.  <br /></td></tr>
 <tr class="separator:ad84e2073edf05b4e109ecaecca07a99d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a870af3825a3fc68ae1be66a8cea2b6ec" id="r_a870af3825a3fc68ae1be66a8cea2b6ec"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#a870af3825a3fc68ae1be66a8cea2b6ec">print2d</a> (uint8_t v)</td></tr>
+<tr class="memdesc:a870af3825a3fc68ae1be66a8cea2b6ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper per stampare numeri a due cifre con zero iniziale (es. "09").  <br /></td></tr>
 <tr class="separator:a870af3825a3fc68ae1be66a8cea2b6ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a640ebbdef8018c8e91e8661db6c9bb36" id="r_a640ebbdef8018c8e91e8661db6c9bb36"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#a640ebbdef8018c8e91e8661db6c9bb36">dayHasForecast</a> (uint8_t d)</td></tr>
+<tr class="memdesc:a640ebbdef8018c8e91e8661db6c9bb36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verifica se sono disponibili dati meteo per il giorno specificato.  <br /></td></tr>
+<tr class="separator:a640ebbdef8018c8e91e8661db6c9bb36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1946154d8e9e6dd415476d3378b98ff1" id="r_a1946154d8e9e6dd415476d3378b98ff1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#a1946154d8e9e6dd415476d3378b98ff1">drawHomeScreen</a> ()</td></tr>
+<tr class="memdesc:a1946154d8e9e6dd415476d3378b98ff1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disegna la schermata principale (Ambient Display). Mostra i dati meteo correnti, l'ora e la data recuperate dal GPS.  <br /></td></tr>
 <tr class="separator:a1946154d8e9e6dd415476d3378b98ff1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0cc779d48595c7be531222945c8a5f10" id="r_a0cc779d48595c7be531222945c8a5f10"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#a0cc779d48595c7be531222945c8a5f10">drawMenu</a> (int index)</td></tr>
+<tr class="memdesc:a0cc779d48595c7be531222945c8a5f10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renderizza il menu principale in base allo stile selezionato (<a class="el" href="display__ui_8cpp.html#aabafd531a5b544c5a67cbbc4f06f1152">ScreenStyle</a>).  <br /></td></tr>
 <tr class="separator:a0cc779d48595c7be531222945c8a5f10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4720a85c38264632abe90b06cd0a878a" id="r_a4720a85c38264632abe90b06cd0a878a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#a4720a85c38264632abe90b06cd0a878a">drawMenu_evi</a> (int index)</td></tr>
+<tr class="memdesc:a4720a85c38264632abe90b06cd0a878a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renderizza il menu in modalità "Highlight" (barra piena e testo invertito).  <br /></td></tr>
 <tr class="separator:a4720a85c38264632abe90b06cd0a878a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14c5649f6c7cf2ce771664a9d9fb7490" id="r_a14c5649f6c7cf2ce771664a9d9fb7490"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#a14c5649f6c7cf2ce771664a9d9fb7490">drawSettingsScreen</a> ()</td></tr>
+<tr class="memdesc:a14c5649f6c7cf2ce771664a9d9fb7490"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disegna la schermata dei dati GPS in tempo reale. Mostra coordinate, qualità del fix e numero di satelliti.  <br /></td></tr>
 <tr class="separator:a14c5649f6c7cf2ce771664a9d9fb7490"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8a9d818fdd539d4b669b43222987fc7" id="r_ae8a9d818fdd539d4b669b43222987fc7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#ae8a9d818fdd539d4b669b43222987fc7">drawMeteoScreen</a> ()</td></tr>
+<tr class="memdesc:ae8a9d818fdd539d4b669b43222987fc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renderizza la schermata dettagliata del Meteo.  <br /></td></tr>
 <tr class="separator:ae8a9d818fdd539d4b669b43222987fc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab67f2470dd94c5b293ea60d38b9fae8e" id="r_ab67f2470dd94c5b293ea60d38b9fae8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#ab67f2470dd94c5b293ea60d38b9fae8e">drawGPSScreen</a> ()</td></tr>
+<tr class="memdesc:ab67f2470dd94c5b293ea60d38b9fae8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renderizza la schermata dei dati GPS e temporali.  <br /></td></tr>
 <tr class="separator:ab67f2470dd94c5b293ea60d38b9fae8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab52c20747552f9ca473a8074aa0df6f5" id="r_ab52c20747552f9ca473a8074aa0df6f5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#ab52c20747552f9ca473a8074aa0df6f5">drawSelected</a> (const char *title)</td></tr>
+<tr class="memdesc:ab52c20747552f9ca473a8074aa0df6f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Schermata generica per le voci di menu non ancora implementate.  <br /></td></tr>
+<tr class="separator:ab52c20747552f9ca473a8074aa0df6f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a373a756ed10c316c735042c6aa4807cc" id="r_a373a756ed10c316c735042c6aa4807cc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#a373a756ed10c316c735042c6aa4807cc">drawSystemScreen</a> ()</td></tr>
+<tr class="memdesc:a373a756ed10c316c735042c6aa4807cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renderizza la schermata System.  <br /></td></tr>
 <tr class="separator:a373a756ed10c316c735042c6aa4807cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a863fa83c4f8c55f3d65de3d448e88467" id="r_a863fa83c4f8c55f3d65de3d448e88467"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#a863fa83c4f8c55f3d65de3d448e88467">drawInfoScreen</a> ()</td></tr>
+<tr class="memdesc:a863fa83c4f8c55f3d65de3d448e88467"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renderizza la schermata Info.  <br /></td></tr>
 <tr class="separator:a863fa83c4f8c55f3d65de3d448e88467"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab52c20747552f9ca473a8074aa0df6f5" id="r_ab52c20747552f9ca473a8074aa0df6f5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#ab52c20747552f9ca473a8074aa0df6f5">drawSelected</a> (const char *title)</td></tr>
-<tr class="separator:ab52c20747552f9ca473a8074aa0df6f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a326e6bbb9afdeb1b938398087d9408a5" id="r_a326e6bbb9afdeb1b938398087d9408a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#a326e6bbb9afdeb1b938398087d9408a5">updateDisplayTimeout</a> ()</td></tr>
+<tr class="memdesc:a326e6bbb9afdeb1b938398087d9408a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gestisce il timeout del display per l'inattività utente.  <br /></td></tr>
 <tr class="separator:a326e6bbb9afdeb1b938398087d9408a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a092026f930f769c4ca0f38798212d2ee" id="r_a092026f930f769c4ca0f38798212d2ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#a092026f930f769c4ca0f38798212d2ee">setBrightness</a> (uint8_t level)</td></tr>
+<tr class="memdesc:a092026f930f769c4ca0f38798212d2ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regola il contrasto (luminosità) del display OLED.  <br /></td></tr>
 <tr class="separator:a092026f930f769c4ca0f38798212d2ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:a477ea6363106d20b974ef84a74df01d3" id="r_a477ea6363106d20b974ef84a74df01d3"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#a477ea6363106d20b974ef84a74df01d3">menuItems</a> []</td></tr>
+<tr class="memdesc:a477ea6363106d20b974ef84a74df01d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Voci del menu principale.  <br /></td></tr>
+<tr class="separator:a477ea6363106d20b974ef84a74df01d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ca3840a7c8f0771b1dd707083572319" id="r_a3ca3840a7c8f0771b1dd707083572319"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#a3ca3840a7c8f0771b1dd707083572319">menuLength</a> = sizeof(<a class="el" href="display__ui_8cpp.html#a477ea6363106d20b974ef84a74df01d3">menuItems</a>) / sizeof(<a class="el" href="display__ui_8cpp.html#a477ea6363106d20b974ef84a74df01d3">menuItems</a>[0])</td></tr>
+<tr class="memdesc:a3ca3840a7c8f0771b1dd707083572319"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numero totale di voci nel menu.  <br /></td></tr>
+<tr class="separator:a3ca3840a7c8f0771b1dd707083572319"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Stato Interno UI</div></td></tr>
 <tr class="memitem:a10b5067a83bd080a4dde61dd9a3a84c0" id="r_a10b5067a83bd080a4dde61dd9a3a84c0"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#a10b5067a83bd080a4dde61dd9a3a84c0">gpsDirty</a></td></tr>
 <tr class="separator:a10b5067a83bd080a4dde61dd9a3a84c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c6f156bb25fb0b8dc1c8ecffc44c880" id="r_a5c6f156bb25fb0b8dc1c8ecffc44c880"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structparsed__nmea.html">parsed_nmea</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#a5c6f156bb25fb0b8dc1c8ecffc44c880">gpsData</a></td></tr>
+<tr class="memdesc:a5c6f156bb25fb0b8dc1c8ecffc44c880"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struttura globale contenente gli ultimi dati GPS validi.  <br /></td></tr>
 <tr class="separator:a5c6f156bb25fb0b8dc1c8ecffc44c880"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f7032968434a0bb3785e42b29f6af22" id="r_a2f7032968434a0bb3785e42b29f6af22"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#a2f7032968434a0bb3785e42b29f6af22">lastGpsUiMs</a> = 0</td></tr>
 <tr class="separator:a2f7032968434a0bb3785e42b29f6af22"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -138,12 +164,13 @@ Variables</h2></td></tr>
 <tr class="separator:a33596fc4fdfac44ff7f923b429be9146"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aabafd531a5b544c5a67cbbc4f06f1152" id="r_aabafd531a5b544c5a67cbbc4f06f1152"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#aabafd531a5b544c5a67cbbc4f06f1152">ScreenStyle</a> = 1</td></tr>
 <tr class="separator:aabafd531a5b544c5a67cbbc4f06f1152"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a477ea6363106d20b974ef84a74df01d3" id="r_a477ea6363106d20b974ef84a74df01d3"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#a477ea6363106d20b974ef84a74df01d3">menuItems</a> []</td></tr>
-<tr class="separator:a477ea6363106d20b974ef84a74df01d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ca3840a7c8f0771b1dd707083572319" id="r_a3ca3840a7c8f0771b1dd707083572319"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="display__ui_8cpp.html#a3ca3840a7c8f0771b1dd707083572319">menuLength</a> = sizeof(<a class="el" href="display__ui_8cpp.html#a477ea6363106d20b974ef84a74df01d3">menuItems</a>) / sizeof(<a class="el" href="display__ui_8cpp.html#a477ea6363106d20b974ef84a74df01d3">menuItems</a>[0])</td></tr>
-<tr class="separator:a3ca3840a7c8f0771b1dd707083572319"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Implementazione dell'interfaccia utente (UI) su display OLED SSD1306. </p>
+<ul>
+<li>Gestisce il rendering delle schermate Home, Menu, Meteo e GPS. Include la logica per il cambio di stile del menu (Simple vs Highlight) e il timeout del display. </li>
+</ul>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a id="a640ebbdef8018c8e91e8661db6c9bb36" name="a640ebbdef8018c8e91e8661db6c9bb36"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a640ebbdef8018c8e91e8661db6c9bb36">&#9670;&#160;</a></span>dayHasForecast()</h2>
 
@@ -167,6 +194,15 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Verifica se sono disponibili dati meteo per il giorno specificato. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>Indice del giorno. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true Se i dati sono presenti nel bitmask. </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -212,6 +248,8 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Istanza del driver del display SSD1306. </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -234,6 +272,10 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Inizializza l'hardware del display e il bus I2C. </p>
+<p>Inizializza il bus I2C e il controller SSD1306.</p>
+<dl class="section return"><dt>Returns</dt><dd>true Se l'inizializzazione ha successo, false altrimenti. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -261,6 +303,12 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Renderizza la schermata dei dati GPS e temporali. </p>
+<p>Renderizza la schermata dei dati GPS in tempo reale.</p>
+<ul>
+<li>Estrae e formatta le coordinate geografiche (Latitudine/Longitudine), la qualità del fix e le informazioni satellitari dalle sentenze NMEA GGA e RMC. Include un'indicazione per il salvataggio dei log su SD/Flash. </li>
+</ul>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -288,6 +336,9 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Disegna la schermata principale (Ambient Display). Mostra i dati meteo correnti, l'ora e la data recuperate dal GPS. </p>
+<p>Renderizza la schermata Home con ora, data e meteo corrente. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -315,6 +366,9 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Renderizza la schermata Info. </p>
+<p>Renderizza la schermata crediti e informazioni. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -343,6 +397,15 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Renderizza il menu principale in base allo stile selezionato (<a class="el" href="display__ui_8cpp.html#aabafd531a5b544c5a67cbbc4f06f1152">ScreenStyle</a>). </p>
+<p>Disegna il menu principale con lo stile selezionato in <a class="el" href="display__ui_8cpp.html#aabafd531a5b544c5a67cbbc4f06f1152">ScreenStyle</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Indice dell'elemento da evidenziare. </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -371,6 +434,15 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Renderizza il menu in modalità "Highlight" (barra piena e testo invertito). </p>
+<p>Renderizza forzatamente il menu con stile evidenziato (testo invertito).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Indice dell'elemento da evidenziare. </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -398,6 +470,12 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Renderizza la schermata dettagliata del Meteo. </p>
+<p>Renderizza la schermata dettagliata delle previsioni meteo.</p>
+<ul>
+<li>Visualizza la città, il giorno della settimana calcolato dinamicamente e le previsioni (forecast) per l'ora e il giorno selezionati tramite i pulsanti. Mostra inoltre le condizioni attuali (temperatura e umidità) recuperate dal server. </li>
+</ul>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -426,6 +504,15 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Schermata generica per le voci di menu non ancora implementate. </p>
+<p>Mostra una schermata di segnaposto per le voci selezionate.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">title</td><td>Il titolo della sezione selezionata. </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -453,6 +540,9 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Disegna la schermata dei dati GPS in tempo reale. Mostra coordinate, qualità del fix e numero di satelliti. </p>
+<p>Renderizza la schermata di configurazione impostazioni. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -480,6 +570,9 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Renderizza la schermata System. </p>
+<p>Renderizza la schermata di stato del sistema. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -516,6 +609,14 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Helper per stampare numeri a due cifre con zero iniziale (es. "09"). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>Valore da stampare. </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -539,6 +640,15 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Regola il contrasto (luminosità) del display OLED. </p>
+<p>Regola l'intensità luminosa (contrasto) del pannello OLED.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">level</td><td>Livello di contrasto da 0 a 255. </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -561,6 +671,12 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Gestisce il timeout del display per l'inattività utente. </p>
+<p>Gestisce il timeout dell'inattività e il ritorno automatico alla Home.</p>
+<ul>
+<li>Se il menu è aperto o l'utente è in un sottomenu, verifica il tempo trascorso dall'ultima interazione. Superato il limite <a class="el" href="buttons_8cpp.html#a11f94697b3263d4cbe4e2ad8e99364c7">DISPLAY_TIMEOUT_MS</a>, riporta il sistema alla <a class="el" href="display__ui_8cpp.html#a1946154d8e9e6dd415476d3378b98ff1">drawHomeScreen</a>. </li>
+</ul>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -590,6 +706,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Struttura globale contenente gli ultimi dati GPS validi. </p>
+<p>Struttura globale contenente gli ultimi dati NMEA parsati. </p>
+
 </div>
 </div>
 <a id="a72633eb7d635fdcd67c3ba83a0ff6210" name="a72633eb7d635fdcd67c3ba83a0ff6210"></a>
@@ -603,6 +722,7 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Indice del giorno selezionato per le previsioni meteo. </p>
 
 </div>
 </div>
@@ -625,6 +745,8 @@ Here is the call graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Flag che indica la presenza di nuovi dati GPS da processare.</p>
+<p>Flag: i dati GPS sono cambiati e richiedono redraw. </p>
 
 </div>
 </div>
@@ -639,6 +761,7 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Indice dell'ora selezionata per le previsioni meteo. </p>
 
 </div>
 </div>
@@ -661,6 +784,7 @@ Here is the call graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Timestamp dell'ultimo aggiornamento della UI GPS. </p>
 
 </div>
 </div>
@@ -683,6 +807,11 @@ Here is the call graph for this function:</div>
 <div class="line">    <span class="stringliteral">&quot;Info&quot;</span></div>
 <div class="line">}</div>
 </div><!-- fragment -->
+<p>Voci del menu principale. </p>
+<ul>
+<li></li>
+</ul>
+
 </div>
 </div>
 <a id="a3ca3840a7c8f0771b1dd707083572319" name="a3ca3840a7c8f0771b1dd707083572319"></a>
@@ -697,6 +826,9 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
+<p>Numero totale di voci nel menu. </p>
+<p>Numero totale di elementi nel menu. </p>
+
 </div>
 </div>
 <a id="aabafd531a5b544c5a67cbbc4f06f1152" name="aabafd531a5b544c5a67cbbc4f06f1152"></a>
@@ -710,6 +842,7 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Stile del menu: 1 = Semplice, 0 = Evidenziato (Highlight). </p>
 
 </div>
 </div>
@@ -732,6 +865,7 @@ Here is the call graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Indice della voce selezionata nel menu Settings. </p>
 
 </div>
 </div>

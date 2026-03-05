@@ -1,9 +1,9 @@
 <map id="debounce_callback" name="debounce_callback">
-<area shape="rect" id="Node000001" title=" " alt="" coords="411,5,557,31"/>
-<area shape="rect" id="Node000002" href="$buttons_8cpp.html#a7f6538b252b233c2a00eeabf455b6ac8" title=" " alt="" coords="252,5,363,31"/>
+<area shape="rect" id="Node000001" title="Callback dell&#39;allarme per il filtraggio software del debounce." alt="" coords="411,5,557,31"/>
+<area shape="rect" id="Node000002" href="$buttons_8cpp.html#a7f6538b252b233c2a00eeabf455b6ac8" title="Handler degli interrupt GPIO per i pulsanti." alt="" coords="252,5,363,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="397,21,363,21,363,15,397,15"/>
-<area shape="rect" id="Node000003" href="$buttons_8cpp.html#a6d3fe55c02bba21088185ebbf7768240" title=" " alt="" coords="112,5,204,31"/>
+<area shape="rect" id="Node000003" href="$buttons_8cpp.html#a6d3fe55c02bba21088185ebbf7768240" title="Inizializza i pin dei pulsanti e configura gli interrupt." alt="" coords="112,5,204,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="238,21,204,21,204,15,238,15"/>
-<area shape="rect" id="Node000004" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="5,5,64,31"/>
+<area shape="rect" id="Node000004" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="Configurazione iniziale per il Core 0." alt="" coords="5,5,64,31"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="98,21,64,21,64,15,98,15"/>
 </map>

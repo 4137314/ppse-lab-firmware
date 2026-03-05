@@ -1,5 +1,5 @@
 <map id="parsed_nmea" name="parsed_nmea">
-<area shape="rect" id="Node000001" title=" " alt="" coords="660,873,771,898"/>
+<area shape="rect" id="Node000001" title="Container globale per le sentenze NMEA parsate." alt="" coords="660,873,771,898"/>
 <area shape="rect" id="Node000002" href="$structminmea__sentence__gbs.html" title=" " alt="" coords="357,521,529,546"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="470,554,548,635,594,689,638,745,681,815,710,871,706,874,677,818,634,748,590,692,544,639,466,558"/>
 <area shape="rect" id="Node000003" href="$unionminmea__type.html" title=" " alt="" coords="17,873,129,898"/>

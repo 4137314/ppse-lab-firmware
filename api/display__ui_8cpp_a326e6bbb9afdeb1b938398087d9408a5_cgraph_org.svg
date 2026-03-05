@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Gestisce il timeout del display per l&#39;inattività utente.">
 <polygon fill="#999999" stroke="#666666" points="128,-37 0,-37 0,-18 128,-18 128,-37"/>
 <text text-anchor="middle" x="64" y="-25" font-family="Helvetica,sans-Serif" font-size="10.00">updateDisplayTimeout</text>
 </a>
@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="display__ui_8cpp.html#a1946154d8e9e6dd415476d3378b98ff1" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="display__ui_8cpp.html#a1946154d8e9e6dd415476d3378b98ff1" target="_top" xlink:title="Disegna la schermata principale (Ambient Display). Mostra i dati meteo correnti, l&#39;ora e la data recu...">
 <polygon fill="white" stroke="#666666" points="267,-37 164,-37 164,-18 267,-18 267,-37"/>
 <text text-anchor="middle" x="215.5" y="-25" font-family="Helvetica,sans-Serif" font-size="10.00">drawHomeScreen</text>
 </a>
@@ -38,7 +38,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" target="_top" xlink:title="Istanza del driver del display SSD1306.">
 <polygon fill="white" stroke="#666666" points="400.5,-56 348.5,-56 348.5,-37 400.5,-37 400.5,-56"/>
 <text text-anchor="middle" x="374.5" y="-44" font-family="Helvetica,sans-Serif" font-size="10.00">display</text>
 </a>
@@ -56,7 +56,7 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="weather_8cpp.html#a8e2b5c9b7658529d8dae9d6ea9d56de7" target="_top" xlink:title=" ">
+<g id="a_Node000004"><a xlink:href="weather_8cpp.html#a8e2b5c9b7658529d8dae9d6ea9d56de7" target="_top" xlink:title="Converte il codice WMO in una descrizione testuale breve.">
 <polygon fill="white" stroke="#666666" points="446,-19 303,-19 303,0 446,0 446,-19"/>
 <text text-anchor="middle" x="374.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">Weather_CodeToShortText</text>
 </a>

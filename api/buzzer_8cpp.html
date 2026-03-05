@@ -80,6 +80,9 @@ $(function() {
   <div class="headertitle"><div class="title">buzzer.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Driver per la gestione del feedback acustico tramite buzzer piezoelettrico.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="buzzer_8h_source.html">buzzer.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for buzzer.cpp:</div>
@@ -90,16 +93,24 @@ Include dependency graph for buzzer.cpp:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ac0bbca39dff4d7966e343ebf687d23a6" id="r_ac0bbca39dff4d7966e343ebf687d23a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buzzer_8cpp.html#ac0bbca39dff4d7966e343ebf687d23a6">buzzerInit</a> (uint8_t pin)</td></tr>
+<tr class="memdesc:ac0bbca39dff4d7966e343ebf687d23a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inizializza il buzzer e configura il relativo pin.  <br /></td></tr>
 <tr class="separator:ac0bbca39dff4d7966e343ebf687d23a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a659dfc3bc7bb934e736c289f688777fd" id="r_a659dfc3bc7bb934e736c289f688777fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buzzer_8cpp.html#a659dfc3bc7bb934e736c289f688777fd">buzzerBeep</a> (uint16_t freq, uint16_t duration)</td></tr>
+<tr class="memdesc:a659dfc3bc7bb934e736c289f688777fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Genera un segnale acustico (beep) a frequenza e durata specificate.  <br /></td></tr>
 <tr class="separator:a659dfc3bc7bb934e736c289f688777fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a63b02cf27653971f4fda3170bbcbfadf" id="r_a63b02cf27653971f4fda3170bbcbfadf"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buzzer_8cpp.html#a63b02cf27653971f4fda3170bbcbfadf">buzzerPin</a></td></tr>
+<tr class="memdesc:a63b02cf27653971f4fda3170bbcbfadf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pin GPIO assegnato al buzzer.  <br /></td></tr>
 <tr class="separator:a63b02cf27653971f4fda3170bbcbfadf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Driver per la gestione del feedback acustico tramite buzzer piezoelettrico. </p>
+<ul>
+<li>Fornisce funzioni per l'inizializzazione del pin e la generazione di segnali acustici (beep) utilizzando la funzione tone() di Arduino. </li>
+</ul>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a id="a659dfc3bc7bb934e736c289f688777fd" name="a659dfc3bc7bb934e736c289f688777fd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a659dfc3bc7bb934e736c289f688777fd">&#9670;&#160;</a></span>buzzerBeep()</h2>
 
@@ -125,6 +136,20 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Genera un segnale acustico (beep) a frequenza e durata specificate. </p>
+<p>Genera un suono impulsivo (beep).</p>
+<ul>
+<li>Utilizza la generazione PWM per produrre un'onda quadra alla frequenza desiderata.</li>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">freq</td><td>Frequenza del tono in Hz (Default: 2000Hz). </td></tr>
+    <tr><td class="paramname">duration</td><td>Durata del tono in millisecondi (Default: 100ms). </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -148,6 +173,19 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Inizializza il buzzer e configura il relativo pin. </p>
+<p>Configura il pin del buzzer e prepara l'hardware.</p>
+<ul>
+<li>Configura il pin come <code>OUTPUT</code>. Se la macro <a class="el" href="main_8cpp.html#adedde0f9718a16af53802714f7c01ee7">BUZZER_INIT_BEEP</a> è impostata a 1, esegue un beep di test all'avvio.</li>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pin</td><td>Il numero del pin GPIO a cui è collegato il buzzer. </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -176,6 +214,9 @@ Here is the call graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Pin GPIO assegnato al buzzer. </p>
+<p>*</p><dl class="section note"><dt>Note</dt><dd>La variabile è dichiarata <code>static</code> per limitarne lo scope a questo file. </dd></dl>
 
 </div>
 </div>

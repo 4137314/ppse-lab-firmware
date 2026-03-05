@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Renderizza la schermata Home con ora, data e meteo corrente.">
 <polygon fill="#999999" stroke="#666666" points="103,-37 0,-37 0,-18 103,-18 103,-37"/>
 <text text-anchor="middle" x="51.5" y="-25" font-family="Helvetica,sans-Serif" font-size="10.00">drawHomeScreen</text>
 </a>
@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" target="_top" xlink:title="Istanza del driver del display SSD1306.">
 <polygon fill="white" stroke="#666666" points="236.5,-56 184.5,-56 184.5,-37 236.5,-37 236.5,-56"/>
 <text text-anchor="middle" x="210.5" y="-44" font-family="Helvetica,sans-Serif" font-size="10.00">display</text>
 </a>
@@ -38,7 +38,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="weather_8cpp.html#a8e2b5c9b7658529d8dae9d6ea9d56de7" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="weather_8cpp.html#a8e2b5c9b7658529d8dae9d6ea9d56de7" target="_top" xlink:title="Converte il codice WMO in una descrizione testuale breve.">
 <polygon fill="white" stroke="#666666" points="282,-19 139,-19 139,0 282,0 282,-19"/>
 <text text-anchor="middle" x="210.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">Weather_CodeToShortText</text>
 </a>

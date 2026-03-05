@@ -21,7 +21,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Stampa i dettagli di una sentenza $xxRMC (Recommended Minimum Navigation Information).">
 <polygon fill="#999999" stroke="#666666" points="98,-56 0,-56 0,-37 98,-37 98,-56"/>
 <text text-anchor="middle" x="49" y="-44" font-family="Helvetica,sans-Serif" font-size="10.00">print_NMEA_rmc</text>
 </a>

@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Verifica la pressione simultanea dei tasti LEFT e RIGHT.">
 <polygon fill="#999999" stroke="#666666" points="322,-19 199,-19 199,0 322,0 322,-19"/>
 <text text-anchor="middle" x="260.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">checkLeftRightCombo</text>
 </a>
@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="buttons_8cpp.html#a362a9b2582e0724627b8cd9f2e16f599" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="buttons_8cpp.html#a362a9b2582e0724627b8cd9f2e16f599" target="_top" xlink:title="Funzione di update della logica dei menu. Da chiamare nel loop principale.">
 <polygon fill="white" stroke="#666666" points="163,-19 74,-19 74,0 163,0 163,-19"/>
 <text text-anchor="middle" x="118.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">buttonsUpdate</text>
 </a>
@@ -38,7 +38,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" target="_top" xlink:title="Loop principale del Core 0.">
 <polygon fill="white" stroke="#666666" points="38,-19 0,-19 0,0 38,0 38,-19"/>
 <text text-anchor="middle" x="19" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">loop</text>
 </a>

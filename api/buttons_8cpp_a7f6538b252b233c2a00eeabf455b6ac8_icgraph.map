@@ -1,7 +1,7 @@
 <map id="gpio_callback" name="gpio_callback">
-<area shape="rect" id="Node000001" title=" " alt="" coords="252,5,363,31"/>
-<area shape="rect" id="Node000002" href="$buttons_8cpp.html#a6d3fe55c02bba21088185ebbf7768240" title=" " alt="" coords="112,5,204,31"/>
+<area shape="rect" id="Node000001" title="Handler degli interrupt GPIO per i pulsanti." alt="" coords="252,5,363,31"/>
+<area shape="rect" id="Node000002" href="$buttons_8cpp.html#a6d3fe55c02bba21088185ebbf7768240" title="Inizializza i pin dei pulsanti e configura gli interrupt." alt="" coords="112,5,204,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="238,21,204,21,204,15,238,15"/>
-<area shape="rect" id="Node000003" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="5,5,64,31"/>
+<area shape="rect" id="Node000003" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="Configurazione iniziale per il Core 0." alt="" coords="5,5,64,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="98,21,64,21,64,15,98,15"/>
 </map>

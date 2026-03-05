@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Inizializza il filesystem FAT sulla Flash interna.">
 <polygon fill="#999999" stroke="#666666" points="256,-37 181,-37 181,-18 256,-18 256,-37"/>
 <text text-anchor="middle" x="218.5" y="-25" font-family="Helvetica,sans-Serif" font-size="10.00">FatFS_Setup</text>
 </a>
@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="main_8cpp.html#ac764ee28e2916a7de10b22927e02d1a4" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="main_8cpp.html#ac764ee28e2916a7de10b22927e02d1a4" target="_top" xlink:title="Configurazione iniziale per il Core 1.">
 <polygon fill="white" stroke="#666666" points="137.5,-56 87.5,-56 87.5,-37 137.5,-37 137.5,-56"/>
 <text text-anchor="middle" x="112.5" y="-44" font-family="Helvetica,sans-Serif" font-size="10.00">setup1</text>
 </a>
@@ -38,7 +38,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="Filesystem_8cpp.html#acde6b81e46f60c50c323ae21b153d1bf" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="Filesystem_8cpp.html#acde6b81e46f60c50c323ae21b153d1bf" target="_top" xlink:title="Sincronizza lo stato del filesystem e gestisce la rimonta dopo l&#39;uso USB.">
 <polygon fill="white" stroke="#666666" points="145,-19 80,-19 80,0 145,0 145,-19"/>
 <text text-anchor="middle" x="112.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">sync_files</text>
 </a>
@@ -56,7 +56,7 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="main_8cpp.html#a39ceba300a80e348e278539f57e0ca79" target="_top" xlink:title=" ">
+<g id="a_Node000004"><a xlink:href="main_8cpp.html#a39ceba300a80e348e278539f57e0ca79" target="_top" xlink:title="Loop principale del Core 1.">
 <polygon fill="white" stroke="#666666" points="44,-19 0,-19 0,0 44,0 44,-19"/>
 <text text-anchor="middle" x="22" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">loop1</text>
 </a>

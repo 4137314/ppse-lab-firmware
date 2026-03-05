@@ -1,5 +1,5 @@
 <map id="save_gps_log20" name="save_gps_log20">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,132,31"/>
+<area shape="rect" id="Node000001" title="Aggiunge una riga al log rotativo (max 20 righe)." alt="" coords="5,5,132,31"/>
 <area shape="rect" id="Node000002" href="$minmea_8h.html#a82cdc79749798023b4a1952faf84f1ca" title=" " alt="" coords="180,5,312,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,15,166,15,166,21,132,21"/>
 </map>

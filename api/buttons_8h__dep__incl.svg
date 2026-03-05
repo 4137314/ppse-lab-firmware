@@ -57,7 +57,7 @@ var sectionId = 'dynsection-1';
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Definizioni e prototipi per la gestione degli input utente e della UI.">
 <polygon fill="#999999" stroke="#666666" points="308.5,-140 184.5,-140 184.5,-121 308.5,-121 308.5,-140"/>
 <text text-anchor="middle" x="246.5" y="-128" font-family="Helvetica,sans-Serif" font-size="10.00">src/Modules/buttons.h</text>
 </a>
@@ -66,7 +66,7 @@ var sectionId = 'dynsection-1';
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="buttons_8cpp.html" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="buttons_8cpp.html" target="_top" xlink:title="Gestione dell&#39;input utente, sitema di debounce e macchina a stati del menu.">
 <polygon fill="white" stroke="#666666" points="135,-24.5 0,-24.5 0,-5.5 135,-5.5 135,-24.5"/>
 <text text-anchor="middle" x="67.5" y="-12.5" font-family="Helvetica,sans-Serif" font-size="10.00">src/Modules/buttons.cpp</text>
 </a>
@@ -84,7 +84,7 @@ var sectionId = 'dynsection-1';
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="display__ui_8h.html" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="display__ui_8h.html" target="_top" xlink:title="Definizioni hardware e prototipi per l&#39;interfaccia utente OLED.">
 <polygon fill="white" stroke="#666666" points="315,-85 178,-85 178,-66 315,-66 315,-85"/>
 <text text-anchor="middle" x="246.5" y="-73" font-family="Helvetica,sans-Serif" font-size="10.00">src/Modules/display_ui.h</text>
 </a>
@@ -102,7 +102,7 @@ var sectionId = 'dynsection-1';
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="leds_8cpp.html" target="_top" xlink:title=" ">
+<g id="a_Node000005"><a xlink:href="leds_8cpp.html" target="_top" xlink:title="Implementazione dei feedback visivi tramite LED RGB.">
 <polygon fill="white" stroke="#666666" points="403,-24.5 284,-24.5 284,-5.5 403,-5.5 403,-24.5"/>
 <text text-anchor="middle" x="343.5" y="-12.5" font-family="Helvetica,sans-Serif" font-size="10.00">src/Modules/leds.cpp</text>
 </a>
@@ -120,7 +120,7 @@ var sectionId = 'dynsection-1';
 <!-- Node6 -->
 <g id="Node000006" class="node">
 <title>Node6</title>
-<g id="a_Node000006"><a xlink:href="main_8cpp.html" target="_top" xlink:title=" ">
+<g id="a_Node000006"><a xlink:href="main_8cpp.html" target="_top" xlink:title="Orchestratore di sistema e gestione Multicore.">
 <polygon fill="white" stroke="#666666" points="500,-24.5 421,-24.5 421,-5.5 500,-5.5 500,-24.5"/>
 <text text-anchor="middle" x="460.5" y="-12.5" font-family="Helvetica,sans-Serif" font-size="10.00">src/main.cpp</text>
 </a>
@@ -156,7 +156,7 @@ var sectionId = 'dynsection-1';
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="display__ui_8cpp.html" target="_top" xlink:title=" ">
+<g id="a_Node000004"><a xlink:href="display__ui_8cpp.html" target="_top" xlink:title="Implementazione dell&#39;interfaccia utente (UI) su display OLED SSD1306.">
 <polygon fill="white" stroke="#666666" points="266,-30 153,-30 153,0 266,0 266,-30"/>
 <text text-anchor="start" x="161" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">src/Modules/display</text>
 <text text-anchor="middle" x="209.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">_ui.cpp</text>

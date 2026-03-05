@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Renderizza il menu principale in base allo stile selezionato (ScreenStyle).">
 <polygon fill="#999999" stroke="#666666" points="68,-38 0,-38 0,-19 68,-19 68,-38"/>
 <text text-anchor="middle" x="34" y="-26" font-family="Helvetica,sans-Serif" font-size="10.00">drawMenu</text>
 </a>
@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" target="_top" xlink:title="Istanza del driver del display SSD1306.">
 <polygon fill="white" stroke="#666666" points="280,-38 228,-38 228,-19 280,-19 280,-38"/>
 <text text-anchor="middle" x="254" y="-26" font-family="Helvetica,sans-Serif" font-size="10.00">display</text>
 </a>
@@ -38,7 +38,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="display__ui_8cpp.html#a4720a85c38264632abe90b06cd0a878a" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="display__ui_8cpp.html#a4720a85c38264632abe90b06cd0a878a" target="_top" xlink:title="Renderizza il menu in modalità &quot;Highlight&quot; (barra piena e testo invertito).">
 <polygon fill="white" stroke="#666666" points="192,-19 104,-19 104,0 192,0 192,-19"/>
 <text text-anchor="middle" x="148" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">drawMenu_evi</text>
 </a>

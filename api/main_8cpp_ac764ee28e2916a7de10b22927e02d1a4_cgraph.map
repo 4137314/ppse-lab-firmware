@@ -1,15 +1,15 @@
 <map id="setup1" name="setup1">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,72,80"/>
-<area shape="rect" id="Node000002" href="$Filesystem_8cpp.html#af3f1e5af9825fbd3178a8dd29ec898ff" title=" " alt="" coords="133,5,233,31"/>
+<area shape="rect" id="Node000001" title="Configurazione iniziale per il Core 1." alt="" coords="5,55,72,80"/>
+<area shape="rect" id="Node000002" href="$Filesystem_8cpp.html#af3f1e5af9825fbd3178a8dd29ec898ff" title="Inizializza il filesystem FatFS sulla memoria Flash." alt="" coords="133,5,233,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="71,54,132,33,134,38,73,59"/>
-<area shape="rect" id="Node000003" href="$Filesystem_8cpp.html#aadf4a6d086b5111da73b529111a54e2f" title=" " alt="" coords="120,55,247,80"/>
+<area shape="rect" id="Node000003" href="$Filesystem_8cpp.html#aadf4a6d086b5111da73b529111a54e2f" title="Configura l&#39;interfaccia USB Mass Storage." alt="" coords="120,55,247,80"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="72,65,106,65,106,70,72,70"/>
-<area shape="rect" id="Node000007" href="$gps_8cpp.html#a27c44e6a267029d9db9678b90361b91a" title=" " alt="" coords="150,104,217,129"/>
+<area shape="rect" id="Node000007" href="$gps_8cpp.html#a27c44e6a267029d9db9678b90361b91a" title="Inizializza l&#39;hardware dedicato al GPS." alt="" coords="150,104,217,129"/>
 <area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="73,76,138,99,136,104,71,81"/>
-<area shape="rect" id="Node000004" href="$Filesystem_8cpp.html#a74282d889889088af618af7147a0af10" title=" " alt="" coords="295,5,387,31"/>
+<area shape="rect" id="Node000004" href="$Filesystem_8cpp.html#a74282d889889088af618af7147a0af10" title="Verifica se il filesystem è pronto per essere montato dall&#39;host USB." alt="" coords="295,5,387,31"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="224,52,285,32,287,37,225,57"/>
-<area shape="rect" id="Node000005" href="$Filesystem_8cpp.html#a3c394d6181de6a9514b3810fa42e787d" title=" " alt="" coords="315,55,366,80"/>
+<area shape="rect" id="Node000005" href="$Filesystem_8cpp.html#a3c394d6181de6a9514b3810fa42e787d" title="Callback eseguito alla connessione USB." alt="" coords="315,55,366,80"/>
 <area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="247,65,302,65,302,70,247,70"/>
-<area shape="rect" id="Node000006" href="$Filesystem_8cpp.html#a8e24a774e23a962350e4ebb5e948f2f0" title=" " alt="" coords="307,104,374,129"/>
+<area shape="rect" id="Node000006" href="$Filesystem_8cpp.html#a8e24a774e23a962350e4ebb5e948f2f0" title="Callback eseguito alla disconnessione USB." alt="" coords="307,104,374,129"/>
 <area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="225,77,295,100,293,105,224,83"/>
 </map>

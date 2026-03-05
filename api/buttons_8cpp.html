@@ -81,6 +81,9 @@ $(function() {
   <div class="headertitle"><div class="title">buttons.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Gestione dell'input utente, sitema di debounce e macchina a stati del menu.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="buttons_8h_source.html">buttons.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="display__ui_8h_source.html">display_ui.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="leds_8h_source.html">leds.h</a>&quot;</code><br />
@@ -104,25 +107,38 @@ Enumerations</h2></td></tr>
 , <a class="el" href="buttons_8cpp.html#afbb123f163deb2e4979c67b8e812604ba9c5bb3abc4355b22778c3f91672fb0f4">SUB_INFO</a>
 <br />
  }</td></tr>
+<tr class="memdesc:afbb123f163deb2e4979c67b8e812604b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Definizione dei sottomenu disponibili nel sistema.  <a href="buttons_8cpp.html#afbb123f163deb2e4979c67b8e812604b">More...</a><br /></td></tr>
 <tr class="separator:afbb123f163deb2e4979c67b8e812604b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a5efcf76744c2885d8d1fd0ce223a5e2d" id="r_a5efcf76744c2885d8d1fd0ce223a5e2d"><td class="memItemLeft" align="right" valign="top">long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buttons_8cpp.html#a5efcf76744c2885d8d1fd0ce223a5e2d">debounce_callback</a> (alarm_id_t id, void *user_data)</td></tr>
+<tr class="memdesc:a5efcf76744c2885d8d1fd0ce223a5e2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback dell'allarme per il filtraggio software del debounce.  <br /></td></tr>
 <tr class="separator:a5efcf76744c2885d8d1fd0ce223a5e2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f6538b252b233c2a00eeabf455b6ac8" id="r_a7f6538b252b233c2a00eeabf455b6ac8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buttons_8cpp.html#a7f6538b252b233c2a00eeabf455b6ac8">gpio_callback</a> (uint gpio, uint32_t events)</td></tr>
+<tr class="memdesc:a7f6538b252b233c2a00eeabf455b6ac8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handler degli interrupt GPIO per i pulsanti.  <br /></td></tr>
 <tr class="separator:a7f6538b252b233c2a00eeabf455b6ac8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d3fe55c02bba21088185ebbf7768240" id="r_a6d3fe55c02bba21088185ebbf7768240"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buttons_8cpp.html#a6d3fe55c02bba21088185ebbf7768240">buttonsInit</a> ()</td></tr>
+<tr class="memdesc:a6d3fe55c02bba21088185ebbf7768240"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inizializza i pin dei pulsanti e configura gli interrupt.  <br /></td></tr>
 <tr class="separator:a6d3fe55c02bba21088185ebbf7768240"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a362a9b2582e0724627b8cd9f2e16f599" id="r_a362a9b2582e0724627b8cd9f2e16f599"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buttons_8cpp.html#a362a9b2582e0724627b8cd9f2e16f599">buttonsUpdate</a> ()</td></tr>
+<tr class="memdesc:a362a9b2582e0724627b8cd9f2e16f599"><td class="mdescLeft">&#160;</td><td class="mdescRight">Funzione di update della logica dei menu. Da chiamare nel loop principale.  <br /></td></tr>
 <tr class="separator:a362a9b2582e0724627b8cd9f2e16f599"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a668c3b350a802edf187d6c97a61b4358" id="r_a668c3b350a802edf187d6c97a61b4358"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buttons_8cpp.html#a668c3b350a802edf187d6c97a61b4358">checkLeftRightCombo</a> (<a class="el" href="buttons_8h.html#addc3b5d1570f0ce0c92be27696571ef2">KeyEvent</a> ev)</td></tr>
+<tr class="memdesc:a668c3b350a802edf187d6c97a61b4358"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verifica la pressione simultanea dei tasti LEFT e RIGHT.  <br /></td></tr>
 <tr class="separator:a668c3b350a802edf187d6c97a61b4358"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a476aa2a0a9fd2be3bedddd06747816c4" id="r_a476aa2a0a9fd2be3bedddd06747816c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buttons_8cpp.html#a476aa2a0a9fd2be3bedddd06747816c4">onLeftRightCombo</a> ()</td></tr>
+<tr class="memdesc:a476aa2a0a9fd2be3bedddd06747816c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Azione eseguita al rilevamento della combo LEFT+RIGHT. Esegue il toggle tra modalità Home (Ambient) e Menu.  <br /></td></tr>
 <tr class="separator:a476aa2a0a9fd2be3bedddd06747816c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:a8b2c06c460e841241e8e23f1e21e42af" id="r_a8b2c06c460e841241e8e23f1e21e42af"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buttons_8cpp.html#a8b2c06c460e841241e8e23f1e21e42af">MENU_LENGTH</a> = 5</td></tr>
+<tr class="separator:a8b2c06c460e841241e8e23f1e21e42af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2d3e5026f2f820a6b6f6cfc2458e861" id="r_ae2d3e5026f2f820a6b6f6cfc2458e861"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buttons_8cpp.html#ae2d3e5026f2f820a6b6f6cfc2458e861">ledsNumber</a> = 0</td></tr>
+<tr class="memdesc:ae2d3e5026f2f820a6b6f6cfc2458e861"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identificatore per l'animazione dei LED di navigazione.  <br /></td></tr>
+<tr class="separator:ae2d3e5026f2f820a6b6f6cfc2458e861"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Stato Navigazione Menu</div></td></tr>
 <tr class="memitem:a5f8e88cec6297972de98d6751a7d69be" id="r_a5f8e88cec6297972de98d6751a7d69be"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buttons_8cpp.html#a5f8e88cec6297972de98d6751a7d69be">menuIndex</a> = 0</td></tr>
 <tr class="separator:a5f8e88cec6297972de98d6751a7d69be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0cc41540e16a2a3c7fa870d5deee518e" id="r_a0cc41540e16a2a3c7fa870d5deee518e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buttons_8cpp.html#a0cc41540e16a2a3c7fa870d5deee518e">menuOpen</a> = false</td></tr>
@@ -131,6 +147,7 @@ Variables</h2></td></tr>
 <tr class="separator:ad048545f4e2df18a7031d8f2c91d4ef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21c18dd67347245339ef3a67a21f3a73" id="r_a21c18dd67347245339ef3a67a21f3a73"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buttons_8cpp.html#a21c18dd67347245339ef3a67a21f3a73">ambientDisplay</a> = true</td></tr>
 <tr class="separator:a21c18dd67347245339ef3a67a21f3a73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Flag Interrupt Pulsanti</div></td></tr>
 <tr class="memitem:adffb4f1698732564a499fe39c2279a34" id="r_adffb4f1698732564a499fe39c2279a34"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buttons_8cpp.html#adffb4f1698732564a499fe39c2279a34">up_press</a> =false</td></tr>
 <tr class="separator:adffb4f1698732564a499fe39c2279a34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a77fff88635ba4d1bbf555547a40f9c7e" id="r_a77fff88635ba4d1bbf555547a40f9c7e"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buttons_8cpp.html#a77fff88635ba4d1bbf555547a40f9c7e">down_press</a> =false</td></tr>
@@ -139,6 +156,7 @@ Variables</h2></td></tr>
 <tr class="separator:a63946a1a3635cd7f6fae2e956409a985"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a973dc2a7f3f3d4d08b25023a8bc4664b" id="r_a973dc2a7f3f3d4d08b25023a8bc4664b"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buttons_8cpp.html#a973dc2a7f3f3d4d08b25023a8bc4664b">right_press</a> =false</td></tr>
 <tr class="separator:a973dc2a7f3f3d4d08b25023a8bc4664b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Configurazione Temporale e Debounce</div></td></tr>
 <tr class="memitem:a8d000fac9b8b89616c081a9e158ae40f" id="r_a8d000fac9b8b89616c081a9e158ae40f"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buttons_8cpp.html#a8d000fac9b8b89616c081a9e158ae40f">tLeft</a> = 0</td></tr>
 <tr class="separator:a8d000fac9b8b89616c081a9e158ae40f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe106fdf64af4b4e440bdd17ef8b35e2" id="r_afe106fdf64af4b4e440bdd17ef8b35e2"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buttons_8cpp.html#afe106fdf64af4b4e440bdd17ef8b35e2">tRight</a> = 0</td></tr>
@@ -151,12 +169,13 @@ Variables</h2></td></tr>
 <tr class="separator:a11f94697b3263d4cbe4e2ad8e99364c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae81e525df906791e901716abc3b52949" id="r_ae81e525df906791e901716abc3b52949"><td class="memItemLeft" align="right" valign="top">const uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buttons_8cpp.html#ae81e525df906791e901716abc3b52949">DEBOUNCE_DELAY</a> = 40</td></tr>
 <tr class="separator:ae81e525df906791e901716abc3b52949"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b2c06c460e841241e8e23f1e21e42af" id="r_a8b2c06c460e841241e8e23f1e21e42af"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buttons_8cpp.html#a8b2c06c460e841241e8e23f1e21e42af">MENU_LENGTH</a> = 5</td></tr>
-<tr class="separator:a8b2c06c460e841241e8e23f1e21e42af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2d3e5026f2f820a6b6f6cfc2458e861" id="r_ae2d3e5026f2f820a6b6f6cfc2458e861"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buttons_8cpp.html#ae2d3e5026f2f820a6b6f6cfc2458e861">ledsNumber</a> = 0</td></tr>
-<tr class="separator:ae2d3e5026f2f820a6b6f6cfc2458e861"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Gestione dell'input utente, sitema di debounce e macchina a stati del menu. </p>
+<ul>
+<li>Questo modulo implementa la logica di navigazione tramite pulsanti GPIO, utilizzando interrupt (IRQ) e allarmi hardware per il debounce. Gestisce inoltre la logica di timeout del display e le combo di tasti. </li>
+</ul>
+</div><h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="afbb123f163deb2e4979c67b8e812604b" name="afbb123f163deb2e4979c67b8e812604b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afbb123f163deb2e4979c67b8e812604b">&#9670;&#160;</a></span>Submenu</h2>
 
@@ -168,13 +187,24 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Definizione dei sottomenu disponibili nel sistema. </p>
+<ul>
+<li></li>
+</ul>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="afbb123f163deb2e4979c67b8e812604ba777cb88c7c961952f33afb572cefa64d" name="afbb123f163deb2e4979c67b8e812604ba777cb88c7c961952f33afb572cefa64d"></a>SUB_NONE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="afbb123f163deb2e4979c67b8e812604ba71f038f118386ea64f7db3febd03e63d" name="afbb123f163deb2e4979c67b8e812604ba71f038f118386ea64f7db3febd03e63d"></a>SUB_SETTINGS&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="afbb123f163deb2e4979c67b8e812604ba37c63f2e8164e82d4cebd5995599858e" name="afbb123f163deb2e4979c67b8e812604ba37c63f2e8164e82d4cebd5995599858e"></a>SUB_METEO&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="afbb123f163deb2e4979c67b8e812604ba69d867ead2ae2e7d4fcd68dbd1953c1c" name="afbb123f163deb2e4979c67b8e812604ba69d867ead2ae2e7d4fcd68dbd1953c1c"></a>SUB_GPS&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="afbb123f163deb2e4979c67b8e812604babe67881a10ac2b3d3a7bf595ff7319f9" name="afbb123f163deb2e4979c67b8e812604babe67881a10ac2b3d3a7bf595ff7319f9"></a>SUB_SYSTEM&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="afbb123f163deb2e4979c67b8e812604ba9c5bb3abc4355b22778c3f91672fb0f4" name="afbb123f163deb2e4979c67b8e812604ba9c5bb3abc4355b22778c3f91672fb0f4"></a>SUB_INFO&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="afbb123f163deb2e4979c67b8e812604ba777cb88c7c961952f33afb572cefa64d" name="afbb123f163deb2e4979c67b8e812604ba777cb88c7c961952f33afb572cefa64d"></a>SUB_NONE&#160;</td><td class="fielddoc"><p>Nessun sottomenu attivo. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="afbb123f163deb2e4979c67b8e812604ba71f038f118386ea64f7db3febd03e63d" name="afbb123f163deb2e4979c67b8e812604ba71f038f118386ea64f7db3febd03e63d"></a>SUB_SETTINGS&#160;</td><td class="fielddoc"><p>Sottomenu Impostazioni. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="afbb123f163deb2e4979c67b8e812604ba37c63f2e8164e82d4cebd5995599858e" name="afbb123f163deb2e4979c67b8e812604ba37c63f2e8164e82d4cebd5995599858e"></a>SUB_METEO&#160;</td><td class="fielddoc"><p>Visualizzazione Dati Meteo. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="afbb123f163deb2e4979c67b8e812604ba69d867ead2ae2e7d4fcd68dbd1953c1c" name="afbb123f163deb2e4979c67b8e812604ba69d867ead2ae2e7d4fcd68dbd1953c1c"></a>SUB_GPS&#160;</td><td class="fielddoc"><p>Visualizzazione/Log Dati GPS. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="afbb123f163deb2e4979c67b8e812604babe67881a10ac2b3d3a7bf595ff7319f9" name="afbb123f163deb2e4979c67b8e812604babe67881a10ac2b3d3a7bf595ff7319f9"></a>SUB_SYSTEM&#160;</td><td class="fielddoc"><p>Informazioni di Sistema e Stato Hardware. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="afbb123f163deb2e4979c67b8e812604ba9c5bb3abc4355b22778c3f91672fb0f4" name="afbb123f163deb2e4979c67b8e812604ba9c5bb3abc4355b22778c3f91672fb0f4"></a>SUB_INFO&#160;</td><td class="fielddoc"><p>Crediti e informazioni progetto. </p>
+</td></tr>
 </table>
 
 </div>
@@ -194,6 +224,9 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Inizializza i pin dei pulsanti e configura gli interrupt. </p>
+<p>Inizializza i pin GPIO e configura gli interrupt per tutti i pulsanti. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -221,6 +254,12 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Funzione di update della logica dei menu. Da chiamare nel loop principale. </p>
+<p>Esegue il polling della logica dei menu e gestisce gli eventi dei tasti.</p>
+<ul>
+<li>Gestisce la navigazione, l'attivazione dei sottomenu, le animazioni LED e il timeout per l'autospegnimento del menu (Ambient Display). </li>
+</ul>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -249,6 +288,19 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Verifica la pressione simultanea dei tasti LEFT e RIGHT. </p>
+<p>Analizza l'evento corrente per verificare se fa parte di una combo.</p>
+<ul>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ev</td><td>L'ultimo evento tasto rilevato. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true se la combo è stata rilevata e gestita. </dd></dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -287,6 +339,21 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Callback dell'allarme per il filtraggio software del debounce. </p>
+<p>Funzione richiamata dall'allarme hardware per confermare la pressione (Debounce).</p>
+<ul>
+<li>Verifica se dopo <a class="el" href="buttons_8cpp.html#ae81e525df906791e901716abc3b52949">DEBOUNCE_DELAY</a> il pin è ancora basso. In caso positivo, valida la pressione impostando il relativo flag <code>_press</code>.</li>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>ID dell'allarme hardware. </td></tr>
+    <tr><td class="paramname">user_data</td><td>Puntatore al numero del pin GPIO passato dall'handler. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>long long 0 per indicare che l'allarme non deve ripetersi. </dd></dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -320,6 +387,19 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Handler degli interrupt GPIO per i pulsanti. </p>
+<ul>
+<li>Gestisce i fronti di discesa (pressione) e di salita (rilascio). Al rilevamento della pressione, disabilita l'interrupt e avvia un allarme di debounce.</li>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">gpio</td><td>Numero del pin che ha scatenato l'evento. </td></tr>
+    <tr><td class="paramname">events</td><td>Tipo di evento IRQ (Fronti rilevati). </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -347,6 +427,9 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Azione eseguita al rilevamento della combo LEFT+RIGHT. Esegue il toggle tra modalità Home (Ambient) e Menu. </p>
+<p>Gestisce l'azione combinata (pressione simultanea) di LEFT e RIGHT. Tipicamente utilizzata per il toggle tra Home e Menu. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -372,6 +455,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Stato del display: true se in modalità risparmio/home. </p>
 
 </div>
 </div>
@@ -386,6 +470,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Finestra temporale (ms) per rilevare una pressione simultanea. </p>
 
 </div>
 </div>
@@ -400,6 +485,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Delay (ms) per il filtraggio del rimbalzo meccanico. </p>
 
 </div>
 </div>
@@ -414,6 +500,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Timeout (ms) per il ritorno automatico alla Home. </p>
 
 </div>
 </div>
@@ -428,6 +515,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Flag IRQ per pulsante DOWN. </p>
 
 </div>
 </div>
@@ -442,6 +530,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Flag di presenza all'interno di un sottomenu. </p>
 
 </div>
 </div>
@@ -456,6 +545,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Timestamp dell'ultima interazione utente. </p>
 
 </div>
 </div>
@@ -471,6 +561,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
+<p>Identificatore per l'animazione dei LED di navigazione. </p>
+<p>Identificativo LED per animazione navigazione. </p>
+
 </div>
 </div>
 <a id="a63946a1a3635cd7f6fae2e956409a985" name="a63946a1a3635cd7f6fae2e956409a985"></a>
@@ -484,6 +577,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Flag IRQ per pulsante LEFT. </p>
 
 </div>
 </div>
@@ -498,6 +592,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Numero totale di voci nel menu principale. </p>
 
 </div>
 </div>
@@ -512,6 +607,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Indice della voce di menu selezionata. </p>
 
 </div>
 </div>
@@ -526,6 +622,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Stato di apertura del menu principale. </p>
 
 </div>
 </div>
@@ -540,6 +637,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Flag IRQ per pulsante RIGHT. </p>
 
 </div>
 </div>
@@ -554,6 +652,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Timestamp dell'ultima pressione sinistra per rilevamento combo. </p>
 
 </div>
 </div>
@@ -568,6 +667,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Timestamp dell'ultima pressione destra per rilevamento combo. </p>
 
 </div>
 </div>
@@ -582,6 +682,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Flag IRQ per pulsante UP. </p>
 
 </div>
 </div>

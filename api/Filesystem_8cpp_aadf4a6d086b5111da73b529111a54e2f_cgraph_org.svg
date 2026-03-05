@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Configura l&#39;interfaccia USB Mass Storage.">
 <polygon fill="#999999" stroke="#666666" points="95,-56 0,-56 0,-37 95,-37 95,-56"/>
 <text text-anchor="middle" x="47.5" y="-44" font-family="Helvetica,sans-Serif" font-size="10.00">FatFSUSB_Setup</text>
 </a>
@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="Filesystem_8cpp.html#a74282d889889088af618af7147a0af10" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="Filesystem_8cpp.html#a74282d889889088af618af7147a0af10" target="_top" xlink:title="Verifica se il filesystem è pronto per essere montato dall&#39;host USB.">
 <polygon fill="white" stroke="#666666" points="200,-93 131,-93 131,-74 200,-74 200,-93"/>
 <text text-anchor="middle" x="165.5" y="-81" font-family="Helvetica,sans-Serif" font-size="10.00">mountable</text>
 </a>
@@ -38,7 +38,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="Filesystem_8cpp.html#a3c394d6181de6a9514b3810fa42e787d" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="Filesystem_8cpp.html#a3c394d6181de6a9514b3810fa42e787d" target="_top" xlink:title="Callback eseguito alla connessione USB.">
 <polygon fill="white" stroke="#666666" points="184.5,-56 146.5,-56 146.5,-37 184.5,-37 184.5,-56"/>
 <text text-anchor="middle" x="165.5" y="-44" font-family="Helvetica,sans-Serif" font-size="10.00">plug</text>
 </a>
@@ -56,7 +56,7 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="Filesystem_8cpp.html#a8e24a774e23a962350e4ebb5e948f2f0" target="_top" xlink:title=" ">
+<g id="a_Node000004"><a xlink:href="Filesystem_8cpp.html#a8e24a774e23a962350e4ebb5e948f2f0" target="_top" xlink:title="Callback eseguito alla disconnessione USB.">
 <polygon fill="white" stroke="#666666" points="190.5,-19 140.5,-19 140.5,0 190.5,0 190.5,-19"/>
 <text text-anchor="middle" x="165.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">unplug</text>
 </a>

@@ -1,5 +1,5 @@
 <map id="displayInit" name="displayInit">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,96,31"/>
-<area shape="rect" id="Node000002" href="$display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" title=" " alt="" coords="144,5,213,31"/>
+<area shape="rect" id="Node000001" title="Inizializza il bus I2C e il controller SSD1306." alt="" coords="5,5,96,31"/>
+<area shape="rect" id="Node000002" href="$display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" title="Istanza del driver del display SSD1306." alt="" coords="144,5,213,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,15,130,15,130,21,96,21"/>
 </map>

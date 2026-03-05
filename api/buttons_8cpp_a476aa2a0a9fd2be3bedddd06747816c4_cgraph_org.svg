@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Azione eseguita al rilevamento della combo LEFT+RIGHT. Esegue il toggle tra modalità Home (Ambient) e...">
 <polygon fill="#999999" stroke="#666666" points="107,-57 0,-57 0,-38 107,-38 107,-57"/>
 <text text-anchor="middle" x="53.5" y="-45" font-family="Helvetica,sans-Serif" font-size="10.00">onLeftRightCombo</text>
 </a>
@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="display__ui_8cpp.html#a1946154d8e9e6dd415476d3378b98ff1" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="display__ui_8cpp.html#a1946154d8e9e6dd415476d3378b98ff1" target="_top" xlink:title="Disegna la schermata principale (Ambient Display). Mostra i dati meteo correnti, l&#39;ora e la data recu...">
 <polygon fill="white" stroke="#666666" points="254,-95 151,-95 151,-76 254,-76 254,-95"/>
 <text text-anchor="middle" x="202.5" y="-83" font-family="Helvetica,sans-Serif" font-size="10.00">drawHomeScreen</text>
 </a>
@@ -38,7 +38,7 @@
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="display__ui_8cpp.html#a0cc779d48595c7be531222945c8a5f10" target="_top" xlink:title=" ">
+<g id="a_Node000005"><a xlink:href="display__ui_8cpp.html#a0cc779d48595c7be531222945c8a5f10" target="_top" xlink:title="Renderizza il menu principale in base allo stile selezionato (ScreenStyle).">
 <polygon fill="white" stroke="#666666" points="236.5,-57 168.5,-57 168.5,-38 236.5,-38 236.5,-57"/>
 <text text-anchor="middle" x="202.5" y="-45" font-family="Helvetica,sans-Serif" font-size="10.00">drawMenu</text>
 </a>
@@ -56,7 +56,7 @@
 <!-- Node7 -->
 <g id="Node000007" class="node">
 <title>Node7</title>
-<g id="a_Node000007"><a xlink:href="leds_8cpp.html#a20b9a2822d58fc522e9aef69e6e52cbe" target="_top" xlink:title=" ">
+<g id="a_Node000007"><a xlink:href="leds_8cpp.html#a20b9a2822d58fc522e9aef69e6e52cbe" target="_top" xlink:title="Esegue un flash verde per confermare un&#39;azione (Toggle).">
 <polygon fill="white" stroke="#666666" points="262,-20 143,-20 143,-1 262,-1 262,-20"/>
 <text text-anchor="middle" x="202.5" y="-8" font-family="Helvetica,sans-Serif" font-size="10.00">ledsToggleAnimation</text>
 </a>
@@ -74,7 +74,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" target="_top" xlink:title="Istanza del driver del display SSD1306.">
 <polygon fill="white" stroke="#666666" points="529,-57 477,-57 477,-38 529,-38 529,-57"/>
 <text text-anchor="middle" x="503" y="-45" font-family="Helvetica,sans-Serif" font-size="10.00">display</text>
 </a>
@@ -92,7 +92,7 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="weather_8cpp.html#a8e2b5c9b7658529d8dae9d6ea9d56de7" target="_top" xlink:title=" ">
+<g id="a_Node000004"><a xlink:href="weather_8cpp.html#a8e2b5c9b7658529d8dae9d6ea9d56de7" target="_top" xlink:title="Converte il codice WMO in una descrizione testuale breve.">
 <polygon fill="white" stroke="#666666" points="441,-95 298,-95 298,-76 441,-76 441,-95"/>
 <text text-anchor="middle" x="369.5" y="-83" font-family="Helvetica,sans-Serif" font-size="10.00">Weather_CodeToShortText</text>
 </a>
@@ -119,7 +119,7 @@
 <!-- Node6 -->
 <g id="Node000006" class="node">
 <title>Node6</title>
-<g id="a_Node000006"><a xlink:href="display__ui_8cpp.html#a4720a85c38264632abe90b06cd0a878a" target="_top" xlink:title=" ">
+<g id="a_Node000006"><a xlink:href="display__ui_8cpp.html#a4720a85c38264632abe90b06cd0a878a" target="_top" xlink:title="Renderizza il menu in modalità &quot;Highlight&quot; (barra piena e testo invertito).">
 <polygon fill="white" stroke="#666666" points="413.5,-19 325.5,-19 325.5,0 413.5,0 413.5,-19"/>
 <text text-anchor="middle" x="369.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">drawMenu_evi</text>
 </a>

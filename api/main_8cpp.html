@@ -81,11 +81,14 @@ $(function() {
   <div class="headertitle"><div class="title">main.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Orchestratore di sistema e gestione Multicore.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="buttons_8h_source.html">Modules/buttons.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="buzzer_8h_source.html">Modules/buzzer.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="display__ui_8h_source.html">Modules/display_ui.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="gps_8h_source.html">Modules/gps.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="leds_8h_source.html">Modules/leds.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="display__ui_8h_source.html">Modules/display_ui.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="temp_8h_source.html">Modules/temp.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Filesystem_8h_source.html">Modules/Filesystem.h</a>&quot;</code><br />
 <code>#include &quot;hardware/gpio.h&quot;</code><br />
@@ -101,48 +104,66 @@ Include dependency graph for main.cpp:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:a05e8cdb182fff5254c3ca056ddeeecda" id="r_a05e8cdb182fff5254c3ca056ddeeecda"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a05e8cdb182fff5254c3ca056ddeeecda">SERIAL_MAX_SETUP_TIME</a>&#160;&#160;&#160;5000</td></tr>
+<tr class="separator:a05e8cdb182fff5254c3ca056ddeeecda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Flag di Compilazione e Debug</div></td></tr>
 <tr class="memitem:ad72dbcf6d0153db1b8d8a58001feed83" id="r_ad72dbcf6d0153db1b8d8a58001feed83"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#ad72dbcf6d0153db1b8d8a58001feed83">DEBUG</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ad72dbcf6d0153db1b8d8a58001feed83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abilita/Disabilita i messaggi di log sulla Serial USB. 0 = Silenzioso, 1 = Verboso. Se non definita esternamente, il default è 1 (Safe).  <br /></td></tr>
 <tr class="separator:ad72dbcf6d0153db1b8d8a58001feed83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adedde0f9718a16af53802714f7c01ee7" id="r_adedde0f9718a16af53802714f7c01ee7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#adedde0f9718a16af53802714f7c01ee7">BUZZER_INIT_BEEP</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:adedde0f9718a16af53802714f7c01ee7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determina se il buzzer deve emettere un suono alla fine del setup. Utile per feedback "blind" senza guardare il display.  <br /></td></tr>
 <tr class="separator:adedde0f9718a16af53802714f7c01ee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ac764ee28e2916a7de10b22927e02d1a4" id="r_ac764ee28e2916a7de10b22927e02d1a4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#ac764ee28e2916a7de10b22927e02d1a4">setup1</a> ()</td></tr>
+<tr class="memdesc:ac764ee28e2916a7de10b22927e02d1a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configurazione iniziale per il Core 1.  <br /></td></tr>
 <tr class="separator:ac764ee28e2916a7de10b22927e02d1a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4fc01d736fe50cf5b977f755b675f11d" id="r_a4fc01d736fe50cf5b977f755b675f11d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d">setup</a> ()</td></tr>
-<tr class="separator:a4fc01d736fe50cf5b977f755b675f11d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39ceba300a80e348e278539f57e0ca79" id="r_a39ceba300a80e348e278539f57e0ca79"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a39ceba300a80e348e278539f57e0ca79">loop1</a> ()</td></tr>
+<tr class="memdesc:a39ceba300a80e348e278539f57e0ca79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loop principale del Core 1.  <br /></td></tr>
 <tr class="separator:a39ceba300a80e348e278539f57e0ca79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fc01d736fe50cf5b977f755b675f11d" id="r_a4fc01d736fe50cf5b977f755b675f11d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d">setup</a> ()</td></tr>
+<tr class="memdesc:a4fc01d736fe50cf5b977f755b675f11d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configurazione iniziale per il Core 0.  <br /></td></tr>
+<tr class="separator:a4fc01d736fe50cf5b977f755b675f11d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe461d27b9c48d5921c00d521181f12f" id="r_afe461d27b9c48d5921c00d521181f12f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#afe461d27b9c48d5921c00d521181f12f">loop</a> ()</td></tr>
+<tr class="memdesc:afe461d27b9c48d5921c00d521181f12f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loop principale del Core 0.  <br /></td></tr>
 <tr class="separator:afe461d27b9c48d5921c00d521181f12f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a8f053cc2e2e1aeba02bf2a4d4a4238a6" id="r_a8f053cc2e2e1aeba02bf2a4d4a4238a6"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a8f053cc2e2e1aeba02bf2a4d4a4238a6">core1_ready</a> = false</td></tr>
+<tr class="memdesc:a8f053cc2e2e1aeba02bf2a4d4a4238a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag di stato per segnalare che il Core 1 ha completato l'init hardware.  <br /></td></tr>
 <tr class="separator:a8f053cc2e2e1aeba02bf2a4d4a4238a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea211fd02cdc07800684867cf2c57042" id="r_aea211fd02cdc07800684867cf2c57042"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structparsed__nmea.html">parsed_nmea</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#aea211fd02cdc07800684867cf2c57042">ParsedNMEA</a> = {0}</td></tr>
 <tr class="separator:aea211fd02cdc07800684867cf2c57042"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c6f156bb25fb0b8dc1c8ecffc44c880" id="r_a5c6f156bb25fb0b8dc1c8ecffc44c880"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structparsed__nmea.html">parsed_nmea</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a5c6f156bb25fb0b8dc1c8ecffc44c880">gpsData</a></td></tr>
+<tr class="memdesc:a5c6f156bb25fb0b8dc1c8ecffc44c880"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struttura globale contenente gli ultimi dati GPS validi.  <br /></td></tr>
 <tr class="separator:a5c6f156bb25fb0b8dc1c8ecffc44c880"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59420dac7a6861b8e8b1baa65162c3d5" id="r_a59420dac7a6861b8e8b1baa65162c3d5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a59420dac7a6861b8e8b1baa65162c3d5">core1_separate_stack</a> = true</td></tr>
+<tr class="memdesc:a59420dac7a6861b8e8b1baa65162c3d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Forza l'allocazione di 8KB di stack per ciascun core (default 4KB).  <br /></td></tr>
+<tr class="separator:a59420dac7a6861b8e8b1baa65162c3d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1dd578490b3907934f5fd7e3a345614b" id="r_a1dd578490b3907934f5fd7e3a345614b"><td class="memItemLeft" align="right" valign="top">unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a1dd578490b3907934f5fd7e3a345614b">lastSensorRead</a> = 0</td></tr>
 <tr class="separator:a1dd578490b3907934f5fd7e3a345614b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cf96dcbd7fb78c292e99eba690ae844" id="r_a8cf96dcbd7fb78c292e99eba690ae844"><td class="memItemLeft" align="right" valign="top">const unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a8cf96dcbd7fb78c292e99eba690ae844">sensorInterval</a> = 1000</td></tr>
 <tr class="separator:a8cf96dcbd7fb78c292e99eba690ae844"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59420dac7a6861b8e8b1baa65162c3d5" id="r_a59420dac7a6861b8e8b1baa65162c3d5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a59420dac7a6861b8e8b1baa65162c3d5">core1_separate_stack</a> = true</td></tr>
-<tr class="separator:a59420dac7a6861b8e8b1baa65162c3d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81989d83d84e6b682b2d9b11b63c8afb" id="r_a81989d83d84e6b682b2d9b11b63c8afb"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a81989d83d84e6b682b2d9b11b63c8afb">lastUiGpsMs</a> = 0</td></tr>
+<tr class="separator:a81989d83d84e6b682b2d9b11b63c8afb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10b5067a83bd080a4dde61dd9a3a84c0" id="r_a10b5067a83bd080a4dde61dd9a3a84c0"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a10b5067a83bd080a4dde61dd9a3a84c0">gpsDirty</a> = false</td></tr>
+<tr class="separator:a10b5067a83bd080a4dde61dd9a3a84c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Code di Comunicazione Inter-Core</div></td></tr>
 <tr class="memitem:a465b22131418f8d2bd4ee3f81a95eec0" id="r_a465b22131418f8d2bd4ee3f81a95eec0"><td class="memItemLeft" align="right" valign="top">queue_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a465b22131418f8d2bd4ee3f81a95eec0">Qctrl_0_to_1</a></td></tr>
 <tr class="separator:a465b22131418f8d2bd4ee3f81a95eec0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a696c28c8a46c7a42e03cb0c2e11178fc" id="r_a696c28c8a46c7a42e03cb0c2e11178fc"><td class="memItemLeft" align="right" valign="top">queue_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a696c28c8a46c7a42e03cb0c2e11178fc">Qctrl_1_to_0</a></td></tr>
 <tr class="separator:a696c28c8a46c7a42e03cb0c2e11178fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6251368ec3d26d762a74c32a22dca639" id="r_a6251368ec3d26d762a74c32a22dca639"><td class="memItemLeft" align="right" valign="top">queue_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a6251368ec3d26d762a74c32a22dca639">Qdata</a></td></tr>
 <tr class="separator:a6251368ec3d26d762a74c32a22dca639"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81989d83d84e6b682b2d9b11b63c8afb" id="r_a81989d83d84e6b682b2d9b11b63c8afb"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a81989d83d84e6b682b2d9b11b63c8afb">lastUiGpsMs</a> = 0</td></tr>
-<tr class="separator:a81989d83d84e6b682b2d9b11b63c8afb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10b5067a83bd080a4dde61dd9a3a84c0" id="r_a10b5067a83bd080a4dde61dd9a3a84c0"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a10b5067a83bd080a4dde61dd9a3a84c0">gpsDirty</a> = false</td></tr>
-<tr class="separator:a10b5067a83bd080a4dde61dd9a3a84c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Orchestratore di sistema e gestione Multicore. </p>
+<ul>
+<li>Questo file implementa la logica principale divisa tra Core 0 (UI/Input) e Core 1 (GPS/Storage). La comunicazione avviene tramite code FIFO sicure per il multicore. </li>
+</ul>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="adedde0f9718a16af53802714f7c01ee7" name="adedde0f9718a16af53802714f7c01ee7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adedde0f9718a16af53802714f7c01ee7">&#9670;&#160;</a></span>BUZZER_INIT_BEEP</h2>
 
@@ -155,6 +176,11 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Determina se il buzzer deve emettere un suono alla fine del setup. Utile per feedback "blind" senza guardare il display. </p>
+<ul>
+<li></li>
+</ul>
+
 </div>
 </div>
 <a id="ad72dbcf6d0153db1b8d8a58001feed83" name="ad72dbcf6d0153db1b8d8a58001feed83"></a>
@@ -165,6 +191,25 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">#define DEBUG&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Abilita/Disabilita i messaggi di log sulla Serial USB. 0 = Silenzioso, 1 = Verboso. Se non definita esternamente, il default è 1 (Safe). </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a id="a05e8cdb182fff5254c3ca056ddeeecda" name="a05e8cdb182fff5254c3ca056ddeeecda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05e8cdb182fff5254c3ca056ddeeecda">&#9670;&#160;</a></span>SERIAL_MAX_SETUP_TIME</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SERIAL_MAX_SETUP_TIME&#160;&#160;&#160;5000</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -186,6 +231,13 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Loop principale del Core 0. </p>
+<p>Gestisce l'interazione in tempo reale:</p><ol type="1">
+<li>Aggiorna lo stato dei pulsanti (<a class="el" href="buttons_8cpp.html#a362a9b2582e0724627b8cd9f2e16f599">buttonsUpdate</a>).</li>
+<li>Svuota la coda <a class="el" href="main_8cpp.html#a6251368ec3d26d762a74c32a22dca639">Qdata</a> per ricevere gli ultimi dati GPS dal Core 1.</li>
+<li>Salva periodicamente l'ultima posizione valida. </li>
+</ol>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -208,6 +260,13 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Loop principale del Core 1. </p>
+<p>Gestisce in background:</p><ol type="1">
+<li>Sincronizzazione dei file su SD.</li>
+<li>Parsing dei dati GPS NMEA.</li>
+<li>Invio periodico (4Hz) dei dati processati al Core 0 tramite <a class="el" href="main_8cpp.html#a6251368ec3d26d762a74c32a22dca639">Qdata</a>. </li>
+</ol>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -230,6 +289,9 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Configurazione iniziale per il Core 0. </p>
+<p>Inizializza la comunicazione seriale, i pulsanti, il display OLED, i LED RGB e il sensore di temperatura. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -252,6 +314,9 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Configurazione iniziale per il Core 1. </p>
+<p>Inizializza il modulo GPS, le code di comunicazione e il Filesystem (FatFS). Se il setup fallisce, il sistema entra in EXIT_FAILURE. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -273,6 +338,8 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
+<p>Flag di stato per segnalare che il Core 1 ha completato l'init hardware. </p>
+
 </div>
 </div>
 <a id="a59420dac7a6861b8e8b1baa65162c3d5" name="a59420dac7a6861b8e8b1baa65162c3d5"></a>
@@ -286,6 +353,8 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Forza l'allocazione di 8KB di stack per ciascun core (default 4KB). </p>
 
 </div>
 </div>
@@ -301,6 +370,9 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
+<p>Struttura globale contenente gli ultimi dati GPS validi. </p>
+<p>Struttura globale contenente gli ultimi dati NMEA parsati. </p>
+
 </div>
 </div>
 <a id="a10b5067a83bd080a4dde61dd9a3a84c0" name="a10b5067a83bd080a4dde61dd9a3a84c0"></a>
@@ -314,6 +386,7 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Flag: i dati GPS sono cambiati e richiedono redraw. </p>
 
 </div>
 </div>
@@ -328,6 +401,7 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Timestamp ultima lettura sensori. </p>
 
 </div>
 </div>
@@ -342,6 +416,7 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Ultimo aggiornamento grafico GPS. </p>
 
 </div>
 </div>
@@ -370,6 +445,7 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Coda per comandi inviati da Core 0 a Core 1. </p>
 
 </div>
 </div>
@@ -384,6 +460,7 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Coda per feedback inviati da Core 1 a Core 0. </p>
 
 </div>
 </div>
@@ -398,6 +475,7 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Coda per il trasferimento dei pacchetti <a class="el" href="structparsed__nmea.html">parsed_nmea</a>. </p>
 
 </div>
 </div>
@@ -412,6 +490,7 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Intervallo campionamento (1Hz). </p>
 
 </div>
 </div>

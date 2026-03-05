@@ -79,6 +79,9 @@ $(function() {
   <div class="headertitle"><div class="title">gps.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Implementazione del driver GPS e gestione della telemetria NMEA.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="gps_8h_source.html">gps.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for gps.cpp:</div>
@@ -89,39 +92,63 @@ Include dependency graph for gps.cpp:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a27c44e6a267029d9db9678b90361b91a" id="r_a27c44e6a267029d9db9678b90361b91a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#a27c44e6a267029d9db9678b90361b91a">gpsInit</a> ()</td></tr>
+<tr class="memdesc:a27c44e6a267029d9db9678b90361b91a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inizializza l'hardware dedicato al GPS.  <br /></td></tr>
 <tr class="separator:a27c44e6a267029d9db9678b90361b91a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1584cd930020560265588b72bde4654c" id="r_a1584cd930020560265588b72bde4654c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#a1584cd930020560265588b72bde4654c">nmea_gps_parse</a> (String *nmea_message, struct <a class="el" href="structparsed__nmea.html">parsed_nmea</a> *nmea_ptr)</td></tr>
+<tr class="memdesc:a1584cd930020560265588b72bde4654c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Smista e decodifica una stringa NMEA grezza nella struttura dati corrispondente.  <br /></td></tr>
 <tr class="separator:a1584cd930020560265588b72bde4654c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c33ca28d942d03c752f418f3c04711f" id="r_a5c33ca28d942d03c752f418f3c04711f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#a5c33ca28d942d03c752f418f3c04711f">gpsAcquire</a> (enum <a class="el" href="minmea_8h.html#ac97694ad00f8bc631580b30e2a086f6e">minmea_sentence_id</a> sentence_type, struct <a class="el" href="structparsed__nmea.html">parsed_nmea</a> *nmea_ptr)</td></tr>
+<tr class="memdesc:a5c33ca28d942d03c752f418f3c04711f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tenta di acquisire un tipo specifico di sentenza NMEA dalla seriale.  <br /></td></tr>
 <tr class="separator:a5c33ca28d942d03c752f418f3c04711f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a177ee65fb57b969753487772f3fc552c" id="r_a177ee65fb57b969753487772f3fc552c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#a177ee65fb57b969753487772f3fc552c">GetPosition_and_Satellites</a> (struct <a class="el" href="structparsed__nmea.html">parsed_nmea</a> *nmea_ptr)</td></tr>
+<tr class="memdesc:a177ee65fb57b969753487772f3fc552c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Estrae posizione e numero satelliti dai messaggi GGA.  <br /></td></tr>
 <tr class="separator:a177ee65fb57b969753487772f3fc552c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aadbd2f07e07e8a3f472065571970cefe" id="r_aadbd2f07e07e8a3f472065571970cefe"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#aadbd2f07e07e8a3f472065571970cefe">GetDate_and_Time</a> (struct <a class="el" href="structparsed__nmea.html">parsed_nmea</a> *nmea_ptr)</td></tr>
+<tr class="memdesc:aadbd2f07e07e8a3f472065571970cefe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Estrae data e ora dai messaggi RMC.  <br /></td></tr>
 <tr class="separator:aadbd2f07e07e8a3f472065571970cefe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79c2c486e631815579df4be3e190ebad" id="r_a79c2c486e631815579df4be3e190ebad"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#a79c2c486e631815579df4be3e190ebad">GPS_sync</a> (struct <a class="el" href="structparsed__nmea.html">parsed_nmea</a> *nmea_ptr, bool force)</td></tr>
+<tr class="memdesc:a79c2c486e631815579df4be3e190ebad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sincronizza i dati GPS globali e gestisce il salvataggio su Flash.  <br /></td></tr>
 <tr class="separator:a79c2c486e631815579df4be3e190ebad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab2203af6c50eafde7df9509bc632fa6" id="r_aab2203af6c50eafde7df9509bc632fa6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#aab2203af6c50eafde7df9509bc632fa6">save_gps_last</a> (struct <a class="el" href="structparsed__nmea.html">parsed_nmea</a> *nmea_ptr)</td></tr>
+<tr class="memdesc:aab2203af6c50eafde7df9509bc632fa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Salva le ultime coordinate valide in un file di testo (modalità overwrite).  <br /></td></tr>
 <tr class="separator:aab2203af6c50eafde7df9509bc632fa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d11d3ae385799665b8808639a2d3725" id="r_a0d11d3ae385799665b8808639a2d3725"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#a0d11d3ae385799665b8808639a2d3725">save_gps_log20</a> (struct <a class="el" href="structparsed__nmea.html">parsed_nmea</a> *nmea_ptr)</td></tr>
+<tr class="memdesc:a0d11d3ae385799665b8808639a2d3725"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementa un log rotativo (circular buffer) delle ultime 20 posizioni.  <br /></td></tr>
 <tr class="separator:a0d11d3ae385799665b8808639a2d3725"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4650a0bef4037f605b746db3e8dce5bf" id="r_a4650a0bef4037f605b746db3e8dce5bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#a4650a0bef4037f605b746db3e8dce5bf">print_NMEA_rmc</a> (void *frame)</td></tr>
-<tr class="separator:a4650a0bef4037f605b746db3e8dce5bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7e06054042f4d22ce3f7641a654dfba" id="r_ae7e06054042f4d22ce3f7641a654dfba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#ae7e06054042f4d22ce3f7641a654dfba">print_NMEA_gga</a> (void *frame)</td></tr>
-<tr class="separator:ae7e06054042f4d22ce3f7641a654dfba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86800585d87c13db519115d7d460aac0" id="r_a86800585d87c13db519115d7d460aac0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#a86800585d87c13db519115d7d460aac0">print_NMEA_gst</a> (void *frame)</td></tr>
-<tr class="separator:a86800585d87c13db519115d7d460aac0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ec6b5a4090671490d31c770fe6afa0d" id="r_a6ec6b5a4090671490d31c770fe6afa0d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#a6ec6b5a4090671490d31c770fe6afa0d">print_NMEA_gsv</a> (void *frame)</td></tr>
-<tr class="separator:a6ec6b5a4090671490d31c770fe6afa0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1555845e4e7fe4d8de83d57a2a6c949" id="r_ac1555845e4e7fe4d8de83d57a2a6c949"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#ac1555845e4e7fe4d8de83d57a2a6c949">print_NMEA_zda</a> (void *frame)</td></tr>
-<tr class="separator:ac1555845e4e7fe4d8de83d57a2a6c949"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77ab7d9e159a0a804e5467a44204eebd" id="r_a77ab7d9e159a0a804e5467a44204eebd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#a77ab7d9e159a0a804e5467a44204eebd">print_NMEA_vtg</a> (void *frame)</td></tr>
-<tr class="separator:a77ab7d9e159a0a804e5467a44204eebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a089cdb6fa7d82322475dfd1592e860dd" id="r_a089cdb6fa7d82322475dfd1592e860dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#a089cdb6fa7d82322475dfd1592e860dd">gpsSerialDebugLog</a> ()</td></tr>
+<tr class="memdesc:a089cdb6fa7d82322475dfd1592e860dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Legge la seriale del GPS e stampa le stringhe NMEA grezze (RAW) sulla Serial Console.  <br /></td></tr>
 <tr class="separator:a089cdb6fa7d82322475dfd1592e860dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58c63785b84f6e923c4e8ca91f335c43" id="r_a58c63785b84f6e923c4e8ca91f335c43"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#a58c63785b84f6e923c4e8ca91f335c43">check_GPS_sync_req</a> (queue_t *recv_queue, queue_t *send_queue, struct <a class="el" href="structparsed__nmea.html">parsed_nmea</a> *nmea_ptr)</td></tr>
+<tr class="memdesc:a58c63785b84f6e923c4e8ca91f335c43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Monitora la coda dei messaggi inter-core per richieste di sincronizzazione GPS.  <br /></td></tr>
 <tr class="separator:a58c63785b84f6e923c4e8ca91f335c43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Funzioni di Debug e Stampa NMEA</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p>Queste funzioni vengono compilate solo se la macro <a class="el" href="main_8cpp.html#ad72dbcf6d0153db1b8d8a58001feed83">DEBUG</a> è definita. Permettono di ispezionare il contenuto delle sentenze GPS sulla porta seriale. </p>
+</div></td></tr>
+<tr class="memitem:a4650a0bef4037f605b746db3e8dce5bf" id="r_a4650a0bef4037f605b746db3e8dce5bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#a4650a0bef4037f605b746db3e8dce5bf">print_NMEA_rmc</a> (void *frame)</td></tr>
+<tr class="memdesc:a4650a0bef4037f605b746db3e8dce5bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stampa i dettagli di una sentenza $xxRMC (Recommended Minimum Navigation Information).  <br /></td></tr>
+<tr class="separator:a4650a0bef4037f605b746db3e8dce5bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7e06054042f4d22ce3f7641a654dfba" id="r_ae7e06054042f4d22ce3f7641a654dfba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#ae7e06054042f4d22ce3f7641a654dfba">print_NMEA_gga</a> (void *frame)</td></tr>
+<tr class="memdesc:ae7e06054042f4d22ce3f7641a654dfba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stampa la qualità del fix da una sentenza $xxGGA (Global Positioning System Fix Data).  <br /></td></tr>
+<tr class="separator:ae7e06054042f4d22ce3f7641a654dfba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86800585d87c13db519115d7d460aac0" id="r_a86800585d87c13db519115d7d460aac0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#a86800585d87c13db519115d7d460aac0">print_NMEA_gst</a> (void *frame)</td></tr>
+<tr class="memdesc:a86800585d87c13db519115d7d460aac0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stampa gli errori di deviazione da una sentenza $xxGST (GPS Pseudorange Noise Statistics).  <br /></td></tr>
+<tr class="separator:a86800585d87c13db519115d7d460aac0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ec6b5a4090671490d31c770fe6afa0d" id="r_a6ec6b5a4090671490d31c770fe6afa0d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#a6ec6b5a4090671490d31c770fe6afa0d">print_NMEA_gsv</a> (void *frame)</td></tr>
+<tr class="memdesc:a6ec6b5a4090671490d31c770fe6afa0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stampa lo stato dei satelliti in vista da una sentenza $xxGSV (Satellites in View).  <br /></td></tr>
+<tr class="separator:a6ec6b5a4090671490d31c770fe6afa0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1555845e4e7fe4d8de83d57a2a6c949" id="r_ac1555845e4e7fe4d8de83d57a2a6c949"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#ac1555845e4e7fe4d8de83d57a2a6c949">print_NMEA_zda</a> (void *frame)</td></tr>
+<tr class="memdesc:ac1555845e4e7fe4d8de83d57a2a6c949"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stampa data e ora UTC da una sentenza $xxZDA (Time &amp; Date).  <br /></td></tr>
+<tr class="separator:ac1555845e4e7fe4d8de83d57a2a6c949"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77ab7d9e159a0a804e5467a44204eebd" id="r_a77ab7d9e159a0a804e5467a44204eebd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gps_8cpp.html#a77ab7d9e159a0a804e5467a44204eebd">print_NMEA_vtg</a> (void *frame)</td></tr>
+<tr class="memdesc:a77ab7d9e159a0a804e5467a44204eebd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stampa rotta e velocità al suolo da una sentenza $xxVTG (Track Made Good and Ground Speed).  <br /></td></tr>
+<tr class="separator:a77ab7d9e159a0a804e5467a44204eebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Implementazione del driver GPS e gestione della telemetria NMEA. </p>
+<ul>
+<li>Gestisce l'inizializzazione del modulo hardware (Pico UART1), il parsing delle sentenze NMEA (RMC, GGA, etc.) e la memorizzazione delle coordinate sulla memoria Flash interna per la persistenza dei dati. </li>
+</ul>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a id="a58c63785b84f6e923c4e8ca91f335c43" name="a58c63785b84f6e923c4e8ca91f335c43"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a58c63785b84f6e923c4e8ca91f335c43">&#9670;&#160;</a></span>check_GPS_sync_req()</h2>
 
@@ -153,6 +180,20 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Monitora la coda dei messaggi inter-core per richieste di sincronizzazione GPS. </p>
+<p>Gestisce le richieste di sync provenienti dall'altro core.</p>
+<p>Se viene ricevuto il comando <a class="el" href="gps_8h.html#a54fb54b5a641fa6c3d8ef24c298ea0af">GPS_SYNC_REQ</a>, avvia una sincronizzazione forzata dei dati e risponde con un <a class="el" href="gps_8h.html#a297dec6629d7af8c5fa66458f3a6bbcb">GPS_SYNC_ACK</a> sulla coda di invio.</p><ul>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">recv_queue</td><td>Coda di ricezione dei comandi. </td></tr>
+    <tr><td class="paramname">send_queue</td><td>Coda di invio per le conferme (Acknowledge). </td></tr>
+    <tr><td class="paramname">nmea_ptr</td><td>Puntatore alla struttura dati GPS da aggiornare. </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -181,6 +222,8 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Estrae data e ora dai messaggi RMC. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -209,6 +252,8 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Estrae posizione e numero satelliti dai messaggi GGA. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -247,6 +292,21 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Sincronizza i dati GPS globali e gestisce il salvataggio su Flash. </p>
+<p>Sincronizza lo stato globale e gestisce il salvataggio su disco.</p>
+<ul>
+<li>Esegue l'acquisizione di posizione (GGA) e data/ora (RMC). Se i dati sono validi, provvede al salvataggio su file system rispettando la frequenza <a class="el" href="gps_8h.html#a80e517639c444b77a2c13f4600a2969a">GPS_WRITE_FREQ</a> per preservare i cicli di scrittura della memoria Flash.</li>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nmea_ptr</td><td>Struttura dati da aggiornare. </td></tr>
+    <tr><td class="paramname">force</td><td>Forza la sincronizzazione ignorando i timer. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true Sempre, emette solo warning in caso di errore dati. </dd></dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -285,6 +345,20 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Tenta di acquisire un tipo specifico di sentenza NMEA dalla seriale. </p>
+<p>Cerca e acquisisce una specifica sentenza dalla seriale.</p>
+<ul>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sentence_type</td><td>ID della sentenza cercata (es. MINMEA_SENTENCE_GGA). </td></tr>
+    <tr><td class="paramname">nmea_ptr</td><td>Struttura dove salvare i dati estratti. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true Se la sentenza corretta è stata ricevuta e decodificata entro <a class="el" href="gps_8h.html#a5934c22dd84dadbcf073ac5f90f677de">GPS_ACQUIRE_MAX_TRIES</a>. </dd></dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -312,6 +386,14 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Inizializza l'hardware dedicato al GPS. </p>
+<p>Configura GPIO e UART per il modulo GPS.</p>
+<ul>
+<li>Configura i pin di Enable (PMOS), il LED di stato (LED_ALIVE), il pin PPS e la Serial2 (UART1) con il baudrate <a class="el" href="gps_8h.html#aaa7ed57683b50196eadd5cf6a8b01ff9">GPSBAUD</a>. Esegue un test di comunicazione attendendo una stringa valida per 10 secondi.</li>
+<li><dl class="section return"><dt>Returns</dt><dd>true Se il modulo risponde correttamente, false in caso di timeout. </dd></dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -334,6 +416,9 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Legge la seriale del GPS e stampa le stringhe NMEA grezze (RAW) sulla Serial Console. </p>
+<p>Implementa un buffer statico per ricostruire la riga fino al carattere <code>\n</code> . Ideale per diagnosticare problemi di ricezione hardware. </p>
 
 </div>
 </div>
@@ -362,6 +447,21 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Smista e decodifica una stringa NMEA grezza nella struttura dati corrispondente. </p>
+<p>Esegue il parsing di una stringa NMEA.</p>
+<ul>
+<li>Utilizza la libreria <code>minmea</code> per identificare il tipo di sentenza e aggiornare i campi della struttura <a class="el" href="structparsed__nmea.html">parsed_nmea</a>.</li>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nmea_message</td><td>Stringa NMEA da parsare. </td></tr>
+    <tr><td class="paramname">nmea_ptr</td><td>Puntatore alla struttura di destinazione globale. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true Se il parsing ha avuto successo per una sentenza supportata. </dd></dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -390,6 +490,14 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Stampa la qualità del fix da una sentenza $xxGGA (Global Positioning System Fix Data). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frame</td><td>Puntatore generico alla struttura <code><a class="el" href="structminmea__sentence__gga.html">minmea_sentence_gga</a></code>. </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -413,6 +521,14 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Stampa gli errori di deviazione da una sentenza $xxGST (GPS Pseudorange Noise Statistics). </p>
+<p>Utile per monitorare la precisione della posizione in metri (Lat/Lon/Alt error). </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frame</td><td>Puntatore generico alla struttura <code><a class="el" href="structminmea__sentence__gst.html">minmea_sentence_gst</a></code>. </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -441,6 +557,14 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Stampa lo stato dei satelliti in vista da una sentenza $xxGSV (Satellites in View). </p>
+<p>Elenca numero, elevazione, azimut e SNR (rapporto segnale/rumore) per i primi 4 satelliti. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frame</td><td>Puntatore generico alla struttura <code><a class="el" href="structminmea__sentence__gsv.html">minmea_sentence_gsv</a></code>. </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -464,6 +588,14 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Stampa i dettagli di una sentenza $xxRMC (Recommended Minimum Navigation Information). </p>
+<p>Mostra coordinate e velocità in tre formati: grezzo (frazione), fixed-point e floating point. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frame</td><td>Puntatore generico alla struttura <code><a class="el" href="structminmea__sentence__rmc.html">minmea_sentence_rmc</a></code>. </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -492,6 +624,14 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Stampa rotta e velocità al suolo da una sentenza $xxVTG (Track Made Good and Ground Speed). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frame</td><td>Puntatore generico alla struttura <code><a class="el" href="structminmea__sentence__vtg.html">minmea_sentence_vtg</a></code>. </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -520,6 +660,14 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Stampa data e ora UTC da una sentenza $xxZDA (Time &amp; Date). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frame</td><td>Puntatore generico alla struttura <code><a class="el" href="structminmea__sentence__zda.html">minmea_sentence_zda</a></code>. </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -543,6 +691,20 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Salva le ultime coordinate valide in un file di testo (modalità overwrite). </p>
+<p>Sovrascrive il file dell'ultimo fix noto.</p>
+<ul>
+<li>Il file puntato da <a class="el" href="gps_8h.html#a818b65777bbdf209f1ee3fbf5ea4cda0">GPS_LAST_PATH</a> conterrà solo l'ultima posizione nota nel formato "lat,lon".</li>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nmea_ptr</td><td>Dati da salvare. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true Se il file è stato scritto correttamente. </dd></dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -571,6 +733,20 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Implementa un log rotativo (circular buffer) delle ultime 20 posizioni. </p>
+<p>Aggiunge una riga al log rotativo (max 20 righe).</p>
+<ul>
+<li>Legge il file esistente, mantiene le ultime 19 posizioni e aggiunge la nuova in coda, garantendo che il file non superi mai le <a class="el" href="gps_8h.html#a73cb453a2a3fdcba605cc266e0c2cb45">GPS_MAX_LINES</a> righe.</li>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nmea_ptr</td><td>Dati da aggiungere al log. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true Se l'operazione di rotazione e scrittura ha successo. </dd></dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">

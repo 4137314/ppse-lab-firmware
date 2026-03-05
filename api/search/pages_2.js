@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ppse_20lab_20firmware_20🚀_0',['PPSE-Lab Firmware 🚀',['../index.html',1,'']]]
+  ['logger_0',['🛰️ RP2040 GPS &amp; Environment Logger',['../index.html',1,'']]]
 ];

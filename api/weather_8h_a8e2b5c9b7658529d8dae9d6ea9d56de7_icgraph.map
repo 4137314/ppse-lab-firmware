@@ -1,20 +1,20 @@
 <map id="Weather_CodeToShortText" name="Weather_CodeToShortText">
-<area shape="rect" id="Node000001" title=" " alt="" coords="887,140,1077,166"/>
-<area shape="rect" id="Node000002" href="$display__ui_8cpp.html#a1946154d8e9e6dd415476d3378b98ff1" title=" " alt="" coords="701,90,839,115"/>
+<area shape="rect" id="Node000001" title="Traduce un codice numerico WMO in una stringa breve leggibile (es. &quot;Rain&quot;)." alt="" coords="887,140,1077,166"/>
+<area shape="rect" id="Node000002" href="$display__ui_8cpp.html#a1946154d8e9e6dd415476d3378b98ff1" title="Disegna la schermata principale (Ambient Display). Mostra i dati meteo correnti, l&#39;ora e la data recu..." alt="" coords="701,90,839,115"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="914,140,823,118,824,112,915,134"/>
-<area shape="rect" id="Node000009" href="$display__ui_8cpp.html#ae8a9d818fdd539d4b669b43222987fc7" title=" " alt="" coords="283,139,422,164"/>
+<area shape="rect" id="Node000009" href="$display__ui_8cpp.html#ae8a9d818fdd539d4b669b43222987fc7" title="Renderizza la schermata dettagliata del Meteo." alt="" coords="283,139,422,164"/>
 <area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="873,170,690,184,586,185,482,180,406,167,407,162,483,174,586,180,690,178,873,164"/>
-<area shape="rect" id="Node000003" href="$buttons_8cpp.html#a362a9b2582e0724627b8cd9f2e16f599" title=" " alt="" coords="104,40,223,66"/>
+<area shape="rect" id="Node000003" href="$buttons_8cpp.html#a362a9b2582e0724627b8cd9f2e16f599" title="Funzione di update della logica dei menu. Da chiamare nel loop principale." alt="" coords="104,40,223,66"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="743,83,702,53,678,40,653,30,593,17,531,10,468,8,408,11,297,25,213,43,211,38,296,20,407,6,468,3,531,4,594,11,654,25,680,35,705,49,746,78"/>
-<area shape="rect" id="Node000005" href="$buttons_8cpp.html#a476aa2a0a9fd2be3bedddd06747816c4" title=" " alt="" coords="497,40,639,66"/>
+<area shape="rect" id="Node000005" href="$buttons_8cpp.html#a476aa2a0a9fd2be3bedddd06747816c4" title="Azione eseguita al rilevamento della combo LEFT+RIGHT. Esegue il toggle tra modalità Home (Ambient) e..." alt="" coords="497,40,639,66"/>
 <area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="703,89,620,68,621,63,705,84"/>
-<area shape="rect" id="Node000007" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="539,90,597,115"/>
+<area shape="rect" id="Node000007" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="Configurazione iniziale per il Core 0." alt="" coords="539,90,597,115"/>
 <area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="688,105,598,105,598,100,688,100"/>
-<area shape="rect" id="Node000008" href="$display__ui_8cpp.html#a326e6bbb9afdeb1b938398087d9408a5" title=" " alt="" coords="483,139,653,164"/>
+<area shape="rect" id="Node000008" href="$display__ui_8cpp.html#a326e6bbb9afdeb1b938398087d9408a5" title="Gestisce il timeout del display per l&#39;inattività utente." alt="" coords="483,139,653,164"/>
 <area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="705,121,621,141,620,136,703,116"/>
-<area shape="rect" id="Node000004" href="$main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" title=" " alt="" coords="5,40,56,66"/>
+<area shape="rect" id="Node000004" href="$main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" title="Loop principale del Core 0." alt="" coords="5,40,56,66"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="90,56,56,56,56,50,90,50"/>
-<area shape="rect" id="Node000006" href="$buttons_8cpp.html#a668c3b350a802edf187d6c97a61b4358" title=" " alt="" coords="271,40,435,66"/>
+<area shape="rect" id="Node000006" href="$buttons_8cpp.html#a668c3b350a802edf187d6c97a61b4358" title="Verifica la pressione simultanea dei tasti LEFT e RIGHT." alt="" coords="271,40,435,66"/>
 <area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="483,56,435,56,435,50,483,50"/>
 <area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="257,56,223,56,223,50,257,50"/>
 <area shape="poly" id="edge10_Node000009_Node000003" title=" " alt="" coords="314,135,188,68,190,64,316,130"/>

@@ -21,7 +21,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Definizioni della struttura dati e prototipi per il modulo Meteo.">
 <polygon fill="#999999" stroke="#666666" points="272.5,-85 146.5,-85 146.5,-66 272.5,-66 272.5,-85"/>
 <text text-anchor="middle" x="209.5" y="-73" font-family="Helvetica,sans-Serif" font-size="10.00">src/Modules/weather.h</text>
 </a>
@@ -30,7 +30,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="buttons_8cpp.html" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="buttons_8cpp.html" target="_top" xlink:title="Gestione dell&#39;input utente, sitema di debounce e macchina a stati del menu.">
 <polygon fill="white" stroke="#666666" points="135,-24.5 0,-24.5 0,-5.5 135,-5.5 135,-24.5"/>
 <text text-anchor="middle" x="67.5" y="-12.5" font-family="Helvetica,sans-Serif" font-size="10.00">src/Modules/buttons.cpp</text>
 </a>
@@ -48,7 +48,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="display__ui_8cpp.html" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="display__ui_8cpp.html" target="_top" xlink:title="Implementazione dell&#39;interfaccia utente (UI) su display OLED SSD1306.">
 <polygon fill="white" stroke="#666666" points="266,-30 153,-30 153,0 266,0 266,-30"/>
 <text text-anchor="start" x="161" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">src/Modules/display</text>
 <text text-anchor="middle" x="209.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">_ui.cpp</text>
@@ -67,7 +67,7 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="weather_8cpp.html" target="_top" xlink:title=" ">
+<g id="a_Node000004"><a xlink:href="weather_8cpp.html" target="_top" xlink:title="Implementazione della gestione dati Meteo e parsing protocollo WX.">
 <polygon fill="white" stroke="#666666" points="421,-24.5 284,-24.5 284,-5.5 421,-5.5 421,-24.5"/>
 <text text-anchor="middle" x="352.5" y="-12.5" font-family="Helvetica,sans-Serif" font-size="10.00">src/Modules/weather.cpp</text>
 </a>

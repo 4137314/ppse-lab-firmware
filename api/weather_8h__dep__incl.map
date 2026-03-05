@@ -1,9 +1,9 @@
 <map id="src/Modules/weather.h" name="src/Modules/weather.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="201,5,369,31"/>
-<area shape="rect" id="Node000002" href="$buttons_8cpp.html" title=" " alt="" coords="5,86,185,111"/>
+<area shape="rect" id="Node000001" title="Definizioni della struttura dati e prototipi per il modulo Meteo." alt="" coords="201,5,369,31"/>
+<area shape="rect" id="Node000002" href="$buttons_8cpp.html" title="Gestione dell&#39;input utente, sitema di debounce e macchina a stati del menu." alt="" coords="5,86,185,111"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,38,124,88,122,84,243,33"/>
-<area shape="rect" id="Node000003" href="$display__ui_8cpp.html" title=" " alt="" coords="209,79,360,119"/>
+<area shape="rect" id="Node000003" href="$display__ui_8cpp.html" title="Implementazione dell&#39;interfaccia utente (UI) su display OLED SSD1306." alt="" coords="209,79,360,119"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="287,44,287,79,282,79,282,44"/>
-<area shape="rect" id="Node000004" href="$weather_8cpp.html" title=" " alt="" coords="384,86,567,111"/>
+<area shape="rect" id="Node000004" href="$weather_8cpp.html" title="Implementazione della gestione dati Meteo e parsing protocollo WX." alt="" coords="384,86,567,111"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="326,33,449,84,447,88,324,38"/>
 </map>

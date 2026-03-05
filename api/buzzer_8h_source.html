@@ -82,20 +82,21 @@ $(document).ready(function() { init_codefold(0); });
   <div class="headertitle"><div class="title">buzzer.h</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="buzzer_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef BUZZER_H</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define BUZZER_H</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;Arduino.h&gt;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">// BUZZER</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="buzzer_8h.html#a145103118f6d9d1129aa4509cf214a13">    7</a></span><span class="preprocessor">#define BUZZER 21</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keywordtype">void</span> <a class="code hl_function" href="buzzer_8h.html#ac0bbca39dff4d7966e343ebf687d23a6">buzzerInit</a>(uint8_t pin);</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keywordtype">void</span> <a class="code hl_function" href="buzzer_8h.html#a0c665db0589edd9920be463e9b82420b">buzzerBeep</a>(uint16_t freq = 1200, uint16_t duration = 60);</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="abuzzer_8h_html_a0c665db0589edd9920be463e9b82420b"><div class="ttname"><a href="buzzer_8h.html#a0c665db0589edd9920be463e9b82420b">buzzerBeep</a></div><div class="ttdeci">void buzzerBeep(uint16_t freq=1200, uint16_t duration=60)</div><div class="ttdef"><b>Definition</b> buzzer.cpp:22</div></div>
-<div class="ttc" id="abuzzer_8h_html_ac0bbca39dff4d7966e343ebf687d23a6"><div class="ttname"><a href="buzzer_8h.html#ac0bbca39dff4d7966e343ebf687d23a6">buzzerInit</a></div><div class="ttdeci">void buzzerInit(uint8_t pin)</div><div class="ttdef"><b>Definition</b> buzzer.cpp:5</div></div>
+<a href="buzzer_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#ifndef BUZZER_H</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#define BUZZER_H</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;Arduino.h&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="buzzer_8h.html#a145103118f6d9d1129aa4509cf214a13">   15</a></span><span class="preprocessor">#define BUZZER 21</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keywordtype">void</span> <a class="code hl_function" href="buzzer_8h.html#ac0bbca39dff4d7966e343ebf687d23a6">buzzerInit</a>(uint8_t pin);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keywordtype">void</span> <a class="code hl_function" href="buzzer_8h.html#a0c665db0589edd9920be463e9b82420b">buzzerBeep</a>(uint16_t freq = 1200, uint16_t duration = 60);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#endif </span><span class="comment">// BUZZER_H</span></div>
+<div class="ttc" id="abuzzer_8h_html_a0c665db0589edd9920be463e9b82420b"><div class="ttname"><a href="buzzer_8h.html#a0c665db0589edd9920be463e9b82420b">buzzerBeep</a></div><div class="ttdeci">void buzzerBeep(uint16_t freq=1200, uint16_t duration=60)</div><div class="ttdoc">Genera un suono impulsivo (beep).</div><div class="ttdef"><b>Definition</b> buzzer.cpp:44</div></div>
+<div class="ttc" id="abuzzer_8h_html_ac0bbca39dff4d7966e343ebf687d23a6"><div class="ttname"><a href="buzzer_8h.html#ac0bbca39dff4d7966e343ebf687d23a6">buzzerInit</a></div><div class="ttdeci">void buzzerInit(uint8_t pin)</div><div class="ttdoc">Configura il pin del buzzer e prepara l'hardware.</div><div class="ttdef"><b>Definition</b> buzzer.cpp:21</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

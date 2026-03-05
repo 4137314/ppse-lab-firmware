@@ -1,15 +1,15 @@
 <map id="save_gps_last" name="save_gps_last">
-<area shape="rect" id="Node000001" title=" " alt="" coords="485,56,600,81"/>
-<area shape="rect" id="Node000002" href="$buttons_8cpp.html#a362a9b2582e0724627b8cd9f2e16f599" title=" " alt="" coords="319,5,437,31"/>
+<area shape="rect" id="Node000001" title="Salva le ultime coordinate valide in un file di testo (modalità overwrite)." alt="" coords="485,56,600,81"/>
+<area shape="rect" id="Node000002" href="$buttons_8cpp.html#a362a9b2582e0724627b8cd9f2e16f599" title="Funzione di update della logica dei menu. Da chiamare nel loop principale." alt="" coords="319,5,437,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="486,54,419,33,421,28,488,49"/>
-<area shape="rect" id="Node000003" href="$main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" title=" " alt="" coords="166,19,217,44"/>
+<area shape="rect" id="Node000003" href="$main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" title="Loop principale del Core 0." alt="" coords="166,19,217,44"/>
 <area shape="poly" id="edge7_Node000001_Node000003" title=" " alt="" coords="471,64,216,37,217,31,472,59"/>
-<area shape="rect" id="Node000004" href="$gps_8cpp.html#a79c2c486e631815579df4be3e190ebad" title=" " alt="" coords="335,107,421,132"/>
+<area shape="rect" id="Node000004" href="$gps_8cpp.html#a79c2c486e631815579df4be3e190ebad" title="Sincronizza i dati GPS globali e gestisce il salvataggio su Flash." alt="" coords="335,107,421,132"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="488,88,421,109,419,104,486,83"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="305,26,217,32,217,27,305,21"/>
-<area shape="rect" id="Node000005" href="$gps_8cpp.html#a58c63785b84f6e923c4e8ca91f335c43" title=" " alt="" coords="112,80,271,105"/>
+<area shape="rect" id="Node000005" href="$gps_8cpp.html#a58c63785b84f6e923c4e8ca91f335c43" title="Monitora la coda dei messaggi inter&#45;core per richieste di sincronizzazione GPS." alt="" coords="112,80,271,105"/>
 <area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="321,114,270,107,271,101,322,109"/>
-<area shape="rect" id="Node000006" href="$main_8cpp.html#a39ceba300a80e348e278539f57e0ca79" title=" " alt="" coords="5,105,64,131"/>
+<area shape="rect" id="Node000006" href="$main_8cpp.html#a39ceba300a80e348e278539f57e0ca79" title="Loop principale del Core 1." alt="" coords="5,105,64,131"/>
 <area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="322,122,64,121,64,115,322,116"/>
 <area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="100,110,64,116,64,111,99,105"/>
 </map>

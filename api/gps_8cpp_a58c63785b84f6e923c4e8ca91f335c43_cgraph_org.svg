@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Monitora la coda dei messaggi inter&#45;core per richieste di sincronizzazione GPS.">
 <polygon fill="#999999" stroke="#666666" points="119,-185 0,-185 0,-166 119,-166 119,-185"/>
 <text text-anchor="middle" x="59.5" y="-173" font-family="Helvetica,sans-Serif" font-size="10.00">check_GPS_sync_req</text>
 </a>
@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="gps_8cpp.html#a79c2c486e631815579df4be3e190ebad" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="gps_8cpp.html#a79c2c486e631815579df4be3e190ebad" target="_top" xlink:title="Sincronizza i dati GPS globali e gestisce il salvataggio su Flash.">
 <polygon fill="white" stroke="#666666" points="219,-185 155,-185 155,-166 219,-166 219,-185"/>
 <text text-anchor="middle" x="187" y="-173" font-family="Helvetica,sans-Serif" font-size="10.00">GPS_sync</text>
 </a>
@@ -38,7 +38,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="gps_8cpp.html#aadbd2f07e07e8a3f472065571970cefe" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="gps_8cpp.html#aadbd2f07e07e8a3f472065571970cefe" target="_top" xlink:title="Estrae data e ora dai messaggi RMC.">
 <polygon fill="white" stroke="#666666" points="383.5,-185 273.5,-185 273.5,-166 383.5,-166 383.5,-185"/>
 <text text-anchor="middle" x="328.5" y="-173" font-family="Helvetica,sans-Serif" font-size="10.00">GetDate_and_Time</text>
 </a>
@@ -56,7 +56,7 @@
 <!-- Node23 -->
 <g id="Node000023" class="node">
 <title>Node23</title>
-<g id="a_Node000023"><a xlink:href="gps_8cpp.html#a177ee65fb57b969753487772f3fc552c" target="_top" xlink:title=" ">
+<g id="a_Node000023"><a xlink:href="gps_8cpp.html#a177ee65fb57b969753487772f3fc552c" target="_top" xlink:title="Estrae posizione e numero satelliti dai messaggi GGA.">
 <polygon fill="white" stroke="#666666" points="402,-222 255,-222 255,-203 402,-203 402,-222"/>
 <text text-anchor="middle" x="328.5" y="-210" font-family="Helvetica,sans-Serif" font-size="10.00">GetPosition_and_Satellites</text>
 </a>
@@ -74,7 +74,7 @@
 <!-- Node24 -->
 <g id="Node000024" class="node">
 <title>Node24</title>
-<g id="a_Node000024"><a xlink:href="gps_8cpp.html#aab2203af6c50eafde7df9509bc632fa6" target="_top" xlink:title=" ">
+<g id="a_Node000024"><a xlink:href="gps_8cpp.html#aab2203af6c50eafde7df9509bc632fa6" target="_top" xlink:title="Salva le ultime coordinate valide in un file di testo (modalità overwrite).">
 <polygon fill="white" stroke="#666666" points="524,-36 438,-36 438,-17 524,-17 524,-36"/>
 <text text-anchor="middle" x="481" y="-24" font-family="Helvetica,sans-Serif" font-size="10.00">save_gps_last</text>
 </a>
@@ -92,7 +92,7 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="gps_8cpp.html#a5c33ca28d942d03c752f418f3c04711f" target="_top" xlink:title=" ">
+<g id="a_Node000004"><a xlink:href="gps_8cpp.html#a5c33ca28d942d03c752f418f3c04711f" target="_top" xlink:title="Tenta di acquisire un tipo specifico di sentenza NMEA dalla seriale.">
 <polygon fill="white" stroke="#666666" points="516.5,-222 445.5,-222 445.5,-203 516.5,-203 516.5,-222"/>
 <text text-anchor="middle" x="481" y="-210" font-family="Helvetica,sans-Serif" font-size="10.00">gpsAcquire</text>
 </a>
@@ -110,7 +110,7 @@
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="gps_8cpp.html#a1584cd930020560265588b72bde4654c" target="_top" xlink:title=" ">
+<g id="a_Node000005"><a xlink:href="gps_8cpp.html#a1584cd930020560265588b72bde4654c" target="_top" xlink:title="Smista e decodifica una stringa NMEA grezza nella struttura dati corrispondente.">
 <polygon fill="white" stroke="#666666" points="659,-241 560,-241 560,-222 659,-222 659,-241"/>
 <text text-anchor="middle" x="609.5" y="-229" font-family="Helvetica,sans-Serif" font-size="10.00">nmea_gps_parse</text>
 </a>
@@ -236,7 +236,7 @@
 <!-- Node14 -->
 <g id="Node000014" class="node">
 <title>Node14</title>
-<g id="a_Node000014"><a xlink:href="gps_8cpp.html#ae7e06054042f4d22ce3f7641a654dfba" target="_top" xlink:title=" ">
+<g id="a_Node000014"><a xlink:href="gps_8cpp.html#ae7e06054042f4d22ce3f7641a654dfba" target="_top" xlink:title="Stampa la qualità del fix da una sentenza $xxGGA (Global Positioning System Fix Data).">
 <polygon fill="white" stroke="#666666" points="800,-130 703,-130 703,-111 800,-111 800,-130"/>
 <text text-anchor="middle" x="751.5" y="-118" font-family="Helvetica,sans-Serif" font-size="10.00">print_NMEA_gga</text>
 </a>
@@ -254,7 +254,7 @@
 <!-- Node15 -->
 <g id="Node000015" class="node">
 <title>Node15</title>
-<g id="a_Node000015"><a xlink:href="gps_8cpp.html#a86800585d87c13db519115d7d460aac0" target="_top" xlink:title=" ">
+<g id="a_Node000015"><a xlink:href="gps_8cpp.html#a86800585d87c13db519115d7d460aac0" target="_top" xlink:title="Stampa gli errori di deviazione da una sentenza $xxGST (GPS Pseudorange Noise Statistics).">
 <polygon fill="white" stroke="#666666" points="798.5,-93 704.5,-93 704.5,-74 798.5,-74 798.5,-93"/>
 <text text-anchor="middle" x="751.5" y="-81" font-family="Helvetica,sans-Serif" font-size="10.00">print_NMEA_gst</text>
 </a>
@@ -272,7 +272,7 @@
 <!-- Node18 -->
 <g id="Node000018" class="node">
 <title>Node18</title>
-<g id="a_Node000018"><a xlink:href="gps_8cpp.html#a6ec6b5a4090671490d31c770fe6afa0d" target="_top" xlink:title=" ">
+<g id="a_Node000018"><a xlink:href="gps_8cpp.html#a6ec6b5a4090671490d31c770fe6afa0d" target="_top" xlink:title="Stampa lo stato dei satelliti in vista da una sentenza $xxGSV (Satellites in View).">
 <polygon fill="white" stroke="#666666" points="799.5,-426 703.5,-426 703.5,-407 799.5,-407 799.5,-426"/>
 <text text-anchor="middle" x="751.5" y="-414" font-family="Helvetica,sans-Serif" font-size="10.00">print_NMEA_gsv</text>
 </a>
@@ -290,7 +290,7 @@
 <!-- Node19 -->
 <g id="Node000019" class="node">
 <title>Node19</title>
-<g id="a_Node000019"><a xlink:href="gps_8cpp.html#a4650a0bef4037f605b746db3e8dce5bf" target="_top" xlink:title=" ">
+<g id="a_Node000019"><a xlink:href="gps_8cpp.html#a4650a0bef4037f605b746db3e8dce5bf" target="_top" xlink:title="Stampa i dettagli di una sentenza $xxRMC (Recommended Minimum Navigation Information).">
 <polygon fill="white" stroke="#666666" points="800.5,-56 702.5,-56 702.5,-37 800.5,-37 800.5,-56"/>
 <text text-anchor="middle" x="751.5" y="-44" font-family="Helvetica,sans-Serif" font-size="10.00">print_NMEA_rmc</text>
 </a>
@@ -308,7 +308,7 @@
 <!-- Node21 -->
 <g id="Node000021" class="node">
 <title>Node21</title>
-<g id="a_Node000021"><a xlink:href="gps_8cpp.html#a77ab7d9e159a0a804e5467a44204eebd" target="_top" xlink:title=" ">
+<g id="a_Node000021"><a xlink:href="gps_8cpp.html#a77ab7d9e159a0a804e5467a44204eebd" target="_top" xlink:title="Stampa rotta e velocità al suolo da una sentenza $xxVTG (Track Made Good and Ground Speed).">
 <polygon fill="white" stroke="#666666" points="799,-167 704,-167 704,-148 799,-148 799,-167"/>
 <text text-anchor="middle" x="751.5" y="-155" font-family="Helvetica,sans-Serif" font-size="10.00">print_NMEA_vtg</text>
 </a>
@@ -326,7 +326,7 @@
 <!-- Node22 -->
 <g id="Node000022" class="node">
 <title>Node22</title>
-<g id="a_Node000022"><a xlink:href="gps_8cpp.html#ac1555845e4e7fe4d8de83d57a2a6c949" target="_top" xlink:title=" ">
+<g id="a_Node000022"><a xlink:href="gps_8cpp.html#ac1555845e4e7fe4d8de83d57a2a6c949" target="_top" xlink:title="Stampa data e ora UTC da una sentenza $xxZDA (Time &amp; Date).">
 <polygon fill="white" stroke="#666666" points="799.5,-389 703.5,-389 703.5,-370 799.5,-370 799.5,-389"/>
 <text text-anchor="middle" x="751.5" y="-377" font-family="Helvetica,sans-Serif" font-size="10.00">print_NMEA_zda</text>
 </a>

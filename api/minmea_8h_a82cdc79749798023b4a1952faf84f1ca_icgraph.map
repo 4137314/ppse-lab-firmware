@@ -1,30 +1,30 @@
 <map id="minmea_tocoord" name="minmea_tocoord">
 <area shape="rect" id="Node000001" title=" " alt="" coords="1197,80,1329,105"/>
-<area shape="rect" id="Node000002" href="$display__ui_8cpp.html#ab67f2470dd94c5b293ea60d38b9fae8e" title=" " alt="" coords="1022,55,1146,80"/>
+<area shape="rect" id="Node000002" href="$display__ui_8cpp.html#ab67f2470dd94c5b293ea60d38b9fae8e" title="Renderizza la schermata dei dati GPS e temporali." alt="" coords="1022,55,1146,80"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1183,84,1146,79,1147,73,1184,79"/>
-<area shape="rect" id="Node000005" href="$gps_8cpp.html#a4650a0bef4037f605b746db3e8dce5bf" title=" " alt="" coords="1019,5,1149,31"/>
+<area shape="rect" id="Node000005" href="$gps_8cpp.html#a4650a0bef4037f605b746db3e8dce5bf" title="Stampa i dettagli di una sentenza $xxRMC (Recommended Minimum Navigation Information)." alt="" coords="1019,5,1149,31"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="1220,77,1148,46,1118,33,1120,28,1150,41,1222,72"/>
-<area shape="rect" id="Node000013" href="$gps_8cpp.html#aab2203af6c50eafde7df9509bc632fa6" title=" " alt="" coords="1027,153,1141,179"/>
+<area shape="rect" id="Node000013" href="$gps_8cpp.html#aab2203af6c50eafde7df9509bc632fa6" title="Salva le ultime coordinate valide in un file di testo (modalità overwrite)." alt="" coords="1027,153,1141,179"/>
 <area shape="poly" id="edge14_Node000001_Node000013" title=" " alt="" coords="1222,114,1150,144,1121,156,1119,151,1148,140,1220,109"/>
-<area shape="rect" id="Node000014" href="$gps_8cpp.html#a0d11d3ae385799665b8808639a2d3725" title=" " alt="" coords="1021,104,1147,129"/>
+<area shape="rect" id="Node000014" href="$gps_8cpp.html#a0d11d3ae385799665b8808639a2d3725" title="Implementa un log rotativo (circular buffer) delle ultime 20 posizioni." alt="" coords="1021,104,1147,129"/>
 <area shape="poly" id="edge18_Node000001_Node000014" title=" " alt="" coords="1184,106,1148,111,1147,106,1183,101"/>
-<area shape="rect" id="Node000003" href="$buttons_8cpp.html#a362a9b2582e0724627b8cd9f2e16f599" title=" " alt="" coords="845,91,964,116"/>
+<area shape="rect" id="Node000003" href="$buttons_8cpp.html#a362a9b2582e0724627b8cd9f2e16f599" title="Funzione di update della logica dei menu. Da chiamare nel loop principale." alt="" coords="845,91,964,116"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1009,85,965,94,964,89,1008,80"/>
-<area shape="rect" id="Node000004" href="$main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" title=" " alt="" coords="718,116,769,141"/>
+<area shape="rect" id="Node000004" href="$main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" title="Loop principale del Core 0." alt="" coords="718,116,769,141"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="832,117,769,127,768,122,832,112"/>
-<area shape="rect" id="Node000006" href="$gps_8cpp.html#a1584cd930020560265588b72bde4654c" title=" " alt="" coords="839,17,971,43"/>
+<area shape="rect" id="Node000006" href="$gps_8cpp.html#a1584cd930020560265588b72bde4654c" title="Smista e decodifica una stringa NMEA grezza nella struttura dati corrispondente." alt="" coords="839,17,971,43"/>
 <area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1005,26,971,28,971,23,1005,21"/>
-<area shape="rect" id="Node000007" href="$gps_8cpp.html#a5c33ca28d942d03c752f418f3c04711f" title=" " alt="" coords="696,67,791,92"/>
+<area shape="rect" id="Node000007" href="$gps_8cpp.html#a5c33ca28d942d03c752f418f3c04711f" title="Tenta di acquisire un tipo specifico di sentenza NMEA dalla seriale." alt="" coords="696,67,791,92"/>
 <area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="850,49,787,69,785,64,849,44"/>
-<area shape="rect" id="Node000008" href="$gps_8cpp.html#aadbd2f07e07e8a3f472065571970cefe" title=" " alt="" coords="477,116,623,141"/>
+<area shape="rect" id="Node000008" href="$gps_8cpp.html#aadbd2f07e07e8a3f472065571970cefe" title="Estrae data e ora dai messaggi RMC." alt="" coords="477,116,623,141"/>
 <area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="683,98,649,107,604,118,603,113,647,102,682,93"/>
-<area shape="rect" id="Node000012" href="$gps_8cpp.html#a177ee65fb57b969753487772f3fc552c" title=" " alt="" coords="452,67,648,92"/>
+<area shape="rect" id="Node000012" href="$gps_8cpp.html#a177ee65fb57b969753487772f3fc552c" title="Estrae posizione e numero satelliti dai messaggi GGA." alt="" coords="452,67,648,92"/>
 <area shape="poly" id="edge12_Node000007_Node000012" title=" " alt="" coords="682,82,648,82,648,77,682,77"/>
-<area shape="rect" id="Node000009" href="$gps_8cpp.html#a79c2c486e631815579df4be3e190ebad" title=" " alt="" coords="319,116,404,141"/>
+<area shape="rect" id="Node000009" href="$gps_8cpp.html#a79c2c486e631815579df4be3e190ebad" title="Sincronizza i dati GPS globali e gestisce il salvataggio su Flash." alt="" coords="319,116,404,141"/>
 <area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="463,131,404,131,404,126,463,126"/>
-<area shape="rect" id="Node000010" href="$gps_8cpp.html#a58c63785b84f6e923c4e8ca91f335c43" title=" " alt="" coords="112,91,271,116"/>
+<area shape="rect" id="Node000010" href="$gps_8cpp.html#a58c63785b84f6e923c4e8ca91f335c43" title="Monitora la coda dei messaggi inter&#45;core per richieste di sincronizzazione GPS." alt="" coords="112,91,271,116"/>
 <area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="305,123,270,118,271,113,306,118"/>
-<area shape="rect" id="Node000011" href="$main_8cpp.html#a39ceba300a80e348e278539f57e0ca79" title=" " alt="" coords="5,116,64,141"/>
+<area shape="rect" id="Node000011" href="$main_8cpp.html#a39ceba300a80e348e278539f57e0ca79" title="Loop principale del Core 1." alt="" coords="5,116,64,141"/>
 <area shape="poly" id="edge11_Node000009_Node000011" title=" " alt="" coords="305,131,64,131,64,126,305,126"/>
 <area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="100,121,64,127,64,121,99,116"/>
 <area shape="poly" id="edge13_Node000012_Node000009" title=" " alt="" coords="488,98,453,107,405,120,403,115,451,102,486,93"/>

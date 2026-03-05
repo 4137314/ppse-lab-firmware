@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Implementazione della gestione dati Meteo e parsing protocollo WX.">
 <polygon fill="#999999" stroke="#666666" points="177,-129 40,-129 40,-110 177,-110 177,-129"/>
 <text text-anchor="middle" x="108.5" y="-117" font-family="Helvetica,sans-Serif" font-size="10.00">src/Modules/weather.cpp</text>
 </a>
@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="weather_8h.html" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="weather_8h.html" target="_top" xlink:title="Definizioni della struttura dati e prototipi per il modulo Meteo.">
 <polygon fill="white" stroke="#666666" points="65,-74 0,-74 0,-55 65,-55 65,-74"/>
 <text text-anchor="middle" x="32.5" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">weather.h</text>
 </a>

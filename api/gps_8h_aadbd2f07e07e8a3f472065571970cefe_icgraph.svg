@@ -21,7 +21,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Estrae data e ora dai messaggi RMC.">
 <polygon fill="#999999" stroke="#666666" points="445,-19 335,-19 335,0 445,0 445,-19"/>
 <text text-anchor="middle" x="390" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">GetDate_and_Time</text>
 </a>
@@ -30,7 +30,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="gps_8cpp.html#a79c2c486e631815579df4be3e190ebad" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="gps_8cpp.html#a79c2c486e631815579df4be3e190ebad" target="_top" xlink:title="Sincronizza i dati GPS globali e gestisce il salvataggio su Flash.">
 <polygon fill="white" stroke="#666666" points="299,-19 235,-19 235,0 299,0 299,-19"/>
 <text text-anchor="middle" x="267" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">GPS_sync</text>
 </a>
@@ -48,7 +48,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="gps_8cpp.html#a58c63785b84f6e923c4e8ca91f335c43" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="gps_8cpp.html#a58c63785b84f6e923c4e8ca91f335c43" target="_top" xlink:title="Monitora la coda dei messaggi inter&#45;core per richieste di sincronizzazione GPS.">
 <polygon fill="white" stroke="#666666" points="199,-38 80,-38 80,-19 199,-19 199,-38"/>
 <text text-anchor="middle" x="139.5" y="-26" font-family="Helvetica,sans-Serif" font-size="10.00">check_GPS_sync_req</text>
 </a>
@@ -66,7 +66,7 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="main_8cpp.html#a39ceba300a80e348e278539f57e0ca79" target="_top" xlink:title=" ">
+<g id="a_Node000004"><a xlink:href="main_8cpp.html#a39ceba300a80e348e278539f57e0ca79" target="_top" xlink:title="Loop principale del Core 1.">
 <polygon fill="white" stroke="#666666" points="44,-19 0,-19 0,0 44,0 44,-19"/>
 <text text-anchor="middle" x="22" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">loop1</text>
 </a>

@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Gestisce la logica di sincronizzazione post&#45;connessione.">
 <polygon fill="#999999" stroke="#666666" points="145,-19 80,-19 80,0 145,0 145,-19"/>
 <text text-anchor="middle" x="112.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">sync_files</text>
 </a>
@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="main_8cpp.html#a39ceba300a80e348e278539f57e0ca79" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="main_8cpp.html#a39ceba300a80e348e278539f57e0ca79" target="_top" xlink:title="Loop principale del Core 1.">
 <polygon fill="white" stroke="#666666" points="44,-19 0,-19 0,0 44,0 44,-19"/>
 <text text-anchor="middle" x="22" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">loop1</text>
 </a>

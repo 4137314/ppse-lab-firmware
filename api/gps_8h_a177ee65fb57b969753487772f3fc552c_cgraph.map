@@ -1,8 +1,8 @@
 <map id="GetPosition_and_Satellites" name="GetPosition_and_Satellites">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,277,201,303"/>
-<area shape="rect" id="Node000002" href="$gps_8cpp.html#a5c33ca28d942d03c752f418f3c04711f" title=" " alt="" coords="249,277,344,303"/>
+<area shape="rect" id="Node000001" title="Estrae posizione e numero satelliti dai messaggi GGA." alt="" coords="5,277,201,303"/>
+<area shape="rect" id="Node000002" href="$gps_8cpp.html#a5c33ca28d942d03c752f418f3c04711f" title="Tenta di acquisire un tipo specifico di sentenza NMEA dalla seriale." alt="" coords="249,277,344,303"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,287,236,287,236,293,202,293"/>
-<area shape="rect" id="Node000003" href="$gps_8cpp.html#a1584cd930020560265588b72bde4654c" title=" " alt="" coords="392,277,524,303"/>
+<area shape="rect" id="Node000003" href="$gps_8cpp.html#a1584cd930020560265588b72bde4654c" title="Smista e decodifica una stringa NMEA grezza nella struttura dati corrispondente." alt="" coords="392,277,524,303"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="344,287,378,287,378,293,344,293"/>
 <area shape="rect" id="Node000004" href="$minmea_8c.html#a0e892adb1166185572c0e4614bc1eb13" title=" " alt="" coords="572,5,723,31"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="459,276,469,232,489,168,522,100,544,68,570,40,576,35,579,40,574,44,548,71,526,103,494,170,474,233,464,278"/>
@@ -16,17 +16,17 @@
 <area shape="poly" id="edge12_Node000003_Node000010" title=" " alt="" coords="484,275,571,237,590,230,592,235,573,242,486,280"/>
 <area shape="rect" id="Node000011" href="$minmea_8c.html#a389a195750045dfecc8e47d2641dec13" title=" " alt="" coords="573,252,722,277"/>
 <area shape="poly" id="edge14_Node000003_Node000011" title=" " alt="" coords="524,279,559,274,560,279,524,284"/>
-<area shape="rect" id="Node000012" href="$gps_8cpp.html#ae7e06054042f4d22ce3f7641a654dfba" title=" " alt="" coords="583,301,712,327"/>
+<area shape="rect" id="Node000012" href="$gps_8cpp.html#ae7e06054042f4d22ce3f7641a654dfba" title="Stampa la qualità del fix da una sentenza $xxGGA (Global Positioning System Fix Data)." alt="" coords="583,301,712,327"/>
 <area shape="poly" id="edge16_Node000003_Node000012" title=" " alt="" coords="524,296,569,301,569,307,524,301"/>
-<area shape="rect" id="Node000013" href="$gps_8cpp.html#a86800585d87c13db519115d7d460aac0" title=" " alt="" coords="585,400,710,425"/>
+<area shape="rect" id="Node000013" href="$gps_8cpp.html#a86800585d87c13db519115d7d460aac0" title="Stampa gli errori di deviazione da una sentenza $xxGST (GPS Pseudorange Noise Statistics)." alt="" coords="585,400,710,425"/>
 <area shape="poly" id="edge17_Node000003_Node000013" title=" " alt="" coords="472,301,514,343,543,366,573,386,586,393,583,397,571,391,539,370,511,347,469,305"/>
-<area shape="rect" id="Node000016" href="$gps_8cpp.html#a6ec6b5a4090671490d31c770fe6afa0d" title=" " alt="" coords="583,499,711,524"/>
+<area shape="rect" id="Node000016" href="$gps_8cpp.html#a6ec6b5a4090671490d31c770fe6afa0d" title="Stampa lo stato dei satelliti in vista da una sentenza $xxGSV (Satellites in View)." alt="" coords="583,499,711,524"/>
 <area shape="poly" id="edge20_Node000003_Node000016" title=" " alt="" coords="466,302,478,338,500,387,532,440,551,464,574,485,580,490,577,494,570,489,548,468,527,443,495,390,473,340,460,304"/>
-<area shape="rect" id="Node000017" href="$gps_8cpp.html#a4650a0bef4037f605b746db3e8dce5bf" title=" " alt="" coords="582,449,713,475"/>
+<area shape="rect" id="Node000017" href="$gps_8cpp.html#a4650a0bef4037f605b746db3e8dce5bf" title="Stampa i dettagli di una sentenza $xxRMC (Recommended Minimum Navigation Information)." alt="" coords="582,449,713,475"/>
 <area shape="poly" id="edge21_Node000003_Node000017" title=" " alt="" coords="468,301,507,366,537,403,574,436,582,441,579,446,570,440,533,407,502,369,463,304"/>
-<area shape="rect" id="Node000019" href="$gps_8cpp.html#a77ab7d9e159a0a804e5467a44204eebd" title=" " alt="" coords="584,351,711,376"/>
+<area shape="rect" id="Node000019" href="$gps_8cpp.html#a77ab7d9e159a0a804e5467a44204eebd" title="Stampa rotta e velocità al suolo da una sentenza $xxVTG (Track Made Good and Ground Speed)." alt="" coords="584,351,711,376"/>
 <area shape="poly" id="edge25_Node000003_Node000019" title=" " alt="" coords="487,300,573,337,592,344,590,349,571,342,485,305"/>
-<area shape="rect" id="Node000020" href="$gps_8cpp.html#ac1555845e4e7fe4d8de83d57a2a6c949" title=" " alt="" coords="583,548,711,573"/>
+<area shape="rect" id="Node000020" href="$gps_8cpp.html#ac1555845e4e7fe4d8de83d57a2a6c949" title="Stampa data e ora UTC da una sentenza $xxZDA (Time &amp; Date)." alt="" coords="583,548,711,573"/>
 <area shape="poly" id="edge27_Node000003_Node000020" title=" " alt="" coords="464,302,474,346,494,409,526,476,548,507,574,535,579,539,576,543,570,539,544,511,522,479,489,411,469,348,459,303"/>
 <area shape="rect" id="Node000005" href="$minmea_8c.html#a15e9012d03411f7471ca65649f206cc0" title=" " alt="" coords="780,129,893,155"/>
 <area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="699,28,724,40,776,78,817,117,813,121,773,82,721,44,697,33"/>

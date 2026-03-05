@@ -80,6 +80,9 @@ $(function() {
   <div class="headertitle"><div class="title">weather.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Implementazione della gestione dati Meteo e parsing protocollo WX.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="weather_8h_source.html">weather.h</a>&quot;</code><br />
 <code>#include &lt;math.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
@@ -92,22 +95,33 @@ Include dependency graph for weather.cpp:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:aff8b52bfd4edcf044195a2cd81bdfb6f" id="r_aff8b52bfd4edcf044195a2cd81bdfb6f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="weather_8cpp.html#aff8b52bfd4edcf044195a2cd81bdfb6f">Weather_Init</a> ()</td></tr>
+<tr class="memdesc:aff8b52bfd4edcf044195a2cd81bdfb6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inizializza la struttura dati Meteo con valori predefiniti.  <br /></td></tr>
 <tr class="separator:aff8b52bfd4edcf044195a2cd81bdfb6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab164883b10c271f63f742e345d3865e9" id="r_ab164883b10c271f63f742e345d3865e9"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="weather_8cpp.html#ab164883b10c271f63f742e345d3865e9">splitField</a> (const String &amp;s, int &amp;pos, String &amp;out)</td></tr>
+<tr class="memdesc:ab164883b10c271f63f742e345d3865e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper interno per separare i campi di una stringa CSV.  <br /></td></tr>
 <tr class="separator:ab164883b10c271f63f742e345d3865e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a525852e49a5ce102e098eab80903f209" id="r_a525852e49a5ce102e098eab80903f209"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="weather_8cpp.html#a525852e49a5ce102e098eab80903f209">Weather_HandleLine</a> (const String &amp;line)</td></tr>
+<tr class="memdesc:a525852e49a5ce102e098eab80903f209"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parser principale per i messaggi meteo in arrivo.  <br /></td></tr>
 <tr class="separator:a525852e49a5ce102e098eab80903f209"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51d541fdbe1af3ec8d12cdddd643a1b8" id="r_a51d541fdbe1af3ec8d12cdddd643a1b8"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="weather_8cpp.html#a51d541fdbe1af3ec8d12cdddd643a1b8">Weather_WeekdayName</a> (uint8_t w)</td></tr>
+<tr class="memdesc:a51d541fdbe1af3ec8d12cdddd643a1b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restituisce il nome abbreviato del giorno della settimana.  <br /></td></tr>
 <tr class="separator:a51d541fdbe1af3ec8d12cdddd643a1b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e2b5c9b7658529d8dae9d6ea9d56de7" id="r_a8e2b5c9b7658529d8dae9d6ea9d56de7"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="weather_8cpp.html#a8e2b5c9b7658529d8dae9d6ea9d56de7">Weather_CodeToShortText</a> (int code)</td></tr>
+<tr class="memdesc:a8e2b5c9b7658529d8dae9d6ea9d56de7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converte il codice WMO in una descrizione testuale breve.  <br /></td></tr>
 <tr class="separator:a8e2b5c9b7658529d8dae9d6ea9d56de7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a9004ea3b795f0b6a5a39df16ad0b3f6b" id="r_a9004ea3b795f0b6a5a39df16ad0b3f6b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structWeatherState.html">WeatherState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="weather_8cpp.html#a9004ea3b795f0b6a5a39df16ad0b3f6b">wx</a></td></tr>
+<tr class="memdesc:a9004ea3b795f0b6a5a39df16ad0b3f6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Istanza globale dello stato meteo.  <br /></td></tr>
 <tr class="separator:a9004ea3b795f0b6a5a39df16ad0b3f6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Implementazione della gestione dati Meteo e parsing protocollo WX. </p>
+<ul>
+<li>Questo modulo gestisce la ricezione e l'organizzazione dei dati meteo correnti e delle previsioni orarie (forecast) ricevute tramite stringhe formattate CSV. </li>
+</ul>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a id="ab164883b10c271f63f742e345d3865e9" name="ab164883b10c271f63f742e345d3865e9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab164883b10c271f63f742e345d3865e9">&#9670;&#160;</a></span>splitField()</h2>
 
@@ -147,6 +161,20 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Helper interno per separare i campi di una stringa CSV. </p>
+<ul>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>Stringa sorgente. </td></tr>
+    <tr><td class="paramname">pos</td><td>Posizione corrente nell'indice della stringa (aggiornata dopo la chiamata). </td></tr>
+    <tr><td class="paramname">out</td><td>Stringa in uscita contenente il valore estratto. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true se il campo è stato estratto correttamente, false altrimenti. </dd></dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -170,6 +198,19 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Converte il codice WMO in una descrizione testuale breve. </p>
+<p>Traduce un codice numerico WMO in una stringa breve leggibile (es. "Rain").</p>
+<ul>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">code</td><td>Codice meteo (0-95+). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>const char* Descrizione in inglese (es. "Clear", "Rain", "Storm"). </dd></dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -193,6 +234,21 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Parser principale per i messaggi meteo in arrivo. </p>
+<p>Elabora una riga di protocollo WX (WXC o WXD) per aggiornare lo stato.</p>
+<ul>
+<li>Gestisce due tipi di prefissi:</li>
+<li><b>WXC</b>: (Weather Current) Dati meteo attuali (Città, Temp, Vento, Umidità, Codice).</li>
+<li><b>WXD</b>: (Weather Daily) Dati forecast per un giorno specifico (Indice, 24 Temp, 24 Codici).</li>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">line</td><td>Stringa grezza ricevuta dal collegamento seriale/WiFi. </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -216,6 +272,12 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
+<p>Inizializza la struttura dati Meteo con valori predefiniti. </p>
+<p>Inizializza la struttura <a class="el" href="structWeatherState.html">WeatherState</a> con valori nulli o non validi.</p>
+<ul>
+<li>Imposta la città su "NA", invalida i flag di ricezione e riempie le matrici delle previsioni con NAN (Not A Number) per le temperature e 255 per i codici meteo. </li>
+</ul>
+
 </div>
 </div>
 <a id="a51d541fdbe1af3ec8d12cdddd643a1b8" name="a51d541fdbe1af3ec8d12cdddd643a1b8"></a>
@@ -233,6 +295,16 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Restituisce il nome abbreviato del giorno della settimana. </p>
+<p>Converte un indice (0-6) nel nome abbreviato del giorno (es. "Lun").</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">w</td><td>Indice del giorno (0=Lun, 6=Dom). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>const char* Stringa di 3 caratteri del giorno. </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -253,6 +325,12 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Istanza globale dello stato meteo. </p>
+<p>Istanza esterna della struttura meteo, accessibile da altri moduli (es. UI).</p>
+<ul>
+<li></li>
+</ul>
 
 </div>
 </div>

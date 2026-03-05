@@ -1,5 +1,5 @@
 <map id="sync_files" name="sync_files">
-<area shape="rect" id="Node000001" title=" " alt="" coords="112,5,199,31"/>
-<area shape="rect" id="Node000002" href="$main_8cpp.html#a39ceba300a80e348e278539f57e0ca79" title=" " alt="" coords="5,5,64,31"/>
+<area shape="rect" id="Node000001" title="Sincronizza lo stato del filesystem e gestisce la rimonta dopo l&#39;uso USB." alt="" coords="112,5,199,31"/>
+<area shape="rect" id="Node000002" href="$main_8cpp.html#a39ceba300a80e348e278539f57e0ca79" title="Loop principale del Core 1." alt="" coords="5,5,64,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,21,64,21,64,15,98,15"/>
 </map>

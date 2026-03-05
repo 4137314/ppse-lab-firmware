@@ -1,5 +1,5 @@
 <map id="print_NMEA_gst" name="print_NMEA_gst">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,131,56"/>
+<area shape="rect" id="Node000001" title="Stampa gli errori di deviazione da una sentenza $xxGST (GPS Pseudorange Noise Statistics)." alt="" coords="5,31,131,56"/>
 <area shape="rect" id="Node000002" href="$minmea_8h.html#a7d5b32164f339789b22446e5bfc1afbc" title=" " alt="" coords="179,5,309,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="131,32,165,27,165,32,131,37"/>
 <area shape="rect" id="Node000003" href="$minmea_8h.html#ac7f8c6a8f35e4181b7f376560fef677b" title=" " alt="" coords="181,55,307,80"/>

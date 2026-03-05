@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Implementazione del driver GPS e gestione della telemetria NMEA.">
 <polygon fill="#999999" stroke="#666666" points="318.5,-184 202.5,-184 202.5,-165 318.5,-165 318.5,-184"/>
 <text text-anchor="middle" x="260.5" y="-172" font-family="Helvetica,sans-Serif" font-size="10.00">src/Modules/gps.cpp</text>
 </a>
@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="gps_8h.html" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="gps_8h.html" target="_top" xlink:title="Definizioni, macro e strutture per la gestione della telemetria GPS.">
 <polygon fill="white" stroke="#666666" points="282,-129 239,-129 239,-110 282,-110 282,-129"/>
 <text text-anchor="middle" x="260.5" y="-117" font-family="Helvetica,sans-Serif" font-size="10.00">gps.h</text>
 </a>
@@ -146,7 +146,7 @@
 <!-- Node13 -->
 <g id="Node000013" class="node">
 <title>Node13</title>
-<g id="a_Node000013"><a xlink:href="Filesystem_8h.html" target="_top" xlink:title=" ">
+<g id="a_Node000013"><a xlink:href="Filesystem_8h.html" target="_top" xlink:title="Interfaccia per la gestione del filesystem FatFS e l&#39;integrazione USB Mass Storage.">
 <polygon fill="white" stroke="#666666" points="620,-74 541,-74 541,-55 620,-55 620,-74"/>
 <text text-anchor="middle" x="580.5" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">Filesystem.h</text>
 </a>

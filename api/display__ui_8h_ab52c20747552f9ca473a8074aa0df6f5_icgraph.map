@@ -1,12 +1,12 @@
 <map id="drawSelected" name="drawSelected">
-<area shape="rect" id="Node000001" title=" " alt="" coords="465,31,576,56"/>
-<area shape="rect" id="Node000002" href="$display__ui_8cpp.html#a863fa83c4f8c55f3d65de3d448e88467" title=" " alt="" coords="283,5,405,31"/>
+<area shape="rect" id="Node000001" title="Mostra una schermata di segnaposto per le voci selezionate." alt="" coords="465,31,576,56"/>
+<area shape="rect" id="Node000002" href="$display__ui_8cpp.html#a863fa83c4f8c55f3d65de3d448e88467" title="Renderizza la schermata Info." alt="" coords="283,5,405,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="452,36,405,29,406,24,452,31"/>
-<area shape="rect" id="Node000005" href="$display__ui_8cpp.html#a373a756ed10c316c735042c6aa4807cc" title=" " alt="" coords="271,55,417,80"/>
+<area shape="rect" id="Node000005" href="$display__ui_8cpp.html#a373a756ed10c316c735042c6aa4807cc" title="Renderizza la schermata System." alt="" coords="271,55,417,80"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="452,55,418,60,418,55,452,50"/>
-<area shape="rect" id="Node000003" href="$buttons_8cpp.html#a362a9b2582e0724627b8cd9f2e16f599" title=" " alt="" coords="104,31,223,56"/>
+<area shape="rect" id="Node000003" href="$buttons_8cpp.html#a362a9b2582e0724627b8cd9f2e16f599" title="Funzione di update della logica dei menu. Da chiamare nel loop principale." alt="" coords="104,31,223,56"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="269,31,223,38,223,32,269,26"/>
-<area shape="rect" id="Node000004" href="$main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" title=" " alt="" coords="5,31,56,56"/>
+<area shape="rect" id="Node000004" href="$main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" title="Loop principale del Core 0." alt="" coords="5,31,56,56"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="90,46,56,46,56,41,90,41"/>
 <area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="256,58,222,54,223,49,257,53"/>
 </map>

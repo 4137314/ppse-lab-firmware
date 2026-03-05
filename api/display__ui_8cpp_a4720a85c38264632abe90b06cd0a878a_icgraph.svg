@@ -57,7 +57,7 @@ var sectionId = 'dynsection-14';
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Renderizza il menu in modalità &quot;Highlight&quot; (barra piena e testo invertito).">
 <polygon fill="#999999" stroke="#666666" points="693,-38 605,-38 605,-19 693,-19 693,-38"/>
 <text text-anchor="middle" x="649" y="-26" font-family="Helvetica,sans-Serif" font-size="10.00">drawMenu_evi</text>
 </a>
@@ -66,7 +66,7 @@ var sectionId = 'dynsection-14';
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="display__ui_8cpp.html#a0cc779d48595c7be531222945c8a5f10" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="display__ui_8cpp.html#a0cc779d48595c7be531222945c8a5f10" target="_top" xlink:title="Renderizza il menu principale in base allo stile selezionato (ScreenStyle).">
 <polygon fill="white" stroke="#666666" points="569,-38 501,-38 501,-19 569,-19 569,-38"/>
 <text text-anchor="middle" x="535" y="-26" font-family="Helvetica,sans-Serif" font-size="10.00">drawMenu</text>
 </a>
@@ -84,7 +84,7 @@ var sectionId = 'dynsection-14';
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="buttons_8cpp.html#a362a9b2582e0724627b8cd9f2e16f599" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="buttons_8cpp.html#a362a9b2582e0724627b8cd9f2e16f599" target="_top" xlink:title="Funzione di update della logica dei menu. Da chiamare nel loop principale.">
 <polygon fill="white" stroke="#666666" points="163,-38 74,-38 74,-19 163,-19 163,-38"/>
 <text text-anchor="middle" x="118.5" y="-26" font-family="Helvetica,sans-Serif" font-size="10.00">buttonsUpdate</text>
 </a>
@@ -102,7 +102,7 @@ var sectionId = 'dynsection-14';
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="buttons_8cpp.html#a476aa2a0a9fd2be3bedddd06747816c4" target="_top" xlink:title=" ">
+<g id="a_Node000005"><a xlink:href="buttons_8cpp.html#a476aa2a0a9fd2be3bedddd06747816c4" target="_top" xlink:title="Azione eseguita al rilevamento della combo LEFT+RIGHT. Esegue il toggle tra modalità Home (Ambient) e...">
 <polygon fill="white" stroke="#666666" points="465,-19 358,-19 358,0 465,0 465,-19"/>
 <text text-anchor="middle" x="411.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">onLeftRightCombo</text>
 </a>
@@ -120,7 +120,7 @@ var sectionId = 'dynsection-14';
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" target="_top" xlink:title=" ">
+<g id="a_Node000004"><a xlink:href="main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" target="_top" xlink:title="Loop principale del Core 0.">
 <polygon fill="white" stroke="#666666" points="38,-38 0,-38 0,-19 38,-19 38,-38"/>
 <text text-anchor="middle" x="19" y="-26" font-family="Helvetica,sans-Serif" font-size="10.00">loop</text>
 </a>
@@ -138,7 +138,7 @@ var sectionId = 'dynsection-14';
 <!-- Node6 -->
 <g id="Node000006" class="node">
 <title>Node6</title>
-<g id="a_Node000006"><a xlink:href="buttons_8cpp.html#a668c3b350a802edf187d6c97a61b4358" target="_top" xlink:title=" ">
+<g id="a_Node000006"><a xlink:href="buttons_8cpp.html#a668c3b350a802edf187d6c97a61b4358" target="_top" xlink:title="Verifica la pressione simultanea dei tasti LEFT e RIGHT.">
 <polygon fill="white" stroke="#666666" points="322,-19 199,-19 199,0 322,0 322,-19"/>
 <text text-anchor="middle" x="260.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">checkLeftRightCombo</text>
 </a>

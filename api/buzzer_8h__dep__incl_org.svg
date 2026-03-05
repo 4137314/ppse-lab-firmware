@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Definizioni e prototipi per il controllo del feedback sonoro.">
 <polygon fill="#999999" stroke="#666666" points="185.5,-74 66.5,-74 66.5,-55 185.5,-55 185.5,-74"/>
 <text text-anchor="middle" x="126" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">src/Modules/buzzer.h</text>
 </a>
@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="buzzer_8cpp.html" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="buzzer_8cpp.html" target="_top" xlink:title="Driver per la gestione del feedback acustico tramite buzzer piezoelettrico.">
 <polygon fill="white" stroke="#666666" points="130,-19 0,-19 0,0 130,0 130,-19"/>
 <text text-anchor="middle" x="65" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">src/Modules/buzzer.cpp</text>
 </a>
@@ -38,7 +38,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="main_8cpp.html" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="main_8cpp.html" target="_top" xlink:title="Orchestratore di sistema e gestione Multicore.">
 <polygon fill="white" stroke="#666666" points="227.5,-19 148.5,-19 148.5,0 227.5,0 227.5,-19"/>
 <text text-anchor="middle" x="188" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">src/main.cpp</text>
 </a>

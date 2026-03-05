@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Analizza l&#39;evento corrente per verificare se fa parte di una combo.">
 <polygon fill="#999999" stroke="#666666" points="123,-57 0,-57 0,-38 123,-38 123,-57"/>
 <text text-anchor="middle" x="61.5" y="-45" font-family="Helvetica,sans-Serif" font-size="10.00">checkLeftRightCombo</text>
 </a>
@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="buttons_8cpp.html#a476aa2a0a9fd2be3bedddd06747816c4" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="buttons_8cpp.html#a476aa2a0a9fd2be3bedddd06747816c4" target="_top" xlink:title="Azione eseguita al rilevamento della combo LEFT+RIGHT. Esegue il toggle tra modalità Home (Ambient) e...">
 <polygon fill="white" stroke="#666666" points="266,-57 159,-57 159,-38 266,-38 266,-57"/>
 <text text-anchor="middle" x="212.5" y="-45" font-family="Helvetica,sans-Serif" font-size="10.00">onLeftRightCombo</text>
 </a>
@@ -38,7 +38,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="display__ui_8cpp.html#a1946154d8e9e6dd415476d3378b98ff1" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="display__ui_8cpp.html#a1946154d8e9e6dd415476d3378b98ff1" target="_top" xlink:title="Disegna la schermata principale (Ambient Display). Mostra i dati meteo correnti, l&#39;ora e la data recu...">
 <polygon fill="white" stroke="#666666" points="413,-95 310,-95 310,-76 413,-76 413,-95"/>
 <text text-anchor="middle" x="361.5" y="-83" font-family="Helvetica,sans-Serif" font-size="10.00">drawHomeScreen</text>
 </a>
@@ -56,7 +56,7 @@
 <!-- Node6 -->
 <g id="Node000006" class="node">
 <title>Node6</title>
-<g id="a_Node000006"><a xlink:href="display__ui_8cpp.html#a0cc779d48595c7be531222945c8a5f10" target="_top" xlink:title=" ">
+<g id="a_Node000006"><a xlink:href="display__ui_8cpp.html#a0cc779d48595c7be531222945c8a5f10" target="_top" xlink:title="Renderizza il menu principale in base allo stile selezionato (ScreenStyle).">
 <polygon fill="white" stroke="#666666" points="395.5,-57 327.5,-57 327.5,-38 395.5,-38 395.5,-57"/>
 <text text-anchor="middle" x="361.5" y="-45" font-family="Helvetica,sans-Serif" font-size="10.00">drawMenu</text>
 </a>
@@ -74,7 +74,7 @@
 <!-- Node8 -->
 <g id="Node000008" class="node">
 <title>Node8</title>
-<g id="a_Node000008"><a xlink:href="leds_8cpp.html#a20b9a2822d58fc522e9aef69e6e52cbe" target="_top" xlink:title=" ">
+<g id="a_Node000008"><a xlink:href="leds_8cpp.html#a20b9a2822d58fc522e9aef69e6e52cbe" target="_top" xlink:title="Esegue un flash verde per confermare un&#39;azione (Toggle).">
 <polygon fill="white" stroke="#666666" points="421,-20 302,-20 302,-1 421,-1 421,-20"/>
 <text text-anchor="middle" x="361.5" y="-8" font-family="Helvetica,sans-Serif" font-size="10.00">ledsToggleAnimation</text>
 </a>
@@ -92,7 +92,7 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" target="_top" xlink:title=" ">
+<g id="a_Node000004"><a xlink:href="display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" target="_top" xlink:title="Istanza del driver del display SSD1306.">
 <polygon fill="white" stroke="#666666" points="688,-57 636,-57 636,-38 688,-38 688,-57"/>
 <text text-anchor="middle" x="662" y="-45" font-family="Helvetica,sans-Serif" font-size="10.00">display</text>
 </a>
@@ -110,7 +110,7 @@
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="weather_8cpp.html#a8e2b5c9b7658529d8dae9d6ea9d56de7" target="_top" xlink:title=" ">
+<g id="a_Node000005"><a xlink:href="weather_8cpp.html#a8e2b5c9b7658529d8dae9d6ea9d56de7" target="_top" xlink:title="Converte il codice WMO in una descrizione testuale breve.">
 <polygon fill="white" stroke="#666666" points="600,-95 457,-95 457,-76 600,-76 600,-95"/>
 <text text-anchor="middle" x="528.5" y="-83" font-family="Helvetica,sans-Serif" font-size="10.00">Weather_CodeToShortText</text>
 </a>
@@ -137,7 +137,7 @@
 <!-- Node7 -->
 <g id="Node000007" class="node">
 <title>Node7</title>
-<g id="a_Node000007"><a xlink:href="display__ui_8cpp.html#a4720a85c38264632abe90b06cd0a878a" target="_top" xlink:title=" ">
+<g id="a_Node000007"><a xlink:href="display__ui_8cpp.html#a4720a85c38264632abe90b06cd0a878a" target="_top" xlink:title="Renderizza il menu in modalità &quot;Highlight&quot; (barra piena e testo invertito).">
 <polygon fill="white" stroke="#666666" points="572.5,-19 484.5,-19 484.5,0 572.5,0 572.5,-19"/>
 <text text-anchor="middle" x="528.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">drawMenu_evi</text>
 </a>

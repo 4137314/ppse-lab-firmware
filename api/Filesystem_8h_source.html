@@ -82,36 +82,49 @@ $(document).ready(function() { init_codefold(0); });
   <div class="headertitle"><div class="title">Filesystem.h</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="Filesystem_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef FILESYSTEM_H</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define FILESYSTEM_H</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;FatFS.h&gt;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;FatFSUSB.h&gt;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;VFS.h&gt;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">extern</span> <span class="keyword">volatile</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="Filesystem_8h.html#a887f35472e8fca904645ffb1b0279a74">updated</a>;</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">extern</span> <span class="keyword">volatile</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="Filesystem_8h.html#a5b3edd7cb19243a55f2d6532c003d697">driveConnected</a>;</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">extern</span> <span class="keyword">volatile</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="Filesystem_8h.html#a532ad4b9343ee2e2e2d032995878fc06">inPrinting</a>;</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keywordtype">bool</span> <a class="code hl_function" href="Filesystem_8h.html#af3f1e5af9825fbd3178a8dd29ec898ff">FatFS_Setup</a>();</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keywordtype">bool</span> <a class="code hl_function" href="Filesystem_8h.html#aadf4a6d086b5111da73b529111a54e2f">FatFSUSB_Setup</a>();</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keywordtype">void</span> <a class="code hl_function" href="Filesystem_8h.html#a8e24a774e23a962350e4ebb5e948f2f0">unplug</a>(uint32_t i);</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keywordtype">void</span> <a class="code hl_function" href="Filesystem_8h.html#a3c394d6181de6a9514b3810fa42e787d">plug</a>(uint32_t i);</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keywordtype">bool</span> <a class="code hl_function" href="Filesystem_8h.html#a74282d889889088af618af7147a0af10">mountable</a>(uint32_t i);</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keywordtype">bool</span> <a class="code hl_function" href="Filesystem_8h.html#acde6b81e46f60c50c323ae21b153d1bf">sync_files</a>();</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aFilesystem_8h_html_a3c394d6181de6a9514b3810fa42e787d"><div class="ttname"><a href="Filesystem_8h.html#a3c394d6181de6a9514b3810fa42e787d">plug</a></div><div class="ttdeci">void plug(uint32_t i)</div><div class="ttdef"><b>Definition</b> Filesystem.cpp:55</div></div>
-<div class="ttc" id="aFilesystem_8h_html_a532ad4b9343ee2e2e2d032995878fc06"><div class="ttname"><a href="Filesystem_8h.html#a532ad4b9343ee2e2e2d032995878fc06">inPrinting</a></div><div class="ttdeci">volatile bool inPrinting</div><div class="ttdef"><b>Definition</b> Filesystem.cpp:5</div></div>
-<div class="ttc" id="aFilesystem_8h_html_a5b3edd7cb19243a55f2d6532c003d697"><div class="ttname"><a href="Filesystem_8h.html#a5b3edd7cb19243a55f2d6532c003d697">driveConnected</a></div><div class="ttdeci">volatile bool driveConnected</div><div class="ttdef"><b>Definition</b> Filesystem.cpp:4</div></div>
-<div class="ttc" id="aFilesystem_8h_html_a74282d889889088af618af7147a0af10"><div class="ttname"><a href="Filesystem_8h.html#a74282d889889088af618af7147a0af10">mountable</a></div><div class="ttdeci">bool mountable(uint32_t i)</div><div class="ttdef"><b>Definition</b> Filesystem.cpp:63</div></div>
-<div class="ttc" id="aFilesystem_8h_html_a887f35472e8fca904645ffb1b0279a74"><div class="ttname"><a href="Filesystem_8h.html#a887f35472e8fca904645ffb1b0279a74">updated</a></div><div class="ttdeci">volatile bool updated</div><div class="ttdef"><b>Definition</b> Filesystem.cpp:3</div></div>
-<div class="ttc" id="aFilesystem_8h_html_a8e24a774e23a962350e4ebb5e948f2f0"><div class="ttname"><a href="Filesystem_8h.html#a8e24a774e23a962350e4ebb5e948f2f0">unplug</a></div><div class="ttdeci">void unplug(uint32_t i)</div><div class="ttdef"><b>Definition</b> Filesystem.cpp:46</div></div>
-<div class="ttc" id="aFilesystem_8h_html_aadf4a6d086b5111da73b529111a54e2f"><div class="ttname"><a href="Filesystem_8h.html#aadf4a6d086b5111da73b529111a54e2f">FatFSUSB_Setup</a></div><div class="ttdeci">bool FatFSUSB_Setup()</div><div class="ttdef"><b>Definition</b> Filesystem.cpp:27</div></div>
-<div class="ttc" id="aFilesystem_8h_html_acde6b81e46f60c50c323ae21b153d1bf"><div class="ttname"><a href="Filesystem_8h.html#acde6b81e46f60c50c323ae21b153d1bf">sync_files</a></div><div class="ttdeci">bool sync_files()</div><div class="ttdef"><b>Definition</b> Filesystem.cpp:70</div></div>
-<div class="ttc" id="aFilesystem_8h_html_af3f1e5af9825fbd3178a8dd29ec898ff"><div class="ttname"><a href="Filesystem_8h.html#af3f1e5af9825fbd3178a8dd29ec898ff">FatFS_Setup</a></div><div class="ttdeci">bool FatFS_Setup()</div><div class="ttdef"><b>Definition</b> Filesystem.cpp:8</div></div>
+<a href="Filesystem_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#ifndef FILESYSTEM_H</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#define FILESYSTEM_H</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;FatFS.h&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;FatFSUSB.h&gt;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;VFS.h&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment">/* --- Variabili di stato globali --- */</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">extern</span> <span class="keyword">volatile</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="Filesystem_8h.html#a887f35472e8fca904645ffb1b0279a74">updated</a>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">extern</span> <span class="keyword">volatile</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="Filesystem_8h.html#a5b3edd7cb19243a55f2d6532c003d697">driveConnected</a>;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">extern</span> <span class="keyword">volatile</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="Filesystem_8h.html#a532ad4b9343ee2e2e2d032995878fc06">inPrinting</a>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="comment">/* --- Funzioni di Configurazione --- */</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keywordtype">bool</span> <a class="code hl_function" href="Filesystem_8h.html#af3f1e5af9825fbd3178a8dd29ec898ff">FatFS_Setup</a>();</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keywordtype">bool</span> <a class="code hl_function" href="Filesystem_8h.html#aadf4a6d086b5111da73b529111a54e2f">FatFSUSB_Setup</a>();</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="comment">/* --- Callback e Gestione Risorse --- */</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keywordtype">void</span> <a class="code hl_function" href="Filesystem_8h.html#a8e24a774e23a962350e4ebb5e948f2f0">unplug</a>(uint32_t i);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="keywordtype">void</span> <a class="code hl_function" href="Filesystem_8h.html#a3c394d6181de6a9514b3810fa42e787d">plug</a>(uint32_t i);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="keywordtype">bool</span> <a class="code hl_function" href="Filesystem_8h.html#a74282d889889088af618af7147a0af10">mountable</a>(uint32_t i);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="keywordtype">bool</span> <a class="code hl_function" href="Filesystem_8h.html#acde6b81e46f60c50c323ae21b153d1bf">sync_files</a>();</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">#endif </span><span class="comment">// FILESYSTEM_H</span></div>
+<div class="ttc" id="aFilesystem_8h_html_a3c394d6181de6a9514b3810fa42e787d"><div class="ttname"><a href="Filesystem_8h.html#a3c394d6181de6a9514b3810fa42e787d">plug</a></div><div class="ttdeci">void plug(uint32_t i)</div><div class="ttdoc">Callback richiamato quando il PC monta l'unità.</div><div class="ttdef"><b>Definition</b> Filesystem.cpp:87</div></div>
+<div class="ttc" id="aFilesystem_8h_html_a532ad4b9343ee2e2e2d032995878fc06"><div class="ttname"><a href="Filesystem_8h.html#a532ad4b9343ee2e2e2d032995878fc06">inPrinting</a></div><div class="ttdeci">volatile bool inPrinting</div><div class="ttdoc">Semaforo di accesso al filesystem.</div><div class="ttdef"><b>Definition</b> Filesystem.cpp:18</div></div>
+<div class="ttc" id="aFilesystem_8h_html_a5b3edd7cb19243a55f2d6532c003d697"><div class="ttname"><a href="Filesystem_8h.html#a5b3edd7cb19243a55f2d6532c003d697">driveConnected</a></div><div class="ttdeci">volatile bool driveConnected</div><div class="ttdoc">Stato della connessione USB.</div><div class="ttdef"><b>Definition</b> Filesystem.cpp:15</div></div>
+<div class="ttc" id="aFilesystem_8h_html_a74282d889889088af618af7147a0af10"><div class="ttname"><a href="Filesystem_8h.html#a74282d889889088af618af7147a0af10">mountable</a></div><div class="ttdeci">bool mountable(uint32_t i)</div><div class="ttdoc">Funzione di verifica per il mount sicuro su PC.</div><div class="ttdef"><b>Definition</b> Filesystem.cpp:99</div></div>
+<div class="ttc" id="aFilesystem_8h_html_a887f35472e8fca904645ffb1b0279a74"><div class="ttname"><a href="Filesystem_8h.html#a887f35472e8fca904645ffb1b0279a74">updated</a></div><div class="ttdeci">volatile bool updated</div><div class="ttdoc">Flag di notifica per il ricaricamento dei file.</div><div class="ttdef"><b>Definition</b> Filesystem.cpp:12</div></div>
+<div class="ttc" id="aFilesystem_8h_html_a8e24a774e23a962350e4ebb5e948f2f0"><div class="ttname"><a href="Filesystem_8h.html#a8e24a774e23a962350e4ebb5e948f2f0">unplug</a></div><div class="ttdeci">void unplug(uint32_t i)</div><div class="ttdoc">Callback richiamato al distacco del cavo USB.</div><div class="ttdef"><b>Definition</b> Filesystem.cpp:74</div></div>
+<div class="ttc" id="aFilesystem_8h_html_aadf4a6d086b5111da73b529111a54e2f"><div class="ttname"><a href="Filesystem_8h.html#aadf4a6d086b5111da73b529111a54e2f">FatFSUSB_Setup</a></div><div class="ttdeci">bool FatFSUSB_Setup()</div><div class="ttdoc">Configura e avvia il servizio USB Mass Storage.</div><div class="ttdef"><b>Definition</b> Filesystem.cpp:52</div></div>
+<div class="ttc" id="aFilesystem_8h_html_acde6b81e46f60c50c323ae21b153d1bf"><div class="ttname"><a href="Filesystem_8h.html#acde6b81e46f60c50c323ae21b153d1bf">sync_files</a></div><div class="ttdeci">bool sync_files()</div><div class="ttdoc">Gestisce la logica di sincronizzazione post-connessione.</div><div class="ttdef"><b>Definition</b> Filesystem.cpp:111</div></div>
+<div class="ttc" id="aFilesystem_8h_html_af3f1e5af9825fbd3178a8dd29ec898ff"><div class="ttname"><a href="Filesystem_8h.html#af3f1e5af9825fbd3178a8dd29ec898ff">FatFS_Setup</a></div><div class="ttdeci">bool FatFS_Setup()</div><div class="ttdoc">Inizializza il filesystem FAT sulla Flash interna.</div><div class="ttdef"><b>Definition</b> Filesystem.cpp:28</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

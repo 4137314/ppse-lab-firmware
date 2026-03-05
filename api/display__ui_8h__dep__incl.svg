@@ -21,7 +21,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Definizioni hardware e prototipi per l&#39;interfaccia utente OLED.">
 <polygon fill="#999999" stroke="#666666" points="294,-140 157,-140 157,-121 294,-121 294,-140"/>
 <text text-anchor="middle" x="225.5" y="-128" font-family="Helvetica,sans-Serif" font-size="10.00">src/Modules/display_ui.h</text>
 </a>
@@ -30,7 +30,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="buttons_8cpp.html" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="buttons_8cpp.html" target="_top" xlink:title="Gestione dell&#39;input utente, sitema di debounce e macchina a stati del menu.">
 <polygon fill="white" stroke="#666666" points="135,-19 0,-19 0,0 135,0 135,-19"/>
 <text text-anchor="middle" x="67.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">src/Modules/buttons.cpp</text>
 </a>
@@ -48,7 +48,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="buttons_8h.html" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="buttons_8h.html" target="_top" xlink:title="Definizioni e prototipi per la gestione degli input utente e della UI.">
 <polygon fill="white" stroke="#666666" points="287.5,-79.5 163.5,-79.5 163.5,-60.5 287.5,-60.5 287.5,-79.5"/>
 <text text-anchor="middle" x="225.5" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00">src/Modules/buttons.h</text>
 </a>
@@ -66,7 +66,7 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="leds_8cpp.html" target="_top" xlink:title=" ">
+<g id="a_Node000004"><a xlink:href="leds_8cpp.html" target="_top" xlink:title="Implementazione dei feedback visivi tramite LED RGB.">
 <polygon fill="white" stroke="#666666" points="272,-19 153,-19 153,0 272,0 272,-19"/>
 <text text-anchor="middle" x="212.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">src/Modules/leds.cpp</text>
 </a>
@@ -84,7 +84,7 @@
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="main_8cpp.html" target="_top" xlink:title=" ">
+<g id="a_Node000005"><a xlink:href="main_8cpp.html" target="_top" xlink:title="Orchestratore di sistema e gestione Multicore.">
 <polygon fill="white" stroke="#666666" points="369,-19 290,-19 290,0 369,0 369,-19"/>
 <text text-anchor="middle" x="329.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">src/main.cpp</text>
 </a>
@@ -102,7 +102,7 @@
 <!-- Node6 -->
 <g id="Node000006" class="node">
 <title>Node6</title>
-<g id="a_Node000006"><a xlink:href="display__ui_8cpp.html" target="_top" xlink:title=" ">
+<g id="a_Node000006"><a xlink:href="display__ui_8cpp.html" target="_top" xlink:title="Implementazione dell&#39;interfaccia utente (UI) su display OLED SSD1306.">
 <polygon fill="white" stroke="#666666" points="457,-85 344,-85 344,-55 457,-55 457,-85"/>
 <text text-anchor="start" x="352" y="-73" font-family="Helvetica,sans-Serif" font-size="10.00">src/Modules/display</text>
 <text text-anchor="middle" x="400.5" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">_ui.cpp</text>

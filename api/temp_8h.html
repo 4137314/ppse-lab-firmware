@@ -75,11 +75,13 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">temp.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Definizioni hardware e prototipi per la lettura della temperatura.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;Arduino.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for temp.h:</div>
@@ -96,6 +98,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
+<tr><td colspan="2"><div class="groupHeader">Configurazione Hardware ADC</div></td></tr>
 <tr class="memitem:a00f0342506a37776704c9bf59a4039db" id="r_a00f0342506a37776704c9bf59a4039db"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="temp_8h.html#a00f0342506a37776704c9bf59a4039db">TEMP_PIN</a>&#160;&#160;&#160;26</td></tr>
 <tr class="separator:a00f0342506a37776704c9bf59a4039db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae678d504181814806fe8acf281cb7c31" id="r_ae678d504181814806fe8acf281cb7c31"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="temp_8h.html#ae678d504181814806fe8acf281cb7c31">ADC_BITS</a>&#160;&#160;&#160;12</td></tr>
@@ -106,11 +109,18 @@ Macros</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a58739d6d0d1d87e784cc1a5482ea13a6" id="r_a58739d6d0d1d87e784cc1a5482ea13a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="temp_8h.html#a58739d6d0d1d87e784cc1a5482ea13a6">TempInit</a> ()</td></tr>
+<tr class="memdesc:a58739d6d0d1d87e784cc1a5482ea13a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inizializza il pin del sensore e configura i parametri dell'ADC.  <br /></td></tr>
 <tr class="separator:a58739d6d0d1d87e784cc1a5482ea13a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adcb1f451e49c065311acc9b8ae095237" id="r_adcb1f451e49c065311acc9b8ae095237"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="temp_8h.html#adcb1f451e49c065311acc9b8ae095237">readTemp</a> ()</td></tr>
+<tr class="memdesc:adcb1f451e49c065311acc9b8ae095237"><td class="mdescLeft">&#160;</td><td class="mdescRight">Esegue la lettura analogica e restituisce il valore in gradi Celsius.  <br /></td></tr>
 <tr class="separator:adcb1f451e49c065311acc9b8ae095237"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Definizioni hardware e prototipi per la lettura della temperatura. </p>
+<ul>
+<li>Questo header definisce i parametri di configurazione per l'ADC dell'RP2040 e i prototipi delle funzioni necessarie per l'acquisizione termica tramite sensore analogico lineare (es. TC1047A o LM35). </li>
+</ul>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ae678d504181814806fe8acf281cb7c31" name="ae678d504181814806fe8acf281cb7c31"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae678d504181814806fe8acf281cb7c31">&#9670;&#160;</a></span>ADC_BITS</h2>
 
@@ -122,6 +132,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Risoluzione dei bit dell'ADC (12-bit per RP2040). </p>
 
 </div>
 </div>
@@ -136,6 +147,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Valore massimo dell'ADC calcolato come (2^ADC_BITS) - 1. </p>
 
 </div>
 </div>
@@ -150,6 +162,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Pin GPIO (ADC0) collegato all'uscita del sensore di temperatura. </p>
 
 </div>
 </div>
@@ -169,6 +182,24 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Esegue la lettura analogica e restituisce il valore in gradi Celsius. </p>
+<ul>
+<li>Acquisisce il valore di tensione dal pin <a class="el" href="temp_8h.html#a00f0342506a37776704c9bf59a4039db">TEMP_PIN</a> e applica la formula di conversione lineare specifica per il sensore utilizzato.</li>
+<li><dl class="section return"><dt>Returns</dt><dd>float La temperatura corrente espressa in °C.</dd></dl>
+Esegue la lettura analogica e restituisce il valore in gradi Celsius.</li>
+<li>La conversione segue le specifiche del sensore TC1047:</li>
+</ul>
+<ol type="1">
+<li>Acquisisce il valore grezzo dall'ADC (12 bit).</li>
+<li>Converte il valore in tensione ($V_{out}$) considerando il riferimento a 3.3V.</li>
+<li>Applica la formula: $T = \frac{V_{out} - 0.5V}{10mV/°C}$.</li>
+</ol>
+<ul>
+<li><dl class="section return"><dt>Returns</dt><dd>float La temperatura misurata in gradi Celsius (°C). </dd></dl>
+</li>
+</ul>
+<p>Formula di conversione per TC1047: Vout = 500mV a 0°C, con un coefficiente di 10mV/°C. Temp = (Vout - 0.5) / 0.01</p>
+
 </div>
 </div>
 <a id="a58739d6d0d1d87e784cc1a5482ea13a6" name="a58739d6d0d1d87e784cc1a5482ea13a6"></a>
@@ -185,6 +216,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Inizializza il pin del sensore e configura i parametri dell'ADC. </p>
+<ul>
+<li>Prepara il GPIO selezionato come ingresso analogico e imposta la risoluzione corretta per le letture successive.</li>
+</ul>
+<p>Inizializza il pin del sensore e configura i parametri dell'ADC.</p>
+<ul>
+<li>Configura la risoluzione dell'ADC a 12 bit (0-4095) per garantire la massima precisione consentita dall'hardware RP2040. </li>
+</ul>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">

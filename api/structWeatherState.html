@@ -76,6 +76,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Contenitore globale per lo stato meteorologico.  
+ <a href="structWeatherState.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="weather_8h_source.html">weather.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
@@ -94,18 +97,24 @@ Data Fields</h2></td></tr>
 <tr class="separator:aa389fb1c06d2cf899baaf0d4aff30618"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af8d77e3b6c405263bb0bd0362d407a2d" id="r_af8d77e3b6c405263bb0bd0362d407a2d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structWeatherState.html#af8d77e3b6c405263bb0bd0362d407a2d">curWcode</a> = -1</td></tr>
 <tr class="separator:af8d77e3b6c405263bb0bd0362d407a2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac32d0c951955fb829a532b7435a45545" id="r_ac32d0c951955fb829a532b7435a45545"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structWeatherState.html#ac32d0c951955fb829a532b7435a45545">tempC</a> [7][24]</td></tr>
-<tr class="separator:ac32d0c951955fb829a532b7435a45545"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6483182b5e0ba9a148832b350771a31" id="r_ab6483182b5e0ba9a148832b350771a31"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structWeatherState.html#ab6483182b5e0ba9a148832b350771a31">wcode</a> [7][24]</td></tr>
-<tr class="separator:ab6483182b5e0ba9a148832b350771a31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae70ce3578f06fa2850e547b45524b52e" id="r_ae70ce3578f06fa2850e547b45524b52e"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structWeatherState.html#ae70ce3578f06fa2850e547b45524b52e">weekday0</a> = 0</td></tr>
 <tr class="separator:ae70ce3578f06fa2850e547b45524b52e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a435077fe710ebe1847064dbe122d67de" id="r_a435077fe710ebe1847064dbe122d67de"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structWeatherState.html#a435077fe710ebe1847064dbe122d67de">recvMask</a> = 0</td></tr>
 <tr class="separator:a435077fe710ebe1847064dbe122d67de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a879784e3ce88e8e8432f34321878d9fa" id="r_a879784e3ce88e8e8432f34321878d9fa"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structWeatherState.html#a879784e3ce88e8e8432f34321878d9fa">lastUpdateMs</a> = 0</td></tr>
 <tr class="separator:a879784e3ce88e8e8432f34321878d9fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Matrici Forecast (7 giorni x 24 ore)</div></td></tr>
+<tr class="memitem:ac32d0c951955fb829a532b7435a45545" id="r_ac32d0c951955fb829a532b7435a45545"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structWeatherState.html#ac32d0c951955fb829a532b7435a45545">tempC</a> [7][24]</td></tr>
+<tr class="separator:ac32d0c951955fb829a532b7435a45545"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6483182b5e0ba9a148832b350771a31" id="r_ab6483182b5e0ba9a148832b350771a31"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structWeatherState.html#ab6483182b5e0ba9a148832b350771a31">wcode</a> [7][24]</td></tr>
+<tr class="separator:ab6483182b5e0ba9a148832b350771a31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Field Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Contenitore globale per lo stato meteorologico. </p>
+<ul>
+<li>Memorizza i dati correnti (temperatura, vento, umidità) e una matrice 7x24 per le previsioni orarie della settimana. Utilizza una maschera di bit per tracciare la ricezione completa dei dati dal server. </li>
+</ul>
+</div><h2 class="groupheader">Field Documentation</h2>
 <a id="a922da72669573ff5f3bd0c21a7705f8b" name="a922da72669573ff5f3bd0c21a7705f8b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a922da72669573ff5f3bd0c21a7705f8b">&#9670;&#160;</a></span>city</h2>
 
@@ -117,6 +126,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Nome della città (max 23 caratteri + null terminator). </p>
 
 </div>
 </div>
@@ -131,6 +141,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Percentuale di umidità attuale (0-100). </p>
 
 </div>
 </div>
@@ -145,6 +156,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Temperatura attuale in gradi Celsius. </p>
 
 </div>
 </div>
@@ -159,6 +171,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>True se i dati meteo correnti sono stati popolati correttamente. </p>
 
 </div>
 </div>
@@ -173,6 +186,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Codice WMO delle condizioni meteo attuali. </p>
 
 </div>
 </div>
@@ -187,6 +201,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Velocità del vento attuale in km/h. </p>
 
 </div>
 </div>
@@ -201,6 +216,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>True se tutte le previsioni (7 giorni) sono state ricevute. </p>
 
 </div>
 </div>
@@ -215,6 +231,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Timestamp (millis) dell'ultimo aggiornamento ricevuto. </p>
 
 </div>
 </div>
@@ -229,6 +246,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Maschera bitwise: il bit i-esimo è 1 se il giorno i è stato ricevuto. </p>
 
 </div>
 </div>
@@ -243,6 +261,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Matrice delle temperature orarie previste. </p>
 
 </div>
 </div>
@@ -257,6 +276,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Matrice dei codici meteo orari previsti. </p>
 
 </div>
 </div>
@@ -271,6 +291,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Indice del giorno della settimana corrente (0=Lun, 6=Dom). </p>
 
 </div>
 </div>

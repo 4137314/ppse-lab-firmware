@@ -264,7 +264,7 @@ var sectionId = 'dynsection-22';
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="gps_8cpp.html#a1584cd930020560265588b72bde4654c" target="_top" xlink:title=" ">
+<g id="a_Node000004"><a xlink:href="gps_8cpp.html#a1584cd930020560265588b72bde4654c" target="_top" xlink:title="Smista e decodifica una stringa NMEA grezza nella struttura dati corrispondente.">
 <polygon fill="white" stroke="#666666" points="724,-185 625,-185 625,-166 724,-166 724,-185"/>
 <text text-anchor="middle" x="674.5" y="-173" font-family="Helvetica,sans-Serif" font-size="10.00">nmea_gps_parse</text>
 </a>
@@ -282,7 +282,7 @@ var sectionId = 'dynsection-22';
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="gps_8cpp.html#a5c33ca28d942d03c752f418f3c04711f" target="_top" xlink:title=" ">
+<g id="a_Node000005"><a xlink:href="gps_8cpp.html#a5c33ca28d942d03c752f418f3c04711f" target="_top" xlink:title="Tenta di acquisire un tipo specifico di sentenza NMEA dalla seriale.">
 <polygon fill="white" stroke="#666666" points="589,-185 518,-185 518,-166 589,-166 589,-185"/>
 <text text-anchor="middle" x="553.5" y="-173" font-family="Helvetica,sans-Serif" font-size="10.00">gpsAcquire</text>
 </a>
@@ -300,7 +300,7 @@ var sectionId = 'dynsection-22';
 <!-- Node6 -->
 <g id="Node000006" class="node">
 <title>Node6</title>
-<g id="a_Node000006"><a xlink:href="gps_8cpp.html#aadbd2f07e07e8a3f472065571970cefe" target="_top" xlink:title=" ">
+<g id="a_Node000006"><a xlink:href="gps_8cpp.html#aadbd2f07e07e8a3f472065571970cefe" target="_top" xlink:title="Estrae data e ora dai messaggi RMC.">
 <polygon fill="white" stroke="#666666" points="463.5,-204 353.5,-204 353.5,-185 463.5,-185 463.5,-204"/>
 <text text-anchor="middle" x="408.5" y="-192" font-family="Helvetica,sans-Serif" font-size="10.00">GetDate_and_Time</text>
 </a>
@@ -318,7 +318,7 @@ var sectionId = 'dynsection-22';
 <!-- Node10 -->
 <g id="Node000010" class="node">
 <title>Node10</title>
-<g id="a_Node000010"><a xlink:href="gps_8cpp.html#a177ee65fb57b969753487772f3fc552c" target="_top" xlink:title=" ">
+<g id="a_Node000010"><a xlink:href="gps_8cpp.html#a177ee65fb57b969753487772f3fc552c" target="_top" xlink:title="Estrae posizione e numero satelliti dai messaggi GGA.">
 <polygon fill="white" stroke="#666666" points="482,-167 335,-167 335,-148 482,-148 482,-167"/>
 <text text-anchor="middle" x="408.5" y="-155" font-family="Helvetica,sans-Serif" font-size="10.00">GetPosition_and_Satellites</text>
 </a>
@@ -336,7 +336,7 @@ var sectionId = 'dynsection-22';
 <!-- Node7 -->
 <g id="Node000007" class="node">
 <title>Node7</title>
-<g id="a_Node000007"><a xlink:href="gps_8cpp.html#a79c2c486e631815579df4be3e190ebad" target="_top" xlink:title=" ">
+<g id="a_Node000007"><a xlink:href="gps_8cpp.html#a79c2c486e631815579df4be3e190ebad" target="_top" xlink:title="Sincronizza i dati GPS globali e gestisce il salvataggio su Flash.">
 <polygon fill="white" stroke="#666666" points="299,-185 235,-185 235,-166 299,-166 299,-185"/>
 <text text-anchor="middle" x="267" y="-173" font-family="Helvetica,sans-Serif" font-size="10.00">GPS_sync</text>
 </a>
@@ -354,7 +354,7 @@ var sectionId = 'dynsection-22';
 <!-- Node8 -->
 <g id="Node000008" class="node">
 <title>Node8</title>
-<g id="a_Node000008"><a xlink:href="gps_8cpp.html#a58c63785b84f6e923c4e8ca91f335c43" target="_top" xlink:title=" ">
+<g id="a_Node000008"><a xlink:href="gps_8cpp.html#a58c63785b84f6e923c4e8ca91f335c43" target="_top" xlink:title="Monitora la coda dei messaggi inter&#45;core per richieste di sincronizzazione GPS.">
 <polygon fill="white" stroke="#666666" points="199,-204 80,-204 80,-185 199,-185 199,-204"/>
 <text text-anchor="middle" x="139.5" y="-192" font-family="Helvetica,sans-Serif" font-size="10.00">check_GPS_sync_req</text>
 </a>
@@ -372,7 +372,7 @@ var sectionId = 'dynsection-22';
 <!-- Node9 -->
 <g id="Node000009" class="node">
 <title>Node9</title>
-<g id="a_Node000009"><a xlink:href="main_8cpp.html#a39ceba300a80e348e278539f57e0ca79" target="_top" xlink:title=" ">
+<g id="a_Node000009"><a xlink:href="main_8cpp.html#a39ceba300a80e348e278539f57e0ca79" target="_top" xlink:title="Loop principale del Core 1.">
 <polygon fill="white" stroke="#666666" points="44,-185 0,-185 0,-166 44,-166 44,-185"/>
 <text text-anchor="middle" x="22" y="-173" font-family="Helvetica,sans-Serif" font-size="10.00">loop1</text>
 </a>

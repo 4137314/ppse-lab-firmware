@@ -1,5 +1,5 @@
 <map id="src/Modules/gps.h" name="src/Modules/gps.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="283,5,422,31"/>
+<area shape="rect" id="Node000001" title="Definizioni, macro e strutture per la gestione della telemetria GPS." alt="" coords="283,5,422,31"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,79,89,104"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="304,33,103,80,102,75,303,28"/>
 <area shape="rect" id="Node000003" title=" " alt="" coords="111,152,175,177"/>
@@ -12,7 +12,7 @@
 <area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="378,28,465,70,463,75,375,33"/>
 <area shape="rect" id="Node000011" title=" " alt="" coords="576,79,703,104"/>
 <area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="399,28,580,73,579,78,398,33"/>
-<area shape="rect" id="Node000012" href="$Filesystem_8h.html" title=" " alt="" coords="727,79,832,104"/>
+<area shape="rect" id="Node000012" href="$Filesystem_8h.html" title="Interfaccia per la gestione del filesystem FatFS e l&#39;integrazione USB Mass Storage." alt="" coords="727,79,832,104"/>
 <area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="423,28,714,76,713,81,422,33"/>
 <area shape="poly" id="edge8_Node000005_Node000003" title=" " alt="" coords="320,107,189,151,188,146,318,101"/>
 <area shape="rect" id="Node000006" title=" " alt="" coords="216,152,287,177"/>

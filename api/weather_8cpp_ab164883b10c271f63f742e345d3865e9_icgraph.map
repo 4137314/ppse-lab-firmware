@@ -1,5 +1,5 @@
 <map id="splitField" name="splitField">
-<area shape="rect" id="Node000001" title=" " alt="" coords="209,5,291,31"/>
-<area shape="rect" id="Node000002" href="$weather_8cpp.html#a525852e49a5ce102e098eab80903f209" title=" " alt="" coords="5,5,161,31"/>
+<area shape="rect" id="Node000001" title="Helper interno per separare i campi di una stringa CSV." alt="" coords="209,5,291,31"/>
+<area shape="rect" id="Node000002" href="$weather_8cpp.html#a525852e49a5ce102e098eab80903f209" title="Parser principale per i messaggi meteo in arrivo." alt="" coords="5,5,161,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,21,162,21,162,15,195,15"/>
 </map>

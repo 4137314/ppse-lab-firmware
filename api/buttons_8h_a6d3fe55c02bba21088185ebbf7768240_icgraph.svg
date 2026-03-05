@@ -21,7 +21,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Inizializza i pin GPIO e configura gli interrupt per tutti i pulsanti.">
 <polygon fill="#999999" stroke="#666666" points="149,-19 80,-19 80,0 149,0 149,-19"/>
 <text text-anchor="middle" x="114.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">buttonsInit</text>
 </a>
@@ -30,7 +30,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" target="_top" xlink:title="Configurazione iniziale per il Core 0.">
 <polygon fill="white" stroke="#666666" points="44,-19 0,-19 0,0 44,0 44,-19"/>
 <text text-anchor="middle" x="22" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">setup</text>
 </a>

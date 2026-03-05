@@ -1,17 +1,17 @@
 <map id="onLeftRightCombo" name="onLeftRightCombo">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,88,148,113"/>
-<area shape="rect" id="Node000002" href="$display__ui_8cpp.html#a1946154d8e9e6dd415476d3378b98ff1" title=" " alt="" coords="207,37,344,62"/>
+<area shape="rect" id="Node000001" title="Azione eseguita al rilevamento della combo LEFT+RIGHT. Esegue il toggle tra modalità Home (Ambient) e..." alt="" coords="5,88,148,113"/>
+<area shape="rect" id="Node000002" href="$display__ui_8cpp.html#a1946154d8e9e6dd415476d3378b98ff1" title="Disegna la schermata principale (Ambient Display). Mostra i dati meteo correnti, l&#39;ora e la data recu..." alt="" coords="207,37,344,62"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="127,85,211,63,213,68,128,90"/>
-<area shape="rect" id="Node000005" href="$display__ui_8cpp.html#a0cc779d48595c7be531222945c8a5f10" title=" " alt="" coords="230,88,321,113"/>
+<area shape="rect" id="Node000005" href="$display__ui_8cpp.html#a0cc779d48595c7be531222945c8a5f10" title="Renderizza il menu principale in base allo stile selezionato (ScreenStyle)." alt="" coords="230,88,321,113"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="148,98,216,98,216,103,148,103"/>
-<area shape="rect" id="Node000007" href="$leds_8cpp.html#a20b9a2822d58fc522e9aef69e6e52cbe" title=" " alt="" coords="196,137,355,162"/>
+<area shape="rect" id="Node000007" href="$leds_8cpp.html#a20b9a2822d58fc522e9aef69e6e52cbe" title="Esegue un flash verde per confermare un&#39;azione (Toggle)." alt="" coords="196,137,355,162"/>
 <area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="129,110,211,131,210,136,128,115"/>
-<area shape="rect" id="Node000003" href="$display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" title=" " alt="" coords="641,88,711,113"/>
+<area shape="rect" id="Node000003" href="$display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" title="Istanza del driver del display SSD1306." alt="" coords="641,88,711,113"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="312,34,368,19,439,6,518,5,557,10,594,22,614,32,632,45,659,75,656,78,628,49,611,36,592,27,556,16,517,10,440,12,369,24,313,39"/>
-<area shape="rect" id="Node000004" href="$weather_8cpp.html#a8e2b5c9b7658529d8dae9d6ea9d56de7" title=" " alt="" coords="403,37,593,62"/>
+<area shape="rect" id="Node000004" href="$weather_8cpp.html#a8e2b5c9b7658529d8dae9d6ea9d56de7" title="Converte il codice WMO in una descrizione testuale breve." alt="" coords="403,37,593,62"/>
 <area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="344,47,389,47,389,52,344,52"/>
 <area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="321,98,628,98,628,103,321,103"/>
-<area shape="rect" id="Node000006" href="$display__ui_8cpp.html#a4720a85c38264632abe90b06cd0a878a" title=" " alt="" coords="439,138,557,164"/>
+<area shape="rect" id="Node000006" href="$display__ui_8cpp.html#a4720a85c38264632abe90b06cd0a878a" title="Renderizza il menu in modalità &quot;Highlight&quot; (barra piena e testo invertito)." alt="" coords="439,138,557,164"/>
 <area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="322,108,429,133,428,138,321,113"/>
 <area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="543,136,627,111,629,116,544,141"/>
 </map>

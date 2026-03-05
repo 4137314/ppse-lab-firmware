@@ -1,5 +1,5 @@
 <map id="print2d" name="print2d">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,73,31"/>
-<area shape="rect" id="Node000002" href="$display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" title=" " alt="" coords="121,5,191,31"/>
+<area shape="rect" id="Node000001" title="Helper per stampare numeri a due cifre con zero iniziale (es. &quot;09&quot;)." alt="" coords="5,5,73,31"/>
+<area shape="rect" id="Node000002" href="$display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" title="Istanza del driver del display SSD1306." alt="" coords="121,5,191,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="74,15,107,15,107,21,74,21"/>
 </map>

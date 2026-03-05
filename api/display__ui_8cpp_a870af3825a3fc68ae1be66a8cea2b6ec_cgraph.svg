@@ -21,7 +21,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Helper per stampare numeri a due cifre con zero iniziale (es. &quot;09&quot;).">
 <polygon fill="#999999" stroke="#666666" points="51,-19 0,-19 0,0 51,0 51,-19"/>
 <text text-anchor="middle" x="25.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">print2d</text>
 </a>
@@ -30,7 +30,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" target="_top" xlink:title="Istanza del driver del display SSD1306.">
 <polygon fill="white" stroke="#666666" points="139,-19 87,-19 87,0 139,0 139,-19"/>
 <text text-anchor="middle" x="113" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">display</text>
 </a>

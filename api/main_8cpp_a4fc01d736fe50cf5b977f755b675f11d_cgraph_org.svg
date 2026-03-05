@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Configurazione iniziale per il Core 0.">
 <polygon fill="#999999" stroke="#666666" points="44,-111 0,-111 0,-92 44,-92 44,-111"/>
 <text text-anchor="middle" x="22" y="-99" font-family="Helvetica,sans-Serif" font-size="10.00">setup</text>
 </a>
@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="buttons_8cpp.html#a6d3fe55c02bba21088185ebbf7768240" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="buttons_8cpp.html#a6d3fe55c02bba21088185ebbf7768240" target="_top" xlink:title="Inizializza i pin dei pulsanti e configura gli interrupt.">
 <polygon fill="white" stroke="#666666" points="179,-204 110,-204 110,-185 179,-185 179,-204"/>
 <text text-anchor="middle" x="144.5" y="-192" font-family="Helvetica,sans-Serif" font-size="10.00">buttonsInit</text>
 </a>
@@ -38,7 +38,7 @@
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="display__ui_8cpp.html#ad84e2073edf05b4e109ecaecca07a99d" target="_top" xlink:title=" ">
+<g id="a_Node000005"><a xlink:href="display__ui_8cpp.html#ad84e2073edf05b4e109ecaecca07a99d" target="_top" xlink:title="Inizializza l&#39;hardware del display e il bus I2C.">
 <polygon fill="white" stroke="#666666" points="178.5,-167 110.5,-167 110.5,-148 178.5,-148 178.5,-167"/>
 <text text-anchor="middle" x="144.5" y="-155" font-family="Helvetica,sans-Serif" font-size="10.00">displayInit</text>
 </a>
@@ -56,7 +56,7 @@
 <!-- Node7 -->
 <g id="Node000007" class="node">
 <title>Node7</title>
-<g id="a_Node000007"><a xlink:href="display__ui_8cpp.html#a1946154d8e9e6dd415476d3378b98ff1" target="_top" xlink:title=" ">
+<g id="a_Node000007"><a xlink:href="display__ui_8cpp.html#a1946154d8e9e6dd415476d3378b98ff1" target="_top" xlink:title="Disegna la schermata principale (Ambient Display). Mostra i dati meteo correnti, l&#39;ora e la data recu...">
 <polygon fill="white" stroke="#666666" points="196,-130 93,-130 93,-111 196,-111 196,-130"/>
 <text text-anchor="middle" x="144.5" y="-118" font-family="Helvetica,sans-Serif" font-size="10.00">drawHomeScreen</text>
 </a>
@@ -74,7 +74,7 @@
 <!-- Node9 -->
 <g id="Node000009" class="node">
 <title>Node9</title>
-<g id="a_Node000009"><a xlink:href="leds_8cpp.html#aadcaa5aaa722b9e5699f50c6d9ca7bfe" target="_top" xlink:title=" ">
+<g id="a_Node000009"><a xlink:href="leds_8cpp.html#aadcaa5aaa722b9e5699f50c6d9ca7bfe" target="_top" xlink:title="Inizializza l&#39;hardware dei LED.">
 <polygon fill="white" stroke="#666666" points="171,-93 118,-93 118,-74 171,-74 171,-93"/>
 <text text-anchor="middle" x="144.5" y="-81" font-family="Helvetica,sans-Serif" font-size="10.00">ledsInit</text>
 </a>
@@ -92,7 +92,7 @@
 <!-- Node10 -->
 <g id="Node000010" class="node">
 <title>Node10</title>
-<g id="a_Node000010"><a xlink:href="leds_8cpp.html#a6adf4836bb1cbe26b640aeb5a177071d" target="_top" xlink:title=" ">
+<g id="a_Node000010"><a xlink:href="leds_8cpp.html#a6adf4836bb1cbe26b640aeb5a177071d" target="_top" xlink:title="Esegue l&#39;animazione di avvio del sistema.">
 <polygon fill="white" stroke="#666666" points="209,-56 80,-56 80,-37 209,-37 209,-56"/>
 <text text-anchor="middle" x="144.5" y="-44" font-family="Helvetica,sans-Serif" font-size="10.00">ledsShowInitAnimation</text>
 </a>
@@ -110,7 +110,7 @@
 <!-- Node11 -->
 <g id="Node000011" class="node">
 <title>Node11</title>
-<g id="a_Node000011"><a xlink:href="temp_8cpp.html#a58739d6d0d1d87e784cc1a5482ea13a6" target="_top" xlink:title=" ">
+<g id="a_Node000011"><a xlink:href="temp_8cpp.html#a58739d6d0d1d87e784cc1a5482ea13a6" target="_top" xlink:title="Inizializza l&#39;hardware dell&#39;ADC per la lettura termica.">
 <polygon fill="white" stroke="#666666" points="174,-19 115,-19 115,0 174,0 174,-19"/>
 <text text-anchor="middle" x="144.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">TempInit</text>
 </a>
@@ -128,7 +128,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="buttons_8cpp.html#a7f6538b252b233c2a00eeabf455b6ac8" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="buttons_8cpp.html#a7f6538b252b233c2a00eeabf455b6ac8" target="_top" xlink:title="Handler degli interrupt GPIO per i pulsanti.">
 <polygon fill="white" stroke="#666666" points="358,-204 275,-204 275,-185 358,-185 358,-204"/>
 <text text-anchor="middle" x="316.5" y="-192" font-family="Helvetica,sans-Serif" font-size="10.00">gpio_callback</text>
 </a>
@@ -146,7 +146,7 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="buttons_8cpp.html#a5efcf76744c2885d8d1fd0ce223a5e2d" target="_top" xlink:title=" ">
+<g id="a_Node000004"><a xlink:href="buttons_8cpp.html#a5efcf76744c2885d8d1fd0ce223a5e2d" target="_top" xlink:title="Callback dell&#39;allarme per il filtraggio software del debounce.">
 <polygon fill="white" stroke="#666666" points="534,-204 424,-204 424,-185 534,-185 534,-204"/>
 <text text-anchor="middle" x="479" y="-192" font-family="Helvetica,sans-Serif" font-size="10.00">debounce_callback</text>
 </a>
@@ -164,7 +164,7 @@
 <!-- Node6 -->
 <g id="Node000006" class="node">
 <title>Node6</title>
-<g id="a_Node000006"><a xlink:href="display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" target="_top" xlink:title=" ">
+<g id="a_Node000006"><a xlink:href="display__ui_8cpp.html#ab460e1bb5537313cb79cfffa7e93c58b" target="_top" xlink:title="Istanza del driver del display SSD1306.">
 <polygon fill="white" stroke="#666666" points="342.5,-167 290.5,-167 290.5,-148 342.5,-148 342.5,-167"/>
 <text text-anchor="middle" x="316.5" y="-155" font-family="Helvetica,sans-Serif" font-size="10.00">display</text>
 </a>
@@ -191,7 +191,7 @@
 <!-- Node8 -->
 <g id="Node000008" class="node">
 <title>Node8</title>
-<g id="a_Node000008"><a xlink:href="weather_8cpp.html#a8e2b5c9b7658529d8dae9d6ea9d56de7" target="_top" xlink:title=" ">
+<g id="a_Node000008"><a xlink:href="weather_8cpp.html#a8e2b5c9b7658529d8dae9d6ea9d56de7" target="_top" xlink:title="Converte il codice WMO in una descrizione testuale breve.">
 <polygon fill="white" stroke="#666666" points="388,-130 245,-130 245,-111 388,-111 388,-130"/>
 <text text-anchor="middle" x="316.5" y="-118" font-family="Helvetica,sans-Serif" font-size="10.00">Weather_CodeToShortText</text>
 </a>

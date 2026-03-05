@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ppse-firmware: PPSE-Lab Firmware 🚀</title>
+<title>ppse-firmware: 🛰️ RP2040 GPS &amp; Environment Logger</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -70,34 +70,42 @@ $(function() {
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">PPSE-Lab Firmware 🚀 </div></div>
+  <div class="headertitle"><div class="title">🛰️ RP2040 GPS &amp; Environment Logger </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_README"></a> Firmware per <b>RP2040</b> dedicato al logging GPS, monitoraggio ambientale e visualizzazione dati meteo. Sviluppato con <b>PlatformIO</b>.</p>
+<div class="textblock"><p><a class="anchor" id="md_README"></a> Firmware avanzato per <b>RP2040</b> dedicato al logging geospaziale, monitoraggio ambientale e telemetria in tempo reale.</p>
 <hr  />
 <h1><a class="anchor" id="autotoc_md2"></a>
-🛠 Core Features</h1>
+🛠️ Core Features</h1>
 <ul>
-<li><b>GPS Integration:</b> Sincronizzazione oraria tramite segnale <code>Timepulse</code> e logging coordinate.</li>
-<li><b>Storage:</b> Gestione dati su Flash interna (LittleFS) con supporto <b>USB Mass Storage</b> (il dispositivo viene montato come disco dal PC).</li>
-<li><b>UI &amp; Haptics:</b> Interfaccia grafica su display OLED, gestione LED adattiva (Day/Night) e feedback sonoro via Buzzer.</li>
-<li><b>Data Bridge:</b> Comunicazione seriale ottimizzata per l'integrazione con script Python esterni.</li>
+<li><b>GPS Integration:</b> Sincronizzazione oraria u-blox e logging coordinate NMEA.</li>
+<li><b>Hybrid Storage:</b> Gestione dati su Flash interna via <b>LittleFS</b> e USB Mass Storage.</li>
+<li><b>UI &amp; UX:</b> Interfaccia grafica su OLED SSD1306, LED RGB adattivi e feedback sonoro.</li>
+<li><b>Power Management:</b> Monitoraggio dei bus di alimentazione per operazioni standalone.</li>
 </ul>
 <hr  />
 <h1><a class="anchor" id="autotoc_md4"></a>
-📖 Documentazione</h1>
-<p>Tutte le specifiche tecniche, i menu e gli shortcut sono disponibili nella <b>Wiki</b> del progetto:</p>
-<p>👉 <b><a href="../../wiki">Vai alla Wiki del Progetto</a></b></p>
-<p>*Per i dettagli sulla struttura delle cartelle e le API dei sensori, consulta la cartella <a href="./docs"><code>/docs</code></a>.*</p>
+📖 Risorse e Documentazione</h1>
+<p>Tutte le informazioni dettagliate sono centralizzate nelle seguenti risorse esterne, aggiornate automaticamente tramite CI/CD:</p>
+<ul>
+<li>📚 <b><a href="../../wiki">Project Wiki</a></b> – <b>Guida Rapida</b>, comandi di build (<code>pio</code>, <code>make</code>), manuale utente e scorciatoie.</li>
+<li>📄 <b><a href="https://4137314.github.io/ppse-lab-firmware/Academic_Report_PPSE.pdf">Academic Report (PDF)</a></b> – Analisi tecnica, schemi elettrici e architettura del sistema.</li>
+<li>🌐 <b><a href="https://4137314.github.io/ppse-lab-firmware/api/">API Reference</a></b> – Documentazione tecnica Doxygen per classi e driver.</li>
+</ul>
 <hr  />
 <h1><a class="anchor" id="autotoc_md6"></a>
-🚀 Sviluppo</h1>
-<div class="fragment"><div class="line"># Build del firmware</div>
-<div class="line">pio run</div>
-<div class="line"> </div>
-<div class="line"># Caricamento su hardware</div>
-<div class="line">pio run --target upload</div>
-</div><!-- fragment --> </div></div><!-- PageDoc -->
+📁 Struttura del Repository</h1>
+<ul>
+<li><code>src/</code>: Logica applicativa e task core.</li>
+<li><code>lib/</code>: Driver hardware (GPS, sensori, display).</li>
+<li><code>report/</code>: Sorgenti LaTeX della documentazione accademica.</li>
+<li><code>site/</code>: Dashboard statica per il portale web del progetto.</li>
+</ul>
+<hr  />
+<h2><a class="anchor" id="autotoc_md8"></a>
+🤝 Contributi e Sviluppo</h2>
+<p>Se desideri contribuire o compilare il firmware localmente, consulta la sezione <b>Sviluppo</b> nella <a href="../../wiki">Wiki del progetto</a>. Per segnalazioni di bug, apri una <b>Issue</b> o una <b>Pull Request</b>. </p>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

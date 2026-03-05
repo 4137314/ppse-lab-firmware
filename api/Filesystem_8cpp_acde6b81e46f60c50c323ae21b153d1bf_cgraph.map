@@ -1,5 +1,5 @@
 <map id="sync_files" name="sync_files">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,92,31"/>
-<area shape="rect" id="Node000002" href="$Filesystem_8cpp.html#af3f1e5af9825fbd3178a8dd29ec898ff" title=" " alt="" coords="140,5,240,31"/>
+<area shape="rect" id="Node000001" title="Sincronizza lo stato del filesystem e gestisce la rimonta dopo l&#39;uso USB." alt="" coords="5,5,92,31"/>
+<area shape="rect" id="Node000002" href="$Filesystem_8cpp.html#af3f1e5af9825fbd3178a8dd29ec898ff" title="Inizializza il filesystem FatFS sulla memoria Flash." alt="" coords="140,5,240,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,15,126,15,126,21,92,21"/>
 </map>

@@ -1,9 +1,9 @@
 <map id="dayHasForecast" name="dayHasForecast">
-<area shape="rect" id="Node000001" title=" " alt="" coords="457,5,584,31"/>
-<area shape="rect" id="Node000002" href="$display__ui_8cpp.html#ae8a9d818fdd539d4b669b43222987fc7" title=" " alt="" coords="271,5,409,31"/>
+<area shape="rect" id="Node000001" title="Verifica se sono disponibili dati meteo per il giorno specificato." alt="" coords="457,5,584,31"/>
+<area shape="rect" id="Node000002" href="$display__ui_8cpp.html#ae8a9d818fdd539d4b669b43222987fc7" title="Renderizza la schermata dettagliata del Meteo." alt="" coords="271,5,409,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="444,21,410,21,410,15,444,15"/>
-<area shape="rect" id="Node000003" href="$buttons_8cpp.html#a362a9b2582e0724627b8cd9f2e16f599" title=" " alt="" coords="104,5,223,31"/>
+<area shape="rect" id="Node000003" href="$buttons_8cpp.html#a362a9b2582e0724627b8cd9f2e16f599" title="Funzione di update della logica dei menu. Da chiamare nel loop principale." alt="" coords="104,5,223,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="257,21,223,21,223,15,257,15"/>
-<area shape="rect" id="Node000004" href="$main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" title=" " alt="" coords="5,5,56,31"/>
+<area shape="rect" id="Node000004" href="$main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" title="Loop principale del Core 0." alt="" coords="5,5,56,31"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="90,21,56,21,56,15,90,15"/>
 </map>

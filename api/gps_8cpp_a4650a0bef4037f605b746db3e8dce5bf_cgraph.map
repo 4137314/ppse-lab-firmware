@@ -1,5 +1,5 @@
 <map id="print_NMEA_rmc" name="print_NMEA_rmc">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,136,80"/>
+<area shape="rect" id="Node000001" title="Stampa i dettagli di una sentenza $xxRMC (Recommended Minimum Navigation Information)." alt="" coords="5,55,136,80"/>
 <area shape="rect" id="Node000002" href="$minmea_8h.html#a7d5b32164f339789b22446e5bfc1afbc" title=" " alt="" coords="185,5,315,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,52,189,32,190,37,118,57"/>
 <area shape="rect" id="Node000003" href="$minmea_8h.html#a82cdc79749798023b4a1952faf84f1ca" title=" " alt="" coords="184,55,316,80"/>

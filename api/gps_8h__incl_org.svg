@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Definizioni, macro e strutture per la gestione della telemetria GPS.">
 <polygon fill="#999999" stroke="#666666" points="312.5,-129 208.5,-129 208.5,-110 312.5,-110 312.5,-129"/>
 <text text-anchor="middle" x="260.5" y="-117" font-family="Helvetica,sans-Serif" font-size="10.00">src/Modules/gps.h</text>
 </a>
@@ -128,7 +128,7 @@
 <!-- Node12 -->
 <g id="Node000012" class="node">
 <title>Node12</title>
-<g id="a_Node000012"><a xlink:href="Filesystem_8h.html" target="_top" xlink:title=" ">
+<g id="a_Node000012"><a xlink:href="Filesystem_8h.html" target="_top" xlink:title="Interfaccia per la gestione del filesystem FatFS e l&#39;integrazione USB Mass Storage.">
 <polygon fill="white" stroke="#666666" points="620,-74 541,-74 541,-55 620,-55 620,-74"/>
 <text text-anchor="middle" x="580.5" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">Filesystem.h</text>
 </a>

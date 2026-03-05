@@ -82,27 +82,24 @@ $(document).ready(function() { init_codefold(0); });
   <div class="headertitle"><div class="title">temp.h</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="temp_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef TEMP_H</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define TEMP_H</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;Arduino.h&gt;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="temp_8h.html#a00f0342506a37776704c9bf59a4039db">    6</a></span><span class="preprocessor">#define TEMP_PIN 26 </span><span class="comment">//GPIO temperature sensor</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="temp_8h.html#ae678d504181814806fe8acf281cb7c31">   10</a></span><span class="preprocessor">#define ADC_BITS 12</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="temp_8h.html#a3a63fb6f00694ff9f4318b4142c5c868">   11</a></span><span class="preprocessor">#define ADC_MAX_VAL 4095 </span><span class="comment">// =2^(ADC_BITS) -1</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="comment">// Inizializza il pin del sensore e controlla se è valido</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="temp_8h.html#a58739d6d0d1d87e784cc1a5482ea13a6">TempInit</a>();</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="comment">// Lettura in gradi Celsius (LM35)</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="keywordtype">float</span> <a class="code hl_function" href="temp_8h.html#adcb1f451e49c065311acc9b8ae095237">readTemp</a>();</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="atemp_8h_html_a58739d6d0d1d87e784cc1a5482ea13a6"><div class="ttname"><a href="temp_8h.html#a58739d6d0d1d87e784cc1a5482ea13a6">TempInit</a></div><div class="ttdeci">void TempInit()</div><div class="ttdef"><b>Definition</b> temp.cpp:40</div></div>
-<div class="ttc" id="atemp_8h_html_adcb1f451e49c065311acc9b8ae095237"><div class="ttname"><a href="temp_8h.html#adcb1f451e49c065311acc9b8ae095237">readTemp</a></div><div class="ttdeci">float readTemp()</div><div class="ttdef"><b>Definition</b> temp.cpp:45</div></div>
+<a href="temp_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#ifndef TEMP_H</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#define TEMP_H</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;Arduino.h&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="temp_8h.html#a00f0342506a37776704c9bf59a4039db">   16</a></span><span class="preprocessor">#define TEMP_PIN 26      </span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="temp_8h.html#ae678d504181814806fe8acf281cb7c31">   17</a></span><span class="preprocessor">#define ADC_BITS 12      </span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="temp_8h.html#a3a63fb6f00694ff9f4318b4142c5c868">   18</a></span><span class="preprocessor">#define ADC_MAX_VAL 4095 </span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment">/* --- Funzioni di Interfaccia --- */</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keywordtype">void</span> <a class="code hl_function" href="temp_8h.html#a58739d6d0d1d87e784cc1a5482ea13a6">TempInit</a>();</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="keywordtype">float</span> <a class="code hl_function" href="temp_8h.html#adcb1f451e49c065311acc9b8ae095237">readTemp</a>();</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#endif </span><span class="comment">// TEMP_H</span></div>
+<div class="ttc" id="atemp_8h_html_a58739d6d0d1d87e784cc1a5482ea13a6"><div class="ttname"><a href="temp_8h.html#a58739d6d0d1d87e784cc1a5482ea13a6">TempInit</a></div><div class="ttdeci">void TempInit()</div><div class="ttdoc">Inizializza il pin del sensore e configura i parametri dell'ADC.</div><div class="ttdef"><b>Definition</b> temp.cpp:19</div></div>
+<div class="ttc" id="atemp_8h_html_adcb1f451e49c065311acc9b8ae095237"><div class="ttname"><a href="temp_8h.html#adcb1f451e49c065311acc9b8ae095237">readTemp</a></div><div class="ttdeci">float readTemp()</div><div class="ttdoc">Esegue la lettura analogica e restituisce il valore in gradi Celsius.</div><div class="ttdef"><b>Definition</b> temp.cpp:35</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

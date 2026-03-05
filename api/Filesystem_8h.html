@@ -80,6 +80,9 @@ $(function() {
   <div class="headertitle"><div class="title">Filesystem.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Interfaccia per la gestione del filesystem FatFS e l'integrazione USB Mass Storage.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;FatFS.h&gt;</code><br />
 <code>#include &lt;FatFSUSB.h&gt;</code><br />
 <code>#include &lt;stdint.h&gt;</code><br />
@@ -100,28 +103,42 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:af3f1e5af9825fbd3178a8dd29ec898ff" id="r_af3f1e5af9825fbd3178a8dd29ec898ff"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Filesystem_8h.html#af3f1e5af9825fbd3178a8dd29ec898ff">FatFS_Setup</a> ()</td></tr>
+<tr class="memdesc:af3f1e5af9825fbd3178a8dd29ec898ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inizializza il filesystem FAT sulla Flash interna.  <br /></td></tr>
 <tr class="separator:af3f1e5af9825fbd3178a8dd29ec898ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aadf4a6d086b5111da73b529111a54e2f" id="r_aadf4a6d086b5111da73b529111a54e2f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Filesystem_8h.html#aadf4a6d086b5111da73b529111a54e2f">FatFSUSB_Setup</a> ()</td></tr>
+<tr class="memdesc:aadf4a6d086b5111da73b529111a54e2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configura e avvia il servizio USB Mass Storage.  <br /></td></tr>
 <tr class="separator:aadf4a6d086b5111da73b529111a54e2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e24a774e23a962350e4ebb5e948f2f0" id="r_a8e24a774e23a962350e4ebb5e948f2f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Filesystem_8h.html#a8e24a774e23a962350e4ebb5e948f2f0">unplug</a> (uint32_t i)</td></tr>
+<tr class="memdesc:a8e24a774e23a962350e4ebb5e948f2f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback richiamato al distacco del cavo USB.  <br /></td></tr>
 <tr class="separator:a8e24a774e23a962350e4ebb5e948f2f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c394d6181de6a9514b3810fa42e787d" id="r_a3c394d6181de6a9514b3810fa42e787d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Filesystem_8h.html#a3c394d6181de6a9514b3810fa42e787d">plug</a> (uint32_t i)</td></tr>
+<tr class="memdesc:a3c394d6181de6a9514b3810fa42e787d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback richiamato quando il PC monta l'unità.  <br /></td></tr>
 <tr class="separator:a3c394d6181de6a9514b3810fa42e787d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74282d889889088af618af7147a0af10" id="r_a74282d889889088af618af7147a0af10"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Filesystem_8h.html#a74282d889889088af618af7147a0af10">mountable</a> (uint32_t i)</td></tr>
+<tr class="memdesc:a74282d889889088af618af7147a0af10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Funzione di verifica per il mount sicuro su PC.  <br /></td></tr>
 <tr class="separator:a74282d889889088af618af7147a0af10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acde6b81e46f60c50c323ae21b153d1bf" id="r_acde6b81e46f60c50c323ae21b153d1bf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Filesystem_8h.html#acde6b81e46f60c50c323ae21b153d1bf">sync_files</a> ()</td></tr>
+<tr class="memdesc:acde6b81e46f60c50c323ae21b153d1bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gestisce la logica di sincronizzazione post-connessione.  <br /></td></tr>
 <tr class="separator:acde6b81e46f60c50c323ae21b153d1bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a887f35472e8fca904645ffb1b0279a74" id="r_a887f35472e8fca904645ffb1b0279a74"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Filesystem_8h.html#a887f35472e8fca904645ffb1b0279a74">updated</a></td></tr>
+<tr class="memdesc:a887f35472e8fca904645ffb1b0279a74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag di notifica per il ricaricamento dei file.  <br /></td></tr>
 <tr class="separator:a887f35472e8fca904645ffb1b0279a74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b3edd7cb19243a55f2d6532c003d697" id="r_a5b3edd7cb19243a55f2d6532c003d697"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Filesystem_8h.html#a5b3edd7cb19243a55f2d6532c003d697">driveConnected</a></td></tr>
+<tr class="memdesc:a5b3edd7cb19243a55f2d6532c003d697"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stato della connessione USB.  <br /></td></tr>
 <tr class="separator:a5b3edd7cb19243a55f2d6532c003d697"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a532ad4b9343ee2e2e2d032995878fc06" id="r_a532ad4b9343ee2e2e2d032995878fc06"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Filesystem_8h.html#a532ad4b9343ee2e2e2d032995878fc06">inPrinting</a></td></tr>
+<tr class="memdesc:a532ad4b9343ee2e2e2d032995878fc06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Semaforo di accesso al filesystem.  <br /></td></tr>
 <tr class="separator:a532ad4b9343ee2e2e2d032995878fc06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Interfaccia per la gestione del filesystem FatFS e l'integrazione USB Mass Storage. </p>
+<ul>
+<li>Questo header definisce le funzioni e i flag globali necessari per gestire la memoria flash interna come disco FAT, permettendo la condivisione sicura dei dati tra il firmware dell'RP2040 e un PC esterno. </li>
+</ul>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a id="af3f1e5af9825fbd3178a8dd29ec898ff" name="af3f1e5af9825fbd3178a8dd29ec898ff"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af3f1e5af9825fbd3178a8dd29ec898ff">&#9670;&#160;</a></span>FatFS_Setup()</h2>
 
@@ -136,6 +153,16 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Inizializza il filesystem FAT sulla Flash interna. </p>
+<ul>
+<li><dl class="section return"><dt>Returns</dt><dd>true se il mount (o l'eventuale formattazione) è riuscito.</dd></dl>
+Inizializza il filesystem FAT sulla Flash interna.</li>
+<li>Tenta il mount del filesystem. Se fallisce, procede alla formattazione automatica. Abilita le funzioni POSIX tramite VFS per le operazioni di I/O standard.</li>
+<li><dl class="section return"><dt>Returns</dt><dd>true se l'inizializzazione ha successo. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Blocca l'esecuzione (while 1) in caso di errore critico hardware. </dd></dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -158,6 +185,15 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Configura e avvia il servizio USB Mass Storage. </p>
+<ul>
+<li><dl class="section return"><dt>Returns</dt><dd>true se il dispositivo USB è stato inizializzato correttamente.</dd></dl>
+Configura e avvia il servizio USB Mass Storage.</li>
+<li>Associa i callback per gli eventi di plug, unplug e controllo di mountability per la condivisione della memoria flash via USB.</li>
+<li><dl class="section return"><dt>Returns</dt><dd>true se l'inizializzazione del dispositivo USB ha successo. </dd></dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -186,6 +222,26 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Funzione di verifica per il mount sicuro su PC. </p>
+<ul>
+<li>Controlla il flag <a class="el" href="Filesystem_8cpp.html#a532ad4b9343ee2e2e2d032995878fc06">inPrinting</a> per decidere se concedere l'accesso al PC. <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Identificativo dell'interfaccia USB. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true se il filesystem è libero e montabile dall'host.</dd></dl>
+Funzione di verifica per il mount sicuro su PC.</li>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Parametro di istanza (inutilizzato). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true se non ci sono operazioni di scrittura/lettura locali in corso. </dd></dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -209,6 +265,25 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Callback richiamato quando il PC monta l'unità. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Identificativo dell'interfaccia USB.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Callback richiamato quando il PC monta l'unità.</p>
+<ul>
+<li>Termina l'istanza locale di FatFS per cedere il controllo esclusivo del disco all'host USB (PC).</li>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Parametro di istanza (inutilizzato). </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -231,6 +306,15 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Gestisce la logica di sincronizzazione post-connessione. </p>
+<ul>
+<li>Se il disco è stato modificato dal PC, questa funzione si occupa di ripristinare l'accesso locale. <dl class="section return"><dt>Returns</dt><dd>true se il filesystem è pronto per l'uso da parte del firmware.</dd></dl>
+Gestisce la logica di sincronizzazione post-connessione.</li>
+<li>Se il dispositivo è stato scollegato dal PC, riesegue il setup di FatFS per rendere nuovamente disponibili i file al firmware.</li>
+<li><dl class="section return"><dt>Returns</dt><dd>true se la sincronizzazione avviene correttamente. </dd></dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -259,6 +343,24 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Callback richiamato al distacco del cavo USB. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Identificativo dell'interfaccia USB (fornito dal framework).</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Callback richiamato al distacco del cavo USB.</p>
+<ul>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Parametro di istanza (inutilizzato). </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -288,6 +390,12 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Stato della connessione USB. </p>
+<ul>
+<li>Vale <code>true</code> se il PC ha preso il controllo del filesystem (mount effettuato).</li>
+</ul>
+<p>Stato della connessione USB. </p>
+
 </div>
 </div>
 <a id="a532ad4b9343ee2e2e2d032995878fc06" name="a532ad4b9343ee2e2e2d032995878fc06"></a>
@@ -310,6 +418,12 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Semaforo di accesso al filesystem. </p>
+<ul>
+<li>Vale <code>true</code> quando il firmware sta scrivendo o leggendo attivamente dalla flash. Impedisce al PC di montare il disco contemporaneamente per evitare corruzione.</li>
+</ul>
+<p>Semaforo di accesso al filesystem. </p>
+
 </div>
 </div>
 <a id="a887f35472e8fca904645ffb1b0279a74" name="a887f35472e8fca904645ffb1b0279a74"></a>
@@ -331,6 +445,12 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Flag di notifica per il ricaricamento dei file. </p>
+<ul>
+<li>Viene impostato a <code>true</code> quando il disco viene scollegato dal PC, segnalando al firmware di rieseguire il mount per leggere i nuovi dati.</li>
+</ul>
+<p>Flag di notifica per il ricaricamento dei file. </p>
 
 </div>
 </div>

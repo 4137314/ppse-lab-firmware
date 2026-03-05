@@ -1,7 +1,7 @@
 <map id="plug" name="plug">
-<area shape="rect" id="Node000001" title=" " alt="" coords="295,5,345,31"/>
-<area shape="rect" id="Node000002" href="$Filesystem_8cpp.html#aadf4a6d086b5111da73b529111a54e2f" title=" " alt="" coords="120,5,247,31"/>
+<area shape="rect" id="Node000001" title="Callback eseguito alla connessione USB." alt="" coords="295,5,345,31"/>
+<area shape="rect" id="Node000002" href="$Filesystem_8cpp.html#aadf4a6d086b5111da73b529111a54e2f" title="Configura l&#39;interfaccia USB Mass Storage." alt="" coords="120,5,247,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="281,21,247,21,247,15,281,15"/>
-<area shape="rect" id="Node000003" href="$main_8cpp.html#ac764ee28e2916a7de10b22927e02d1a4" title=" " alt="" coords="5,5,72,31"/>
+<area shape="rect" id="Node000003" href="$main_8cpp.html#ac764ee28e2916a7de10b22927e02d1a4" title="Configurazione iniziale per il Core 1." alt="" coords="5,5,72,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="106,21,72,21,72,15,106,15"/>
 </map>

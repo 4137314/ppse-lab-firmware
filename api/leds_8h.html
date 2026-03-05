@@ -75,11 +75,13 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">leds.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Definizioni hardware e prototipi per la gestione dei LED RGB.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;Arduino.h&gt;</code><br />
 <code>#include &lt;FastLED.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -97,6 +99,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
+<tr><td colspan="2"><div class="groupHeader">Configurazione Striscia LED</div></td></tr>
 <tr class="memitem:ab4553be4db9860d940f81d7447173b2f" id="r_ab4553be4db9860d940f81d7447173b2f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="leds_8h.html#ab4553be4db9860d940f81d7447173b2f">LED_PIN</a>&#160;&#160;&#160;13</td></tr>
 <tr class="separator:ab4553be4db9860d940f81d7447173b2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c4ae9a4146ce8d6a5debc90300d9abd" id="r_a4c4ae9a4146ce8d6a5debc90300d9abd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="leds_8h.html#a4c4ae9a4146ce8d6a5debc90300d9abd">NUM_LEDS</a>&#160;&#160;&#160;8</td></tr>
@@ -109,17 +112,27 @@ Macros</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:aadcaa5aaa722b9e5699f50c6d9ca7bfe" id="r_aadcaa5aaa722b9e5699f50c6d9ca7bfe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="leds_8h.html#aadcaa5aaa722b9e5699f50c6d9ca7bfe">ledsInit</a> ()</td></tr>
+<tr class="memdesc:aadcaa5aaa722b9e5699f50c6d9ca7bfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inizializza il controller FastLED con i parametri definiti nelle macro.  <br /></td></tr>
 <tr class="separator:aadcaa5aaa722b9e5699f50c6d9ca7bfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6adf4836bb1cbe26b640aeb5a177071d" id="r_a6adf4836bb1cbe26b640aeb5a177071d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="leds_8h.html#a6adf4836bb1cbe26b640aeb5a177071d">ledsShowInitAnimation</a> ()</td></tr>
+<tr class="memdesc:a6adf4836bb1cbe26b640aeb5a177071d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Esegue una sequenza di accensione e spegnimento iniziale (Pink fade).  <br /></td></tr>
 <tr class="separator:a6adf4836bb1cbe26b640aeb5a177071d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9c4cbf122cf8fe3ce3a4e9913c366bda" id="r_a9c4cbf122cf8fe3ce3a4e9913c366bda"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="leds_8h.html#a9c4cbf122cf8fe3ce3a4e9913c366bda">ledsNavigationAnimation</a> ()</td></tr>
+<tr class="memdesc:a9c4cbf122cf8fe3ce3a4e9913c366bda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Esegue un lampeggio Blu/Rosso per confermare lo spostamento nel menu.  <br /></td></tr>
 <tr class="separator:a9c4cbf122cf8fe3ce3a4e9913c366bda"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20b9a2822d58fc522e9aef69e6e52cbe" id="r_a20b9a2822d58fc522e9aef69e6e52cbe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="leds_8h.html#a20b9a2822d58fc522e9aef69e6e52cbe">ledsToggleAnimation</a> ()</td></tr>
+<tr class="memdesc:a20b9a2822d58fc522e9aef69e6e52cbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Esegue un flash Verde per confermare una selezione o un cambio stato.  <br /></td></tr>
 <tr class="separator:a20b9a2822d58fc522e9aef69e6e52cbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa71ec3cdc7932a4bdc30d356cb7c0a69" id="r_aa71ec3cdc7932a4bdc30d356cb7c0a69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="leds_8h.html#aa71ec3cdc7932a4bdc30d356cb7c0a69">ledsInactivityAnimation</a> ()</td></tr>
+<tr class="memdesc:aa71ec3cdc7932a4bdc30d356cb7c0a69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Esegue un flash Giallo per segnalare il ritorno alla Home per inattività.  <br /></td></tr>
 <tr class="separator:aa71ec3cdc7932a4bdc30d356cb7c0a69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Definizioni hardware e prototipi per la gestione dei LED RGB. </p>
+<ul>
+<li>Questo header contiene le macro di configurazione per la striscia LED (WS2812B) e i prototipi delle funzioni di animazione utilizzate per il feedback utente. La gestione fisica dei LED è affidata alla libreria FastLED. </li>
+</ul>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a00c9e5e8fdc981fc21a1e82e722980b2" name="a00c9e5e8fdc981fc21a1e82e722980b2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a00c9e5e8fdc981fc21a1e82e722980b2">&#9670;&#160;</a></span>COLOR_ORDER</h2>
 
@@ -131,6 +144,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Ordine dei canali colore (Green-Red-Blue) per il chipset utilizzato. </p>
 
 </div>
 </div>
@@ -145,6 +159,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Pin GPIO dedicato alla trasmissione dati (Data Pin). </p>
 
 </div>
 </div>
@@ -159,6 +174,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Tipo di controller integrato nei LED (es. WS2812B, SK6812). </p>
 
 </div>
 </div>
@@ -173,6 +189,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Numero totale di LED presenti nella striscia. </p>
 
 </div>
 </div>
@@ -192,6 +209,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Esegue un flash Giallo per segnalare il ritorno alla Home per inattività. </p>
+<p>Esegue un flash Giallo per segnalare il ritorno alla Home per inattività.</p>
+<ul>
+<li>Questa animazione viene richiamata dal timer di inattività prima che il display torni alla schermata Home. </li>
+</ul>
+
 </div>
 </div>
 <a id="aadcaa5aaa722b9e5699f50c6d9ca7bfe" name="aadcaa5aaa722b9e5699f50c6d9ca7bfe"></a>
@@ -208,6 +231,12 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Inizializza il controller FastLED con i parametri definiti nelle macro. </p>
+<p>Inizializza il controller FastLED con i parametri definiti nelle macro.</p>
+<ul>
+<li>Configura il controller FastLED utilizzando il tipo di LED, il pin e l'ordine dei colori definiti in <a class="el" href="leds_8h.html">leds.h</a>. </li>
+</ul>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -230,6 +259,12 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Esegue un lampeggio Blu/Rosso per confermare lo spostamento nel menu. </p>
+<p>Esegue un lampeggio Blu/Rosso per confermare lo spostamento nel menu.</p>
+<ul>
+<li>Accende un LED Blu nella posizione corrente e un LED Rosso nella posizione successiva, quindi esegue un rapido lampeggio per confermare il movimento dell'indice. Gestisce automaticamente il rollover della striscia (se l'indice raggiunge <a class="el" href="leds_8h.html#a4c4ae9a4146ce8d6a5debc90300d9abd">NUM_LEDS</a>). </li>
+</ul>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -252,6 +287,12 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Esegue una sequenza di accensione e spegnimento iniziale (Pink fade). </p>
+<p>Esegue una sequenza di accensione e spegnimento iniziale (Pink fade).</p>
+<ul>
+<li>Accende sequenzialmente i LED con un colore rosa (LightPink) e li spegne nello stesso ordine, creando un effetto di "caricamento" visivo. </li>
+</ul>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -274,6 +315,12 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Esegue un flash Verde per confermare una selezione o un cambio stato. </p>
+<p>Esegue un flash Verde per confermare una selezione o un cambio stato.</p>
+<ul>
+<li>Utilizzato tipicamente quando l'utente conferma una selezione o cambia un'impostazione nel menu. </li>
+</ul>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">

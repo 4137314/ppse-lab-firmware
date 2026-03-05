@@ -1,7 +1,7 @@
 <map id="save_gps_log20" name="save_gps_log20">
-<area shape="rect" id="Node000001" title=" " alt="" coords="271,5,397,31"/>
-<area shape="rect" id="Node000002" href="$buttons_8cpp.html#a362a9b2582e0724627b8cd9f2e16f599" title=" " alt="" coords="104,5,223,31"/>
+<area shape="rect" id="Node000001" title="Aggiunge una riga al log rotativo (max 20 righe)." alt="" coords="271,5,397,31"/>
+<area shape="rect" id="Node000002" href="$buttons_8cpp.html#a362a9b2582e0724627b8cd9f2e16f599" title="Funzione di update della logica dei menu. Da chiamare nel loop principale." alt="" coords="104,5,223,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="257,21,223,21,223,15,257,15"/>
-<area shape="rect" id="Node000003" href="$main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" title=" " alt="" coords="5,5,56,31"/>
+<area shape="rect" id="Node000003" href="$main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" title="Loop principale del Core 0." alt="" coords="5,5,56,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="90,21,56,21,56,15,90,15"/>
 </map>

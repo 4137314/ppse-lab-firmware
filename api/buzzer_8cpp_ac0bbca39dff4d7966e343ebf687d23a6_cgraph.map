@@ -1,5 +1,5 @@
 <map id="buzzerInit" name="buzzerInit">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,92,31"/>
-<area shape="rect" id="Node000002" href="$buzzer_8cpp.html#a659dfc3bc7bb934e736c289f688777fd" title=" " alt="" coords="140,5,239,31"/>
+<area shape="rect" id="Node000001" title="Inizializza il buzzer e configura il relativo pin." alt="" coords="5,5,92,31"/>
+<area shape="rect" id="Node000002" href="$buzzer_8cpp.html#a659dfc3bc7bb934e736c289f688777fd" title="Genera un segnale acustico (beep) a frequenza e durata specificate." alt="" coords="140,5,239,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,15,126,15,126,21,92,21"/>
 </map>

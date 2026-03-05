@@ -1,20 +1,20 @@
 <map id="src/Modules/gps.h" name="src/Modules/gps.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="438,5,577,31"/>
-<area shape="rect" id="Node000002" href="$buttons_8cpp.html" title=" " alt="" coords="5,233,185,258"/>
+<area shape="rect" id="Node000001" title="Definizioni, macro e strutture per la gestione della telemetria GPS." alt="" coords="438,5,577,31"/>
+<area shape="rect" id="Node000002" href="$buttons_8cpp.html" title="Gestione dell&#39;input utente, sitema di debounce e macchina a stati del menu." alt="" coords="5,233,185,258"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="425,31,301,51,246,65,209,81,169,117,138,160,115,202,102,234,97,231,110,200,133,158,165,113,206,76,244,60,300,46,424,26"/>
-<area shape="rect" id="Node000003" href="$buttons_8h.html" title=" " alt="" coords="219,79,385,104"/>
+<area shape="rect" id="Node000003" href="$buttons_8h.html" title="Definizioni e prototipi per la gestione degli input utente e della UI." alt="" coords="219,79,385,104"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="462,38,336,81,334,76,461,33"/>
-<area shape="rect" id="Node000004" href="$display__ui_8h.html" title=" " alt="" coords="320,152,503,177"/>
+<area shape="rect" id="Node000004" href="$display__ui_8h.html" title="Definizioni hardware e prototipi per l&#39;interfaccia utente OLED." alt="" coords="320,152,503,177"/>
 <area shape="poly" id="edge13_Node000001_Node000004" title=" " alt="" coords="494,44,421,153,417,150,490,41"/>
-<area shape="rect" id="Node000005" href="$display__ui_8cpp.html" title=" " alt="" coords="521,225,672,265"/>
+<area shape="rect" id="Node000005" href="$display__ui_8cpp.html" title="Implementazione dell&#39;interfaccia utente (UI) su display OLED SSD1306." alt="" coords="521,225,672,265"/>
 <area shape="poly" id="edge12_Node000001_Node000005" title=" " alt="" coords="525,41,544,78,575,159,594,224,589,226,570,160,540,80,520,43"/>
-<area shape="rect" id="Node000007" href="$main_8cpp.html" title=" " alt="" coords="392,233,497,258"/>
+<area shape="rect" id="Node000007" href="$main_8cpp.html" title="Orchestratore di sistema e gestione Multicore." alt="" coords="392,233,497,258"/>
 <area shape="poly" id="edge15_Node000001_Node000007" title=" " alt="" coords="518,43,528,106,527,143,518,178,507,196,494,212,465,235,462,230,490,208,503,193,513,176,522,142,523,106,512,44"/>
-<area shape="rect" id="Node000008" href="$gps_8cpp.html" title=" " alt="" coords="629,79,783,104"/>
+<area shape="rect" id="Node000008" href="$gps_8cpp.html" title="Implementazione del driver GPS e gestione della telemetria NMEA." alt="" coords="629,79,783,104"/>
 <area shape="poly" id="edge14_Node000001_Node000008" title=" " alt="" coords="553,33,674,76,673,81,551,38"/>
 <area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="277,114,113,235,109,230,274,110"/>
 <area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="325,110,388,150,385,154,323,114"/>
-<area shape="rect" id="Node000006" href="$leds_8cpp.html" title=" " alt="" coords="209,233,368,258"/>
+<area shape="rect" id="Node000006" href="$leds_8cpp.html" title="Implementazione dei feedback visivi tramite LED RGB." alt="" coords="209,233,368,258"/>
 <area shape="poly" id="edge10_Node000003_Node000006" title=" " alt="" coords="285,116,274,134,266,153,264,174,268,196,284,232,279,234,263,197,258,174,261,151,269,131,281,114"/>
 <area shape="poly" id="edge11_Node000003_Node000007" title=" " alt="" coords="300,118,300,147,303,162,309,176,325,190,352,204,413,230,411,235,350,209,322,194,305,179,298,164,295,148,295,118"/>
 <area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="353,183,142,235,141,230,351,178"/>

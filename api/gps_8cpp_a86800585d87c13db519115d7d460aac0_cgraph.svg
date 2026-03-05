@@ -21,7 +21,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Stampa gli errori di deviazione da una sentenza $xxGST (GPS Pseudorange Noise Statistics).">
 <polygon fill="#999999" stroke="#666666" points="94,-37 0,-37 0,-18 94,-18 94,-37"/>
 <text text-anchor="middle" x="47" y="-25" font-family="Helvetica,sans-Serif" font-size="10.00">print_NMEA_gst</text>
 </a>
