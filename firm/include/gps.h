@@ -23,38 +23,31 @@
 
 /** @name Parametri Protocollo NMEA
  * @{ */
-#define MINMEA_MAX_SENTENCE_LENGTH \
-  82 /**< Lunghezza massima di una riga NMEA standard. */
-#define GPS_ACQUIRE_MAX_TRIES                                                 \
-  30 /**< Tentativi massimi di lettura sentenze per ogni chiamata gpsAcquire. \
-      */
+#define MINMEA_MAX_SENTENCE_LENGTH 82 /**< Lunghezza massima di una riga NMEA standard. */
+#define GPS_ACQUIRE_MAX_TRIES                                                   \
+    30 /**< Tentativi massimi di lettura sentenze per ogni chiamata gpsAcquire. \
+        */
 /** @} */
 
 /** @name Pinout Hardware GPS
  * @{ */
-#define GPS_PPS_PIN \
-  19 /**< Pin per il segnale Pulse Per Second (PPS) dal GPS. */
-#define GPS_EN_PIN \
-  18 /**< Pin di abilitazione alimentazione modulo (Attivo Basso). */
-#define UART1_TX_PIN 4 /**< Pin TX per comunicazione UART con il modulo. */
-#define UART1_RX_PIN 5 /**< Pin RX per comunicazione UART con il modulo. */
-#define GPSBAUD 9600   /**< Baud rate predefinito del modulo GPS. */
-#define LED_ALIVE \
-  20 /**< GPIO per il LED di segnalazione attività (Heartbeat). */
+#define GPS_PPS_PIN  19   /**< Pin per il segnale Pulse Per Second (PPS) dal GPS. */
+#define GPS_EN_PIN   18   /**< Pin di abilitazione alimentazione modulo (Attivo Basso). */
+#define UART1_TX_PIN 4    /**< Pin TX per comunicazione UART con il modulo. */
+#define UART1_RX_PIN 5    /**< Pin RX per comunicazione UART con il modulo. */
+#define GPSBAUD      9600 /**< Baud rate predefinito del modulo GPS. */
+#define LED_ALIVE    20   /**< GPIO per il LED di segnalazione attività (Heartbeat). */
 /** @} */
 
 /** @name Timing e Filesystem
  * @{ */
-#define GPS_SYNC_TIMEOUT_MSEC \
-  20 /**< Timeout per la sincronizzazione di data e ora. */
-#define GPS_LOG_PATH \
-  "/gps_log.csv" /**< Percorso del file log rotativo (CSV). */
-#define GPS_LAST_PATH \
-  "/gps_last.csv"        /**< Percorso del file con l'ultima posizione nota. */
-#define GPS_MAX_LINES 20 /**< Numero massimo di righe per il log rotativo. */
-#define GPS_WRITE_FREQ                                                   \
-  600000 /**< Frequenza minima di scrittura su Flash (ms) per protezione \
-            usura. */
+#define GPS_SYNC_TIMEOUT_MSEC 20              /**< Timeout per la sincronizzazione di data e ora. */
+#define GPS_LOG_PATH          "/gps_log.csv"  /**< Percorso del file log rotativo (CSV). */
+#define GPS_LAST_PATH         "/gps_last.csv" /**< Percorso del file con l'ultima posizione nota. */
+#define GPS_MAX_LINES         20              /**< Numero massimo di righe per il log rotativo. */
+#define GPS_WRITE_FREQ                                                     \
+    600000 /**< Frequenza minima di scrittura su Flash (ms) per protezione \
+              usura. */
 /** @} */
 
 /** @name Protocollo Inter-Core
@@ -80,22 +73,19 @@
  * viene ricevuta dalla seriale.
  */
 struct parsed_nmea {
-  struct minmea_sentence_gbs parsed_gbs; /**< Errori satellitari. */
-  struct minmea_sentence_rmc
-      parsed_rmc; /**< Dati minimi raccomandati (Data, Ora, Posizione). */
-  struct minmea_sentence_gga parsed_gga; /**< Fix di precisione e altitudine. */
-  struct minmea_sentence_gsa parsed_gsa; /**< DOP e satelliti attivi. */
-  struct minmea_sentence_gll parsed_gll; /**< Latitudine e Longitudine. */
-  struct minmea_sentence_gst parsed_gst; /**< Statistiche rumore pseudorange. */
-  struct minmea_sentence_gsv parsed_gsv; /**< Satelliti in vista. */
-  struct minmea_sentence_vtg parsed_vtg; /**< Velocità e rotta reale. */
-  struct minmea_sentence_zda parsed_zda; /**< Data e Ora UTC. */
+    struct minmea_sentence_gbs parsed_gbs; /**< Errori satellitari. */
+    struct minmea_sentence_rmc parsed_rmc; /**< Dati minimi raccomandati (Data, Ora, Posizione). */
+    struct minmea_sentence_gga parsed_gga; /**< Fix di precisione e altitudine. */
+    struct minmea_sentence_gsa parsed_gsa; /**< DOP e satelliti attivi. */
+    struct minmea_sentence_gll parsed_gll; /**< Latitudine e Longitudine. */
+    struct minmea_sentence_gst parsed_gst; /**< Statistiche rumore pseudorange. */
+    struct minmea_sentence_gsv parsed_gsv; /**< Satelliti in vista. */
+    struct minmea_sentence_vtg parsed_vtg; /**< Velocità e rotta reale. */
+    struct minmea_sentence_zda parsed_zda; /**< Data e Ora UTC. */
 };
 
-extern uint32_t
-    lastUiGpsMs; /**< Timestamp dell'ultimo aggiornamento UI dei dati GPS. */
-extern volatile bool
-    gpsDirty; /**< Flag per indicare dati GPS non ancora processati. */
+extern uint32_t lastUiGpsMs;   /**< Timestamp dell'ultimo aggiornamento UI dei dati GPS. */
+extern volatile bool gpsDirty; /**< Flag per indicare dati GPS non ancora processati. */
 
 /* --- Prototipi Funzioni --- */
 
@@ -106,8 +96,7 @@ bool gpsInit();
 bool nmea_gps_parse(String* nmea_message, struct parsed_nmea* nmea_ptr);
 
 /** @brief Cerca e acquisisce una specifica sentenza dalla seriale. */
-bool gpsAcquire(enum minmea_sentence_id sentence_type,
-                struct parsed_nmea* nmea_ptr);
+bool gpsAcquire(enum minmea_sentence_id sentence_type, struct parsed_nmea* nmea_ptr);
 
 /** @brief Estrae data e ora dai messaggi RMC. */
 bool GetDate_and_Time(struct parsed_nmea* nmea_ptr);
@@ -125,8 +114,7 @@ bool save_gps_last(struct parsed_nmea* nmea_ptr);
 bool save_gps_log20(struct parsed_nmea* nmea_ptr);
 
 /** @brief Gestisce le richieste di sync provenienti dall'altro core. */
-void check_GPS_sync_req(queue_t* recv_queue, queue_t* send_queue,
-                        struct parsed_nmea* nmea_ptr);
+void check_GPS_sync_req(queue_t* recv_queue, queue_t* send_queue, struct parsed_nmea* nmea_ptr);
 
 /* --- Funzioni di Debug --- */
 void print_NMEA_rmc(void* frame);

@@ -22,8 +22,8 @@ CRGB leds[NUM_LEDS];
  * l'ordine dei colori definiti in @ref leds.h.
  */
 void ledsInit() {
-  FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS);
-  return;
+    FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS);
+    return;
 }
 
 /**
@@ -32,17 +32,17 @@ void ledsInit() {
  * nello stesso ordine, creando un effetto di "caricamento" visivo.
  */
 void ledsShowInitAnimation() {
-  for (int i = 0; i < NUM_LEDS; i++) {
-    leds[i] = CRGB::LightPink;
-    FastLED.show();
-    delay(50);
-  }
-  delay(200);
-  for (int i = 0; i < NUM_LEDS; i++) {
-    leds[i] = CRGB::Black;
-    FastLED.show();
-    delay(50);
-  }
+    for (int i = 0; i < NUM_LEDS; i++) {
+        leds[i] = CRGB::LightPink;
+        FastLED.show();
+        delay(50);
+    }
+    delay(200);
+    for (int i = 0; i < NUM_LEDS; i++) {
+        leds[i] = CRGB::Black;
+        FastLED.show();
+        delay(50);
+    }
 }
 
 /**
@@ -53,29 +53,29 @@ void ledsShowInitAnimation() {
  * raggiunge @ref NUM_LEDS).
  */
 void ledsNavigationAnimation() {
-  FastLED.clear();
-  leds[ledsNumber] = CRGB::Blue;
+    FastLED.clear();
+    leds[ledsNumber] = CRGB::Blue;
 
-  // Gestione rollover per striscia da 8 LED
-  if (ledsNumber + 1 == 8) {
-    leds[0] = CRGB::Red;
-  } else {
-    leds[ledsNumber + 1] = CRGB::Red;
-  }
+    // Gestione rollover per striscia da 8 LED
+    if (ledsNumber + 1 == 8) {
+        leds[0] = CRGB::Red;
+    } else {
+        leds[ledsNumber + 1] = CRGB::Red;
+    }
 
-  FastLED.show();
-  delay(200);
-  FastLED.clear();
-  FastLED.show();
+    FastLED.show();
+    delay(200);
+    FastLED.clear();
+    FastLED.show();
 
-  // Reset stato LED
-  leds[ledsNumber] = CRGB::Black;
-  if (ledsNumber + 1 == 8) {
-    leds[0] = CRGB::Black;
-  } else {
-    leds[ledsNumber + 1] = CRGB::Black;
-  }
-  FastLED.show();
+    // Reset stato LED
+    leds[ledsNumber] = CRGB::Black;
+    if (ledsNumber + 1 == 8) {
+        leds[0] = CRGB::Black;
+    } else {
+        leds[ledsNumber + 1] = CRGB::Black;
+    }
+    FastLED.show();
 }
 
 /**
@@ -84,14 +84,14 @@ void ledsNavigationAnimation() {
  * un'impostazione nel menu.
  */
 void ledsToggleAnimation() {
-  FastLED.clear();
-  for (int i = 0; i < NUM_LEDS; i++) {
-    leds[i] = CRGB::Green;
-  }
-  FastLED.show();
-  delay(200);
-  FastLED.clear();
-  FastLED.show();
+    FastLED.clear();
+    for (int i = 0; i < NUM_LEDS; i++) {
+        leds[i] = CRGB::Green;
+    }
+    FastLED.show();
+    delay(200);
+    FastLED.clear();
+    FastLED.show();
 }
 
 /**
@@ -101,12 +101,12 @@ void ledsToggleAnimation() {
  * il display torni alla schermata Home.
  */
 void ledsInactivityAnimation() {
-  FastLED.clear();
-  for (int i = 0; i < NUM_LEDS; i++) {
-    leds[i] = CRGB::Yellow;
-  }
-  FastLED.show();
-  delay(200);
-  FastLED.clear();
-  FastLED.show();
+    FastLED.clear();
+    for (int i = 0; i < NUM_LEDS; i++) {
+        leds[i] = CRGB::Yellow;
+    }
+    FastLED.show();
+    delay(200);
+    FastLED.clear();
+    FastLED.show();
 }

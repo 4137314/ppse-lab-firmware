@@ -19,46 +19,41 @@
 
 /** @name Mapping Hardware Pulsanti
  * @{ */
-#define SW_UP 22    /**< Pin GPIO per il pulsante Su. */
-#define SW_DOWN 23  /**< Pin GPIO per il pulsante Giù. */
+#define SW_UP    22 /**< Pin GPIO per il pulsante Su. */
+#define SW_DOWN  23 /**< Pin GPIO per il pulsante Giù. */
 #define SW_RIGHT 24 /**< Pin GPIO per il pulsante Destra / Invio. */
-#define SW_LEFT 25  /**< Pin GPIO per il pulsante Sinistra / Indietro. */
+#define SW_LEFT  25 /**< Pin GPIO per il pulsante Sinistra / Indietro. */
 /** @} */
 
 /** @name Variabili di Stato UI
  * @{ */
-extern int menuIndex;  /**< Indice corrente della voce selezionata nel menu
-                          principale. */
-extern bool menuOpen;  /**< Stato di visibilità del menu principale. */
-extern bool inSubmenu; /**< Indica se l'utente si trova all'interno di una
-                          schermata sottomenu. */
-extern bool
-    ambientDisplay; /**< Indica se il sistema è in modalità Home (Ambient). */
+extern int menuIndex;       /**< Indice corrente della voce selezionata nel menu
+                               principale. */
+extern bool menuOpen;       /**< Stato di visibilità del menu principale. */
+extern bool inSubmenu;      /**< Indica se l'utente si trova all'interno di una
+                               schermata sottomenu. */
+extern bool ambientDisplay; /**< Indica se il sistema è in modalità Home (Ambient). */
 /** @} */
 
 /** @name Flag di Interrupt (Volatile)
  * @{ */
-extern volatile bool up_press; /**< Segnala l'avvenuto debounce del tasto UP. */
-extern volatile bool
-    down_press; /**< Segnala l'avvenuto debounce del tasto DOWN. */
-extern volatile bool
-    left_press; /**< Segnala l'avvenuto debounce del tasto LEFT. */
-extern volatile bool
-    right_press; /**< Segnala l'avvenuto debounce del tasto RIGHT. */
+extern volatile bool up_press;    /**< Segnala l'avvenuto debounce del tasto UP. */
+extern volatile bool down_press;  /**< Segnala l'avvenuto debounce del tasto DOWN. */
+extern volatile bool left_press;  /**< Segnala l'avvenuto debounce del tasto LEFT. */
+extern volatile bool right_press; /**< Segnala l'avvenuto debounce del tasto RIGHT. */
 /** @} */
 
 /** @name Parametri Temporali e Telemetria
  * @{ */
-extern uint32_t tLeft;  /**< Timestamp dell'ultima pressione sinistra per
-                           rilevamento combo. */
-extern uint32_t tRight; /**< Timestamp dell'ultima pressione destra per
-                           rilevamento combo. */
-extern const uint32_t COMBO_MS; /**< Finestra temporale massima per validare una
-                                   pressione simultanea. */
-extern uint32_t lastActivity; /**< Timestamp dell'ultima attività registrata per
-                                 il timeout. */
-extern const uint32_t
-    DISPLAY_TIMEOUT_MS; /**< Tempo di inattività prima del ritorno alla home. */
+extern uint32_t tLeft;                    /**< Timestamp dell'ultima pressione sinistra per
+                                             rilevamento combo. */
+extern uint32_t tRight;                   /**< Timestamp dell'ultima pressione destra per
+                                             rilevamento combo. */
+extern const uint32_t COMBO_MS;           /**< Finestra temporale massima per validare una
+                                             pressione simultanea. */
+extern uint32_t lastActivity;             /**< Timestamp dell'ultima attività registrata per
+                                             il timeout. */
+extern const uint32_t DISPLAY_TIMEOUT_MS; /**< Tempo di inattività prima del ritorno alla home. */
 /** @} */
 
 /** @brief Identificatore per l'animazione dei LED di navigazione. */
@@ -68,11 +63,11 @@ extern int ledsNumber;
  * @brief Tipi di eventi generabili dalla pressione dei pulsanti.
  */
 enum KeyEvent : uint8_t {
-  KEY_NONE, /**< Nessun tasto premuto. */
-  KEY_UP,   /**< Evento tasto Su. */
-  KEY_DOWN, /**< Evento tasto Giù. */
-  KEY_LEFT, /**< Evento tasto Sinistra. */
-  KEY_RIGHT /**< Evento tasto Destra. */
+    KEY_NONE, /**< Nessun tasto premuto. */
+    KEY_UP,   /**< Evento tasto Su. */
+    KEY_DOWN, /**< Evento tasto Giù. */
+    KEY_LEFT, /**< Evento tasto Sinistra. */
+    KEY_RIGHT /**< Evento tasto Destra. */
 };
 
 /* --- Funzioni Core --- */

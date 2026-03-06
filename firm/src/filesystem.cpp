@@ -27,19 +27,19 @@ volatile bool inPrinting = false;
  * @note Blocca l'esecuzione (while 1) in caso di errore critico hardware.
  */
 bool FatFS_Setup() {
-  inPrinting = true;
-  if (!FatFS.begin()) {
-    Serial.println("FatFS first mount failed. Formatting...");
-    FatFS.format();
+    inPrinting = true;
     if (!FatFS.begin()) {
-      Serial.println("FATAL: FatFS format/mount failed!");
-      while (1) delay(10);
+        Serial.println("FatFS first mount failed. Formatting...");
+        FatFS.format();
+        if (!FatFS.begin()) {
+            Serial.println("FATAL: FatFS format/mount failed!");
+            while (1) delay(10);
+        }
     }
-  }
-  inPrinting = false;
-  Serial.println("Fat filesystem started");
-  VFS.root(FatFS);  // Enables POSIX functions for I/O
-  return true;
+    inPrinting = false;
+    Serial.println("Fat filesystem started");
+    VFS.root(FatFS);  // Enables POSIX functions for I/O
+    return true;
 }
 
 /**
@@ -49,19 +49,20 @@ bool FatFS_Setup() {
  * * @return true se l'inizializzazione del dispositivo USB ha successo.
  */
 bool FatFSUSB_Setup() {
-  // Set up callbacks
-  FatFSUSB.onUnplug(unplug);
-  FatFSUSB.onPlug(plug);
-  FatFSUSB.driveReady(mountable);
+    // Set up callbacks
+    FatFSUSB.onUnplug(unplug);
+    FatFSUSB.onPlug(plug);
+    FatFSUSB.driveReady(mountable);
 
-  if (!FatFSUSB.begin()) {
-    Serial.println("FATAL failed to start USB Mass Storage");
-    while (1) delay(10);
-  }
-  delay(3000);
-  if (Serial) Serial.println("USB Mass Storage started");
+    if (!FatFSUSB.begin()) {
+        Serial.println("FATAL failed to start USB Mass Storage");
+        while (1) delay(10);
+    }
+    delay(3000);
+    if (Serial)
+        Serial.println("USB Mass Storage started");
 
-  return true;
+    return true;
 }
 
 /**
@@ -69,9 +70,9 @@ bool FatFSUSB_Setup() {
  * * @param i Parametro di istanza (inutilizzato).
  */
 void unplug(uint32_t i) {
-  (void)i;
-  driveConnected = false;
-  updated = true;
+    (void)i;
+    driveConnected = false;
+    updated        = true;
 }
 
 /**
@@ -81,9 +82,9 @@ void unplug(uint32_t i) {
  * * @param i Parametro di istanza (inutilizzato).
  */
 void plug(uint32_t i) {
-  (void)i;
-  driveConnected = true;
-  FatFS.end();
+    (void)i;
+    driveConnected = true;
+    FatFS.end();
 }
 
 /**
@@ -92,8 +93,8 @@ void plug(uint32_t i) {
  * @return true se non ci sono operazioni di scrittura/lettura locali in corso.
  */
 bool mountable(uint32_t i) {
-  (void)i;
-  return !inPrinting;
+    (void)i;
+    return !inPrinting;
 }
 
 /**
@@ -104,13 +105,13 @@ bool mountable(uint32_t i) {
  * * @return true se la sincronizzazione avviene correttamente.
  */
 bool sync_files() {
-  bool ret = true;
+    bool ret = true;
 
-  if (updated && !driveConnected) {
-    Serial.println("\n\nDisconnected, new file listing:");
-    FatFS.end();
-    ret = FatFS_Setup();
-    updated = false;
-  }
-  return ret;
+    if (updated && !driveConnected) {
+        Serial.println("\n\nDisconnected, new file listing:");
+        FatFS.end();
+        ret     = FatFS_Setup();
+        updated = false;
+    }
+    return ret;
 }

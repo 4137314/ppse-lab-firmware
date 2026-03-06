@@ -20,31 +20,27 @@
  * per tracciare la ricezione completa dei dati dal server.
  */
 struct WeatherState {
-  bool curValid = false; /**< True se i dati meteo correnti sono stati popolati
-                            correttamente. */
-  bool fcValid =
-      false; /**< True se tutte le previsioni (7 giorni) sono state ricevute. */
-  char city[24] =
-      "NA"; /**< Nome della città (max 23 caratteri + null terminator). */
+    bool curValid = false; /**< True se i dati meteo correnti sono stati popolati
+                              correttamente. */
+    bool fcValid  = false; /**< True se tutte le previsioni (7 giorni) sono state ricevute. */
+    char city[24] = "NA";  /**< Nome della città (max 23 caratteri + null terminator). */
 
-  float curTempC = NAN;   /**< Temperatura attuale in gradi Celsius. */
-  float curWindKmh = NAN; /**< Velocità del vento attuale in km/h. */
-  int curHumidity = -1;   /**< Percentuale di umidità attuale (0-100). */
-  int curWcode = -1;      /**< Codice WMO delle condizioni meteo attuali. */
+    float curTempC   = NAN; /**< Temperatura attuale in gradi Celsius. */
+    float curWindKmh = NAN; /**< Velocità del vento attuale in km/h. */
+    int curHumidity  = -1;  /**< Percentuale di umidità attuale (0-100). */
+    int curWcode     = -1;  /**< Codice WMO delle condizioni meteo attuali. */
 
-  /** @name Matrici Forecast (7 giorni x 24 ore)
-   * @{ */
-  float tempC[7][24];   /**< Matrice delle temperature orarie previste. */
-  uint8_t wcode[7][24]; /**< Matrice dei codici meteo orari previsti. */
-  /** @} */
+    /** @name Matrici Forecast (7 giorni x 24 ore)
+     * @{ */
+    float tempC[7][24];   /**< Matrice delle temperature orarie previste. */
+    uint8_t wcode[7][24]; /**< Matrice dei codici meteo orari previsti. */
+    /** @} */
 
-  uint8_t weekday0 =
-      0; /**< Indice del giorno della settimana corrente (0=Lun, 6=Dom). */
-  uint8_t recvMask = 0; /**< Maschera bitwise: il bit i-esimo è 1 se il giorno i
-                           è stato ricevuto. */
+    uint8_t weekday0 = 0; /**< Indice del giorno della settimana corrente (0=Lun, 6=Dom). */
+    uint8_t recvMask = 0; /**< Maschera bitwise: il bit i-esimo è 1 se il giorno i
+                             è stato ricevuto. */
 
-  uint32_t lastUpdateMs =
-      0; /**< Timestamp (millis) dell'ultimo aggiornamento ricevuto. */
+    uint32_t lastUpdateMs = 0; /**< Timestamp (millis) dell'ultimo aggiornamento ricevuto. */
 };
 
 /** @brief Istanza esterna della struttura meteo, accessibile da altri moduli

@@ -14,14 +14,14 @@
 
 /** @name Configurazione Striscia LED
  * @{ */
-#define LED_PIN 13 /**< Pin GPIO dedicato alla trasmissione dati (Data Pin). \
-                    */
-#define NUM_LEDS 8 /**< Numero totale di LED presenti nella striscia. */
-#define LED_TYPE \
-  WS2812B /**< Tipo di controller integrato nei LED (es. WS2812B, SK6812). */
-#define COLOR_ORDER                                                 \
-  GRB /**< Ordine dei canali colore (Green-Red-Blue) per il chipset \
-         utilizzato. */
+#define LED_PIN                                                                    \
+    13                   /**< Pin GPIO dedicato alla trasmissione dati (Data Pin). \
+                          */
+#define NUM_LEDS 8       /**< Numero totale di LED presenti nella striscia. */
+#define LED_TYPE WS2812B /**< Tipo di controller integrato nei LED (es. WS2812B, SK6812). */
+#define COLOR_ORDER                                                   \
+    GRB /**< Ordine dei canali colore (Green-Red-Blue) per il chipset \
+           utilizzato. */
 /** @} */
 
 /**
