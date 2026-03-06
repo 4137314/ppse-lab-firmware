@@ -26,6 +26,12 @@ fw-lint:
 		--inline-suppr --error-exitcode=1 \
 		firm/main.cpp firm/src/ firm/include/
 
+## format: Applica clang-format a tutti i file sorgente
+fw-format:
+	@printf -- "$(WAIT_ICON) Formatting source code...\n"
+	$(Q)find firm/src firm/include -iname *.hpp -o -iname *.cpp -o -iname *.h -o -iname *.c | xargs clang-format -i
+	@printf -- "$(OK_ICON) Code formatted.\n"
+
 fw-clean:
 	@echo "--- [PIO] Cleaning .firm-build ---"
 	$(Q)$(PIO_RUN) --target clean
