@@ -1,67 +1,31 @@
-# --- Identità del Progetto ---
 PROJECT_NAME           = "ppse-firmware"
 PROJECT_NUMBER         = "v1.0.0"
-PROJECT_BRIEF          = "Integrated System on Raspberry Pi Pico (RP2040)"
-OUTPUT_DIRECTORY       = docs
-CREATE_SUBDIRS         = NO
-ALLOW_UNICODE_NAMES    = YES
-
-# --- Ingressi e Lingua ---
-INPUT                  = README.md src
+STRIP_FROM_PATH        = ../../firm/src
+INPUT                  = ../../README.md ../../firm/src
 RECURSIVE              = YES
 OPTIMIZE_OUTPUT_FOR_C  = YES
-MARKDOWN_SUPPORT       = YES
-USE_MDFILE_AS_MAINPAGE = README.md
 SOURCE_BROWSER         = YES
 
-# --- Estrazione e Analisi ---
-EXTRACT_ALL            = YES
-EXTRACT_PRIVATE        = YES
-EXTRACT_STATIC         = YES
-EXTRACT_LOCAL_CLASSES  = YES
-
-# --- INTERFACCIA UTENTE (Doxygen Awesome Setup) ---
-GENERATE_HTML          = YES
-HTML_OUTPUT            = html
-HTML_FILE_EXTENSION    = .html
-
-# Puntatori ai file del tema che hai scaricato
+# --- UI Awesome Theme ---
+GENERATE_TREEVIEW      = YES
 HTML_EXTRA_STYLESHEET  = doxygen-awesome/doxygen-awesome.css \
-                         doxygen-awesome/doxygen-awesome-sidebar-only.css \
-                         doxygen-awesome/doxygen-awesome-sidebar-only-darkmode-toggle.css
-
-# Carica lo script per il toggle della modalità scura
+                         doxygen-awesome/doxygen-awesome-sidebar-only.css
 HTML_EXTRA_FILES       = doxygen-awesome/doxygen-awesome-darkmode-toggle.js
 
-# Configurazione obbligatoria per il tema
-GENERATE_TREEVIEW      = YES    # Attiva la barra laterale
-TREEVIEW_WIDTH         = 280
-DISABLE_INDEX          = NO
-FULL_SIDEBAR           = YES
-HTML_DYNAMIC_MENUS     = YES
+# --- LaTeX (Configurazione di Sicurezza) ---
+GENERATE_LATEX         = YES
+LATEX_OUTPUT           = latex
+LATEX_BATCHMODE        = YES
+# Indispensabile per \frac e simboli matematici
+EXTRA_PACKAGES         = amsmath amssymb fontawesome5
 
-# Personalizzazione colori (si sposa bene con il tema dark)
-HTML_COLORSTYLE_HUE    = 220
-HTML_COLORSTYLE_SAT    = 40
-HTML_COLORSTYLE_GAMMA  = 80
-HTML_TIMESTAMP         = NO
-
-# --- Grafica e Diagrammi (Graphviz) ---
+# --- Graphviz (Solo per HTML, leggero per PDF) ---
 HAVE_DOT               = YES
 DOT_IMAGE_FORMAT       = svg
 INTERACTIVE_SVG        = YES
-DOT_TRANSPARENT        = YES
-
-# Grafici di chiamata (Call Graphs)
-CALL_GRAPH             = YES
-CALLER_GRAPH           = YES
+DOT_CLEAN_UP           = YES
+# Disattiviamo i Call Graph nel PDF per evitare il blocco di pdflatex
+GENERATE_LEGEND        = YES
 CLASS_GRAPH            = YES
-DIRECTORY_GRAPH        = YES
-INCLUDE_GRAPH          = YES
-INCLUDED_BY_GRAPH      = YES
-
-# --- Altre impostazioni ---
-GENERATE_LATEX         = YES
-LATEX_OUTPUT           = latex
-QUIET                  = NO
-WARNINGS               = YES
+CALL_GRAPH             = NO
+CALLER_GRAPH           = NO

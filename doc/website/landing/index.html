@@ -3,43 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PPSE Lab - Project Dashboard</title>
-    <style>
-        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 850px; margin: 40px auto; padding: 0 20px; color: #24292e; background-color: #f6f8fa; }
-        .header { text-align: center; margin-bottom: 40px; border-bottom: 1px solid #d1d5da; padding-bottom: 20px; }
-        .card { background: white; border: 1px solid #d1d5da; border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(27,31,35,0.12); transition: transform 0.2s; }
-        .card:hover { transform: translateY(-2px); }
-        h1 { color: #0366d6; margin-bottom: 5px; }
-        h2 { margin-top: 0; color: #1b1f23; }
-        .tag { font-size: 0.8em; background: #e1f5fe; color: #01579b; padding: 4px 8px; border-radius: 4px; font-weight: bold; }
-        .btn { display: inline-block; background-color: #2ea44f; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 600; margin-top: 15px; }
-        .btn-api { background-color: #0366d6; }
-        .footer { text-align: center; font-size: 0.85em; color: #586069; margin-top: 50px; }
-    </style>
+    <title>PPSE Lab - Project Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="header">
-        <h1>📊 PPSE Lab Firmware Dashboard</h1>
-        <p>Repository: <code>4137314/ppse-lab-firmware</code></p>
-    </div>
-    
-    <div class="card">
-        <span class="tag">DOCUMENTAZIONE UFFICIALE</span>
-        <h2>🎓 Report Accademico (LaTeX)</h2>
-        <p>Relazione tecnica completa del progetto. Contiene le scelte architetturali, la descrizione dell'hardware e l'analisi dei risultati sperimentali.</p>
-        <a href="Academic_Report_PPSE.pdf" class="btn">Scarica il Report (PDF)</a>
-    </div>
 
-    <div class="card">
-        <span class="tag">CODICE SORGENTE</span>
-        <h2>💻 Documentazione API (Doxygen)</h2>
-        <p>Documentazione generata automaticamente dal codice C++. Include gerarchia delle classi, grafici delle chiamate e specifiche dei driver firmware.</p>
-        <a href="api/index.html" class="btn btn-api">Esplora API Online</a>
-    </div>
+    <header class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="badge">A.Y. 2025/2026</span>
+                <h1>🚀 PPSE Firmware Project</h1>
+                <p>Sistemi Integrati su Raspberry Pi Pico • <strong>Università di Trento</strong></p>
+                <div class="build-info">
+                    <code>Status: Stable</code> • <code>Env: RP2040 (SDK 2.0)</code>
+                </div>
+            </div>
+        </div>
+    </header>
 
-    <div class="footer">
-        Progetto sviluppato per il corso di Progettazione di Sistemi Embedded<br>
-        <strong>Università degli Studi di Trento</strong> • 2026
-    </div>
+    <main class="container">
+        <div class="grid">
+            <section class="card highlight">
+                <div class="card-content">
+                    <span class="tag">Source Code</span>
+                    <h2>API Reference</h2>
+                    <p>Documentazione tecnica interattiva generata da Doxygen. Include grafici di chiamata, dipendenze e gerarchie delle classi.</p>
+                    <div class="card-footer">
+                        <a href="api/index.html" class="btn btn-primary">Esplora API Online</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card firmware">
+                <div class="card-content">
+                    <span class="tag">Binary</span>
+                    <h2>Firmware Release</h2>
+                    <p>Scarica l'ultima build stabile pronta per il flash. Include file <code>.bin</code> e <code>.uf2</code> per Raspberry Pi Pico.</p>
+                    <div class="download-group">
+                        <a href="downloads/ppse-firmware_latest.uf2" class="btn btn-download">Flash (.uf2)</a>
+                        <a href="downloads/ppse-firmware_latest.bin" class="btn btn-download">Binary (.bin)</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <div class="card-content">
+                    <span class="tag">Academic</span>
+                    <h2>Report Finale</h2>
+                    <p>Relazione accademica completa: analisi dei requisiti, scelte architetturali e test sperimentali in LaTeX.</p>
+                    <a href="Academic_Report.pdf" class="btn btn-outline">Scarica PDF</a>
+                </div>
+            </section>
+
+            <section class="card">
+                <div class="card-content">
+                    <span class="tag">Technical</span>
+                    <h2>Technical Reference</h2>
+                    <p>Manuale utente, datasheet dei sensori utilizzati e mappatura dei registri hardware del sistema.</p>
+                    <a href="Technical_Reference.pdf" class="btn btn-outline">Apri Manuale</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <p><strong>Progettazione e Prototipazione di Sistemi Elettronici</strong></p>
+                    <p><small>Build unificata generata via GitHub Actions</small></p>
+                </div>
+                <div class="footer-links">
+                    <a href="https://github.com/4137314/ppse-lab-firmware">GitHub Repository</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>

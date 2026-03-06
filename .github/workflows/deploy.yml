@@ -1,0 +1,53 @@
+name: "CI/CD: Full Deployment"
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # Permette l'avvio manuale
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  release-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Necessario per git describe nel Makefile
+
+      - name: Setup Environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz texlive-full zip
+          pip install platformio
+
+      - name: Execute Unified Release
+        # Questo comando pulisce, compila firmware, genera doc e assembla .release/
+        run: make release
+
+      - name: Upload to GitHub Pages
+        # Carica l'intera cartella .release/ come sito statico
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .release/
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Create GitHub Release Artifacts
+        # Crea una release ufficiale con i binari allegati
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            .release/downloads/*.zip
+            .release/downloads/*.bin
+            .release/downloads/*.uf2
+            .release/*.pdf
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

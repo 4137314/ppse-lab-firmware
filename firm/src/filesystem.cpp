@@ -1,5 +1,5 @@
 /**
- * @file Filesystem.cpp
+ * @file filesystem.cpp
  * @brief Gestione del File System FatFS e interfaccia USB Mass Storage.
  * * Questo modulo gestisce l'inizializzazione della memoria flash interna
  * tramite FatFS e la sincronizzazione con l'host USB, garantendo l'accesso

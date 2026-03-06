@@ -1,63 +1,78 @@
-# --- PLATFORMIO & IDE ---
-.pio
-.vscode/.browse.c_cpp.db*
-.vscode/c_cpp_properties.json
-.vscode/launch.json
-.vscode/ipch
+# ==============================================================================
+# PPSE PROJECT - UNIFIED GITIGNORE
+# ==============================================================================
 
-# --- DOXYGEN ---
-docs/html/
-docs/latex/
-doxygen_sqlite3.db
-
-# --- LATEX (Report Accademico) ---
-# Ignora la cartella di build e il PDF finale
-report/.build_latex/
-report/*.pdf
-
-# File ausiliari di LaTeX
-doc/academic-report/.build_report/
-doc/academic-report/main.pdf
-
-report/*.aux
-report/*.log
-report/*.toc
-report/*.out
-report/*.bbl
-report/*.blg
-report/*.bcf
-report/*.run.xml
-report/*.synctex.gz
-report/*.fdb_latexmk
-report/*.fls
-
-# --- BUILD ARTIFACTS ---
-# Cartella usata dalla pipeline per il deploy
-public/
-dist/
-
-# --- OS ---
-.DS_Store
-
-# --- Git Workflow & Binari locali ---
-# Blocca la cartella dei binari ovunque sia
+# --- STRUTTURA DI BUILD UNIFICATA (Orchestrata via Makefile) ---
+# Queste cartelle contengono file temporanei e artefatti pesanti
+.firm-build/
+.doc-build/
+.release/
+.pio/
 bin/
+dist/
+public/
+
+# --- FIRMWARE & PLATFORMIO ---
+# Blocca i file di build specifici e i binari grezzi ovunque si trovino
 *.bin
 *.elf
 *.hex
-
-# Python & Database caches
-*.sqlite
+*.uf2
+*.map
 .cache/
+**/libdeps/
+**/.pio/
+
+# --- DOCUMENTAZIONE (Doxygen & Web) ---
+# Ignora i database di Doxygen e le build locali del sito
+doxygen_sqlite3.db
+**/html/
+**/latex/
+.web-build/
+.public/
+
+# --- LATEX (Report Accademico & Technical Ref) ---
+# Pulizia totale dei file ausiliari di compilazione
+*.aux
+*.log
+*.toc
+*.out
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.pdf
+*.nav
+*.snm
+*.vrb
+
+# Eccezione: Se hai dei PDF statici che DEVONO restare nel repo (es. datasheet)
+# !doc/manuals/static_datasheet.pdf
+
+# --- IDE & EDITOR ---
+# VS Code (manteniamo solo le impostazioni condivise, ignoriamo i DB locali)
+.vscode/.browse.c_cpp.db*
+.vscode/ipch/
+.vscode/launch.json
+.vscode/c_cpp_properties.json
+*.sublime-project
+*.sublime-workspace
+.idea/
+*.swp
+*.swo
+
+# --- PYTHON & TOOLS ---
 __pycache__/
 *.py[cod]
+*$py.class
+.venv/
+venv/
+env/
 
-# PlatformIO build directory
-firmware/.build_pio/
-firmware/.pio/
-firmware/.vscode/
-
-# Binari e oggetti compilati
-*.elf
-*.bin
-*.uf2
+# --- SISTEMA OPERATIVO ---
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,5 +1,5 @@
 /**
- * @file Filesystem.h
+ * @file filesystem.h
  * @brief Interfaccia per la gestione del filesystem FatFS e l'integrazione USB
  * Mass Storage.
  * * Questo header definisce le funzioni e i flag globali necessari per gestire

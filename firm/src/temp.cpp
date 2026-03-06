@@ -7,9 +7,7 @@
  */
 
 #include "temp.h"
-
 #include <Arduino.h>
-
 #include "hardware/adc.h"
 #include "pico/stdlib.h"
 
@@ -30,9 +28,9 @@ void TempInit() {
  * @brief Legge il sensore e calcola la temperatura in Celsius.
  * * @details La conversione segue le specifiche del sensore TC1047:
  * 1. Acquisisce il valore grezzo dall'ADC (12 bit).
- * 2. Converte il valore in tensione ($V_{out}$) considerando il riferimento
+ * 2. Converte il valore in tensione (@f$ V_{out} @f$) considerando il riferimento
  * a 3.3V.
- * 3. Applica la formula: $T = \frac{V_{out} - 0.5V}{10mV/°C}$.
+ * 3. Applica la formula: @f$ T = \frac{V_{out} - 0.5V}{0.01V/^\circ C} @f$.
  * * @return float La temperatura misurata in gradi Celsius (°C).
  */
 float readTemp() {
