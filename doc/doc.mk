@@ -1,67 +1,46 @@
-# --- CONFIGURAZIONE PERCORSI ---
+# --- CONFIGURAZIONE PERCORSI GLOBALI ---
 DOC_DIR      := doc
 FINAL_OUT    := $(DOC_DIR)/.doc-build
 
-DATE_ISO     := $(shell date +%Y-%m-%d)
+# Nomi dei file per la distribuzione finale
 REP_USA_NAME := $(DATE_ISO)_ppse_academic-report.pdf
 TEC_USA_NAME := $(DATE_ISO)_ppse_technical-reference.pdf
 
-SITE_DIR     := $(DOC_DIR)/website
-# Uniformiamo i nomi delle cartelle di build
-SITE_B_DIR   := $(SITE_DIR)/.web-build
-REP_DIR      := $(DOC_DIR)/report
-REP_B_DIR    := .rep-build
+# Inclusione dei sottomoduli (i percorsi sono relativi alla ROOT del progetto)
+include $(DOC_DIR)/report/report.mk
+include $(DOC_DIR)/api/api.mk
+include $(DOC_DIR)/web/web.mk
 
-.PHONY: doc-all doc-report doc-website doc-stage doc-clean
+.PHONY: doc-all doc-stage doc-clean
 
-doc-all: doc-report doc-website doc-stage
+# Target principale richiamato dal Makefile della Root
+doc-all: report-build api-build tech-ref-build web-build doc-stage
+	@echo "--- [DONE] Documentation bundle ready in $(FINAL_OUT) ---"
 
-# --- 1. REPORT ACCADEMICO (Double Pass per Indice) ---
-doc-report:
-	@echo "--- [LATEX] Preparing build environment in $(REP_DIR)/$(REP_B_DIR) ---"
-	$(Q)mkdir -p $(REP_DIR)/$(REP_B_DIR)
-	# Creazione sottocartelle per gestire \include{}
-	$(Q)cd $(REP_DIR) && find . -maxdepth 1 -type d ! -name "$(REP_B_DIR)" ! -name "." -exec mkdir -p $(REP_B_DIR)/{} \;
-	
-	@echo "--- [LATEX] Compiling Academic Report (Pass 1/2) ---"
-	$(Q)cd $(REP_DIR) && pdflatex -interaction=nonstopmode -output-directory=$(REP_B_DIR) main.tex > /dev/null
-	
-	@echo "--- [LATEX] Compiling Academic Report (Pass 2/2 - Generating TOC) ---"
-	$(Q)cd $(REP_DIR) && pdflatex -interaction=nonstopmode -output-directory=$(REP_B_DIR) main.tex > /dev/null
-	
-	$(Q)cp $(REP_DIR)/$(REP_B_DIR)/main.pdf $(REP_DIR)/main.pdf
-
-# --- 2. DOXYGEN API + MANUALE TECNICO PDF ---
-doc-website:
-	@echo "--- [DOXYGEN] API Documentation Extraction ---"
-	$(Q)rm -rf $(SITE_B_DIR) && mkdir -p $(SITE_B_DIR)
-	# Nota: OUTPUT_DIRECTORY ora punta correttamente a .web-build (SITE_B_DIR)
-	$(Q)cd $(SITE_DIR) && (cat Doxyfile; \
-		echo "OUTPUT_DIRECTORY = .web-build"; \
-		echo "INPUT = ../../firm/src ../../README.md") | doxygen - > /dev/null
-	
-	@echo "--- [LATEX] Compiling Technical Reference (Double Pass) ---"
-	$(Q)cd $(SITE_B_DIR)/latex && pdflatex -interaction=nonstopmode refman.tex > /dev/null
-	$(Q)cd $(SITE_B_DIR)/latex && makeindex refman.idx > /dev/null 2>&1
-	$(Q)cd $(SITE_B_DIR)/latex && pdflatex -interaction=nonstopmode refman.tex > /dev/null
-	$(Q)cp $(SITE_B_DIR)/latex/refman.pdf $(SITE_DIR)/Technical_Reference.pdf
-
-# --- 3. ASSEMBLAGGIO PORTALE STAGING ---
+# --- ASSEMBLAGGIO PORTALE STAGING ---
+# Questa fase raccoglie gli artefatti dalle varie cartelle .build e li unisce
 doc-stage:
 	@echo "--- [STAGE] Assembling Portal in $(FINAL_OUT) ---"
 	$(Q)rm -rf $(FINAL_OUT) && mkdir -p $(FINAL_OUT)/api
-	$(Q)cp $(SITE_DIR)/landing/* $(FINAL_OUT)/
-	$(Q)cp -r $(SITE_B_DIR)/html/* $(FINAL_OUT)/api/ 2>/dev/null || true
-	$(Q)cp $(REP_DIR)/main.pdf $(FINAL_OUT)/$(REP_USA_NAME) 2>/dev/null || true
-	$(Q)cp $(SITE_DIR)/Technical_Reference.pdf $(FINAL_OUT)/$(TEC_USA_NAME) 2>/dev/null || true
-	$(Q)cd $(FINAL_OUT) && ln -sf $(REP_USA_NAME) Academic_Report.pdf
-	$(Q)cd $(FINAL_OUT) && ln -sf $(TEC_USA_NAME) Technical_Reference.pdf
+	
+	# 1. Landing Page (Sorgenti web processati)
+	$(Q)if [ -d "$(WEB_B_DIR)" ]; then cp -r $(WEB_B_DIR)/* $(FINAL_OUT)/; fi
+	
+	# 2. API HTML (Doxygen)
+	$(Q)if [ -d "$(API_B_DIR)/html" ]; then cp -r $(API_B_DIR)/html/* $(FINAL_OUT)/api/; fi
+	
+	# 3. PDF: Report Accademico
+	$(Q)if [ -f "$(REP_DIR)/main.pdf" ]; then \
+		cp $(REP_DIR)/main.pdf $(FINAL_OUT)/$(REP_USA_NAME); \
+		cd $(FINAL_OUT) && ln -sf $(REP_USA_NAME) Academic_Report.pdf; \
+	fi
+	
+	# 4. PDF: Manuale Tecnico
+	$(Q)if [ -f "$(API_DIR)/Technical_Reference.pdf" ]; then \
+		cp $(API_DIR)/Technical_Reference.pdf $(FINAL_OUT)/$(TEC_USA_NAME); \
+		cd $(FINAL_OUT) && ln -sf $(TEC_USA_NAME) Technical_Reference.pdf; \
+	fi
 
-# --- 4. PULIZIA ---
-doc-clean:
-	@echo "--- [CLEAN] Removing doc build artifacts ---"
+doc-clean: report-clean api-clean web-clean
+	@echo "--- [CLEAN] Removing final distribution bundle ---"
 	$(Q)rm -rf $(FINAL_OUT)
-	$(Q)rm -rf $(SITE_B_DIR)
-	$(Q)rm -rf $(REP_DIR)/$(REP_B_DIR)
-	$(Q)rm -f $(REP_DIR)/main.pdf
-	$(Q)rm -f $(SITE_DIR)/Technical_Reference.pdf

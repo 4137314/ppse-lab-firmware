@@ -1,0 +1,59 @@
+# --- INFORMAZIONI PROGETTO ---
+PROJECT_NAME           = "PPSE Firmware"
+# PROJECT_NUMBER       = (Iniettato dinamicamente dal Makefile)
+OUTPUT_DIRECTORY       = ../.web-build
+STRIP_FROM_PATH        = ../../
+INPUT                  = ../../README.md \
+                         ../../firm/src \
+                         ../../firm/include
+FILE_PATTERNS          = *.cpp *.hpp *.h *.c *.md
+RECURSIVE              = YES
+OPTIMIZE_OUTPUT_FOR_C  = YES
+SOURCE_BROWSER         = YES
+FULL_PATH_NAMES        = YES
+
+# --- PREPROCESSORE (Sostituisce docs-fix) ---
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = YES
+EXPAND_ONLY_PREDEF     = NO
+SEARCH_INCLUDES        = YES
+INCLUDE_PATH           = ../../firm/include \
+                         ../../firm/src
+
+# Definizioni Globali per la Documentazione
+PREDEFINED             = DEBUG=0 \
+                         GPSBAUD=9600 \
+                         GPS_SYNC_REQ=1 \
+                         GPS_SYNC_ACK=1 \
+                         __PICO__=1
+
+# --- UI AWESOME THEME ---
+GENERATE_TREEVIEW      = YES
+HTML_EXTRA_STYLESHEET  = doxygen-awesome/doxygen-awesome.css \
+                         doxygen-awesome/doxygen-awesome-sidebar-only.css
+HTML_EXTRA_FILES       = doxygen-awesome/doxygen-awesome-darkmode-toggle.js
+
+# --- LATEX (Configurazione per PDF) ---
+GENERATE_LATEX         = YES
+LATEX_OUTPUT           = latex
+LATEX_BATCHMODE        = YES
+EXTRA_PACKAGES         = amsmath amssymb fontawesome5
+USE_PDFLATEX           = YES
+PDF_HYPERLINKS         = YES
+
+# --- GRAPHVIZ (Diagrammi) ---
+HAVE_DOT               = YES
+DOT_IMAGE_FORMAT       = svg
+INTERACTIVE_SVG        = YES
+DOT_CLEAN_UP           = YES
+CLASS_GRAPH            = YES
+COLLABORATION_GRAPH    = YES
+CALL_GRAPH             = NO
+CALLER_GRAPH           = NO
+GRAPHICAL_HIERARCHY    = YES
+DIRECTORY_GRAPH        = YES
+
+# --- LOGS ---
+QUIET                  = YES
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = NO
