@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     tags: [ 'v*' ]
 
+# Permessi necessari per scrivere release e pubblicare su GitHub Pages
 permissions:
   contents: write
   pages: write
@@ -13,8 +14,15 @@ permissions:
 jobs:
   release-and-deploy:
     runs-on: ubuntu-latest
+    
+    # Specifica l'ambiente richiesto da GitHub Pages per autorizzare il deploy
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -28,9 +36,9 @@ jobs:
           pip install clang-format==18.1.1
           pip install platformio
 
-      - name: Run Orchestrator Release
+      - name: Run Orchestrator Build
         run: |
-          # Eseguiamo i target uno per uno saltando 'check'
+          # Eseguiamo i target uno alla volta saltando 'make check' per evitare errori di linting
           make info
           make clean
           make build
@@ -39,10 +47,10 @@ jobs:
           echo "[CI] Assembling Distribution Bundle..."
           mkdir -p .release/downloads
           
-          # Copia i documenti generati
+          # Copia i documenti generati dal portale web (solitamente in .doc-build)
           cp -r .doc-build/* .release/ 2>/dev/null || true
           
-          # Copia i binari
+          # Copia e rinomina i binari per la release
           if [ -f firm/.firm-build/build/pico/firmware.uf2 ]; then
             cp firm/.firm-build/build/pico/firmware.uf2 .release/downloads/ppse-firmware_latest.uf2
             cp firm/.firm-build/build/pico/firmware.bin .release/downloads/ppse-firmware_latest.bin
@@ -50,13 +58,14 @@ jobs:
             cd .release/downloads && zip -q ppse-firmware_bundle.zip *
             echo "✅ Release staged successfully"
           else
-            echo "❌ Build artifacts not found!" && exit 1
+            echo "❌ Build artifacts not found in firm/.firm-build/build/pico/" && exit 1
           fi
 
-      - name: Upload to Pages
+      - name: Upload to Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: .release/
 
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
