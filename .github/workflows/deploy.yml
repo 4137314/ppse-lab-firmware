@@ -3,7 +3,7 @@ name: Deployment
 on:
   push:
     branches: [ main ]
-  tag: [ 'v*' ]
+    tags: [ 'v*' ]
 
 permissions:
   contents: write
@@ -30,23 +30,19 @@ jobs:
 
       - name: Run Orchestrator Release
         run: |
-          # Invece di 'make release', lanciamo i target uno per uno 
-          # saltando 'check' che rompe la pipeline
+          # Eseguiamo i target uno per uno saltando 'check'
           make info
           make clean
           make build
           make docs
           
-          # Ora eseguiamo solo la parte finale del target release manualmente
-          # per popolare la cartella .release
-          @printf -- "[CI] Assembling Distribution Bundle...\n"
+          echo "[CI] Assembling Distribution Bundle..."
           mkdir -p .release/downloads
           
-          # Se il tuo Makefile usa FINAL_OUT, assicuriamoci che i docs siano pronti
-          # Copiamo i PDF e i siti generati (se FINAL_OUT non è definita qui, usiamo .doc-build)
+          # Copia i documenti generati
           cp -r .doc-build/* .release/ 2>/dev/null || true
           
-          # Copiamo i binari dal percorso che abbiamo visto nei log
+          # Copia i binari
           if [ -f firm/.firm-build/build/pico/firmware.uf2 ]; then
             cp firm/.firm-build/build/pico/firmware.uf2 .release/downloads/ppse-firmware_latest.uf2
             cp firm/.firm-build/build/pico/firmware.bin .release/downloads/ppse-firmware_latest.bin
