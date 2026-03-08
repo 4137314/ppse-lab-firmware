@@ -2,7 +2,7 @@ name: Firmware CI
 
 on:
   push:
-    paths: [ 'firm/**', 'build/**', 'Makefile' ]
+    paths: [ "**" ]
   pull_request:
     branches: [ main ]
 
