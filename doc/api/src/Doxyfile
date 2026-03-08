@@ -1,24 +1,25 @@
 # --- INFORMAZIONI PROGETTO ---
 PROJECT_NAME           = "PPSE Firmware"
-# PROJECT_NUMBER       = (Iniettato dinamicamente dal Makefile)
-OUTPUT_DIRECTORY       = ../.web-build
-STRIP_FROM_PATH        = ../../
-INPUT                  = ../../README.md \
-                         ../../firm/src \
-                         ../../firm/include
+# PROJECT_NUMBER viene passato dal Makefile come variabile d'ambiente
+PROJECT_NUMBER         = $(PROJECT_NUMBER)
+OUTPUT_DIRECTORY       = doc/api/.api-build
+STRIP_FROM_PATH        = $(CURDIR)
+INPUT                  = README.md \
+                         firm/src \
+                         firm/include
 FILE_PATTERNS          = *.cpp *.hpp *.h *.c *.md
 RECURSIVE              = YES
 OPTIMIZE_OUTPUT_FOR_C  = YES
 SOURCE_BROWSER         = YES
 FULL_PATH_NAMES        = YES
 
-# --- PREPROCESSORE (Sostituisce docs-fix) ---
+# --- PREPROCESSORE ---
 ENABLE_PREPROCESSING   = YES
 MACRO_EXPANSION        = YES
 EXPAND_ONLY_PREDEF     = NO
 SEARCH_INCLUDES        = YES
-INCLUDE_PATH           = ../../firm/include \
-                         ../../firm/src
+INCLUDE_PATH           = firm/include \
+                         firm/src
 
 # Definizioni Globali per la Documentazione
 PREDEFINED             = DEBUG=0 \
@@ -28,10 +29,11 @@ PREDEFINED             = DEBUG=0 \
                          __PICO__=1
 
 # --- UI AWESOME THEME ---
+# Nota: i percorsi devono puntare alla posizione reale del tema rispetto alla root
 GENERATE_TREEVIEW      = YES
-HTML_EXTRA_STYLESHEET  = doxygen-awesome/doxygen-awesome.css \
-                         doxygen-awesome/doxygen-awesome-sidebar-only.css
-HTML_EXTRA_FILES       = doxygen-awesome/doxygen-awesome-darkmode-toggle.js
+HTML_EXTRA_STYLESHEET  = doc/api/src/doxygen-awesome/doxygen-awesome.css \
+                         doc/api/src/doxygen-awesome/doxygen-awesome-sidebar-only.css
+HTML_EXTRA_FILES       = doc/api/src/doxygen-awesome/doxygen-awesome-darkmode-toggle.js
 
 # --- LATEX (Configurazione per PDF) ---
 GENERATE_LATEX         = YES
@@ -45,7 +47,7 @@ PDF_HYPERLINKS         = YES
 HAVE_DOT               = YES
 DOT_IMAGE_FORMAT       = svg
 INTERACTIVE_SVG        = YES
-DOT_CLEAN_UP           = YES
+# DOT_CLEAN_UP non è un tag ufficiale in alcune versioni, ma lo lasciamo per compatibilità
 CLASS_GRAPH            = YES
 COLLABORATION_GRAPH    = YES
 CALL_GRAPH             = NO

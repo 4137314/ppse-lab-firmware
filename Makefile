@@ -46,19 +46,38 @@ monitor:
 docs: info
 	$(Q)$(MAKE) doc-all --no-print-directory
 
-## release: Pipeline completa: clean -> check -> build -> docs -> bundle
+## release: Pipeline completa con ZIP Bundle
 release: clean check build docs
 	@printf -- "$(WAIT_ICON) Assembling Distribution Bundle...\n"
 	$(Q)mkdir -p $(RELEASE_DIR)/downloads
-	$(Q)cp -r doc/.doc-build/* $(RELEASE_DIR)/ 2>/dev/null || true
-	$(Q)find firm -name "firmware.*" -exec cp {} $(RELEASE_DIR)/downloads/ \; 2>/dev/null || true
+	# 1. Copia il portale web e i PDF
+	$(Q)cp -r $(FINAL_OUT)/* $(RELEASE_DIR)/ 2>/dev/null || true
+	# 2. Preleva i binari (Nota: usiamo .firm-build come da tuoi log)
+	$(Q)if [ -f firm/.firm-build/build/pico/firmware.uf2 ]; then \
+		cp firm/.firm-build/build/pico/firmware.uf2 $(RELEASE_DIR)/downloads/$(PROJ_NAME)_$(VERSION).uf2; \
+		cp firm/.firm-build/build/pico/firmware.bin $(RELEASE_DIR)/downloads/$(PROJ_NAME)_$(VERSION).bin; \
+		cp firm/.firm-build/build/pico/firmware.elf $(RELEASE_DIR)/downloads/$(PROJ_NAME)_$(VERSION).elf; \
+		cd $(RELEASE_DIR)/downloads && \
+			ln -sf $(PROJ_NAME)_$(VERSION).uf2 $(PROJ_NAME)_latest.uf2 && \
+			ln -sf $(PROJ_NAME)_$(VERSION).bin $(PROJ_NAME)_latest.bin && \
+			ln -sf $(PROJ_NAME)_$(VERSION).elf $(PROJ_NAME)_latest.elf && \
+			zip -q $(PROJ_NAME)_$(VERSION)_bundle.zip $(PROJ_NAME)_$(VERSION).uf2 $(PROJ_NAME)_$(VERSION).bin $(PROJ_NAME)_$(VERSION).elf && \
+			ln -sf $(PROJ_NAME)_$(VERSION)_bundle.zip $(PROJ_NAME)_latest_bundle.zip; \
+		printf -- "$(OK_ICON) Binaries staged and ZIP bundle created.\n"; \
+	else \
+		printf -- "$(ERROR_ICON) Build artifacts not found in .firm-build!\n"; exit 1; \
+	fi
 	@printf -- "\n$(GREEN)$(BOLD)✅ RELEASE COMPLETE!$(RESET) -> $(RELEASE_DIR)/\n"
 
 ## clean: Rimuove tutte le cartelle di build
 clean:
 	@printf -- "$(WAIT_ICON) Deep cleaning workspace...\n"
+	# Rimuove le cartelle di release e build documentazione
 	$(Q)rm -rf $(RELEASE_DIR) .doc-build
+	# Chiama i clean specifici dei moduli
 	$(Q)$(MAKE) fw-clean doc-clean --no-print-directory
+	# --- AGGIUNTA: Forza la rimozione della cartella nascosta del firmware ---
+	$(Q)rm -rf firm/.firm-build
 	@printf -- "$(OK_ICON) Workspace is clean.\n"
 
 ## help: Mostra questo menu

@@ -1,18 +1,8 @@
-/**
- * @file display_ui.cpp
- * @brief Implementazione dell'interfaccia utente (UI) su display OLED SSD1306.
- * * Gestisce il rendering delle schermate Home, Menu, Meteo e GPS. Include la
- * logica per il cambio di stile del menu (Simple vs Highlight) e il timeout del
- * display.
- */
-
 #include "display_ui.h"
 
 #include "gps.h"
 #include "weather.h"
 
-/** @name Stato Interno UI */
-/**@{*/
 extern volatile bool gpsDirty; /**< Flag che indica la presenza di nuovi dati
                                   GPS da processare. */
 extern struct parsed_nmea
@@ -23,22 +13,13 @@ uint8_t gpsDayIndex          = 0; /**< Indice del giorno selezionato per le prev
 uint8_t gpsHourIndex         = 0; /**< Indice dell'ora selezionata per le previsioni meteo. */
 static uint8_t settingsIndex = 0; /**< Indice della voce selezionata nel menu Settings. */
 uint8_t ScreenStyle          = 1; /**< Stile del menu: 1 = Semplice, 0 = Evidenziato (Highlight). */
-/**@}*/
 
-/** * @brief Voci del menu principale.
- */
 const char* menuItems[] = {"Settings", "Meteo", "GPS", "System", "Info"};
 
-/** @brief Numero totale di voci nel menu. */
 const int menuLength = sizeof(menuItems) / sizeof(menuItems[0]);
 
-/** @brief Istanza del driver del display SSD1306. */
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
-/**
- * @brief Inizializza l'hardware del display e il bus I2C.
- * @return true Se l'inizializzazione ha successo, false altrimenti.
- */
 bool displayInit() {
     Wire.setSDA(DISPLAY_SDA_I2C_PIN);
     Wire.setSCL(DISPLAY_SCL_I2C_PIN);
@@ -56,29 +37,16 @@ bool displayInit() {
     return true;
 }
 
-/**
- * @brief Helper per stampare numeri a due cifre con zero iniziale (es. "09").
- * @param v Valore da stampare.
- */
 static void print2d(uint8_t v) {
     if (v < 10)
         display.print("0");
     display.print(v);
 }
 
-/**
- * @brief Verifica se sono disponibili dati meteo per il giorno specificato.
- * @param d Indice del giorno.
- * @return true Se i dati sono presenti nel bitmask.
- */
 static inline bool dayHasForecast(uint8_t d) {
     return (wx.recvMask & (1u << (d))) != 0;
 }
 
-/**
- * @brief Disegna la schermata principale (Ambient Display).
- * Mostra i dati meteo correnti, l'ora e la data recuperate dal GPS.
- */
 void drawHomeScreen() {
     display.clearDisplay();
     display.setTextColor(SSD1306_WHITE);
@@ -126,16 +94,10 @@ void drawHomeScreen() {
     display.display();
 }
 
-/**
- * @brief Renderizza il menu principale in base allo stile selezionato (@ref
- * ScreenStyle).
- * @param index Indice dell'elemento da evidenziare.
- */
 void drawMenu(int index) {
     if (ScreenStyle == 1) {
         display.clearDisplay();
         display.setTextColor(SSD1306_WHITE);
-        display.setTextSize(1);
         display.setCursor(0, 0);
         display.println("Menu:");
         for (int i = 0; i < menuLength; i++) {
@@ -153,11 +115,6 @@ void drawMenu(int index) {
     }
 }
 
-/**
- * @brief Renderizza il menu in modalità "Highlight" (barra piena e testo
- * invertito).
- * @param index Indice dell'elemento da evidenziare.
- */
 void drawMenu_evi(int index) {
     display.clearDisplay();
     display.setTextSize(1);
@@ -191,10 +148,6 @@ void drawMenu_evi(int index) {
     display.display();
 }
 
-/**
- * @brief Disegna la schermata dei dati GPS in tempo reale.
- * Mostra coordinate, qualità del fix e numero di satelliti.
- */
 void drawSettingsScreen() {
     display.clearDisplay();
     display.setTextSize(1);
@@ -214,13 +167,6 @@ void drawSettingsScreen() {
     display.display();
 }
 
-/**
- * @brief Renderizza la schermata dettagliata del Meteo.
- * * Visualizza la città, il giorno della settimana calcolato dinamicamente e le
- * previsioni (forecast) per l'ora e il giorno selezionati tramite i pulsanti.
- * Mostra inoltre le condizioni attuali (temperatura e umidità) recuperate dal
- * server.
- */
 void drawMeteoScreen() {
     display.clearDisplay();
     display.setTextSize(1);
@@ -296,12 +242,6 @@ void drawMeteoScreen() {
     Serial.println(gpsHourIndex);
 }
 
-/**
- * @brief Renderizza la schermata dei dati GPS e temporali.
- * * Estrae e formatta le coordinate geografiche (Latitudine/Longitudine),
- * la qualità del fix e le informazioni satellitari dalle sentenze NMEA GGA e
- * RMC. Include un'indicazione per il salvataggio dei log su SD/Flash.
- */
 void drawGPSScreen() {
     // normIndices();
 
@@ -365,10 +305,6 @@ void drawGPSScreen() {
     display.display();
 }
 
-/**
- * @brief Schermata generica per le voci di menu non ancora implementate.
- * @param title Il titolo della sezione selezionata.
- */
 void drawSelected(const char* title) {
     display.clearDisplay();
     display.setTextColor(SSD1306_WHITE);
@@ -380,21 +316,13 @@ void drawSelected(const char* title) {
     display.display();
 }
 
-/** @brief Renderizza la schermata System. */
 void drawSystemScreen() {
     drawSelected("System");
 }
-/** @brief Renderizza la schermata Info. */
 void drawInfoScreen() {
     drawSelected("Info");
 }
 
-/**
- * @brief Gestisce il timeout del display per l'inattività utente.
- * * Se il menu è aperto o l'utente è in un sottomenu, verifica il tempo
- * trascorso dall'ultima interazione. Superato il limite @ref
- * DISPLAY_TIMEOUT_MS, riporta il sistema alla @ref drawHomeScreen.
- */
 void updateDisplayTimeout() {
     if (menuOpen || inSubmenu) {
         if (millis() - lastActivity > DISPLAY_TIMEOUT_MS) {
@@ -406,10 +334,6 @@ void updateDisplayTimeout() {
     }
 }
 
-/**
- * @brief Regola il contrasto (luminosità) del display OLED.
- * @param level Livello di contrasto da 0 a 255.
- */
 void setBrightness(uint8_t level) {
     // Placeholder: Implement brightness control if hardware supports it
     display.ssd1306_command(SSD1306_SETCONTRAST);

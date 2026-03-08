@@ -3,80 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PPSE Lab - Project Portal</title>
+    <title>PPSE // Terminal_v@VERSION@</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
+<body class="terminal-theme">
 
-    <header class="hero">
+    <header class="system-header">
         <div class="container">
-            <div class="hero-content">
-                <span class="badge">A.Y. 2025/2026</span>
-                <h1>🚀 PPSE Firmware Project</h1>
-                <p>Sistemi Integrati su Raspberry Pi Pico • <strong>Università di Trento</strong></p>
-                <div class="build-info">
-                    <code>Status: Stable</code> • <code>Env: RP2040 (SDK 2.0)</code>
+            <div class="header-grid">
+                <div class="brand">
+                    <span class="root-path">~/unitn/ppse-lab/</span><span class="cursor">_</span>
+                    <h1>FIRMWARE <small>v@VERSION@</small></h1>
+                </div>
+                <div class="sys-status">
+                    <div class="status-item"><span class="label">STATUS:</span> <span class="value green">OPERATIONAL</span></div>
+                    <div class="status-item"><span class="label">TARGET:</span> <span class="value">RP2040_PICO</span></div>
+                    <div class="status-item"><span class="label">BUILD_DATE:</span> <span class="value">@DATE@</span></div>
                 </div>
             </div>
         </div>
     </header>
 
     <main class="container">
-        <div class="grid">
-            <section class="card highlight">
-                <div class="card-content">
-                    <span class="tag">Source Code</span>
-                    <h2>API Reference</h2>
-                    <p>Documentazione tecnica interattiva generata da Doxygen. Include grafici di chiamata, dipendenze e gerarchie delle classi.</p>
-                    <div class="card-footer">
-                        <a href="api/index.html" class="btn btn-primary">Esplora API Online</a>
+        <div class="dashboard-grid">
+            
+            <section class="console-card primary">
+                <div class="card-header">:: EXECUTABLES_BIN</div>
+                <div class="card-body">
+                    <p class="cmd-text">> accessing .release/downloads/...</p>
+                    <div class="deploy-zone">
+                        <a href="downloads/ppse-firmware_latest_bundle.zip" class="main-deploy-btn">
+                            <i class="fas fa-box-open"></i> PULL_FULL_BUNDLE.ZIP
+                        </a>
+                        <div class="sub-deploy-grid">
+                            <a href="downloads/ppse-firmware_latest.uf2"><i class="fas fa-bolt"></i> UF2</a>
+                            <a href="downloads/ppse-firmware_latest.bin"><i class="fas fa-file-code"></i> BIN</a>
+                            <a href="downloads/ppse-firmware_latest.elf"><i class="fas fa-bug"></i> ELF</a>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <section class="card firmware">
-                <div class="card-content">
-                    <span class="tag">Binary</span>
-                    <h2>Firmware Release</h2>
-                    <p>Scarica l'ultima build stabile pronta per il flash. Include file <code>.bin</code> e <code>.uf2</code> per Raspberry Pi Pico.</p>
-                    <div class="download-group">
-                        <a href="downloads/ppse-firmware_latest.uf2" class="btn btn-download">Flash (.uf2)</a>
-                        <a href="downloads/ppse-firmware_latest.bin" class="btn btn-download">Binary (.bin)</a>
-                    </div>
+            <section class="console-card">
+                <div class="card-header">:: DOCS_NODE</div>
+                <div class="card-body">
+                    <ul class="doc-list">
+                        <li>
+                            <a href="api/index.html">
+                                <span class="dir">DRV/</span> API_REFERENCE_HTML
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="Academic_Report.pdf">
+                                <span class="dir">PDF/</span> ACADEMIC_REPORT.LOG
+                                <i class="fas fa-file-pdf"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="Technical_Reference.pdf">
+                                <span class="dir">PDF/</span> TECH_REFERENCE.MAN
+                                <i class="fas fa-file-pdf"></i>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </section>
 
-            <section class="card">
-                <div class="card-content">
-                    <span class="tag">Academic</span>
-                    <h2>Report Finale</h2>
-                    <p>Relazione accademica completa: analisi dei requisiti, scelte architetturali e test sperimentali in LaTeX.</p>
-                    <a href="Academic_Report.pdf" class="btn btn-outline">Scarica PDF</a>
-                </div>
-            </section>
-
-            <section class="card">
-                <div class="card-content">
-                    <span class="tag">Technical</span>
-                    <h2>Technical Reference</h2>
-                    <p>Manuale utente, datasheet dei sensori utilizzati e mappatura dei registri hardware del sistema.</p>
-                    <a href="Technical_Reference.pdf" class="btn btn-outline">Apri Manuale</a>
-                </div>
-            </section>
         </div>
     </main>
 
-    <footer class="footer">
+    <footer class="system-footer">
         <div class="container">
-            <div class="footer-grid">
-                <div>
-                    <p><strong>Progettazione e Prototipazione di Sistemi Elettronici</strong></p>
-                    <p><small>Build unificata generata via GitHub Actions</small></p>
-                </div>
-                <div class="footer-links">
-                    <a href="https://github.com/4137314/ppse-lab-firmware">GitHub Repository</a>
-                </div>
+            <div class="footer-meta">
+                <span>[LOG]: BUILD_SUCCESSFUL // HASH: @VERSION@</span>
+                <span class="git-link"><a href="https://github.com/4137314/ppse-lab-firmware"><i class="fab fa-github"></i> REPO_SOURCE</a></span>
             </div>
         </div>
     </footer>

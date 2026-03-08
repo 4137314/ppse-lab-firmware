@@ -3,7 +3,8 @@ name: "CI/CD: Full Deployment"
 on:
   push:
     branches: [ main ]
-  workflow_dispatch: # Permette l'avvio manuale
+    tags: [ 'v*' ]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -17,20 +18,29 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Necessario per git describe nel Makefile
+          fetch-depth: 0 # Fondamentale per git describe nel Makefile
 
-      - name: Setup Environment
+      - name: Cache PlatformIO & LaTeX
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.platformio
+            /var/cache/apt/archives
+          key: ${{ runner.os }}-deploy-v1-${{ hashFiles('**/platformio.ini') }}
+
+      - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y doxygen graphviz texlive-full zip
+          sudo apt-get install -y doxygen graphviz zip latexmk \
+            texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended \
+            texlive-lang-italian cppcheck
           pip install platformio
 
       - name: Execute Unified Release
-        # Questo comando pulisce, compila firmware, genera doc e assembla .release/
+        # Questo comando fa: clean -> check -> build -> docs -> assembla .release/
         run: make release
 
       - name: Upload to GitHub Pages
-        # Carica l'intera cartella .release/ come sito statico
         uses: actions/upload-pages-artifact@v3
         with:
           path: .release/
@@ -39,15 +49,15 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Create GitHub Release Artifacts
-        # Crea una release ufficiale con i binari allegati
+      - name: Create GitHub Release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
+          generate_release_notes: true
           files: |
             .release/downloads/*.zip
-            .release/downloads/*.bin
             .release/downloads/*.uf2
+            .release/downloads/*.bin
             .release/*.pdf
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

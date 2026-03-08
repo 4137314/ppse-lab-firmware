@@ -1,36 +1,15 @@
-/**
- * @file leds.cpp
- * @brief Implementazione dei feedback visivi tramite LED RGB.
- * * Questo modulo utilizza la libreria FastLED per gestire una striscia di LED
- * RGB, fornendo segnali visivi per l'inizializzazione del sistema, la
- * navigazione nei menu e gli avvisi di inattività.
- */
-
 #include "leds.h"
 
 #include "buttons.h"
 #include "display_ui.h"
 
-/** * @brief Array globale che rappresenta lo stato dei colori della striscia
- * LED.
- */
 CRGB leds[NUM_LEDS];
 
-/**
- * @brief Inizializza l'hardware dei LED.
- * * Configura il controller FastLED utilizzando il tipo di LED, il pin e
- * l'ordine dei colori definiti in @ref leds.h.
- */
 void ledsInit() {
     FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS);
     return;
 }
 
-/**
- * @brief Esegue l'animazione di avvio del sistema.
- * * Accende sequenzialmente i LED con un colore rosa (LightPink) e li spegne
- * nello stesso ordine, creando un effetto di "caricamento" visivo.
- */
 void ledsShowInitAnimation() {
     for (int i = 0; i < NUM_LEDS; i++) {
         leds[i] = CRGB::LightPink;
@@ -45,13 +24,6 @@ void ledsShowInitAnimation() {
     }
 }
 
-/**
- * @brief Fornisce un feedback visivo durante la navigazione dei menu.
- * * Accende un LED Blu nella posizione corrente e un LED Rosso nella posizione
- * successiva, quindi esegue un rapido lampeggio per confermare il movimento
- * dell'indice. Gestisce automaticamente il rollover della striscia (se l'indice
- * raggiunge @ref NUM_LEDS).
- */
 void ledsNavigationAnimation() {
     FastLED.clear();
     leds[ledsNumber] = CRGB::Blue;
@@ -78,11 +50,6 @@ void ledsNavigationAnimation() {
     FastLED.show();
 }
 
-/**
- * @brief Esegue un flash verde per confermare un'azione (Toggle).
- * * Utilizzato tipicamente quando l'utente conferma una selezione o cambia
- * un'impostazione nel menu.
- */
 void ledsToggleAnimation() {
     FastLED.clear();
     for (int i = 0; i < NUM_LEDS; i++) {
@@ -94,12 +61,6 @@ void ledsToggleAnimation() {
     FastLED.show();
 }
 
-/**
- * @brief Esegue un flash giallo per segnalare l'imminente timeout dello
- * schermo.
- * * Questa animazione viene richiamata dal timer di inattività prima che
- * il display torni alla schermata Home.
- */
 void ledsInactivityAnimation() {
     FastLED.clear();
     for (int i = 0; i < NUM_LEDS; i++) {

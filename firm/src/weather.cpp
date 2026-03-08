@@ -1,26 +1,10 @@
-/**
- * @file weather.cpp
- * @brief Implementazione della gestione dati Meteo e parsing protocollo WX.
- * * Questo modulo gestisce la ricezione e l'organizzazione dei dati meteo
- * correnti e delle previsioni orarie (forecast) ricevute tramite stringhe
- * formattate CSV.
- */
-
 #include "weather.h"
 
 #include <math.h>
 #include <string.h>
 
-/** * @brief Istanza globale dello stato meteo.
- */
 WeatherState wx;
 
-/**
- * @brief Inizializza la struttura dati Meteo con valori predefiniti.
- * * Imposta la città su "NA", invalida i flag di ricezione e riempie le matrici
- * delle previsioni con NAN (Not A Number) per le temperature e 255 per i codici
- * meteo.
- */
 void Weather_Init() {
     wx = {};
     strcpy(wx.city, "NA");
@@ -32,14 +16,6 @@ void Weather_Init() {
     }
 }
 
-/**
- * @brief Helper interno per separare i campi di una stringa CSV.
- * * @param s Stringa sorgente.
- * @param pos Posizione corrente nell'indice della stringa (aggiornata dopo la
- * chiamata).
- * @param out Stringa in uscita contenente il valore estratto.
- * @return true se il campo è stato estratto correttamente, false altrimenti.
- */
 static bool splitField(const String& s, int& pos, String& out) {
     int comma = s.indexOf(',', pos);
     if (comma < 0) {
@@ -52,15 +28,6 @@ static bool splitField(const String& s, int& pos, String& out) {
     return true;
 }
 
-/**
- * @brief Parser principale per i messaggi meteo in arrivo.
- * * Gestisce due tipi di prefissi:
- * - **WXC**: (Weather Current) Dati meteo attuali (Città, Temp, Vento, Umidità,
- * Codice).
- * - **WXD**: (Weather Daily) Dati forecast per un giorno specifico (Indice, 24
- * Temp, 24 Codici).
- * * @param line Stringa grezza ricevuta dal collegamento seriale/WiFi.
- */
 void Weather_HandleLine(const String& line) {
     // Parsing dati correnti
     if (line.startsWith("WXC,")) {
@@ -126,21 +93,11 @@ void Weather_HandleLine(const String& line) {
     }
 }
 
-/**
- * @brief Restituisce il nome abbreviato del giorno della settimana.
- * @param w Indice del giorno (0=Lun, 6=Dom).
- * @return const char* Stringa di 3 caratteri del giorno.
- */
 const char* Weather_WeekdayName(uint8_t w) {
     static const char* names[7] = {"Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"};
     return names[w % 7];
 }
 
-/**
- * @brief Converte il codice WMO in una descrizione testuale breve.
- * * @param code Codice meteo (0-95+).
- * @return const char* Descrizione in inglese (es. "Clear", "Rain", "Storm").
- */
 const char* Weather_CodeToShortText(int code) {
     if (code == 0)
         return "Clear";

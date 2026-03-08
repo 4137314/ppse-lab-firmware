@@ -69,9 +69,8 @@ void plug(uint32_t i);
 
 /**
  * @brief Funzione di verifica per il mount sicuro su PC.
- * * Controlla il flag @ref inPrinting per decidere se concedere l'accesso al
- * PC.
- * @param i Identificativo dell'interfaccia USB.
+ * * Controlla il flag \c inPrinting per decidere se concedere l'accesso al PC.
+ * * @param i Identificativo dell'interfaccia USB.
  * @return true se il filesystem è libero e montabile dall'host.
  */
 bool mountable(uint32_t i);

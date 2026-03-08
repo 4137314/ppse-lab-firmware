@@ -1,11 +1,14 @@
 # --- PIO CONFIG ---
 PIO_CMD := $(shell command -v pio 2>/dev/null)
 PIO     := $(if $(PIO_CMD),$(PIO_CMD),$(HOME)/.local/share/pipx/venvs/platformio/bin/python -m platformio)
+FW_B_DIR := .firm-build
 
 # Variabili di Build (sovrascrivibili da riga di comando)
 DEBUG ?= 0
 BEEP  ?= 1
-export PLATFORMIO_BUILD_FLAGS = -Os -DDEBUG=$(DEBUG) -DBUZZER_INIT_BEEP=$(BEEP) -std=gnu++17
+
+# Lasciamo che il Makefile gestisca solo le variabili che cambiano davvero
+export PLATFORMIO_BUILD_FLAGS = -DDEBUG=$(DEBUG) -DBUZZER_INIT_BEEP=$(BEEP)
 
 # Helper per i comandi
 PIO_RUN = cd firm && $(PIO) run
@@ -40,4 +43,5 @@ fw-format:
 fw-clean:
 	@echo "--- [PIO] Cleaning build artifacts ---"
 	$(Q)$(PIO_RUN) --target clean
-	$(Q)rm -rf firm/.pio
+	# Cancella la cartella radice corretta del firmware
+	$(Q)rm -rf firm/$(FW_B_DIR)

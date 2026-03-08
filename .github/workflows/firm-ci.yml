@@ -3,12 +3,12 @@ name: Firmware Build Check
 on:
   push:
     branches: [ '**' ]
-    paths: [ 'firm/**', 'Makefile' ]
+    paths: [ 'firm/**', 'Makefile', 'build/**' ]
   pull_request:
     branches: [ main ]
 
 jobs:
-  build:
+  build-test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -23,32 +23,26 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            ~/.cache/pip
             ~/.platformio/.cache
             ~/.platformio/packages
             ~/.platformio/platforms
             firm/.firm-build/libdeps
-          key: ${{ runner.os }}-pio-${{ hashFiles('**/platformio.ini') }}
-          restore-keys: |
-            ${{ runner.os }}-pio-
+          key: ${{ runner.os }}-pio-v1-${{ hashFiles('**/platformio.ini') }}
 
-      - name: Install Dependencies
+      - name: Install Tools
         run: |
-          python -m pip install --upgrade pip
           pip install -U platformio
           sudo apt-get update && sudo apt-get install -y cppcheck
 
-      - name: Run Quality Check (Lint)
-        run: make fw-lint
+      - name: Run Lint & Compile
+        # Usa i target del tuo Makefile per coerenza
+        run: |
+          make fw-lint
+          make build
 
-      - name: Compile Firmware
-        run: make build
-
-      - name: Upload Build Artifacts
+      - name: Upload Temporary Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: firmware-binaries-${{ github.sha }}
-          path: |
-            firm/.firm-build/build/pico/firmware.bin
-            firm/.firm-build/build/pico/firmware.uf2
-          retention-days: 7
+          name: firmware-preview-${{ github.sha }}
+          path: firm/.firm-build/build/pico/firmware.uf2
+          retention-days: 3
