@@ -1,0 +1,91 @@
+% =============================================================================
+% CONFIGURAZIONE TIPOGRAFICA AVANZATA (style.tex)
+% =============================================================================
+
+% --- 1. GEOMETRIA ---
+\geometry{
+    a4paper,
+    margin=2.5cm,      % Margini simmetrici e ariosi
+    headheight=18pt,
+    footskip=1.2cm, 
+    includeheadfoot
+}
+
+% --- 2. TITOLI E SEZIONI (Design Moderno) ---
+% Stile Sezione (Capitolo)
+\titleformat{\section}[block]
+{\normalfont\huge\bfseries\color{deepsky}}
+{\llap{\color{deepsky!20}\fontsize{45}{45}\selectfont\thesection\hspace{15pt}}} % Numero gigante "fantasma" a sinistra
+{0pt}
+{\raggedright}
+[\vspace{2pt}\color{deepsky!30}\hrule height 1.5pt\vspace{15pt}]
+
+% Stile Sottosezione
+\titleformat{\subsection}
+{\color{deepsky!80}\normalfont\Large\bfseries}
+{\thesubsection}{1em}
+{}
+[\vspace{4pt}\color{deepsky!15}\hrule height 0.8pt]
+
+% Stile Sotto-sottosezione (per dettagli tecnici minimi)
+\titleformat{\subsubsection}
+{\color{deepsky!70}\normalfont\normalsize\bfseries\itshape}
+{\thesubsubsection}{1em}{}
+
+% --- 3. HEADER E FOOTER (Coerenti e Puliti) ---
+\pagestyle{fancy}
+\fancyhf{}
+
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+\renewcommand{\subsectionmark}[1]{\markright{#1}}
+
+% Header: Titolo sezione a sinistra, numero pagina a destra con una barra sottile
+\fancyhead[L]{\small\color{deepsky!60}\textsc{\leftmark}}
+\fancyhead[C]{\scriptsize\color{gray}PPSE 2025/26 -- DISI}
+\fancyhead[R]{\scriptsize\color{gray}Progetto \chip}
+
+% Footer: Divisore tecnico con info progetto
+\fancyfoot[C]{\small\color{deepsky!60} -- \thepage --}
+
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+\addtolength{\headwidth}{0pt}
+
+% Colore per le linee di head/foot (Versione corretta per GitHub Actions)
+\makeatletter
+\renewcommand{\headrule}{%
+    {\color{deepsky!20}\hrule\@width\headwidth\@height\headrulewidth}%
+}
+\renewcommand{\footrule}{%
+    {\color{deepsky!20}\hrule\@width\headwidth\@height\footrulewidth}%
+}
+\makeatother
+
+% --- 4. ELEMENTI TIPOGRAFICI GENERALI ---
+\captionsetup{
+    font={small,stretch=1.1},
+    labelfont={bf,color=deepsky},
+    labelsep=period,
+    justification=raggedright,
+    singlelinecheck=false,
+    margin={0pt, 20pt}
+}
+
+\sisetup{
+    output-decimal-marker = {,},
+    range-phrase = { -- },
+    range-units = single,
+    per-mode = symbol
+}
+
+% --- 5. NAVIGAZIONE ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=deepsky!80!black,
+    citecolor=deepgreen!80!black,
+    urlcolor=cyan,
+    pdftitle={Relazione Tecnica RP2040},
+    pdfauthor={Biasioli, Fait, Kusi},
+    pdfpagemode=UseOutlines,
+    bookmarksnumbered=true
+}

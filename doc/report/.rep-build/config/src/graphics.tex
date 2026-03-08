@@ -1,0 +1,22 @@
+% config/graphics_setup.tex
+
+% --- Gestione Caption (Didascalie) ---
+\usepackage{caption}
+\captionsetup{
+    font=small,                % Testo leggermente più piccolo
+    labelfont={bf,color=deepsky}, % "Figura X" in grassetto e blu pastello
+    labelsep=quad,             % Spazio generoso tra numero e testo
+    position=bottom,           % Didascalia sempre sotto
+    skip=10pt                  % Distanza dall'immagine
+}
+
+% --- Comandi personalizzati per Figure ---
+% Uso: \customimg{larghezza}{file}{didascalia}{label}
+\newcommand{\customimg}[4]{
+    \begin{figure}[H] % Forza la posizione dove scrivi
+        \centering
+        \includegraphics[width=#1\textwidth]{#2}
+        \caption{#3}
+        \label{#4}
+    \end{figure}
+}

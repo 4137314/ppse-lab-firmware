@@ -14,17 +14,13 @@ api-build:
 
 tech-ref-build:
 	@echo "--- [LATEX] Building Technical Reference PDF ---"
-	$(Q)if [ -f "$(API_B_DIR)/latex/Makefile" ]; then \
-		$(MAKE) -i -C $(API_B_DIR)/latex > /dev/null 2>&1 || true; \
-		if [ -f "$(API_B_DIR)/latex/refman.pdf" ]; then \
-			cp $(API_B_DIR)/latex/refman.pdf $(API_DIR)/Technical_Reference.pdf && \
-			echo "✅ PDF Generated with Index: $(API_DIR)/Technical_Reference.pdf"; \
-		else \
-			echo "❌ Error: refman.pdf not found."; exit 1; \
-		fi \
-	else \
-		echo "❌ Error: LaTeX source not found."; exit 1; \
-	fi
+	@test -f $(API_B_DIR)/latex/Makefile || (echo "❌ LaTeX source not found" && exit 1)
+	@echo "Compiling..."
+	-@cd $(API_B_DIR)/latex && pdflatex -interaction=nonstopmode refman.tex > /dev/null 2>&1
+	-@cd $(API_B_DIR)/latex && pdflatex -interaction=nonstopmode refman.tex > /dev/null 2>&1
+	@test -f $(API_B_DIR)/latex/refman.pdf || (echo "❌ PDF not generated" && exit 1)
+	@cp $(API_B_DIR)/latex/refman.pdf $(API_DIR)/Technical_Reference.pdf
+	@echo "✅ Technical Reference PDF Generated."
 
 api-clean:
 	@echo "--- [CLEAN] API Build Artifacts ---"

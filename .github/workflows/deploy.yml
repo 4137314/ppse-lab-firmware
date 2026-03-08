@@ -18,26 +18,29 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Fondamentale per git describe nel Makefile
+          fetch-depth: 0 
 
-      - name: Cache PlatformIO & LaTeX
+      - name: Cache Dependencies
         uses: actions/cache@v4
         with:
           path: |
             ~/.platformio
             /var/cache/apt/archives
-          key: ${{ runner.os }}-deploy-v1-${{ hashFiles('**/platformio.ini') }}
+          key: ${{ runner.os }}-full-deploy-v2-${{ hashFiles('**/platformio.ini') }}
 
-      - name: Install System Dependencies
+      - name: Install Everything
         run: |
           sudo apt-get update
           sudo apt-get install -y doxygen graphviz zip latexmk \
-            texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended \
-            texlive-lang-italian cppcheck
+            texlive-latex-recommended texlive-latex-extra \
+            texlive-fonts-recommended texlive-fonts-extra \
+            texlive-lang-italian texlive-bibtex-extra biber \
+            texlive-plain-generic texlive-pictures \
+            ghostscript cppcheck
           pip install platformio
 
       - name: Execute Unified Release
-        # Questo comando fa: clean -> check -> build -> docs -> assembla .release/
+        # Esegue: lint -> build -> docs -> packaging in .release/
         run: make release
 
       - name: Upload to GitHub Pages
@@ -54,10 +57,10 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
+          fail_on_unmatched_files: false
           files: |
             .release/downloads/*.zip
             .release/downloads/*.uf2
-            .release/downloads/*.bin
             .release/*.pdf
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

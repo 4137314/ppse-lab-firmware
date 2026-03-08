@@ -3,7 +3,7 @@ name: Firmware Build Check
 on:
   push:
     branches: [ '**' ]
-    paths: [ 'firm/**', 'Makefile', 'build/**' ]
+    paths: [ 'firm/**', 'Makefile', 'config/**' ] # Aggiunto config se contiene header o script
   pull_request:
     branches: [ main ]
 
@@ -17,7 +17,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.11' # Versione specifica per stabilità
 
       - name: Cache PlatformIO
         uses: actions/cache@v4
@@ -26,8 +26,7 @@ jobs:
             ~/.platformio/.cache
             ~/.platformio/packages
             ~/.platformio/platforms
-            firm/.firm-build/libdeps
-          key: ${{ runner.os }}-pio-v1-${{ hashFiles('**/platformio.ini') }}
+          key: ${{ runner.os }}-pio-${{ hashFiles('**/platformio.ini') }}
 
       - name: Install Tools
         run: |
@@ -35,14 +34,13 @@ jobs:
           sudo apt-get update && sudo apt-get install -y cppcheck
 
       - name: Run Lint & Compile
-        # Usa i target del tuo Makefile per coerenza
         run: |
           make fw-lint
           make build
 
-      - name: Upload Temporary Artifacts
+      - name: Upload UF2 Preview
         uses: actions/upload-artifact@v4
         with:
-          name: firmware-preview-${{ github.sha }}
-          path: firm/.firm-build/build/pico/firmware.uf2
+          name: firmware-preview
+          path: firm/.firm-build/**/firmware.uf2 # Glob pattern per sicurezza
           retention-days: 3

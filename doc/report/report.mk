@@ -7,11 +7,11 @@ REP_B_DIR := $(REP_DIR)/.rep-build
 report-build:
 	@echo "--- [LATEX] Compiling Academic Report ---"
 	$(Q)mkdir -p $(REP_B_DIR)
-	# Fix find: confiniamo la creazione delle cartelle solo al primo livello di src
-	$(Q)cd $(REP_SRC) && find . -maxdepth 1 -type d ! -name "." -exec mkdir -p ../.rep-build/{} \;
-	# Compilazione
-	$(Q)cd $(REP_SRC) && pdflatex -interaction=nonstopmode -output-directory=../.rep-build main.tex > /dev/null
-	$(Q)cd $(REP_SRC) && pdflatex -interaction=nonstopmode -output-directory=../.rep-build main.tex > /dev/null
+	$(Q)cp -r $(REP_SRC)/* $(REP_B_DIR)/
+	$(Q)cd $(REP_B_DIR) && pdflatex -interaction=nonstopmode main.tex
+	$(Q)cd $(REP_B_DIR) && bibtex main || true
+	$(Q)cd $(REP_B_DIR) && pdflatex -interaction=nonstopmode main.tex
+	$(Q)cd $(REP_B_DIR) && pdflatex -interaction=nonstopmode main.tex
 	$(Q)cp $(REP_B_DIR)/main.pdf $(REP_DIR)/main.pdf
 
 report-clean:
