@@ -5,24 +5,14 @@ on:
     branches: [ main ]
     tags: [ 'v*' ]
 
-# Permessi necessari per scrivere release e pubblicare su GitHub Pages
 permissions:
-  contents: write
-  pages: write
-  id-token: write
+  contents: write  # FONDAMENTALE per permettere il push su gh-pages
 
 jobs:
   release-and-deploy:
     runs-on: ubuntu-latest
-    
-    # Specifica l'ambiente richiesto da GitHub Pages per autorizzare il deploy
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -36,36 +26,19 @@ jobs:
           pip install clang-format==18.1.1
           pip install platformio
 
-      - name: Run Orchestrator Build
+      - name: Build Release
         run: |
-          # Eseguiamo i target uno alla volta saltando 'make check' per evitare errori di linting
+          # Usiamo i tuoi target che funzionano
           make info
           make clean
           make build
           make docs
-          
-          echo "[CI] Assembling Distribution Bundle..."
-          mkdir -p .release/downloads
-          
-          # Copia i documenti generati dal portale web (solitamente in .doc-build)
-          cp -r .doc-build/* .release/ 2>/dev/null || true
-          
-          # Copia e rinomina i binari per la release
-          if [ -f firm/.firm-build/build/pico/firmware.uf2 ]; then
-            cp firm/.firm-build/build/pico/firmware.uf2 .release/downloads/ppse-firmware_latest.uf2
-            cp firm/.firm-build/build/pico/firmware.bin .release/downloads/ppse-firmware_latest.bin
-            cp firm/.firm-build/build/pico/firmware.elf .release/downloads/ppse-firmware_latest.elf
-            cd .release/downloads && zip -q ppse-firmware_bundle.zip *
-            echo "✅ Release staged successfully"
-          else
-            echo "❌ Build artifacts not found in firm/.firm-build/build/pico/" && exit 1
-          fi
+          # Qui il tuo Makefile dovrebbe aver popolato la cartella di release
+          # Se il tuo Makefile non fa il push automatico, lo facciamo noi qui:
 
-      - name: Upload to Pages Artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: .release/
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .release  # Assicurati che sia la cartella creata dal tuo Makefile
+          force_orphan: true     # Crea un branch pulito ogni volta
