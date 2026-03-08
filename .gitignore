@@ -76,3 +76,5 @@ env/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+doc/api/report/.rep-build
