@@ -2,7 +2,7 @@ name: Firmware CI
 
 on:
   push:
-    paths: [ "**" ]
+    branches: [ "**" ]
   pull_request:
     branches: [ main ]
 
@@ -15,7 +15,15 @@ jobs:
       - name: Install Toolchain
         run: |
           sudo apt-get update
-          sudo apt-get install -y cppcheck
+          # Installiamo clang-format-18 e cppcheck
+          sudo apt-get install -y cppcheck clang-format-18
+          
+          # Sovrascriviamo il comando standard con la versione 18
+          sudo ln -sf /usr/bin/clang-format-18 /usr/bin/clang-format
+          
+          # Verifica versione (utile per il debug nei log)
+          clang-format --version
+          
           pip install platformio
 
       - name: Build Firmware
