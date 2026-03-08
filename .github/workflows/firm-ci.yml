@@ -1,46 +1,25 @@
-name: Firmware Build Check
+name: Firmware CI
 
 on:
   push:
-    branches: [ '**' ]
-    paths: [ 'firm/**', 'Makefile', 'config/**' ] # Aggiunto config se contiene header o script
+    paths: [ 'firm/**', 'build/**', 'Makefile' ]
   pull_request:
     branches: [ main ]
 
 jobs:
-  build-test:
+  build-firmware:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11' # Versione specifica per stabilità
-
-      - name: Cache PlatformIO
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.platformio/.cache
-            ~/.platformio/packages
-            ~/.platformio/platforms
-          key: ${{ runner.os }}-pio-${{ hashFiles('**/platformio.ini') }}
-
-      - name: Install Tools
+      - uses: actions/checkout@v4
+      
+      - name: Install Toolchain
         run: |
-          pip install -U platformio
-          sudo apt-get update && sudo apt-get install -y cppcheck
+          sudo apt-get update
+          sudo apt-get install -y cppcheck
+          pip install platformio
 
-      - name: Run Lint & Compile
-        run: |
-          make fw-lint
-          make build
+      - name: Build Firmware
+        run: make build
 
-      - name: Upload UF2 Preview
-        uses: actions/upload-artifact@v4
-        with:
-          name: firmware-preview
-          path: firm/.firm-build/**/firmware.uf2 # Glob pattern per sicurezza
-          retention-days: 3
+      - name: Quality Check
+        run: make check

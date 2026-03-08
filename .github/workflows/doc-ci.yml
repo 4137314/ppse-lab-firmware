@@ -1,58 +1,31 @@
-name: Docs Build Check
+name: Docs CI
 
 on:
   push:
-    branches: [ "**" ]
+    paths: [ 'doc/**', 'firm/include/**', 'Makefile' ]
   pull_request:
     branches: [ main ]
 
 jobs:
-  verify-docs:
+  build-docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Doxygen & Graphviz
+      - name: Install Doc Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y doxygen graphviz
+          sudo apt-get install -y doxygen graphviz \
+            texlive-latex-recommended texlive-latex-extra \
+            texlive-fonts-recommended texlive-fonts-extra \
+            texlive-science texlive-lang-italian texlive-bibtex-extra latexmk
 
-      - name: Generate Doxygen Source
-        run: |
-          mkdir -p doc/api/.api-build
-          doxygen doc/api/src/Doxyfile
-
-      - name: Build Technical Reference (API) PDF
-        uses: xu-cheng/latex-action@v3
-        with:
-          root_file: refman.tex
-          working_directory: doc/api/.api-build/latex
-          # -f forza il completamento anche con warning/errori minori
-          args: "-pdf -f -file-line-error -interaction=nonstopmode"
-
-      - name: Build Academic Report PDF
-        uses: xu-cheng/latex-action@v3
-        with:
-          root_file: main.tex
-          working_directory: doc/report
-          args: "-pdf -f -file-line-error -interaction=nonstopmode"
-
-      # Se il build fallisce, questo step carica i log per capire cosa è successo
-      - name: Upload Logs on Failure
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: latex-error-logs
-          path: |
-            doc/api/.api-build/latex/*.log
-            doc/report/*.log
+      - name: Generate All Docs
+        run: make docs
 
       - name: Upload Artifacts
-        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: docs-preview
-          path: |
-            doc/report/main.pdf
-            doc/api/.api-build/latex/refman.pdf
+          path: .doc-build/
           retention-days: 1
