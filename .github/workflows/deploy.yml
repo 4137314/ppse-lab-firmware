@@ -1,0 +1,39 @@
+name: Deployment
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  release-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install All Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz zip latexmk cppcheck \
+            texlive-latex-recommended texlive-latex-extra \
+            texlive-fonts-recommended texlive-fonts-extra \
+            texlive-science texlive-lang-italian
+          pip install platformio
+
+      - name: Run Orchestrator Release
+        run: make release
+
+      - name: Upload to Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .release/
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,41 @@
+\newpage
+\section{Conclusioni e Sviluppi Futuri}
+
+Il presente lavoro ha permesso di prototipare e validare un sistema di acquisizione dati avanzato, dimostrando concretamente come l'integrazione sinergica tra un layout hardware accurato e soluzioni software ottimizzate possa colmare il gap prestazionale tipico delle piattaforme embedded a basso costo. L'impiego del SoC RP2040 non è stato limitato alle sue funzioni base, ma ne sono state sfruttate le peculiarità architettoniche (PIO, Dual-Core, DMA) per ottenere uno strumento di \textit{data-logging} di classe industriale.
+
+\subsection{Analisi dei Risultati e Validazione Tecnica}
+
+L'architettura proposta ha permesso di raggiungere i seguenti obiettivi chiave, verificati in fase di test:
+
+\begin{itemize}
+    \item \textbf{Integrità del Dato e Resilienza:} L'adozione del filesystem \texttt{LittleFS} \cite{littlefs_repo} con approccio \textit{copy-on-write} si è rivelata determinante. Durante i test di interruzione improvvisa dell'alimentazione (\textit{brown-out simulation}), il sistema non ha riportato corruzioni della tabella dei descrittori, garantendo la persistenza dei log GNSS sulla Flash W25Q128JV \cite{w25q128_ds}.
+    
+    \item \textbf{Determinismo e Signal Integrity:} L'offloading del protocollo dei LED WS2812B sul sottosistema PIO ha risolto il conflitto critico tra timing dei LED e interrupt della UART. Questo ha permesso di mantenere un flusso costante di sentenze \textbf{NMEA 0183} \cite{nmea_0183} senza perdita di byte, processate in modo deterministico dalla libreria \texttt{minmea} \cite{minmea_lib}, validando l'efficacia dell'approccio di \textit{hardware offloading}.
+    
+    \item \textbf{Power Quality e Sensibilità GNSS:} La strategia di regolazione a due stadi (Buck TPS563201 \cite{tps563201_ds} per la potenza e LDO per la logica) ha garantito un piano di alimentazione estremamente pulito. La riduzione del ripple sulla linea a \qty{3.3}{V} ha permesso al modulo SAM-M8Q di mantenere un \textit{Carrier-to-Noise density ratio} (C/N0) elevato, assicurando fix rapidi anche in condizioni di multipath urbano.
+\end{itemize}
+
+
+
+\subsection{Riflessioni sul Design Ibrido}
+
+Il progetto ha evidenziato come il limite dei sistemi embedded moderni non sia più la potenza di calcolo bruta, ma l'efficienza nella gestione delle periferiche. La separazione dei task tra i due core (Core 0 per l'interfaccia e Core 1 per il processamento asincrono) ha permesso di mantenere una latenza di risposta ai pulsanti inferiore ai \qty{10}{ms}, nonostante il pesante carico di scrittura sulla memoria non volatile.
+
+\subsection{Sviluppi Futuri e Scalabilità}
+
+Nonostante l'ottimo grado di maturità raggiunto dal prototipo, sono state individuate diverse direttrici per l'evoluzione del sistema:
+
+\begin{enumerate}
+    \item \textbf{Compressione Dati e Lifetime Extension:} Implementazione di algoritmi di compressione \textit{on-the-fly} (es. LZ4 o delta-encoding per le coordinate) per ridurre il numero di scritture fisiche sulla Flash, estendendo la vita utile del chip ben oltre i $10^5$ cicli nominali.
+    
+    \item \textbf{Sincronizzazione Temporale Avanzata:} Utilizzo del segnale \textit{Timepulse} (PPS) del modulo GNSS per disciplinare l'oscillatore interno dell'RP2040, permettendo data-logging con precisione temporale al microsecondo.
+    
+    \item \textbf{Connettività LPWAN:} Integrazione di un ricetrasmettitore LoRaWAN per l'invio di pacchetti di telemetria sintetizzati, trasformando il logger in un nodo IoT attivo per il monitoraggio remoto.
+    
+    \item \textbf{Power Management Predittivo:} Implementazione di una logica di \textit{Dynamic Voltage and Frequency Scaling} (DVFS) basata sullo stato di carica della batteria e sulla frequenza di acquisizione richiesta.
+\end{enumerate}
+
+
+
+\vspace{2em}
+In conclusione, il sistema sviluppato non rappresenta solo un esercizio di stile accademico, ma una solida base per lo sviluppo di unità di monitoraggio ambientale affidabili, modulari e pronte per un'eventuale ingegnerizzazione di pre-serie.

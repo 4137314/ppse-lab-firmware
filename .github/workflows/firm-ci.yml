@@ -1,0 +1,32 @@
+name: Firmware CI
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-firmware:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cppcheck
+          
+          # Installiamo la versione specifica tramite pip per bypassare i limiti di apt
+          pip install clang-format==18.1.1
+          
+          # Verifichiamo la versione per sicurezza nel log
+          clang-format --version
+          
+          pip install platformio
+
+      - name: Build Firmware
+        run: make build
+
+      # - name: Quality Check
+      #   run: make check

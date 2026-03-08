@@ -1,0 +1,14 @@
+version: 2
+updates:
+  # Controlla gli aggiornamenti delle GitHub Actions (es. checkout@v4)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  # Controlla gli aggiornamenti delle librerie PlatformIO (se caricate su registry compatibili)
+  # Nota: per PlatformIO spesso si aggiorna manualmente, ma questo monitora i file .ini
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "monthly"
