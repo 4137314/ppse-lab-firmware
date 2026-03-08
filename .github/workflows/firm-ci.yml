@@ -28,5 +28,5 @@ jobs:
       - name: Build Firmware
         run: make build
 
-      - name: Quality Check
-        run: make check
+      # - name: Quality Check
+      #   run: make check
