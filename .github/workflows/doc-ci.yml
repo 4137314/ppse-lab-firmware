@@ -12,23 +12,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Full Doc Stack
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y doxygen graphviz ghostscript \
-            texlive-latex-recommended texlive-latex-extra \
-            texlive-fonts-recommended texlive-fonts-extra \
-            texlive-lang-italian texlive-bibtex-extra biber \
-            latexmk
+      - name: Install Doxygen
+        run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
 
-      - name: Build All Documentation
-        # Usiamo il fix del nonstopmode che abbiamo discusso
-        run: make docs
+      - name: Generate Doxygen API
+        run: make api-build # Usa il tuo target del Makefile
 
-      - name: Check Artifacts
-        run: |
-          ls -lh doc/report/main.pdf
-          ls -lh doc/api/Technical_Reference.pdf || echo "API PDF missing but proceeding"
+      - name: Compile Academic Report
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+          working_directory: doc/report # Percorso aggiornato
+          args: "-pdf -file-line-error -halt-on-error -interaction=nonstopmode"
 
       - name: Upload Doc Preview
         uses: actions/upload-artifact@v4
