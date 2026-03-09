@@ -27,6 +27,7 @@ extern WeatherState wx;
 
 void Weather_Init();
 void Weather_HandleLine(const String& line);
+bool Weather_LoadFromFile(const char* path);
 
 // Ui
 const char* Weather_WeekdayName(uint8_t weekday);

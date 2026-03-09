@@ -71,6 +71,9 @@ bool nmea_gps_parse(String* nmea_message, struct parsed_nmea *nmea_ptr);
     bool save_gps_last(struct parsed_nmea *nmea_ptr);
 
     bool save_gps_log20(struct parsed_nmea *nmea_ptr);
+
+    bool read_last_coords(float &olat, float &olon);
+
     void check_GPS_sync_req(queue_t *recv_queue, queue_t *send_queue, struct parsed_nmea *nmea_ptr);
 
     // DEBUG functions

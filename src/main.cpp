@@ -15,6 +15,7 @@
 #include "Modules/gps.h"
 #include "Modules/leds.h"
 #include "Modules/temp.h"
+#include "Modules/weather.h"
 #include "Modules/Filesystem.h"
 #include "hardware/gpio.h"
 #include "pico/stdlib.h" 
@@ -116,10 +117,36 @@ void loop1(){ //CORE 1 main
   //minmea_tocoord(&ParsedNMEA.parsed_gga.latitude), minmea_tocoord(&ParsedNMEA.parsed_gga.longitude));
   //Serial.println("gga time: " + String(ParsedNMEA.parsed_gga.time.hours) + ":" + String(ParsedNMEA.parsed_gga.time.minutes) + ":" + String(ParsedNMEA.parsed_gga.time.seconds));
   static uint32_t lastSendMs = 0;
+  static const uint32_t WX_RELOAD_PERIOD_MS = 24UL * 60UL * 60UL * 1000UL;
+  
+  static bool wxLoadedOnce = false;
+  static uint32_t lastWxLoadMs = 0;
+  
+  if (!driveConnected) {
+    bool needLoad = false;
+  
+    if (!wxLoadedOnce) {
+      // prima volta: carica appena possibile
+      needLoad = true;
+    } else if ((uint32_t)(millis() - lastWxLoadMs) >= WX_RELOAD_PERIOD_MS) {
+      // dopo: ricarica solo ogni N ore
+      needLoad = true;
+    }
+  
+    if (needLoad) {
+      if (Weather_LoadFromFile("/wx.txt")) {
+        wxLoadedOnce = true;
+        lastWxLoadMs = millis();
+      }
+    }
+  }
+
   
   if (millis() - lastSendMs >= 250) { // 4 Hz verso UI
     lastSendMs = millis();
 
+
+    
 
   queue_try_add(&Qdata, &ParsedNMEA);
 }

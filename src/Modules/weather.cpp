@@ -1,6 +1,9 @@
+#include "Filesystem.h"
 #include "weather.h"
 #include <math.h>
+#include <stdio.h>
 #include <string.h>
+
 
 WeatherState wx;
 
@@ -84,17 +87,68 @@ const char* Weather_WeekdayName(uint8_t w) {
   static const char* names[7] = {"Lun","Mar","Mer","Gio","Ven","Sab","Dom"};
   return names[w % 7];
 }
+const char* Weather_CodeToShortText(int code)
+{
+  switch (code)
+  {
+    case 0: return "Clear";
+    case 1: return "MainClr";
+    case 2: return "Cloudy";
+    case 3: return "Overcast";
+  }
 
-const char* Weather_CodeToShortText(int code) {
-  // mapping minimo (puoi estenderlo)
-  // 0 sereno, 1-3 poco nuvoloso, 45/48 nebbia, 51-57 pioggerella, 61-67 pioggia, 71-77 neve, 80-82 rovesci, 95 temporale
-  if (code == 0) return "Clear";
-  if (code >= 1 && code <= 3) return "Cloud";
   if (code == 45 || code == 48) return "Fog";
-  if (code >= 51 && code <= 57) return "Drizz";
+
+  if (code >= 51 && code <= 57) return "Drizzle";
+
   if (code >= 61 && code <= 67) return "Rain";
+
   if (code >= 71 && code <= 77) return "Snow";
-  if (code >= 80 && code <= 82) return "Shower";
-  if (code >= 95) return "Storm";
+
+  if (code >= 80 && code <= 82) return "Showers";
+
+  if (code >= 85 && code <= 86) return "SnowShw";
+
+  if (code >= 95 && code <= 99) return "Storm";
+
   return "WX";
+}
+
+
+
+static void strip_crlf(char* s) {
+  size_t n = strlen(s);
+  while (n && (s[n-1] == '\n' || s[n-1] == '\r')) {
+    s[n-1] = '\0';
+    n--;
+  }
+}
+
+bool Weather_LoadFromFile(const char* path) {
+  // Non toccare FATFS mentre il PC ha montato la “chiavetta”
+  if (inPrinting || driveConnected || updated) return false;  // :contentReference[oaicite:2]{index=2}
+
+  inPrinting = true;
+
+  FILE* f = fopen(path, "r");
+  if (!f) { inPrinting = false; return false; }
+
+  bool any = false;
+
+  // Riga WXD può essere lunga: usa un buffer ampio
+  char buf[1024];
+
+  while (fgets(buf, sizeof(buf), f)) {
+    strip_crlf(buf);
+    if (buf[0] == '\0') continue;
+
+    // Popola wx (WXC/WXD) usando il tuo parser
+    Weather_HandleLine(String(buf));  // :contentReference[oaicite:3]{index=3}
+    any = true;
+  }
+
+  fclose(f);
+  inPrinting = false;
+
+  return any;
 }

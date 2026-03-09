@@ -200,27 +200,76 @@ bool GPS_sync(struct parsed_nmea *nmea_ptr, bool force) {
 
 
 /* Salva su Filesystem della FLASH */
-bool save_gps_last(struct parsed_nmea *nmea_ptr) {
-  if (inPrinting || driveConnected || updated) return false;
+bool read_last_coords(float &olat, float &olon) {
 
-  struct minmea_sentence_gga *gga = &(nmea_ptr->parsed_gga);
-  if (!gga->fix_quality <= 0) return false;
+  FILE *f = fopen(GPS_LAST_PATH, "r"); // "/gps_last.csv"
+  if (!f) return false;
 
-  char line[96];
-  float lat = minmea_tocoord(&(gga->latitude));
-  float lon = minmea_tocoord(&(gga->longitude));
+  char buf[96];
+  if (!fgets(buf, sizeof(buf), f)) {
+    fclose(f);
+    return false;
+  }
 
-  inPrinting = true;
-  FILE *f = fopen(GPS_LAST_PATH, "w");   // sovrascrive sempre
-  if (!f) { inPrinting = false; return false; }
-  int n = snprintf(line, sizeof(line), "%.6f,%.6f\n",
-                   lat, lon);
-  fwrite(line, 1, (size_t)n, f);
   fclose(f);
-  inPrinting = false;
+
+  if (sscanf(buf, "%f,%f", &olat, &olon) != 2)
+    return false;
+
   return true;
 }
 
+
+/* Salva su Filesystem della FLASH */
+bool save_gps_last(struct parsed_nmea *nmea_ptr) {
+
+  if (inPrinting || driveConnected || updated) return false;
+
+  struct minmea_sentence_gga *gga = &(nmea_ptr->parsed_gga);
+
+  // fix valido
+  if (gga->fix_quality <= 0) return false;
+
+  float lat = minmea_tocoord(&(gga->latitude));
+  float lon = minmea_tocoord(&(gga->longitude));
+
+  // valori validi
+  if (!isfinite(lat) || !isfinite(lon)) return false;
+  if (lat < -90 || lat > 90 || lon < -180 || lon > 180) return false;
+
+  // leggi coordinate già salvate
+  float oldLat, oldLon;
+  if (read_last_coords(oldLat, oldLon)) {
+
+    int lat_new = (int)(lat * 100);   // 2 cifre decimali
+    int lon_new = (int)(lon * 100);
+
+    int lat_old = (int)(oldLat * 100);
+    int lon_old = (int)(oldLon * 100);
+
+    // se uguali non riscrivere
+    if (lat_new == lat_old && lon_new == lon_old)
+      return true;
+  }
+
+  char line[96];
+  int n = snprintf(line, sizeof(line), "%.6f,%.6f\n", lat, lon);
+
+  inPrinting = true;
+
+  FILE *f = fopen(GPS_LAST_PATH, "w");
+  if (!f) {
+    inPrinting = false;
+    return false;
+  }
+
+  fwrite(line, 1, (size_t)n, f);
+  fclose(f);
+
+  inPrinting = false;
+
+  return true;
+}
 bool save_gps_log20(struct parsed_nmea *nmea_ptr) {
   if (inPrinting || driveConnected || updated) return false;
 
