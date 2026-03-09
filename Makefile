@@ -47,7 +47,7 @@ docs: info
 	$(Q)$(MAKE) doc-all --no-print-directory
 
 ## release: Pipeline completa con ZIP Bundle
-release: clean check build docs
+release: clean build docs #tolto check ma da vedere se riaggiungere: il problema era .clang-format che su github-action usa una versione piu vecchia
 	@printf -- "$(WAIT_ICON) Assembling Distribution Bundle...\n"
 	$(Q)mkdir -p $(RELEASE_DIR)/downloads
 	# 1. Copia il portale web e i PDF
