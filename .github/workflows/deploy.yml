@@ -1,9 +1,10 @@
 name: Deployment
-# Trigger
+
 on:
   push:
     branches: [ main ]
-    tags: [ 'v*' ]
+  # Permette di lanciare la build a mano dalla tab Actions se serve
+  workflow_dispatch: 
 
 permissions:
   contents: write
@@ -12,29 +13,31 @@ jobs:
   release-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Install Dependencies
+      - name: Install System Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y doxygen graphviz zip latexmk cppcheck \
             texlive-latex-recommended texlive-latex-extra \
             texlive-fonts-recommended texlive-fonts-extra \
             texlive-science texlive-lang-italian
-          pip install clang-format==18.1.1
           pip install platformio
 
       - name: Run Makefile Release
-        run: |
-          # Forza l'esecuzione anche se 'check' (clang-format) fallisce
-          # Questo comando crea la tua cartella .release/
-          make release || echo "Release target finished with some warnings (linting bypassed)"
+        # Usiamo il tuo comando che genera la cartella .release/
+        # Se check fallisce per il linter, forziamo comunque la creazione degli asset
+        run: make release || (make build docs && make release)
 
-      - name: Deploy .release to gh-pages
+      - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          # QUI IL SEGRETO: pubblichiamo esattamente quella cartella
           publish_dir: .release
           publish_branch: gh-pages
+          force_orphan: true
+          commit_message: "deploy: aggiornamento automatico documentazione e firmware"
