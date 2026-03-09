@@ -77,4 +77,4 @@ env/
 Thumbs.db
 desktop.ini
 
-doc/api/report/.rep-build
+**/.rep-build/
