@@ -1,0 +1,18 @@
+<map id="firm/include/temp.h" name="firm/include/temp.h">
+<area shape="rect" id="Node000001" title="Definizioni hardware e prototipi per la lettura della temperatura." alt="" coords="179,5,329,31"/>
+<area shape="rect" id="Node000002" href="$display__ui_8h.html" title="Definizioni hardware e prototipi per l&#39;interfaccia utente OLED." alt="" coords="73,79,254,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="230,41,180,81,177,76,227,37"/>
+<area shape="rect" id="Node000007" href="$temp_8cpp_source.html" title=" " alt="" coords="278,79,414,104"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="281,37,333,76,329,81,278,41"/>
+<area shape="rect" id="Node000003" href="$buttons_8h.html" title="Definizioni e prototipi per la gestione degli input utente e della UI." alt="" coords="81,152,245,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="157,118,159,152,154,152,152,118"/>
+<area shape="rect" id="Node000004" href="$buttons_8cpp_source.html" title=" " alt="" coords="5,225,156,251"/>
+<area shape="poly" id="edge6_Node000002_Node000004" title=" " alt="" coords="118,112,92,129,71,153,66,171,67,190,77,224,72,226,61,191,60,171,66,151,88,125,115,108"/>
+<area shape="rect" id="Node000005" href="$leds_8cpp_source.html" title=" " alt="" coords="199,225,328,251"/>
+<area shape="poly" id="edge8_Node000002_Node000005" title=" " alt="" coords="210,108,238,125,260,151,268,170,271,191,268,225,263,225,265,191,263,171,256,153,234,129,207,112"/>
+<area shape="rect" id="Node000006" href="$display__ui_8cpp_source.html" title=" " alt="" coords="321,152,489,177"/>
+<area shape="poly" id="edge7_Node000002_Node000006" title=" " alt="" coords="216,105,366,149,365,154,215,110"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="169,139,168,104,173,104,175,138"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="141,188,96,227,92,223,138,184"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="192,183,249,223,245,227,189,187"/>
+</map>

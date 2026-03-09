@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPSE // Terminal_v1b0c3c6</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="terminal-theme">
+
+    <header class="system-header">
+        <div class="container">
+            <div class="header-grid">
+                <div class="brand">
+                    <span class="root-path">~/unitn/ppse-lab/</span><span class="cursor">_</span>
+                    <h1>FIRMWARE <small>v1b0c3c6</small></h1>
+                </div>
+                <div class="sys-status">
+                    <div class="status-item"><span class="label">STATUS:</span> <span class="value green">OPERATIONAL</span></div>
+                    <div class="status-item"><span class="label">TARGET:</span> <span class="value">RP2040_PICO</span></div>
+                    <div class="status-item"><span class="label">BUILD_DATE:</span> <span class="value">2026-03-09</span></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="dashboard-grid">
+            
+            <section class="console-card primary">
+                <div class="card-header">:: EXECUTABLES_BIN</div>
+                <div class="card-body">
+                    <p class="cmd-text">> accessing .release/downloads/...</p>
+                    <div class="deploy-zone">
+                        <a href="downloads/ppse-firmware_latest_bundle.zip" class="main-deploy-btn">
+                            <i class="fas fa-box-open"></i> PULL_FULL_BUNDLE.ZIP
+                        </a>
+                        <div class="sub-deploy-grid">
+                            <a href="downloads/ppse-firmware_latest.uf2"><i class="fas fa-bolt"></i> UF2</a>
+                            <a href="downloads/ppse-firmware_latest.bin"><i class="fas fa-file-code"></i> BIN</a>
+                            <a href="downloads/ppse-firmware_latest.elf"><i class="fas fa-bug"></i> ELF</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="console-card">
+                <div class="card-header">:: DOCS_NODE</div>
+                <div class="card-body">
+                    <ul class="doc-list">
+                        <li>
+                            <a href="api/index.html">
+                                <span class="dir">DRV/</span> API_REFERENCE_HTML
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="Academic_Report.pdf">
+                                <span class="dir">PDF/</span> ACADEMIC_REPORT.LOG
+                                <i class="fas fa-file-pdf"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="Technical_Reference.pdf">
+                                <span class="dir">PDF/</span> TECH_REFERENCE.MAN
+                                <i class="fas fa-file-pdf"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="system-footer">
+        <div class="container">
+            <div class="footer-meta">
+                <span>[LOG]: BUILD_SUCCESSFUL // HASH: 1b0c3c6</span>
+                <span class="git-link"><a href="https://github.com/4137314/ppse-lab-firmware"><i class="fab fa-github"></i> REPO_SOURCE</a></span>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+<map id="firm/include/buttons.h" name="firm/include/buttons.h">
+<area shape="rect" id="Node000001" title="Definizioni e prototipi per la gestione degli input utente e della UI." alt="" coords="183,5,347,31"/>
+<area shape="rect" id="Node000002" href="$display__ui_8h.html" title="Definizioni hardware e prototipi per l&#39;interfaccia utente OLED." alt="" coords="174,79,355,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="259,44,260,78,255,79,253,45"/>
+<area shape="rect" id="Node000003" href="$buttons_8cpp_source.html" title=" " alt="" coords="5,152,156,177"/>
+<area shape="poly" id="edge6_Node000001_Node000003" title=" " alt="" coords="230,39,197,58,164,81,122,119,92,154,88,150,118,116,160,77,194,53,227,35"/>
+<area shape="rect" id="Node000005" href="$leds_8cpp_source.html" title=" " alt="" coords="373,152,503,177"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="303,34,336,53,369,77,406,115,433,150,428,153,402,119,366,81,333,58,301,39"/>
+<area shape="poly" id="edge2_Node000002_Node000001" title=" " alt="" coords="271,65,269,31,274,31,276,65"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="223,111,112,154,110,149,221,106"/>
+<area shape="rect" id="Node000004" href="$display__ui_8cpp_source.html" title=" " alt="" coords="181,152,349,177"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="267,118,267,152,262,152,262,118"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="306,107,411,149,409,154,304,112"/>
+</map>

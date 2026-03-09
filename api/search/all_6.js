@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['getdate_5fand_5ftime_0',['GetDate_and_Time',['../gps_8h.html#aadbd2f07e07e8a3f472065571970cefe',1,'gps.cpp']]],
+  ['getposition_5fand_5fsatellites_1',['GetPosition_and_Satellites',['../gps_8h.html#a177ee65fb57b969753487772f3fc552c',1,'gps.cpp']]],
+  ['gps_20environment_20logger_2',['🛰️ RP2040 GPS &amp; Environment Logger',['../md_README.html',1,'']]],
+  ['gps_2eh_3',['gps.h',['../gps_8h.html',1,'']]],
+  ['gps_5facquire_5fmax_5ftries_4',['GPS_ACQUIRE_MAX_TRIES',['../gps_8h.html#a5934c22dd84dadbcf073ac5f90f677de',1,'gps.h']]],
+  ['gps_5fen_5fpin_5',['GPS_EN_PIN',['../gps_8h.html#ad168ea4f5cdee8a5709e47e55e7352a6',1,'gps.h']]],
+  ['gps_5flast_5fpath_6',['GPS_LAST_PATH',['../gps_8h.html#a818b65777bbdf209f1ee3fbf5ea4cda0',1,'gps.h']]],
+  ['gps_5flog_5fpath_7',['GPS_LOG_PATH',['../gps_8h.html#a8db1fde37e33f26379238e0d67e7bdae',1,'gps.h']]],
+  ['gps_5fmax_5flines_8',['GPS_MAX_LINES',['../gps_8h.html#a73cb453a2a3fdcba605cc266e0c2cb45',1,'gps.h']]],
+  ['gps_5fpps_5fpin_9',['GPS_PPS_PIN',['../gps_8h.html#a0ce809cb17fb06c7373abc0ae56eb911',1,'gps.h']]],
+  ['gps_5fsync_10',['GPS_sync',['../gps_8h.html#a79c2c486e631815579df4be3e190ebad',1,'gps.cpp']]],
+  ['gps_5fsync_5fack_11',['GPS_SYNC_ACK',['../gps_8h.html#a297dec6629d7af8c5fa66458f3a6bbcb',1,'gps.h']]],
+  ['gps_5fsync_5freq_12',['GPS_SYNC_REQ',['../gps_8h.html#a54fb54b5a641fa6c3d8ef24c298ea0af',1,'gps.h']]],
+  ['gps_5fsync_5ftimeout_5fmsec_13',['GPS_SYNC_TIMEOUT_MSEC',['../gps_8h.html#a8b360a2163d72199b538f68a6d439ece',1,'gps.h']]],
+  ['gps_5fwrite_5ffreq_14',['GPS_WRITE_FREQ',['../gps_8h.html#a80e517639c444b77a2c13f4600a2969a',1,'gps.h']]],
+  ['gpsacquire_15',['gpsAcquire',['../gps_8h.html#a5c33ca28d942d03c752f418f3c04711f',1,'gps.cpp']]],
+  ['gpsbaud_16',['GPSBAUD',['../gps_8h.html#aaa7ed57683b50196eadd5cf6a8b01ff9',1,'gps.h']]],
+  ['gpsdata_17',['gpsData',['../display__ui_8h.html#a5c6f156bb25fb0b8dc1c8ecffc44c880',1,'display_ui.h']]],
+  ['gpsdayindex_18',['gpsDayIndex',['../display__ui_8h.html#a72633eb7d635fdcd67c3ba83a0ff6210',1,'display_ui.cpp']]],
+  ['gpsdirty_19',['gpsDirty',['../gps_8h.html#a10b5067a83bd080a4dde61dd9a3a84c0',1,'gps.h']]],
+  ['gpshourindex_20',['gpsHourIndex',['../display__ui_8h.html#a66912dc5c284804679e383d79920fe10',1,'display_ui.cpp']]],
+  ['gpsinit_21',['gpsInit',['../gps_8h.html#a27c44e6a267029d9db9678b90361b91a',1,'gps.cpp']]]
+];

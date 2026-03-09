@@ -1,0 +1,19 @@
+<map id="firm/include/leds.h" name="firm/include/leds.h">
+<area shape="rect" id="Node000001" title="Definizioni hardware e prototipi per la gestione dei LED RGB." alt="" coords="117,5,260,31"/>
+<area shape="rect" id="Node000002" href="$buttons_8h.html" title="Definizioni e prototipi per la gestione degli input utente e della UI." alt="" coords="167,79,331,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,40,241,77,237,80,205,43"/>
+<area shape="rect" id="Node000003" href="$display__ui_8h.html" title="Definizioni hardware e prototipi per l&#39;interfaccia utente OLED." alt="" coords="158,152,339,177"/>
+<area shape="poly" id="edge9_Node000001_Node000003" title=" " alt="" coords="172,43,156,73,154,88,158,103,169,118,184,131,217,150,214,154,181,135,165,122,153,105,148,88,151,71,167,40"/>
+<area shape="rect" id="Node000004" href="$buttons_8cpp_source.html" title=" " alt="" coords="352,225,503,251"/>
+<area shape="poly" id="edge10_Node000001_Node000004" title=" " alt="" coords="259,32,304,50,345,77,377,114,401,156,427,224,422,226,396,158,373,117,342,81,301,54,257,37"/>
+<area shape="rect" id="Node000006" href="$leds_8cpp_source.html" title=" " alt="" coords="5,225,135,251"/>
+<area shape="poly" id="edge11_Node000001_Node000006" title=" " alt="" coords="173,43,147,80,104,163,77,226,72,224,99,160,142,77,169,40"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="243,118,244,152,239,152,237,118"/>
+<area shape="poly" id="edge7_Node000002_Node000004" title=" " alt="" coords="287,108,320,127,353,150,393,189,421,224,417,227,389,192,350,154,317,131,284,113"/>
+<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="213,113,180,131,148,154,109,192,80,227,76,224,105,189,144,150,178,127,211,108"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="255,139,253,104,258,104,260,138"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="291,180,399,223,397,228,289,185"/>
+<area shape="rect" id="Node000005" href="$display__ui_8cpp_source.html" title=" " alt="" coords="159,225,327,251"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="249,191,247,225,242,225,244,191"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="208,185,100,228,98,223,207,180"/>
+</map>

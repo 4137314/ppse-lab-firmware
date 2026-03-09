@@ -1,0 +1,52 @@
+<map id="firm/include/buttons.h" name="firm/include/buttons.h">
+<area shape="rect" id="Node000001" title="Definizioni e prototipi per la gestione degli input utente e della UI." alt="" coords="570,5,734,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="172,225,256,251"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="570,27,427,39,260,63,180,80,110,100,54,125,33,139,17,154,9,170,12,184,24,196,44,206,100,221,158,230,158,235,99,226,43,211,21,200,7,187,3,170,13,150,29,135,51,120,108,95,179,74,259,58,427,34,570,21"/>
+<area shape="rect" id="Node000003" href="$display__ui_8h.html" title="Definizioni hardware e prototipi per l&#39;interfaccia utente OLED." alt="" coords="392,79,492,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="613,33,483,76,481,71,611,28"/>
+<area shape="rect" id="Node000008" href="$gps_8h.html" title="Definizioni, macro e strutture per la gestione della telemetria GPS." alt="" coords="708,152,765,177"/>
+<area shape="poly" id="edge26_Node000001_Node000008" title=" " alt="" coords="662,30,725,139,720,141,657,32"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="833,225,960,251"/>
+<area shape="poly" id="edge27_Node000001_Node000009" title=" " alt="" coords="667,29,875,214,871,218,663,33"/>
+<area shape="rect" id="Node000018" title=" " alt="" coords="984,225,1086,251"/>
+<area shape="poly" id="edge29_Node000001_Node000018" title=" " alt="" coords="674,28,1004,216,1002,221,671,33"/>
+<area shape="rect" id="Node000019" href="$leds_8h.html" title="Definizioni hardware e prototipi per la gestione dei LED RGB." alt="" coords="622,152,683,177"/>
+<area shape="poly" id="edge28_Node000001_Node000019" title=" " alt="" coords="655,31,655,138,650,138,650,31"/>
+<area shape="poly" id="edge8_Node000003_Node000001" title=" " alt="" coords="482,76,612,33,613,38,484,81"/>
+<area shape="poly" id="edge5_Node000003_Node000002" title=" " alt="" coords="392,95,299,97,190,105,138,112,92,123,55,136,30,154,22,169,24,182,35,193,53,203,104,218,159,228,158,233,103,224,51,208,32,197,20,184,17,168,26,150,52,132,90,117,137,107,190,99,299,91,391,89"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="302,152,422,177"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="431,106,387,145,383,141,427,102"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="446,152,597,177"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="456,102,500,141,497,145,453,106"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="41,152,96,177"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="392,103,268,123,110,155,109,150,267,118,391,97"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="120,152,184,177"/>
+<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="394,107,198,154,197,149,393,101"/>
+<area shape="poly" id="edge9_Node000003_Node000008" title=" " alt="" coords="492,101,695,149,694,155,491,106"/>
+<area shape="poly" id="edge21_Node000003_Node000019" title=" " alt="" coords="476,101,610,146,608,151,475,107"/>
+<area shape="rect" id="Node000021" href="$temp_8h.html" title="Definizioni hardware e prototipi per la lettura della temperatura." alt="" coords="209,152,277,177"/>
+<area shape="poly" id="edge24_Node000003_Node000021" title=" " alt="" coords="411,107,289,150,288,145,409,102"/>
+<area shape="poly" id="edge10_Node000008_Node000002" title=" " alt="" coords="708,177,696,180,578,198,485,206,390,213,270,228,269,223,390,208,484,201,578,193,695,175,707,172"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="763,175,859,217,857,222,761,180"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="390,225,480,251"/>
+<area shape="poly" id="edge12_Node000008_Node000010" title=" " alt="" coords="708,177,696,180,495,227,493,221,694,175,707,172"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="504,225,568,251"/>
+<area shape="poly" id="edge13_Node000008_Node000011" title=" " alt="" coords="708,179,582,223,581,218,706,174"/>
+<area shape="rect" id="Node000012" href="$filesystem_8h.html" title="Interfaccia per la gestione del filesystem FatFS e l&#39;integrazione USB Mass Storage." alt="" coords="593,225,696,251"/>
+<area shape="poly" id="edge14_Node000008_Node000012" title=" " alt="" coords="723,179,672,219,668,215,720,175"/>
+<area shape="rect" id="Node000017" title=" " alt="" coords="720,225,808,251"/>
+<area shape="poly" id="edge19_Node000008_Node000017" title=" " alt="" coords="744,177,757,212,752,214,739,179"/>
+<area shape="poly" id="edge20_Node000008_Node000018" title=" " alt="" coords="766,170,974,220,973,225,765,175"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="454,299,522,324"/>
+<area shape="poly" id="edge15_Node000012_Node000013" title=" " alt="" coords="620,253,528,295,525,290,618,248"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="546,299,641,324"/>
+<area shape="poly" id="edge16_Node000012_Node000014" title=" " alt="" coords="638,253,612,289,608,286,634,249"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="666,299,724,324"/>
+<area shape="poly" id="edge17_Node000012_Node000015" title=" " alt="" coords="655,249,681,286,677,289,651,253"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="749,299,820,324"/>
+<area shape="poly" id="edge18_Node000012_Node000016" title=" " alt="" coords="668,248,751,290,748,295,666,253"/>
+<area shape="poly" id="edge22_Node000019_Node000002" title=" " alt="" coords="622,177,610,180,517,196,442,205,367,214,270,228,269,223,366,208,442,200,516,191,609,175,621,172"/>
+<area shape="rect" id="Node000020" title=" " alt="" coords="280,225,366,251"/>
+<area shape="poly" id="edge23_Node000019_Node000020" title=" " alt="" coords="622,177,610,180,497,204,380,228,379,222,496,199,609,175,621,172"/>
+<area shape="poly" id="edge25_Node000021_Node000002" title=" " alt="" coords="241,179,226,214,221,212,236,177"/>
+</map>
