@@ -1,68 +1,72 @@
 /**
  * @file peripherals.h
- * @brief Driver unificato per feedback (LED, Buzzer) e sensori ambientali.
- * @details Gestisce l'astrazione di LED RGB, feedback acustico e acquisizione
- * termica analogica, isolando le librerie hardware dal resto del sistema.
+ * @brief Driver agnostico unificato per feedback (LED, Buzzer) e sensori.
+ * @details Isola le librerie hardware (PWM, ADC, WS2812) per garantire
+ * la massima portabilità tra framework e core.
+ * Repository: https://github.com/4137314/ppse-lab-firmware
  */
 
 #ifndef PERIPHERALS_H
 #define PERIPHERALS_H
 
-#include <Arduino.h>
-#include "config_pins.h"
-
-/** @name Parametri ADC (RP2040)
- * @{ */
-#define ADC_RESOLUTION      12      /**< Risoluzione nativa ADC RP2040. */
-#define ADC_MAX_VALUE     4095      /**< Valore massimo (2^12 - 1). */
-/** @} */
+#include <stdint.h>
+#include <stdbool.h>
 
 /**
- * @brief Tipi di feedback predefiniti per il sistema.
+ * @brief Stati logici di feedback per l'utente o il sistema di volo.
  */
 typedef enum {
-    FEEDBACK_SUCCESS,  /**< LED Verde + Beep corto (Conferma). */
-    FEEDBACK_ERROR,    /**< LED Rosso + Beep lungo (Errore). */
-    FEEDBACK_NEUTRAL,  /**< LED Blu (Navigazione). */
-    FEEDBACK_OFF       /**< Spegne tutti i feedback attivi. */
+    FEEDBACK_SUCCESS,  /**< Conferma operazione (es. Motori Armati). */
+    FEEDBACK_ERROR,    /**< Allerta critica (es. Batteria Scarica). */
+    FEEDBACK_NEUTRAL,  /**< Stato normale (es. Standby). */
+    FEEDBACK_OFF       /**< Disattiva tutti i feedback. */
 } FeedbackType;
 
 /**
- * @brief Inizializza i GPIO per LED, Buzzer e sensore di temperatura.
- * @details Configura i pin definiti in config_pins.h e imposta la risoluzione ADC.
+ * @brief Inizializza l'hardware delle periferiche.
+ * @details Prepara i canali PWM per il buzzer, il bus per i LED RGB 
+ * e i registri ADC per la sensoristica analogica.
  */
-void peripherals_init();
+void peripherals_init(void);
 
-/* --- Feedback Utente --- */
+/* --- Feedback Visivo e Acustico --- */
 
 /**
- * @brief Esegue un pattern combinato LED + Buzzer basato sull'evento.
- * @param type Il tipo di feedback da riprodurre.
+ * @brief Attiva un pattern di feedback predefinito.
+ * @param type L'evento da segnalare.
  */
 void peripherals_trigger_feedback(FeedbackType type);
 
 /**
- * @brief Controllo manuale del colore dei LED (RGB).
- * @param r Rosso (0-255).
- * @param g Verde (0-255).
- * @param b Blu (0-255).
+ * @brief Controllo manuale del colore LED RGB.
+ * @details Astrae l'uso di librerie come NeoPixel o FastLED.
+ * @param r Componente Rossa (0-255).
+ * @param g Componente Verde (0-255).
+ * @param b Componente Blu (0-255).
  */
 void peripherals_set_led(uint8_t r, uint8_t g, uint8_t b);
 
 /**
- * @brief Genera un tono sul buzzer.
- * @param freq Frequenza in Hz.
- * @param duration Durata in ms.
+ * @brief Genera un segnale acustico.
+ * @param freq_hz Frequenza del tono.
+ * @param duration_ms Durata del segnale.
  */
-void peripherals_beep(uint32_t freq, uint32_t duration);
+void peripherals_beep(uint32_t freq_hz, uint32_t duration_ms);
 
-/* --- Sensoristica Ambientale --- */
+/* --- Acquisizione Dati Ambientali --- */
 
 /**
- * @brief Esegue la lettura analogica e restituisce la temperatura.
- * @details Acquisisce il valore dal pin TEMP_ADC_PIN e applica la conversione.
- * @return float La temperatura corrente espressa in °C.
+ * @brief Legge la temperatura corrente.
+ * @details Astrae la conversione ADC e l'equazione di Steinhart-Hart o il guadagno lineare.
+ * @return float Temperatura in gradi Celsius (°C).
  */
-float peripherals_read_temperature();
+float peripherals_get_temperature(void);
+
+/**
+ * @brief Restituisce la tensione della batteria del drone.
+ * @details Fondamentale per il failsafe del drone.
+ * @return float Tensione in Volt (V).
+ */
+float peripherals_get_battery_voltage(void);
 
 #endif /* PERIPHERALS_H */

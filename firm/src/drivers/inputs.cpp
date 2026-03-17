@@ -3,7 +3,9 @@
  * @brief Implementazione della gestione input con debounce software.
  */
 
+#include <Arduino.h>                // Necessario per pinMode, digitalRead, millis
 #include "drivers/inputs.h"
+#include "drivers/config_pins.h"    // Necessario per BTN_UP_PIN, ecc.
 
 // Variabile statica per memorizzare l'ultimo tasto non ancora letto
 static ButtonId last_button_event = BTN_NONE;
@@ -45,4 +47,17 @@ ButtonId inputs_get_last_press() {
     ButtonId event = last_button_event;
     last_button_event = BTN_NONE; // "Consuma" l'evento
     return event;
+}
+
+/**
+ * @brief Implementazione della funzione mancante richiesta dall'header
+ */
+bool inputs_is_pressed(ButtonId btn) {
+    switch (btn) {
+        case BTN_UP:    return (digitalRead(BTN_UP_PIN) == LOW);
+        case BTN_DOWN:  return (digitalRead(BTN_DOWN_PIN) == LOW);
+        case BTN_OK:    return (digitalRead(BTN_OK_PIN) == LOW);
+        case BTN_BACK:  return (digitalRead(BTN_BACK_PIN) == LOW);
+        default:        return false;
+    }
 }
