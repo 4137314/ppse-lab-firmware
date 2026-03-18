@@ -12,7 +12,6 @@
 #include "drivers/display_ssd1306.h" 
 #include <Arduino.h>
 
-// --- FIX LINKER: Inclusione diretta delle View ---
 // Includendo i .cpp, le variabili 'view_home', 'view_gps' ecc. 
 // diventano visibili localmente al manager risolvendo gli 'undefined reference'.
 #include "views/view_home.cpp"

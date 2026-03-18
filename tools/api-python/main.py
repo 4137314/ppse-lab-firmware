@@ -1,101 +1,143 @@
-import sys
-import openmeteo_requests
-import pandas as pd
-import requests_cache
-from retry_requests import retry
+#!/usr/bin/env python3
+import os
+import time
+import csv
+import datetime as dt
+import requests
 
-#https://open-meteo.com/en/docs?hourly=rain%2Cprecipitation_probability%2Cprecipitation%2Ctemperature_2m%2Cwind_speed_10m&past_days=1&daily=temperature_2m_max%2Ctemperature_2m_min%2Cwind_speed_10m_max%2Cprecipitation_probability_max%2Cweather_code
+GPS_FILE = r"D:\gps_last.csv"
+WX_FILE  = r"D:\wx.txt"
 
-
-# Check if the correct number of arguments (script_name + lat + lon) exists
-if len(sys.argv) != 3:
-    print("Error: You must provide exactly two arguments: Latitude and Longitude.")
-    print("Usage: python your_script.py <latitude> <longitude>")
-    sys.exit(1)
-
-try:
-    # Convert arguments to floats
-    lat = float(sys.argv[1])
-    lon = float(sys.argv[2])
-except ValueError:
-    print("Error: Latitude and Longitude must be valid numbers.")
-    sys.exit(1)
-
-# specific error handling for all zeroes (0, 0) as requested
-if lat == 0 and lon == 0:
-    print("Error: Invalid location. Coordinates (0, 0) are not allowed.")
-    sys.exit(1)
-
-print(f"Starting forecast fetch for Coordinates: {lat}, {lon}...")
+OPEN_METEO_URL = "https://api.open-meteo.com/v1/forecast"
+NOMINATIM_URL = "https://nominatim.openstreetmap.org/reverse"
 
 
-# Setup the Open-Meteo API client with cache and retry on error
-cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
-retry_session = retry(cache_session, retries = 4, backoff_factor = 0.2)
-openmeteo = openmeteo_requests.Client(session = retry_session)
+def gps_valid(path):
+    try:
+        with open(path, "r", encoding="utf-8", newline="") as f:
+            reader = csv.reader(f)
+            row = next(reader)  # può lanciare StopIteration se file vuoto
 
-# Make sure all required weather variables are listed here
-# The order of variables in hourly or daily is important to assign them correctly below
-url = "https://api.open-meteo.com/v1/forecast"
-params = {
-    "latitude": lat,  # <--- Updated to use CLI argument
-    "longitude": lon, # <--- Updated to use CLI argument
-    "daily": ["temperature_2m_max", "temperature_2m_min", "wind_speed_10m_max", "precipitation_probability_max", "weather_code"],
-    "hourly": ["rain", "precipitation_probability", "precipitation", "temperature_2m", "wind_speed_10m"],
-    "past_days": 1,
-}
-responses = openmeteo.weather_api(url, params=params)
+        if not row or len(row) < 2:
+            return None
 
-# Process first location. Add a for-loop for multiple locations or weather models
-response = responses[0]
-print(f"Coordinates: {response.Latitude()}°N {response.Longitude()}°E")
-print(f"Elevation: {response.Elevation()} m asl")
-print(f"Timezone difference to GMT+0: {response.UtcOffsetSeconds()}s")
+        lat = float(row[0])
+        lon = float(row[1])
 
-# Process hourly data. The order of variables needs to be the same as requested.
-hourly = response.Hourly()
-hourly_rain = hourly.Variables(0).ValuesAsNumpy()
-hourly_precipitation_probability = hourly.Variables(1).ValuesAsNumpy()
-hourly_precipitation = hourly.Variables(2).ValuesAsNumpy()
-hourly_temperature_2m = hourly.Variables(3).ValuesAsNumpy()
-hourly_wind_speed_10m = hourly.Variables(4).ValuesAsNumpy()
+        if -90.0 <= lat <= 90.0 and -180.0 <= lon <= 180.0:
+            return lat, lon
 
-hourly_data = {"date": pd.date_range(
-    start = pd.to_datetime(hourly.Time(), unit = "s", utc = True),
-    end =  pd.to_datetime(hourly.TimeEnd(), unit = "s", utc = True),
-    freq = pd.Timedelta(seconds = hourly.Interval()),
-    inclusive = "left"
-)}
+    except (StopIteration, ValueError, OSError):
+        pass
 
-hourly_data["rain"] = hourly_rain
-hourly_data["precipitation_probability"] = hourly_precipitation_probability
-hourly_data["precipitation"] = hourly_precipitation
-hourly_data["temperature_2m"] = hourly_temperature_2m
-hourly_data["wind_speed_10m"] = hourly_wind_speed_10m
+    return None
 
-hourly_dataframe = pd.DataFrame(data = hourly_data)
-print("\nHourly data\n", hourly_dataframe)
 
-# Process daily data. The order of variables needs to be the same as requested.
-daily = response.Daily()
-daily_temperature_2m_max = daily.Variables(0).ValuesAsNumpy()
-daily_temperature_2m_min = daily.Variables(1).ValuesAsNumpy()
-daily_wind_speed_10m_max = daily.Variables(2).ValuesAsNumpy()
-daily_precipitation_probability_max = daily.Variables(3).ValuesAsNumpy()
-daily_weather_code = daily.Variables(4).ValuesAsNumpy()
+def wait_for_valid_gps(path):
+    print(f"Waiting for valid GPS file: {path}")
+    while True:
+        if os.path.exists(path):
+            pos = gps_valid(path)
+            if pos:
+                print("Valid GPS found:", pos)
+                return pos
+            else:
+                print("gps_last exists but not valid yet")
+        time.sleep(2)
 
-daily_data = {"date": pd.date_range(
-    start = pd.to_datetime(daily.Time(), unit = "s", utc = True),
-    end =  pd.to_datetime(daily.TimeEnd(), unit = "s", utc = True),
-    freq = pd.Timedelta(seconds = daily.Interval()),
-    inclusive = "left"
-)}
 
-daily_data["temperature_2m_max"] = daily_temperature_2m_max
-daily_data["temperature_2m_min"] = daily_temperature_2m_min
-daily_data["wind_speed_10m_max"] = daily_wind_speed_10m_max
-daily_data["precipitation_probability_max"] = daily_precipitation_probability_max
-daily_data["weather_code"] = daily_weather_code
+def fetch_weather(lat, lon):
+    params = {
+        "latitude": lat,
+        "longitude": lon,
+        "timezone": "auto",
+        "forecast_days": 7,
+        "current": "temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code",
+        "hourly": "temperature_2m,weather_code"
+    }
+    r = requests.get(OPEN_METEO_URL, params=params, timeout=15)
+    r.raise_for_status()
+    return r.json()
 
-daily_dataframe = pd.DataFrame(data = daily_data)
-print("\nDaily data\n", daily_dataframe)
+
+def weekday0(first_time):
+    return dt.datetime.fromisoformat(first_time).weekday()  # 0=Lun .. 6=Dom
+
+
+def build_lines(data, city):
+    cur = data["current"]
+    hourly = data["hourly"]
+
+    temps = hourly["temperature_2m"]
+    codes = hourly["weather_code"]
+    times = hourly["time"]
+
+    # serve almeno 168 ore (7*24)
+    if len(temps) < 168 or len(codes) < 168 or len(times) < 168:
+        raise RuntimeError("Open-Meteo did not return 7*24 hourly samples")
+
+    wd0 = weekday0(times[0])
+
+    lines = []
+    # WXC,city,curTemp,curWind,curHum,curWcode,weekday0  (city=NA per ora)
+    lines.append(
+        f"WXC,{city},{cur['temperature_2m']:.1f},{cur['wind_speed_10m']:.1f},{int(cur['relative_humidity_2m'])},{int(cur['weather_code'])},{wd0}\n"
+    )
+
+    # 7 righe WXD: dayIndex + 24 temp + 24 code
+    for d in range(7):
+        start = d * 24
+        end = start + 24
+        parts = ["WXD", str(d)]
+        parts += [f"{float(t):.1f}" for t in temps[start:end]]
+        parts += [str(int(c)) for c in codes[start:end]]
+        lines.append(",".join(parts) + "\n")
+
+    return lines
+
+
+
+def reverse_city(lat, lon):
+    headers = {"User-Agent": "ppse-weather/1.0 (personal project)"}
+    params = {
+        "format": "jsonv2",
+        "lat": f"{lat:.6f}",
+        "lon": f"{lon:.6f}",
+        "zoom": "10",
+        "addressdetails": "1",
+    }
+    try:
+        r = requests.get(NOMINATIM_URL, params=params, headers=headers, timeout=10)
+        r.raise_for_status()
+        js = r.json()
+        addr = js.get("address", {}) if isinstance(js, dict) else {}
+        city = (addr.get("city") or addr.get("town") or addr.get("village")
+                or addr.get("municipality") or addr.get("county") or "NA")
+        city = str(city).replace(",", "_").strip()
+        return city[:23] if city else "NA"   # nel firmware city[24] :contentReference[oaicite:0]{index=0}
+    except Exception:
+        return "NA"
+    
+def write_atomic(path, lines):
+    # Su alcuni FATFS/USB MSC il rename o l'estensione .tmp può fallire.
+    # Scriviamo direttamente.
+    with open(path, "w", encoding="utf-8", newline="\n") as f:
+        f.writelines(lines)
+        f.flush()
+        os.fsync(f.fileno())
+
+
+def main():
+    lat, lon = wait_for_valid_gps(GPS_FILE)
+
+    print("Downloading weather...")
+    data = fetch_weather(lat, lon)
+    city = reverse_city(lat, lon)
+    lines = build_lines(data, city)
+    write_atomic(WX_FILE, lines)
+
+    print("Weather file written:", WX_FILE)
+
+
+if __name__ == "__main__":
+    main()

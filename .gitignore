@@ -78,3 +78,5 @@ Thumbs.db
 desktop.ini
 
 **/.rep-build/
+
+compile_commands.json
