@@ -1,34 +1,28 @@
-/**
- * @file view_definitions.h
- * @brief Definizioni astratte per il framework dell'interfaccia utente.
- */
-
 #ifndef VIEW_DEFINITIONS_H
 #define VIEW_DEFINITIONS_H
 
 #include <stdint.h>
 
+#include "drivers/inputs.h"
+
 /**
  * @brief Interfaccia funzionale di una schermata (View).
- * @details Ogni view implementa questi callback. Il manager non sa cosa 
- * contengano, sa solo quando chiamarli.
  */
 typedef struct {
-    /** @brief Chiamata una sola volta quando la view diventa attiva. */
+    /** @brief Chiamata all'attivazione della view. */
     void (*on_enter)(void);
 
-    /** * @brief Rendering e aggiornamento logico.
-     * @param data Puntatore opaco ai dati di sistema (SystemDataPacket).
-     */
+    /** @brief Rendering e logica. param data: SystemDataPacket*. */
     void (*on_update)(const void* data);
 
     /** * @brief Gestore eventi di input.
-     * @param input_id ID agnostico del comando (es. ButtonId castato a uint8_t).
+     * @param btn Il tasto fisico (es. BTN_UP)
+     * @param state Lo stato (es. BTN_RELEASED)
      */
-    void (*on_input)(uint8_t input_id);
+    void (*on_input)(button_t btn, button_state_t state);
 
-    /** @brief Chiamata prima di distruggere o cambiare view per pulizia memoria. */
+    /** @brief Chiamata prima di cambiare view. */
     void (*on_exit)(void);
 } view_interface_t;
 
-#endif /* VIEW_DEFINITIONS_H */
+#endif

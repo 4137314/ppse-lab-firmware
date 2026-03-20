@@ -7,10 +7,10 @@
 #ifndef UI_MANAGER_H
 #define UI_MANAGER_H
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
-/** * @brief Identificativi univoci per le schermate di sistema. 
+/** * @brief Identificativi univoci per le schermate di sistema.
  */
 typedef enum {
     VIEW_ID_HOME = 0,
