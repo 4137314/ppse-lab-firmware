@@ -9,9 +9,9 @@
 #ifndef TELEMETRY_H
 #define TELEMETRY_H
 
-#include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
 
 /**
  * @brief Inizializza i motori di parsing della telemetria.

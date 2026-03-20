@@ -1,9 +1,10 @@
 #ifndef SYSTEM_MANAGER_H
 #define SYSTEM_MANAGER_H
 
-#include <stdint.h>
 #include <stdbool.h>
-#include "core/messages.h" // Importante per SystemDataPacket
+#include <stdint.h>
+
+#include "core/messages.h"  // Importante per SystemDataPacket
 
 void sys_manager_init(void);
 

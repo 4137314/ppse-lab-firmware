@@ -1,5 +1,6 @@
 #include "core/system_manager.h"
-#include "core/messages.h"     // Per sicurezza includilo esplicitamente
+
+#include "core/messages.h"  // Per sicurezza includilo esplicitamente
 #include "pico/util/queue.h"
 
 static queue_t Qdata;
@@ -23,5 +24,9 @@ bool sys_manager_receive_data(SystemDataPacket* buffer) {
     return updated;
 }
 
-bool sys_is_core1_ready() { return _core1_ready; }
-void sys_set_core1_ready(bool ready) { _core1_ready = ready; }
+bool sys_is_core1_ready() {
+    return _core1_ready;
+}
+void sys_set_core1_ready(bool ready) {
+    _core1_ready = ready;
+}

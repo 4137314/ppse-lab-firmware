@@ -8,8 +8,8 @@
 #ifndef POWER_MANAGER_H
 #define POWER_MANAGER_H
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 /** * @brief Profili energetici del sistema.
  * @details Definiscono il comportamento dei carichi in base alla missione.
@@ -29,7 +29,7 @@ void power_manager_init(void);
 
 /**
  * @brief Task di monitoraggio energetico.
- * @details Da chiamare periodicamente per gestire le transizioni di stato 
+ * @details Da chiamare periodicamente per gestire le transizioni di stato
  * basate sulla tensione della batteria.
  */
 void power_manager_update(void);
@@ -62,7 +62,7 @@ void power_main_buck_enable(bool enable);
 /** @name Telemetria e Diagnostica
  * @{ */
 
-/** @brief Restituisce la tensione della batteria filtrata. 
+/** @brief Restituisce la tensione della batteria filtrata.
  * @return float Tensione in Volt (V). */
 float power_get_battery_voltage(void);
 

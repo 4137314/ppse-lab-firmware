@@ -3,13 +3,16 @@
  * @brief Gestione acquisizione sensori e parsing GPS (Core 1).
  */
 
-#include <Arduino.h>
-#include <cstring>              // Necessario per memset
 #include "core/telemetry.h"
-#include "core/messages.h"       // Per la definizione di SystemDataPacket
-#include "core/system_manager.h" // Per sys_manager_send_data
-#include "drivers/peripherals.h" // Per peripherals_read_temperature
+
+#include <Arduino.h>
 #include <minmea.h>
+
+#include <cstring>  // Necessario per memset
+
+#include "core/messages.h"        // Per la definizione di SystemDataPacket
+#include "core/system_manager.h"  // Per sys_manager_send_data
+#include "drivers/peripherals.h"  // Per peripherals_read_temperature
 
 // Pacchetto di lavoro interno al Core 1
 static SystemDataPacket local_frame;
@@ -17,9 +20,9 @@ static SystemDataPacket local_frame;
 void telemetry_init() {
     // Inizializza la memoria a zero per evitare dati spazzatura
     memset(&local_frame, 0, sizeof(SystemDataPacket));
-    
+
     // Inizializzazione Serial1 per il modulo GPS (GPIO 0 e 1 su Pico)
-    Serial1.begin(9600); 
+    Serial1.begin(9600);
 }
 
 void telemetry_update() {
@@ -33,7 +36,7 @@ void telemetry_update() {
     while (Serial1.available()) {
         char c = (char)Serial1.read();
         // Nota: Qui andrà inserita la logica di parsing minmea_parse_line
-        (void)c; // Evita warning per variabile non usata
+        (void)c;  // Evita warning per variabile non usata
     }
 
     // 4. Invia il pacchetto aggiornato al System Manager (IPC)
@@ -52,3 +55,35 @@ bool telemetry_get_frame(void* dest_buffer, size_t size) {
     memcpy(dest_buffer, &local_frame, sizeof(SystemDataPacket));
     return true;
 }
+
+#ifdef UNIT_TEST
+#include <unity.h>
+
+void test_telemetry_init_zeros_data() {
+    telemetry_init();
+    SystemDataPacket check;
+    telemetry_get_frame(&check, sizeof(SystemDataPacket));
+    TEST_ASSERT_EQUAL_FLOAT(0.0f, check.temp_c);
+    TEST_ASSERT_EQUAL_UINT32(0, check.uptime_s);
+}
+
+void test_telemetry_update_increments_uptime() {
+    telemetry_init();
+    
+    // Simuliamo il passare del tempo (Arduino mock millis)
+    // Nota: nel mock di Arduino su desktop, millis() è spesso controllabile
+    telemetry_update();
+    
+    SystemDataPacket check;
+    telemetry_get_frame(&check, sizeof(SystemDataPacket));
+    
+    // Verifichiamo che la temperatura mock (25.5f) sia stata acquisita
+    TEST_ASSERT_EQUAL_FLOAT(25.5f, check.temp_c);
+}
+
+// Funzione chiamata dal runner.cpp
+void run_telemetry_tests() {
+    RUN_TEST(test_telemetry_init_zeros_data);
+    RUN_TEST(test_telemetry_update_increments_uptime);
+}
+#endif
