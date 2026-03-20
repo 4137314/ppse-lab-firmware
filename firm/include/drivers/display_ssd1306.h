@@ -9,17 +9,17 @@
 #ifndef DISPLAY_SSD1306_H
 #define DISPLAY_SSD1306_H
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
-/* Nota: Le inclusioni pesanti (Adafruit_GFX.h, etc.) vengono spostate nel .cpp 
+/* Nota: Le inclusioni pesanti (Adafruit_GFX.h, etc.) vengono spostate nel .cpp
    per mantenere l'header "leggero" e agnostico per il compilatore. */
 
 /** @name Costanti Fisiche Pannello
  * @{ */
-#define SCREEN_WIDTH      128   /**< Larghezza display in pixel. */
-#define SCREEN_HEIGHT      64   /**< Altezza display in pixel. */
-#define SCREEN_ADDRESS   0x3C   /**< Indirizzo I2C standard SSD1306. */
+#define SCREEN_WIDTH   128  /**< Larghezza display in pixel. */
+#define SCREEN_HEIGHT  64   /**< Altezza display in pixel. */
+#define SCREEN_ADDRESS 0x3C /**< Indirizzo I2C standard SSD1306. */
 /** @} */
 
 /**

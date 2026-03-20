@@ -4,26 +4,28 @@
  */
 
 #include "drivers/display_ssd1306.h"
-#include "drivers/config_pins.h"
-#include <Wire.h>
+
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
+#include <Wire.h>
+
+#include "drivers/config_pins.h"
 
 // L'oggetto display è statico: visibile solo in questo file.
 // Usiamo -1 per il reset se non gestito da un pin GPIO dedicato.
 static Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
 bool display_hw_init() {
-    /** * Configurazione I2C0 su RP2040. 
+    /** * Configurazione I2C0 su RP2040.
      * Pin da schema: GPIO 12 (SDA), GPIO 13 (SCL).
      */
-    Wire.setSDA(I2C0_SDA_PIN); 
+    Wire.setSDA(I2C0_SDA_PIN);
     Wire.setSCL(I2C0_SCL_PIN);
-    Wire.setClock(400000); // 400kHz per un refresh fluido della UI
+    Wire.setClock(400000);  // 400kHz per un refresh fluido della UI
     Wire.begin();
 
     // Avvio del controller
-    if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
+    if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
         return false;
     }
 
@@ -31,9 +33,9 @@ bool display_hw_init() {
     display.clearDisplay();
     display.setTextSize(1);
     display.setTextColor(SSD1306_WHITE);
-    display.setRotation(0); // 0 o 2 (180°) a seconda di come è montato sulla board
+    display.setRotation(0);  // 0 o 2 (180°) a seconda di come è montato sulla board
     display.display();
-    
+
     return true;
 }
 

@@ -8,8 +8,8 @@
 #ifndef SENSORS_I2C_H
 #define SENSORS_I2C_H
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 /**
  * @brief Struttura dati per vettori inerziali (Accelerazione/Giroscopio).

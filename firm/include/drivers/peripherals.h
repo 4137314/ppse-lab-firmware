@@ -9,22 +9,22 @@
 #ifndef PERIPHERALS_H
 #define PERIPHERALS_H
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 /**
  * @brief Stati logici di feedback per l'utente o il sistema di volo.
  */
 typedef enum {
-    FEEDBACK_SUCCESS,  /**< Conferma operazione (es. Motori Armati). */
-    FEEDBACK_ERROR,    /**< Allerta critica (es. Batteria Scarica). */
-    FEEDBACK_NEUTRAL,  /**< Stato normale (es. Standby). */
-    FEEDBACK_OFF       /**< Disattiva tutti i feedback. */
+    FEEDBACK_SUCCESS, /**< Conferma operazione (es. Motori Armati). */
+    FEEDBACK_ERROR,   /**< Allerta critica (es. Batteria Scarica). */
+    FEEDBACK_NEUTRAL, /**< Stato normale (es. Standby). */
+    FEEDBACK_OFF      /**< Disattiva tutti i feedback. */
 } FeedbackType;
 
 /**
  * @brief Inizializza l'hardware delle periferiche.
- * @details Prepara i canali PWM per il buzzer, il bus per i LED RGB 
+ * @details Prepara i canali PWM per il buzzer, il bus per i LED RGB
  * e i registri ADC per la sensoristica analogica.
  */
 void peripherals_init(void);

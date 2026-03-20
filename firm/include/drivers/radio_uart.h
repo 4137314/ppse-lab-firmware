@@ -9,18 +9,18 @@
 #ifndef RADIO_UART_H
 #define RADIO_UART_H
 
-#include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
 
 /**
  * @brief Configura le periferiche UART0 e UART1 dell'RP2040.
- * @details Imposta i baudrate specifici: solitamente 9600 per il GPS 
+ * @details Imposta i baudrate specifici: solitamente 9600 per il GPS
  * e 115200 per l'ESP-01.
  */
 void radio_uart_init(void);
 
-/** @name Interfaccia GPS (UART1 - SAM-M8Q) 
+/** @name Interfaccia GPS (UART1 - SAM-M8Q)
  * @{ */
 
 /** @brief Verifica se ci sono byte pronti nel buffer di ricezione del GPS. */
@@ -37,7 +37,7 @@ void radio_gps_send(const uint8_t* buffer, size_t len);
 
 /** @} */
 
-/** @name Interfaccia WiFi (UART0 - ESP-01) 
+/** @name Interfaccia WiFi (UART0 - ESP-01)
  * @{ */
 
 /** @brief Verifica se ci sono dati in arrivo dal modulo WiFi. */
