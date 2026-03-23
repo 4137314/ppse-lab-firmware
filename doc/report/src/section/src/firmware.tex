@@ -18,31 +18,21 @@ L'adozione di questa tecnologia ha offerto diversi vantaggi determinanti per il 
 \paragraph{Configurazione del progetto: platformio.ini}
 Il cuore della configurazione risiede nel file \texttt{platformio.ini}. Questo file permette di definire in modo dichiarativo l'hardware di destinazione, la versione del framework e le librerie necessarie, garantendo la riproducibilità dell'ambiente di build su macchine diverse.
 
-Un aspetto fondamentale per questo progetto è stata la configurazione della partizione di memoria dedicata a \textbf{LittleFS}. Tramite il parametro \texttt{board\_build.filesystem\_size}, è stato possibile riservare una porzione specifica della Flash W25Q16 per l'archiviazione dei log.
+Un aspetto fondamentale per questo progetto è stata la configurazione della partizione di memoria dedicata a \textbf{FatFS}. 
+DA RIVEDERE ->Tramite il parametro \texttt{board\_build.filesystem\_size}, è stato possibile riservare una porzione specifica della Flash W25Q16 per l'archiviazione dei log.
 
 
 \paragraph{Workflow da terminale}
 L'utilizzo della \textit{Command Line Interface} (CLI) di PlatformIO ha permesso di velocizzare le operazioni di debug e caricamento.
 
-NOTA: comandi principali in appendice!
+NOTA: comandi principali in appendice! ANZI CITARE I COMANDI UFFICIALI PIO
 
 L'astrazione fornita da PlatformIO permette di gestire la complessità della \textit{toolchain} ARM GCC in modo trasparente, lasciando che lo sviluppatore si concentri sulla logica dell'applicazione e sulla gestione degli interrupt.
 
 \subsubsection*{Librerie e Dipendenze Software}
 
 \paragraph{Analisi dello Stack Software e Dipendenze}
-Per l'implementazione del middleware e dei driver di periferica, sono state selezionate librerie ottimizzate per l'ambiente \textit{bare-metal}, privilegiando l'efficienza nell'uso delle risorse e la stabilità del sistema a lungo termine:
-
-\begin{itemize}
-    \item \textbf{Parsing Deterministico NMEA (\texttt{minmea})}: È stata adottata la libreria \texttt{minmea} per il suo approccio \textit{heapless}. Essendo scritta in C puro e priva di allocazioni dinamiche della memoria (\texttt{malloc}), garantisce che il parsing delle sentenze avvenga in tempi costanti e senza rischi di frammentazione della RAM. Questo approccio è essenziale per estrarre i campi \texttt{GGA} e \texttt{RMC} senza introdurre \textit{jitter} nell'elaborazione dei dati GNSS.
-    
-    \item \textbf{Astrazione Grafica (\texttt{Adafruit GFX} \& \texttt{SSD1306})}: La gestione dell'interfaccia OLED sfrutta la libreria \texttt{Adafruit GFX} come \textit{Hardware Abstraction Layer} (HAL) per le primitive grafiche, mentre il driver \texttt{SSD1306} gestisce il trasferimento del \textit{framebuffer} tramite bus I2C a \qty{400}{kHz}. Tale configurazione permette l'aggiornamento dinamico della telemetria riducendo l'impatto sul carico computazionale del core.
-
-    \item \textbf{Sottosistema di Segnalazione (\texttt{FastLED} \& \texttt{NeoPixel})}: Queste dipendenze gestiscono la logica matematica dello spazio colore (RGB/HSV) e la generazione di gradienti. È importante sottolineare che, mentre le librerie gestiscono il calcolo cromatico, la generazione fisica dei segnali di controllo è delegata al sottosistema PIO (Sez. 4.3), risolvendo il conflitto di timing critico tipico dei LED WS2812B.
-
-    \item \textbf{Persistenza e Resilienza (\texttt{LittleFS})}: Integrato nativamente nel core, il filesystem gestisce la logica di \textit{wear leveling} dinamico sulla Flash esterna. La sua architettura transazionale assicura l'integrità dei dati salvati, prevenendo la corruzione dei log in caso di eventi critici come \textit{brown-out} o interruzioni improvvise dell'alimentazione.
-\end{itemize}
-
+Per l'implementazione del middleware e dei driver di periferica, sono state selezionate librerie ottimizzate per l'ambiente \textit{bare-metal}, privilegiando l'efficienza nell'uso delle risorse e la stabilità del sistema a lungo termine.
 
 \paragraph{Parsing GNSS: minmea}
 
