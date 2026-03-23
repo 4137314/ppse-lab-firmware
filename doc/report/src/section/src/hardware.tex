@@ -35,7 +35,7 @@ Il design del sottosistema di alimentazione è stato ingegnerizzato per coniugar
 Il primo stadio di regolazione è deputato alla gestione dei carichi di potenza, inclusi la matrice di LED RGB e le periferiche di comunicazione, che richiedono correnti di picco elevate senza compromettere il bilancio termico del PCB.
 
 \paragraph{Regolatore Buck: TPS563201}
-Per convertire la tensione d'ingresso ai 5\,V di sistema, è stato adottato il regolatore buck sincrono \textbf{TPS563201} \cite{tps563201_ds}. Questo convertitore DC-DC è in grado di erogare correnti costanti fino a 3\,A con un'efficienza superiore al 90\%. L'architettura sincrona, grazie all'integrazione di MOSFET a bassa $R_{DS(on)}$, minimizza le perdite di conduzione. Tale scelta riduce drasticamente il calore dissipato, permettendo un design compatto senza la necessità di dissipatori passivi ingombranti. Lo schema circuitale del modulo buck è riportato in Fig. \ref{fig:buck_schematic}.
+Per convertire la tensione d'ingresso ai 5\,V di sistema, è stato adottato il regolatore buck sincrono \textbf{TPS563201} \cite{tps563201_ds}. Questo convertitore DC-DC è in grado di erogare correnti costanti fino a 3\,A con un'efficienza superiore al 90\%. L'architettura sincrona, grazie all'integrazione di MOSFET a bassa $R_{DS(on)}$, minimizza le perdite di conduzione. Tale scelta riduce drasticamente il calore dissipato, permettendo un design compatto senza la necessità di dissipatori passivi ingombranti.
 
 \subsubsection*{Regolazione Lineare e Protezione RF}
 
