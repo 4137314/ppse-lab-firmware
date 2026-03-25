@@ -15,6 +15,7 @@ Il progetto usa un `Makefile` per orchestrare tutto:
 - **Genera Report PDF**: `make doc-report`
 - **Genera API Docs**: `make doc-website`
 - **Tutto insieme**: `make doc-all`
+- **Guida comandi**: `make help`
 
 ## 🌿 Branching Strategy
 - Crea un branch per ogni feature: `feature/nome-funzionalità`.
