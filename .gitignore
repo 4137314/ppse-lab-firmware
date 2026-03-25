@@ -80,3 +80,5 @@ desktop.ini
 **/.rep-build/
 
 compile_commands.json
+**/pcb_tool.egg-info/
+**/.tool-build/
