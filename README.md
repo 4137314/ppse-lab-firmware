@@ -30,6 +30,7 @@ Il progetto adotta un approccio **"Documentation as Code"**. Tutte le risorse te
 
 ## 📁 Struttura del Repository
 
+```txt
 .
 ├── config
 │   └── ui.mk
@@ -50,6 +51,7 @@ Il progetto adotta un approccio **"Documentation as Code"**. Tutte le risorse te
 └── tools
     ├── api-python
     └── tool.mk
+```
 
 ---
 
