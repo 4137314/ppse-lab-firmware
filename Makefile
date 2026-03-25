@@ -9,7 +9,7 @@ RELEASE_DIR    := .release
 Q              := @
 
 # Carica UI e Moduli (firmware, documentazione, tools)
-include build/ui.mk
+include config/ui.mk
 -include firm/firm.mk
 -include doc/doc.mk
 include tools/tool.mk
