@@ -1,89 +1,75 @@
 #include <Arduino.h>
-#include "core/storage.h"
-#include "core/system_manager.h"
-#include "core/telemetry.h"
+#include <Wire.h>
+#include "drivers/config_pins.h"
 #include "drivers/display_ssd1306.h"
 #include "drivers/inputs.h"
+#include "drivers/sensors_i2c.h"
+#include "drivers/peripherals.h"
 #include "ui/ui_manager.h"
+#include "core/messages.h"
 
-SystemDataPacket local_data;
-uint32_t last_log_ms = 0;
+static SystemDataPacket real_system_data;
 
-// --- CORE 1: Acquisizione ad alta priorità ---
-void setup1() {
-    sys_manager_init();
-    telemetry_init();
-    sys_set_core1_ready(true);
-}
-
-void loop1() {
-    // Aggiorna i sensori (IMU, GPS, Altitudine) alla massima velocità del bus
-    telemetry_update();
-
-    static uint32_t last_send_ms = 0;
-    // Invia i dati al Core 0 ogni 100ms (10Hz è ottimo per telemetria standard)
-    if (millis() - last_send_ms >= 100) {
-        SystemDataPacket frame;
-        telemetry_get_frame(&frame, sizeof(SystemDataPacket));
+void handle_serial_comms() {
+    if (Serial.available() > 0) {
+        String cmd = Serial.readStringUntil('\n');
+        cmd.trim(); // Rimuove spazi/newline extra
         
-        sys_manager_send_data(&frame);
-        last_send_ms = millis();
-    }
-    
-    // Niente delay(250) qui: permette al modulo GPS di essere letto costantemente
-    yield(); 
-}
-
-// --- CORE 0: Interfaccia Utente e Scrittura SD ---
-void setup() {
-    Serial.begin(115200); // Velocità aumentata per non rallentare il debug
-    
-    // Inizializzazione storage spostata nel Core 0 (gestore I/O)
-    if (!storage_init()) {
-        Serial.println("Critico: Errore Storage!");
-    }
-
-    while (!sys_is_core1_ready()) {
-        delay(1);
-    }
-
-    display_hw_init();
-    inputs_init();
-    ui_manager_init();
-}
-
-void loop() {
-    // 1. Gestione Input
-    inputs_update();
-    ButtonId btn = inputs_get_last_press();
-
-    // 2. Ricezione dati dal Core 1
-    if (sys_manager_receive_data(&local_data)) {
-        
-        // LOGGING: Spostato qui per non bloccare Core 1
-        // Se il GPS ha il fix e sono passati 10 secondi
-        if (local_data.gps_status > 0 && (millis() - last_log_ms >= 10000)) {
+        if (cmd == "GET_GPS") {
+            Serial.printf("%.6f,%.6f\n", real_system_data.latitude, real_system_data.longitude);
+        } 
+        else if (cmd.startsWith("WXC")) {
+            // Parsing manuale più sicuro
+            char* ptr = (char*)cmd.c_str() + 4; // Salta "WXC,"
             
-            // Verifichiamo che la SD non sia impegnata dal PC (USB Mass Storage)
-            if (!storage_is_busy_by_usb()) {
-                char log_buffer[128];
-                snprintf(log_buffer, sizeof(log_buffer), "%lu,%.6f,%.6f,%.2f,%.1f,%u", 
-                         millis(),
-                         local_data.latitude, 
-                         local_data.longitude, 
-                         local_data.speed_ms, 
-                         local_data.temp_c, 
-                         local_data.satellites);
+            // Estrazione campi usando strtok
+            char* city = strtok(ptr, ",");
+            char* temp = strtok(NULL, ",");
+            char* wind = strtok(NULL, ",");
+            char* hum  = strtok(NULL, ",");
+            char* code = strtok(NULL, ",");
 
-                storage_log_append(log_buffer);
-                last_log_ms = millis();
+            if (city && temp && wind && hum && code) {
+                strncpy(real_system_data.weather.city, city, 23);
+                real_system_data.weather.temp_ext   = atof(temp);
+                real_system_data.weather.wind_speed = atof(wind);
+                real_system_data.weather.humidity   = atoi(hum);
+                real_system_data.weather.weather_code = atoi(code);
+                real_system_data.weather.valid = true;
             }
         }
     }
+}
 
-    // 3. Aggiornamento Interfaccia
-    ui_manager_dispatch_input(btn);
-    ui_manager_update(&local_data);
+void setup() {
+    pinMode(LED_ALIVE_PIN, OUTPUT);
+    digitalWrite(LED_ALIVE_PIN, HIGH);
+    Serial.begin(115200);
+    
+    pinMode(BUCK_5V_EN_PIN, OUTPUT);
+    digitalWrite(BUCK_5V_EN_PIN, HIGH);
+    delay(400);
 
-    delay(16); // Circa 60Hz per la UI
+    inputs_init();
+    if (!display_hw_init()) while(1) { digitalWrite(LED_ALIVE_PIN, !digitalRead(LED_ALIVE_PIN)); delay(100); }
+
+    sensors_i2c_init();
+    ui_manager_init();
+    
+    memset(&real_system_data, 0, sizeof(SystemDataPacket));
+}
+
+void loop() {
+    handle_serial_comms();
+    inputs_update();
+    ButtonId pressed_btn = inputs_get_last_press();
+    if (pressed_btn != BTN_NONE) ui_manager_dispatch_input(pressed_btn);
+    
+    real_system_data.uptime_s = millis() / 1000;
+    real_system_data.temp_c   = sensors_read_temperature_c();
+    real_system_data.battery_v = sensors_read_battery_v();
+
+    ui_manager_update(&real_system_data);
+    digitalWrite(LED_ALIVE_PIN, (millis() / 500) % 2);
+    delay(20);
 }

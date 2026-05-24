@@ -2,7 +2,6 @@
 #define VIEW_DEFINITIONS_H
 
 #include <stdint.h>
-
 #include "drivers/inputs.h"
 
 /**
@@ -25,4 +24,14 @@ typedef struct {
     void (*on_exit)(void);
 } view_interface_t;
 
-#endif
+// =================================================================
+// AGGIUNGI QUESTE RIGHE QUI SOTTO:
+// Esibisce le istanze delle viste a ui_manager.cpp senza includere i .cpp
+// =================================================================
+extern const view_interface_t view_home;
+extern const view_interface_t view_gps;
+extern const view_interface_t view_meteo;
+extern const view_interface_t view_settings;
+extern const view_interface_t view_info;
+
+#endif /* VIEW_DEFINITIONS_H */

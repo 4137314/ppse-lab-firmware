@@ -5,6 +5,8 @@
 #include "ui/ui_manager.h"
 
 #include <Arduino.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
 
 #include "core/messages.h"
 #include "drivers/display_ssd1306.h"
@@ -13,11 +15,7 @@
 
 // Inclusione delle implementazioni delle viste
 // Nota: Assicurati che questi .cpp includano "drivers/inputs.h" in cima!
-#include "views/view_gps.cpp"
-#include "views/view_home.cpp"
-#include "views/view_info.cpp"
-#include "views/view_meteo.cpp"
-#include "views/view_settings.cpp"
+#include "ui/view_definitions.h" // Include le definizioni e le dichiarazioni extern
 
 static const view_interface_t* current_view = &view_home;
 static view_id_t current_view_id            = VIEW_ID_HOME;
@@ -29,10 +27,25 @@ void ui_manager_init() {
 }
 
 void ui_manager_update(const void* system_data) {
+    // 1. Cancella i vecchi dati presenti nel buffer grafico dello schermo
     display_clear();
+    
+    // 2. RECUPERA IL DRIVER GRAFICO CORRENTE
+    Adafruit_SSD1306* canvas = (Adafruit_SSD1306*)get_display_driver();
+    
+    // 3. FIX CRITICO: Forza i parametri di default del testo ad ogni frame.
+    // Previene che i testi vengano renderizzati in nero su nero (invisibili)
+    if (canvas) {
+        canvas->setTextColor(SSD1306_WHITE); // Imposta il colore del testo a Bianco
+        canvas->setTextSize(1);              // Imposta la dimensione standard del carattere
+    }
+
+    // 4. Esegue il rendering della schermata attiva
     if (current_view && current_view->on_update) {
         current_view->on_update(system_data);
     }
+    
+    // 5. Invia i dati modificati tramite bus I2C allo schermo fisico
     display_show();
 }
 

@@ -69,14 +69,14 @@ void test_telemetry_init_zeros_data() {
 
 void test_telemetry_update_increments_uptime() {
     telemetry_init();
-    
+
     // Simuliamo il passare del tempo (Arduino mock millis)
     // Nota: nel mock di Arduino su desktop, millis() è spesso controllabile
     telemetry_update();
-    
+
     SystemDataPacket check;
     telemetry_get_frame(&check, sizeof(SystemDataPacket));
-    
+
     // Verifichiamo che la temperatura mock (25.5f) sia stata acquisita
     TEST_ASSERT_EQUAL_FLOAT(25.5f, check.temp_c);
 }

@@ -24,10 +24,17 @@ typedef enum {
 
 /**
  * @brief Inizializza l'hardware delle periferiche.
- * @details Prepara i canali PWM per il buzzer, il bus per i LED RGB
- * e i registri ADC per la sensoristica analogica.
+ * @details Prepara l'accensione elettrica immediata della PCB (GPIO 11), i canali 
+ * PWM per il buzzer e i registri ADC per la sensoristica analogica di bordo.
  */
 void peripherals_init(void);
+
+/**
+ * @brief Inizializza il modulo logico dei LED RGB (FastLED).
+ * @details Isola la configurazione software del bus WS2812B per eseguirla 
+ * esclusivamente dopo che i clock e i timer della MCU si sono stabilizzati.
+ */
+void peripherals_init_leds(void);
 
 /* --- Feedback Visivo e Acustico --- */
 

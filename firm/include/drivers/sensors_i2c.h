@@ -47,4 +47,8 @@ bool sensors_i2c_is_healthy(void);
  */
 void sensors_accel_calibrate(void);
 
+// ... aggiungi queste righe prima di #endif
+float sensors_read_temperature_c(void);
+float sensors_read_battery_v(void);
+
 #endif /* SENSORS_I2C_H */
