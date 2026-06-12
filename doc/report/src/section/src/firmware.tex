@@ -18,14 +18,12 @@ L'adozione di questa tecnologia ha offerto diversi vantaggi determinanti per il 
 \paragraph{Configurazione del progetto: platformio.ini}
 Il cuore della configurazione risiede nel file \texttt{platformio.ini}. Questo file permette di definire in modo dichiarativo l'hardware di destinazione, la versione del framework e le librerie necessarie, garantendo la riproducibilità dell'ambiente di build su macchine diverse.
 
-Un aspetto fondamentale per questo progetto è stata la configurazione della partizione di memoria dedicata a \textbf{FatFS}. 
-DA RIVEDERE ->Tramite il parametro \texttt{board\_build.filesystem\_size}, è stato possibile riservare una porzione specifica della Flash W25Q16 per l'archiviazione dei log.
+Un aspetto fondamentale per questo progetto è stata la configurazione della partizione di memoria dedicata a \textbf{LittleFS}. 
+Tramite il parametro \texttt{board\_build.filesystem\_size}, è stato possibile riservare una porzione specifica della Flash W25Q16 per l'archiviazione dei log.
 
 
 \paragraph{Workflow da terminale}
 L'utilizzo della \textit{Command Line Interface} (CLI) di PlatformIO ha permesso di velocizzare le operazioni di debug e caricamento.
-
-NOTA: comandi principali in appendice! ANZI CITARE I COMANDI UFFICIALI PIO
 
 L'astrazione fornita da PlatformIO permette di gestire la complessità della \textit{toolchain} ARM GCC in modo trasparente, lasciando che lo sviluppatore si concentri sulla logica dell'applicazione e sulla gestione degli interrupt.
 
@@ -38,22 +36,19 @@ Per l'implementazione del middleware e dei driver di periferica, sono state sele
 
 Per l'estrazione delle coordinate geografiche e del timestamp UTC dalle sentenze NMEA fornite dal modulo SAM-M8Q \cite{sam_m8q_ds}, è stata integrata la libreria minmea \cite{minmea_lib}. Si tratta di un parser scritto in C99, estremamente leggero e adatto a sistemi \textit{resource-constrained} poiché non fa uso di memoria dinamica (\textit{heap}), evitando così problemi di frammentazione della RAM durante sessioni di logging prolungate.
 
-
-
-Per elaborare i dati in arrivo dalla UART, il firmware identifica l'intestazione della sentenza e la passa al parser per la conversione in strutture dati fruibili:
-
+Per elaborare i dati in arrivo dalla UART, il firmware identifica l'intestazione della sentenza e la passa al parser per la conversione in strutture dati fruibili.
 
 L'utilizzo di \texttt{minmea} garantisce che il parsing avvenga in un intervallo temporale deterministico, riducendo la latenza di elaborazione e assicurando che il Core 0 possa gestire simultaneamente gli interrupt della seriale e la logica di controllo senza perdita di pacchetti.
 
 \paragraph{Interfaccia Visuale: SSD1306 e Adafruit GFX}
 
-La comunicazione visiva con l'utente avviene tramite un display OLED gestito via I2C. Per astrarre la complessità del disegno dei caratteri e delle primitive grafiche, si utilizzano le librerie Adafruit GFX \cite{adafruit_gfx} e Adafruit SSD1306 \cite{adafruit_ssd1306}. Il display viene inizializzato definendo l'indirizzo I2C (tipicamente \texttt{0x3C}) e allocando il buffer necessario per la gestione dei pixel: L HO MESSO IN APPENDICE
+La comunicazione visiva con l'utente avviene tramite un display OLED gestito via I2C. Per astrarre la complessità del disegno dei caratteri e delle primitive grafiche, si utilizzano le librerie Adafruit GFX \cite{adafruit_gfx} e Adafruit SSD1306 \cite{adafruit_ssd1306}. Il display viene inizializzato definendo l'indirizzo I2C (tipicamente \texttt{0x3C}) e allocando il buffer necessario per la gestione dei pixel.
 
-Per massimizzare l'efficienza, il firmware opera tramite un \textit{framebuffer} in RAM: tutte le operazioni di disegno vengono effettuate localmente e trasmesse al controller \texttt{SSD1306} solo tramite la funzione \texttt{display.display()}. Questo approccio riduce il traffico sul bus I2C e previene fenomeni di sfarfallio (\textit{flickering}) durante l'aggiornamento dei dati meteo o delle coordinate in tempo reale.
+Per massimizzare l'efficienza, il firmware opera tramite un \textit{framebuffer} in RAM: tutte le operazioni di disegno vengono effettuate localmente e trasmesse al controller \texttt{SSD1306} solo tramite la funzione \texttt{display.display()} NOTA=DA RIVEDERE QUESTA FUNZIONE. Questo approccio riduce il traffico sul bus I2C e previene fenomeni di sfarfallio (\textit{flickering}) durante l'aggiornamento dei dati meteo o delle coordinate in tempo reale.
 
 \paragraph{Feedback Cromatico: FastLED e Offloading PIO}
 
-Per la gestione dei LED WS2812B è stata scelta la libreria FastLED \cite{fastled_lib}, che permette una manipolazione avanzata dello spazio colore \texttt{HSV} (più intuitivo dell'RGB per creare gradienti). Come discusso nella Sezione 4.3, la generazione fisica dei segnali di timing è delegata alle macchine a stati del \textbf{PIO}, mentre la libreria fornisce l'astrazione per definire i colori: MESSO IN APPENDICE
+Per la gestione dei LED WS2812B è stata scelta la libreria FastLED \cite{fastled_lib}, che permette una manipolazione avanzata dello spazio colore \texttt{HSV} (più intuitivo dell'RGB per creare gradienti). La generazione fisica dei segnali di timing è delegata alle macchine a stati del \textbf{PIO}, mentre la libreria fornisce l'astrazione per definire i colori.
 
 Il sistema utilizza i LED per fornire un feedback immediato sull'integrità del sistema: un gradiente dal rosso al verde indica la precisione del fix satellitare, mentre brevi impulsi luminosi segnalano l'avvenuto salvataggio di un log sulla memoria Flash, garantendo all'utente il monitoraggio dello stato del dispositivo senza dover consultare il display OLED.
 
@@ -61,13 +56,8 @@ Il sistema utilizza i LED per fornire un feedback immediato sull'integrità del 
 
 Per la gestione dell'archiviazione dei log e di parametri da salvare in memoria non volatile (Flash W25Q16 \cite{w25q128_ds}), si rende necessario l'uso di un filesystem. É stato scelto il filesystem LittleFS \cite{fastled_lib} \cite{littlefs_repo}, ottimizzato e pensato per memorie con bassa vita in scrittura (100.000 scritture per settore nel nostro caso), fa un uso minimo della ROM e indipendente dalle dimensioni del FS; inoltre é resiliente a perdite di alimentazione improvvise. La documentazione per l'uso dell'API si trova qui \cite{pico_arduino_core}. 
 
-LISTING IN APPENDICE
-
 Il programma utilizza la memoria flash per salvare l'ultima posizione valida del gps in modo che ve ne sia sempre una di fallback.
 Anche i dati meteo ritornati dal programma sul PC via UART vengono salvati in flash, permettendo di mantenerli anche se il PC viene scollegato e la board spenta.
-
-
-
 
 \subsubsection*{Offloading Computazionale tramite PIO}
 
@@ -103,7 +93,7 @@ Per la memorizzazione non volatile dei log GNSS e dei parametri di sistema, il p
 \subsubsection*{Modulo GNSS: u-blox SAM-M8Q}
 Il sistema di posizionamento si affida al modulo \textbf{u-blox SAM-M8Q} \cite{sam_m8q_ds}, un ricevitore GNSS (\textit{Global Navigation Satellite System}) di fascia professionale che integra un'antenna \textit{patch} ceramica pre-accordata. 
 
-L'integrazione di questo componente (visibile nello schematico di Fig. \ref{fig:gps_schematic}) offre diversi vantaggi tecnologici fondamentali per il progetto:
+L'integrazione di questo componente offre diversi vantaggi tecnologici fondamentali per il progetto:
 
 \begin{itemize}
     \item \textbf{Ricezione Multi-Costellazione}: Il modulo supporta la ricezione simultanea di tre sistemi GNSS (GPS, Galileo e GLONASS). Questa capacità permette di agganciare un numero superiore di satelliti rispetto ai ricevitori a singola costellazione, garantendo una precisione sub-metrica e un fix della posizione estremamente rapido (\textit{Time To First Fix}) anche in condizioni di scarsa visibilità del cielo.
@@ -123,7 +113,6 @@ Data la natura della memoria Flash, soggetta a un numero finito di cicli di canc
     \item \textbf{Gestione dei Bad Blocks}: Il sistema è in grado di rilevare e isolare dinamicamente eventuali blocchi danneggiati della Flash, mantenendo l'affidabilità del logging nel tempo.
 \end{itemize}
 
-Referenza flash figura \ref{fig:flash_schematic}
 
 \subsubsection*{Strategia di Logging e Concorrenza}
 

@@ -1,5 +1,11 @@
 # RP2040 GPS & Environment Logger
 
+![Build Status](https://img.shields.io/github/actions/workflow/status/4137314/ppse-lab-firmware/main.yml?label=Build&logo=github)
+![Version](https://img.shields.io/github/v/release/4137314/ppse-lab-firmware?label=Version&logo=semantic-release)
+![License](https://img.shields.io/github/license/4137314/ppse-lab-firmware?label=License)
+![Docs](https://img.shields.io/badge/Docs-Doxygen-blue?logo=doxygen)
+![Last Commit](https://img.shields.io/github/last-commit/4137314/ppse-lab-firmware?logo=git)
+
 Firmware avanzato per **RP2040** dedicato al logging geospaziale, monitoraggio ambientale e telemetria in tempo reale.
 
 ---
@@ -39,42 +45,3 @@ Il progetto adotta un approccio [**"Documentation as Code"**](https://en.wikiped
 
 * **[API Reference (Doxygen)](https://4137314.github.io/ppse-lab-firmware/api/)**
   *Documentazione tecnica generata direttamente dal codice sorgente per classi, driver e task RTOS.*
-
----
-
-## Struttura del Repository
-
-```txt
-.
-├── config
-│   └── ui.mk
-├── doc
-│   ├── api
-│   ├── doc.mk
-│   ├── README.md
-│   ├── report
-│   └── web
-├── firm
-│   ├── firm.mk
-│   ├── include
-│   ├── lib
-│   ├── platformio.ini
-│   └── src
-├── Makefile
-├── README.md
-└── tools
-    ├── api-python
-    └── tool.mk
-```
-
----
-
-## Contributi e Sviluppo
-
-Siamo aperti a contributi tecnici, segnalazioni di bug e suggerimenti per nuove feature. Per iniziare:
-
-* **Setup Locale:** Consulta la sezione [Sviluppo nella Wiki](https://github.com/4137314/ppse-lab-firmware/wiki) per configurare l'ambiente `PlatformIO` e i tool di build.
-* **Bug Report:** Hai trovato un errore? Apri una [Issue](https://github.com/4137314/ppse-lab-firmware/issues) descrivendo il problema e i passaggi per riprodurlo.
-* 🛠️ **Pull Requests:** Prima di inviare codice, leggi le nostre [Linee Guida per i Contributori](./.github/CONTRIBUTING.md).
-
-> **Nota:** Assicurati di eseguire `make check` localmente per verificare la conformità del codice (Linter & Formatter) prima di ogni commit.

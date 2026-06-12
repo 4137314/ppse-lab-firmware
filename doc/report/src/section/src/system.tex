@@ -1,7 +1,7 @@
 \newpage
 \section{Architettura di Sistema}
 
-L'architettura software di \textbf{ppse-firmware} è stata ingegnerizzata seguendo un paradigma \textbf{stratificato} (\textit{layered architecture}), finalizzato a massimizzare la portabilità del codice e a garantire un netto disaccoppiamento tra l'astrazione dell'hardware e la logica applicativa. Tale approccio permette di gestire la complessità derivante dalla coesistenza di task asincroni e requisiti real-time tipici del SoC RP2040.
+L'architettura software è stata ingegnerizzata seguendo un paradigma \textbf{stratificato} (\textit{layered architecture}), finalizzato a massimizzare la portabilità del codice e a garantire un netto disaccoppiamento tra l'astrazione dell'hardware e la logica applicativa. Tale approccio permette di gestire la complessità derivante dalla coesistenza di task asincroni e requisiti real-time tipici del SoC RP2040.
 
 
 % --- SOTTOSEZIONE 1 ---
@@ -20,7 +20,7 @@ Rappresenta lo strato inferiore (\texttt{drivers/}) dove risiedono i componenti 
 \subsubsection*{Livello Core (Middleware \& System Management)}
 Agisce come orchestratore centrale e ponte tra l'hardware e l'interfaccia utente (\texttt{core/}). Implementa i servizi critici di sistema:
 \begin{itemize}
-    \item \textbf{Storage:} Gestione resiliente dei dati tramite il filesystem \textit{FatFS} e persistenza su Flash (\texttt{storage.h}).
+    \item \textbf{Storage:} Gestione resiliente dei dati tramite il filesystem \textit{LittleFS} e persistenza su Flash (\texttt{storage.h}).
     \item \textbf{Power \& Telemetry:} Monitoraggio dei consumi e pacchettizzazione dei dati di telemetria (\texttt{telemetry.h}).
     \item \textbf{System Manager:} Gestione degli errori (\texttt{error\_codes.h}) e coordinamento del boot del sistema.
 \end{itemize}
