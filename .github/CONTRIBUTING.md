@@ -1,21 +1,32 @@
 # Guida al Contributo
 
-Grazie per l'interesse nel progetto! Segui queste linee guida per mantenere il codice pulito e la documentazione coerente.
+Segui queste linee guida per mantenere il codice pulito e la documentazione coerente.
 
-## 🛠️ Setup Ambiente
-1. Installa **PlatformIO Core**.
-2. Installa una distribuzione **LaTeX** (es. TeX Live).
-3. Assicurati di avere `doxygen` e `graphviz` nel PATH.
+# 🛠️ Setup Ambiente
+
+Il progetto usa **Nix** per un ambiente di sviluppo identico su Windows (WSL2), macOS e Linux.
+
+### 1. Prerequisiti
+* **Installa Nix:** `sh <(curl -L https://nixos.org/nix/install) --daemon`
+* **Abilita Flakes:** Aggiungi `experimental-features = nix-command flakes` in `~/.config/nix/nix.conf`.
+
+### 2. Sviluppo
+Nella root del progetto esegui:
+```bash
+nix develop
+````
+
+🚀 Comandi Makefile
+Comando	Descrizione
+make build	Compila il firmware
+make flash	Carica sulla scheda
+make docs	Genera documentazione
+make monitor	Apre monitor seriale
+make check	Linter e analisi statica
+make release	Crea bundle di distribuzione
 
 ## 🚀 Workflow di Sviluppo
-Il progetto usa un `Makefile` per orchestrare tutto:
-
-- **Build Firmware**: `make build`
-- **Linting**: `make lint`
-- **Genera Report PDF**: `make doc-report`
-- **Genera API Docs**: `make doc-website`
-- **Tutto insieme**: `make doc-all`
-- **Guida comandi**: `make help`
+Il progetto usa un `Makefile` per orchestrare tutto.
 
 ## 🌿 Branching Strategy
 - Crea un branch per ogni feature: `feature/nome-funzionalità`.
