@@ -15,5 +15,7 @@ bool sys_manager_receive_data(SystemDataPacket* buffer);
 // Sincronizzazione core
 bool sys_is_core1_ready(void);
 void sys_set_core1_ready(bool ready);
+// Gestisce i comandi seriali in arrivo
+void sys_manager_handle_serial(void);
 
 #endif /* SYSTEM_MANAGER_H */

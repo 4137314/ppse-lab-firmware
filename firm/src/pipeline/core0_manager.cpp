@@ -4,77 +4,64 @@
 #include "drivers/display_ssd1306.h"
 #include "drivers/inputs.h"
 #include "ui/ui_manager.h"
-#include "core/messages.h"
-#include "drivers/peripherals.h" // Aggiunto per gestire i feedback
+#include "core/system_manager.h" // Modulo centralizzato per i dati
+#include "drivers/peripherals.h"
 
-extern volatile SystemDataPacket real_system_data;
-
-static void handle_serial_comms() {
-    if (Serial.available() > 0) {
-        String cmd = Serial.readStringUntil('\n');
-        cmd.trim();
-        if (cmd == "GET_GPS") {
-            Serial.printf("%.6f,%.6f\n", real_system_data.latitude, real_system_data.longitude);
-        } else if (cmd.startsWith("WXC")) {
-            char* ptr = (char*)cmd.c_str() + 4;
-            char* city = strtok(ptr, ",");
-            char* temp = strtok(NULL, ",");
-            char* wind = strtok(NULL, ",");
-            char* hum  = strtok(NULL, ",");
-            char* code = strtok(NULL, ",");
-            if (city && temp && wind && hum && code) {
-                strncpy((char*)real_system_data.weather.city, city, 23);
-                real_system_data.weather.temp_ext   = atof(temp);
-                real_system_data.weather.wind_speed = atof(wind);
-                real_system_data.weather.humidity   = atoi(hum);
-                real_system_data.weather.weather_code = atoi(code);
-                real_system_data.weather.valid = true;
-            }
-        }
-    }
-}
+// Rimosso "extern volatile SystemDataPacket real_system_data"
+// Ora il Core 0 non possiede dati, li richiede al System Manager
 
 void core0_setup() {
-    pinMode(LED_ALIVE_PIN, OUTPUT);
-    digitalWrite(LED_ALIVE_PIN, HIGH);
     Serial.begin(115200);
-    
-    // Inizializzazione periferiche LED/Buzzer
-    peripherals_init(); 
-    peripherals_init_leds(); 
-    
+    uint32_t start_time = millis();
+    while (!Serial && (millis() - start_time < 3000)) delay(100);
+
+    Serial.println("\n--- PPSE FIRMWARE SYSTEM BOOTING ---");
+
+    // Init Manager di Sistema (inizializza gli spin_lock e la memoria)
+    sys_manager_init();
+
+    pinMode(LED_ALIVE_PIN, OUTPUT);
+    for(int i=0; i<3; i++) {
+        digitalWrite(LED_ALIVE_PIN, HIGH); delay(100);
+        digitalWrite(LED_ALIVE_PIN, LOW); delay(100);
+    }
+    digitalWrite(LED_ALIVE_PIN, HIGH);
+
+    Serial.println("Powering peripherals (Core 0)...");
     pinMode(BUCK_5V_EN_PIN, OUTPUT);
     digitalWrite(BUCK_5V_EN_PIN, HIGH);
-    delay(400);
     
+    peripherals_init(); 
+    peripherals_init_leds(); 
     inputs_init();
-    if (!display_hw_init()) while(1) { digitalWrite(LED_ALIVE_PIN, !digitalRead(LED_ALIVE_PIN)); delay(100); }
+    
+    if (!display_hw_init()) {
+        while(1) { digitalWrite(LED_ALIVE_PIN, !digitalRead(LED_ALIVE_PIN)); delay(100); }
+    }
+    
     ui_manager_init();
+    Serial.println("--- PPSE FIRMWARE SYSTEM READY ---");
 }
 
 void core0_loop() {
-    // 1. Gestione comunicazioni (sempre prioritaria)
-    handle_serial_comms();
+    // 1. Gestione comandi seriali (spostata nel system_manager)
+    sys_manager_handle_serial();
     
-    // 2. Input: Gestito via interrupt, qui preleviamo solo l'evento
+    // 2. Acquisizione dati atomica e UI
+    SystemDataPacket frame;
+    if (sys_manager_receive_data(&frame)) {
+        // Aggiorna UI solo se ci sono dati pronti
+        ui_manager_update(&frame);
+        // Feedback basato sui dati letti
+        peripherals_auto_feedback((const SystemDataPacket*)&frame);
+    }
+    
+    // 3. Gestione Input
     ButtonId pressed_btn = inputs_get_last_press();
     if (pressed_btn != BTN_NONE) {
         ui_manager_dispatch_input(pressed_btn);
     }
     
-    // 3. Feedback: Non blocca, esegue calcoli veloci
-    peripherals_auto_feedback((const SystemDataPacket*)&real_system_data);
-    
-    // 4. UI: Aggiornamento condizionato (LIMITATO A ~30 FPS)
-    static uint32_t last_ui_render = 0;
-    if (millis() - last_ui_render >= 33) { // 33ms ~= 30 FPS
-        ui_manager_update((void*)&real_system_data);
-        last_ui_render = millis();
-    }
-    
-    // 5. LED Alive (Beat)
+    // 4. LED Alive (Beat)
     digitalWrite(LED_ALIVE_PIN, (millis() / 500) % 2);
-    
-    // Rimosso il delay(10) globale: 
-    // il sistema ora è guidato dal tempo (non dal delay)
 }
