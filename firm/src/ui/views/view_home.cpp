@@ -11,7 +11,7 @@
 // Menu semplificato e unificato
 enum { HOME_FLIGHT, HOME_WEATHER, HOME_CONFIG, HOME_COUNT };
 static uint8_t menu_cursor = 0;
-static const char* labels[] = {"FLIGHT DATA", "WEATHER", "CONFIGURATION"};
+static const char* labels[] = {"GPS", "METEO", "SETTINGS"};
 
 static void home_input(button_t btn, button_state_t state) {
     if (state != BTN_RELEASED) return;
