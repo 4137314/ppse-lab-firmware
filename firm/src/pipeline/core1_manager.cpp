@@ -19,25 +19,19 @@ void core1_setup() {
 }
 
 void core1_loop() {
-    // 1. Aggiorna lo stato interno del modulo telemetria
     telemetry_update(); 
     
-    // 2. Prepara il pacchetto dati locale
     SystemDataPacket frame;
-    telemetry_get_frame(&frame); // Recupera i dati aggiornati dalla telemetria
+    telemetry_get_frame(&frame);
     
-    // 3. Arricchisce il frame con dati dai sensori I2C
-    frame.uptime_s  = millis() / 1000;
-    frame.temp_c    = sensors_read_temperature_c();
-    frame.battery_v = sensors_read_battery_v();
+    // CAMBIAMENTO: Non inviare più tutto il pacchetto frame.
+    // Invia solo le coordinate GPS usando la funzione chirurgica.
+    sys_manager_update_gps(frame.latitude, frame.longitude);
     
-    // 4. Invia il pacchetto al bus (Thread-safe verso Core 0)
-    sys_manager_send_data(&frame);
-    
-    // Debug: segnale di vita
+    // Debug
     static uint32_t last_log = 0;
     if (millis() - last_log > 5000) {
-        Serial.println("CORE 1: Telemetry Bus Push Alive...");
+        Serial.println("CORE 1: GPS Update Sent...");
         last_log = millis();
     }
     

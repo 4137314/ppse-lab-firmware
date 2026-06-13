@@ -14,8 +14,8 @@
 #define I2C0_SCL_PIN        1
 
 // UART1: Modulo GPS SAM-M8Q (Corretti su schema: TX=5, RX=4)
-#define GPS_TX_PIN          5  /**< Pin 7 RP2040 (DRX_SAM) */
-#define GPS_RX_PIN          4  /**< Pin 6 RP2040 (KITX_SAM) */
+#define GPS_TX_PIN          4  /**< Pin 7 RP2040 (DRX_SAM) */
+#define GPS_RX_PIN          5  /**< Pin 6 RP2040 (KITX_SAM) */
 #define GPSBAUD             9600
 
 // UART0: Modulo WiFi ESP-01

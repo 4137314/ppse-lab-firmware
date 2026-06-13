@@ -5,6 +5,7 @@
 #include "drivers/inputs.h"
 #include "ui/ui_manager.h"
 #include "core/system_manager.h"
+#include "core/telemetry.h" // Aggiunta inclusione
 #include "drivers/peripherals.h"
 #include "util/scheduler.h"
 
@@ -23,7 +24,6 @@ static Task task_ui = { [](){
     }
 }, 33, 0 };
 
-// Task di diagnostica integrato per la seriale
 static Task task_health = { [](){ 
     SystemDataPacket frame;
     sys_manager_receive_data(&frame);
@@ -42,11 +42,11 @@ void core0_setup() {
     Serial.println("\n--- PPSE FIRMWARE SYSTEM BOOTING ---");
 
     sys_manager_init();
+    telemetry_init(); // Inizializzazione GPS spostata qui
 
     pinMode(LED_ALIVE_PIN, OUTPUT);
     digitalWrite(LED_ALIVE_PIN, HIGH);
 
-    Serial.println("Powering peripherals...");
     pinMode(BUCK_5V_EN_PIN, OUTPUT);
     digitalWrite(BUCK_5V_EN_PIN, HIGH);
     
@@ -63,12 +63,13 @@ void core0_setup() {
 }
 
 void core0_loop() {
-    // Esecuzione deterministica dei task
+    // Aggiornamento GPS prioritario nel loop del core0
+    telemetry_update(); 
+    
     run_task(&task_serial);
     run_task(&task_input);
     run_task(&task_ui);
-    run_task(&task_health); // Monitoraggio log seriale attivo
+    run_task(&task_health);
     
-    // Heartbeat indicativo
     digitalWrite(LED_ALIVE_PIN, (millis() / 500) % 2);
 }

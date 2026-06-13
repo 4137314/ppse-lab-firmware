@@ -4,19 +4,16 @@ import serial
 import time
 import requests
 
-# Configurazione
 SERIAL_PORT = "/dev/ttyACM0"
 BAUD_RATE = 115200
 
 def get_city_name(lat, lon):
-    """Trasforma coordinate in nome città usando Nominatim API."""
     url = "https://nominatim.openstreetmap.org/reverse"
     params = {"lat": lat, "lon": lon, "format": "json", "zoom": 10}
     headers = {"User-Agent": "PPSE-Lab-Weather-Bridge"}
     try:
         r = requests.get(url, params=params, headers=headers, timeout=5)
         data = r.json()
-        # Prova a estrarre città, comune o località
         address = data.get("address", {})
         return address.get("city") or address.get("town") or address.get("village") or "Unknown"
     except:
@@ -36,17 +33,27 @@ def main():
     try:
         ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=5)
         print(f"🔗 Connesso a {SERIAL_PORT}")
-        time.sleep(2) 
+        # Aumentato il tempo di attesa per permettere al Pico di completare il boot post-reset
+        time.sleep(5) 
+        ser.reset_input_buffer()
         
         # 1. Richiedi GPS alla PCB
         ser.write(b"GET_GPS\n")
-        line = ser.readline().decode('utf-8').strip()
-        if not line or line == "0.000000,0.000000":
-            print("⚠️ GPS non ancora pronto (fix assente).")
+        
+        # LOGICA DI FILTRO: cerchiamo ESCLUSIVAMENTE la firma "GPS_DATA:"
+        data_line = None
+        for _ in range(50):
+            line = ser.readline().decode('utf-8', errors='ignore').strip()
+            if line.startswith("GPS_DATA:"):
+                data_line = line.replace("GPS_DATA:", "")
+                break
+        
+        if not data_line:
+            print("⚠️ Errore: Il firmware non ha risposto con il formato GPS_DATA.")
             return
             
-        print(f"📍 Ricevuto da PCB: {line}")
-        lat, lon = map(float, line.split(','))
+        print(f"📍 Ricevuto da PCB: {data_line}")
+        lat, lon = map(float, data_line.split(','))
 
         # 2. Ottieni meteo e nome città
         print("🌍 Rilevamento posizione...")

@@ -21,4 +21,8 @@ void sys_set_core1_ready(bool ready);
 // Gestione Interfaccia Seriale
 void sys_manager_handle_serial(void);
 
+// Aggiungi queste due righe nel tuo .h
+bool sys_manager_update_weather(const WeatherDataPacket& weather);
+bool sys_manager_update_gps(float lat, float lon);
+
 #endif /* SYSTEM_MANAGER_H */
