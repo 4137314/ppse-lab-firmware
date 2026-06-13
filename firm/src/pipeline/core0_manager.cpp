@@ -5,6 +5,7 @@
 #include "drivers/inputs.h"
 #include "ui/ui_manager.h"
 #include "core/messages.h"
+#include "drivers/peripherals.h" // Aggiunto per gestire i feedback
 
 extern volatile SystemDataPacket real_system_data;
 
@@ -37,9 +38,15 @@ void core0_setup() {
     pinMode(LED_ALIVE_PIN, OUTPUT);
     digitalWrite(LED_ALIVE_PIN, HIGH);
     Serial.begin(115200);
+    
+    // Inizializzazione periferiche LED/Buzzer
+    peripherals_init(); 
+    peripherals_init_leds(); 
+    
     pinMode(BUCK_5V_EN_PIN, OUTPUT);
     digitalWrite(BUCK_5V_EN_PIN, HIGH);
     delay(400);
+    
     inputs_init();
     if (!display_hw_init()) while(1) { digitalWrite(LED_ALIVE_PIN, !digitalRead(LED_ALIVE_PIN)); delay(100); }
     ui_manager_init();
@@ -48,9 +55,16 @@ void core0_setup() {
 void core0_loop() {
     handle_serial_comms();
     inputs_update();
+    
+    // Gestione feedback visivo automatico non bloccante
+    // Passiamo i dati correnti per decidere lo stato dei LED
+    peripherals_auto_feedback((const SystemDataPacket*)&real_system_data);
+    
     ButtonId pressed_btn = inputs_get_last_press();
     if (pressed_btn != BTN_NONE) ui_manager_dispatch_input(pressed_btn);
+    
     ui_manager_update((void*)&real_system_data);
+    
     digitalWrite(LED_ALIVE_PIN, (millis() / 500) % 2);
     delay(10);
 }

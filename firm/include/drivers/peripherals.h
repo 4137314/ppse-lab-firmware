@@ -11,6 +11,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include "core/messages.h" // Includi direttamente il file dei messaggi
 
 /**
  * @brief Stati logici di feedback per l'utente o il sistema di volo.
@@ -35,6 +36,20 @@ void peripherals_init(void);
  * esclusivamente dopo che i clock e i timer della MCU si sono stabilizzati.
  */
 void peripherals_init_leds(void);
+
+// Aggiungi queste nuove definizioni
+typedef enum {
+    LED_ANIM_NONE,
+    LED_ANIM_BOOT,      // Sweep bianco caldo
+    LED_ANIM_SEARCHING, // Pulsazione Blu Notte
+    LED_ANIM_FIX_OK,    // Verde Menta fisso/dim
+    LED_ANIM_SIGNAL_LOW // Ambra pulsante
+} LedAnimState;
+
+// Nuova funzione per aggiornare l'animazione in modo non bloccante
+void peripherals_update_led_fx(LedAnimState state);
+
+void peripherals_auto_feedback(const SystemDataPacket* data);
 
 /* --- Feedback Visivo e Acustico --- */
 

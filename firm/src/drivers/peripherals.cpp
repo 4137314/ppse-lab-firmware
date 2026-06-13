@@ -67,6 +67,53 @@ void peripherals_set_led(uint8_t r, uint8_t g, uint8_t b) {
     FastLED.show();
 }
 
+void peripherals_update_led_fx(LedAnimState state) {
+    // Definizione colori standard
+    const CRGB color_ok    = CRGB(0, 100, 50);    // Verde Menta
+    const CRGB color_warn  = CRGB(150, 50, 0);    // Ambra
+    const CRGB color_error = CRGB(150, 0, 0);     // Rosso
+
+    switch (state) {
+        case LED_ANIM_SEARCHING:
+            // "Respiro" lento di tutti i LED (pulsazione totale)
+            fill_solid(leds, NUM_LEDS, CRGB(0, 0, 50).nscale8(beatsin8(30, 50, 255)));
+            break;
+
+        case LED_ANIM_FIX_OK:
+            // Effetto fisso, sobrio
+            fill_solid(leds, NUM_LEDS, color_ok);
+            break;
+
+        case LED_ANIM_SIGNAL_LOW:
+            // Barra di segnale: accende solo i primi 3 LED in ambra
+            fill_solid(leds, NUM_LEDS, CRGB::Black);
+            for(int i=0; i<3; i++) leds[i] = color_warn;
+            break;
+
+        case LED_ANIM_BOOT:
+            // Animazione "Knight Rider" sobria (bianco caldo)
+            static uint8_t pos = 0;
+            fadeToBlackBy(leds, NUM_LEDS, 20);
+            leds[pos % NUM_LEDS] = CRGB(100, 80, 50);
+            pos++;
+            break;
+    }
+    FastLED.show();
+}
+
+void peripherals_auto_feedback(const SystemDataPacket* data) {
+    if (data->gps_status == false) {
+        // Corretto: ora chiamiamo la funzione di animazione
+        peripherals_update_led_fx(LED_ANIM_SEARCHING); 
+    } else if (data->battery_v < 3.4f) {
+        // Corretto: chiamiamo la funzione di animazione
+        peripherals_update_led_fx(LED_ANIM_SIGNAL_LOW); 
+    } else {
+        // Corretto: chiamiamo la funzione di animazione
+        peripherals_update_led_fx(LED_ANIM_FIX_OK);
+    }
+}
+
 /* --- Feedback Acustico --- */
 void peripherals_beep(uint32_t freq, uint32_t duration) {
     tone(BUZZER_PIN, freq, duration);

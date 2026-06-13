@@ -50,7 +50,7 @@
 /** * @name Feedback, Stato e Linee di Interrupt
  * @{ 
  */
-#define NUM_LEDS            1  /**< Numero di LED indirizzabili WS2812B integrati sulla PCB */
+#define NUM_LEDS            8  /**< Numero di LED indirizzabili WS2812B integrati sulla PCB */
 #define RGB_LED_PIN         13 /**< Pin 16 RP2040 (DRGB_LED) -> Linea dati per LED RGB */
 #define BUZZER_PIN          21 /**< Pin 32 RP2040 (DBUZZER_PWM) -> Piezo per alert acustici */
 #define LED_ALIVE_PIN       20 /**< Pin 31 RP2040 (DLED_ALIVE) -> LED di heartbeat del sistema */
