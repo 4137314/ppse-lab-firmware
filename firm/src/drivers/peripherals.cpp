@@ -3,12 +3,13 @@
  * @brief Implementazione dei driver per le periferiche di feedback (LED, Buzzer) e sensori analogici.
  */
 
+#include "drivers/config_pins.h"  // Fornisce la mappatura reale dei pin post-refactoring
+
 #include "drivers/peripherals.h"
 
 #include <Arduino.h>
 #include <stdint.h>
 
-#include "drivers/config_pins.h"  // Fornisce la mappatura reale dei pin post-refactoring
 #include "core/config.h" // <--- Assicurati che questo sia il file che contiene la definizione di ConfigData
 
 // Commentato per eliminare il warning "FASTLED_INTERNAL redefined" poiché già iniettato globalmente
