@@ -1,68 +1,52 @@
-/**
- * @file inputs.cpp
- * @brief Implementazione della gestione input con debounce software.
- */
-
 #include "drivers/inputs.h"
+#include <Arduino.h>
+#include "drivers/config_pins.h"
 
-#include <Arduino.h>  // Necessario per pinMode, digitalRead, millis
+static volatile ButtonId pending_button = BTN_NONE;
+static volatile uint32_t last_interrupt_time = 0;
+const uint32_t DEBOUNCE_DELAY_MS = 200;
 
-#include "drivers/config_pins.h"  // Necessario per BTN_UP_PIN, ecc.
-
-// Variabile statica per memorizzare l'ultimo tasto non ancora letto
-static ButtonId last_button_event  = BTN_NONE;
-static uint32_t last_debounce_time = 0;
-const uint32_t DEBOUNCE_DELAY_MS   = 50;
+// Rimosso IRAM_ATTR per compatibilità immediata
+void handle_button_interrupt() {
+    uint32_t current_time = millis();
+    if (current_time - last_interrupt_time > DEBOUNCE_DELAY_MS) {
+        if (digitalRead(BTN_UP_PIN) == LOW)   pending_button = BTN_UP;
+        else if (digitalRead(BTN_DOWN_PIN) == LOW) pending_button = BTN_DOWN;
+        else if (digitalRead(BTN_OK_PIN) == LOW)   pending_button = BTN_OK;
+        else if (digitalRead(BTN_BACK_PIN) == LOW) pending_button = BTN_BACK;
+        
+        last_interrupt_time = current_time;
+    }
+}
 
 void inputs_init() {
-    // Configurazione pin con pull-up interno (attivi bassi)
     pinMode(BTN_UP_PIN, INPUT_PULLUP);
     pinMode(BTN_DOWN_PIN, INPUT_PULLUP);
     pinMode(BTN_OK_PIN, INPUT_PULLUP);
     pinMode(BTN_BACK_PIN, INPUT_PULLUP);
+
+    attachInterrupt(digitalPinToInterrupt(BTN_UP_PIN),   handle_button_interrupt, FALLING);
+    attachInterrupt(digitalPinToInterrupt(BTN_DOWN_PIN), handle_button_interrupt, FALLING);
+    attachInterrupt(digitalPinToInterrupt(BTN_OK_PIN),   handle_button_interrupt, FALLING);
+    attachInterrupt(digitalPinToInterrupt(BTN_BACK_PIN), handle_button_interrupt, FALLING);
 }
 
-void inputs_update() {
-    // Semplice polling logic con debounce
-    if ((millis() - last_debounce_time) < DEBOUNCE_DELAY_MS)
-        return;
-
-    // Controlla i pulsanti (LOW significa premuto causa INPUT_PULLUP)
-    if (digitalRead(BTN_UP_PIN) == LOW) {
-        last_button_event  = BTN_UP;
-        last_debounce_time = millis();
-    } else if (digitalRead(BTN_DOWN_PIN) == LOW) {
-        last_button_event  = BTN_DOWN;
-        last_debounce_time = millis();
-    } else if (digitalRead(BTN_OK_PIN) == LOW) {
-        last_button_event  = BTN_OK;
-        last_debounce_time = millis();
-    } else if (digitalRead(BTN_BACK_PIN) == LOW) {
-        last_button_event  = BTN_BACK;
-        last_debounce_time = millis();
-    }
+void inputs_update() { 
+    // Ora gestito totalmente dagli interrupt
 }
 
 ButtonId inputs_get_last_press() {
-    ButtonId event    = last_button_event;
-    last_button_event = BTN_NONE;  // "Consuma" l'evento
+    ButtonId event = pending_button;
+    pending_button = BTN_NONE; 
     return event;
 }
 
-/**
- * @brief Implementazione della funzione mancante richiesta dall'header
- */
 bool inputs_is_pressed(ButtonId btn) {
     switch (btn) {
-        case BTN_UP:
-            return (digitalRead(BTN_UP_PIN) == LOW);
-        case BTN_DOWN:
-            return (digitalRead(BTN_DOWN_PIN) == LOW);
-        case BTN_OK:
-            return (digitalRead(BTN_OK_PIN) == LOW);
-        case BTN_BACK:
-            return (digitalRead(BTN_BACK_PIN) == LOW);
-        default:
-            return false;
+        case BTN_UP:   return (digitalRead(BTN_UP_PIN) == LOW);
+        case BTN_DOWN: return (digitalRead(BTN_DOWN_PIN) == LOW);
+        case BTN_OK:   return (digitalRead(BTN_OK_PIN) == LOW);
+        case BTN_BACK: return (digitalRead(BTN_BACK_PIN) == LOW);
+        default: return false;
     }
 }

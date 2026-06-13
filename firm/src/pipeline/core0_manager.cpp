@@ -53,18 +53,28 @@ void core0_setup() {
 }
 
 void core0_loop() {
+    // 1. Gestione comunicazioni (sempre prioritaria)
     handle_serial_comms();
-    inputs_update();
     
-    // Gestione feedback visivo automatico non bloccante
-    // Passiamo i dati correnti per decidere lo stato dei LED
+    // 2. Input: Gestito via interrupt, qui preleviamo solo l'evento
+    ButtonId pressed_btn = inputs_get_last_press();
+    if (pressed_btn != BTN_NONE) {
+        ui_manager_dispatch_input(pressed_btn);
+    }
+    
+    // 3. Feedback: Non blocca, esegue calcoli veloci
     peripherals_auto_feedback((const SystemDataPacket*)&real_system_data);
     
-    ButtonId pressed_btn = inputs_get_last_press();
-    if (pressed_btn != BTN_NONE) ui_manager_dispatch_input(pressed_btn);
+    // 4. UI: Aggiornamento condizionato (LIMITATO A ~30 FPS)
+    static uint32_t last_ui_render = 0;
+    if (millis() - last_ui_render >= 33) { // 33ms ~= 30 FPS
+        ui_manager_update((void*)&real_system_data);
+        last_ui_render = millis();
+    }
     
-    ui_manager_update((void*)&real_system_data);
-    
+    // 5. LED Alive (Beat)
     digitalWrite(LED_ALIVE_PIN, (millis() / 500) % 2);
-    delay(10);
+    
+    // Rimosso il delay(10) globale: 
+    // il sistema ora è guidato dal tempo (non dal delay)
 }
