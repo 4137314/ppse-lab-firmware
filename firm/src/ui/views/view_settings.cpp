@@ -23,8 +23,14 @@ static void settings_input(button_t btn, button_state_t state) {
                     global_cfg.oled_brightness = (global_cfg.oled_brightness >= 255) ? 50 : global_cfg.oled_brightness + 50;
                     display_set_brightness(global_cfg.oled_brightness);
                     break;
-                case SETTING_BUZZER: global_cfg.buzzer_enabled = !global_cfg.buzzer_enabled; break;
-                case SETTING_LEDS:   global_cfg.leds_enabled = !global_cfg.leds_enabled; break;
+                case SETTING_BUZZER: 
+                    global_cfg.buzzer_enabled = !global_cfg.buzzer_enabled;
+                    peripherals_set_buzzer(global_cfg.buzzer_enabled); // Esegue comando fisico
+                    break;
+                case SETTING_LEDS:   
+                    global_cfg.leds_enabled = !global_cfg.leds_enabled;
+                    peripherals_set_leds(global_cfg.leds_enabled);     // Esegue comando fisico
+                    break;
                 case SETTING_INFO:   ui_manager_navigate_to(VIEW_ID_INFO); break;
                 case SETTING_BACK:   ui_manager_navigate_to(VIEW_ID_HOME); break;
             }

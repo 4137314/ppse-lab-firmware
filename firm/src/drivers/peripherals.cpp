@@ -9,6 +9,7 @@
 #include <stdint.h>
 
 #include "drivers/config_pins.h"  // Fornisce la mappatura reale dei pin post-refactoring
+#include "core/config.h" // <--- Assicurati che questo sia il file che contiene la definizione di ConfigData
 
 // Commentato per eliminare il warning "FASTLED_INTERNAL redefined" poiché già iniettato globalmente
 // #define FASTLED_INTERNAL          
@@ -17,6 +18,8 @@
 
 // Array dei LED allocato dinamicamente tramite la macro globale NUM_LEDS di config_pins.h
 static CRGB leds[NUM_LEDS];
+
+extern SystemConfig global_cfg;
 
 /**
  * @brief Inizializzazione elettrica pura e immediata della PCB.
@@ -101,15 +104,33 @@ void peripherals_update_led_fx(LedAnimState state) {
     FastLED.show();
 }
 
+void peripherals_set_leds(bool enabled) {
+    if (!enabled) {
+        fill_solid(leds, NUM_LEDS, CRGB::Black);
+        FastLED.show();
+    }
+}
+
+void peripherals_set_buzzer(bool enabled) {
+    if (!enabled) {
+        noTone(BUZZER_PIN);
+    }
+}
+
 void peripherals_auto_feedback(const SystemDataPacket* data) {
+    // BLOCCO LOGICO: se l'utente ha disabilitato i LED da menu, non fare nulla
+    if (!global_cfg.leds_enabled) {
+        fill_solid(leds, NUM_LEDS, CRGB::Black);
+        FastLED.show();
+        return;
+    }
+
+    // Altrimenti procedi con l'automatismo
     if (data->gps_status == false) {
-        // Corretto: ora chiamiamo la funzione di animazione
         peripherals_update_led_fx(LED_ANIM_SEARCHING); 
     } else if (data->battery_v < 3.4f) {
-        // Corretto: chiamiamo la funzione di animazione
         peripherals_update_led_fx(LED_ANIM_SIGNAL_LOW); 
     } else {
-        // Corretto: chiamiamo la funzione di animazione
         peripherals_update_led_fx(LED_ANIM_FIX_OK);
     }
 }
