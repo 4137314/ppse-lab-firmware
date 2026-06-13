@@ -3,19 +3,22 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-
-#include "core/messages.h"  // Importante per SystemDataPacket
+#include "core/messages.h"
 
 void sys_manager_init(void);
 
-// Usa i nomi che hai scritto nel .cpp
+// Comunicazione Dati tra Core
 bool sys_manager_send_data(SystemDataPacket* packet);
 bool sys_manager_receive_data(SystemDataPacket* buffer);
 
-// Sincronizzazione core
+// Diagnostica e Errori
+void sys_manager_report_error(error_category_t cat, error_code_t code, bool critical);
+
+// Gestione Sincronizzazione Core
 bool sys_is_core1_ready(void);
 void sys_set_core1_ready(bool ready);
-// Gestisce i comandi seriali in arrivo
+
+// Gestione Interfaccia Seriale
 void sys_manager_handle_serial(void);
 
 #endif /* SYSTEM_MANAGER_H */

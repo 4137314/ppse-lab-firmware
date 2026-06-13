@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include "error_codes.h" 
 
 typedef enum {
     GPS_STATUS_IDLE = 0,
@@ -43,6 +44,9 @@ typedef struct __attribute__((packed)) {
     // --- Dati Meteo ---
     WeatherDataPacket weather;
 
+    // --- Diagnostica ---
+    error_report_t last_error; 
+
     struct {
         uint8_t is_armed : 1;
         uint8_t is_logging : 1;
@@ -52,4 +56,4 @@ typedef struct __attribute__((packed)) {
 
 } SystemDataPacket;
 
-#endif
+#endif // MESSAGES_H

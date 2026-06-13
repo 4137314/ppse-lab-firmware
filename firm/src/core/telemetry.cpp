@@ -1,11 +1,11 @@
 #include "core/telemetry.h"
+#include "core/system_manager.h" // Per sys_manager_report_error
 #include "drivers/config_pins.h"
 #include "drivers/peripherals.h"
 #include <Arduino.h>
 #include <minmea.h>
 #include <pico/sync.h>
 
-// Buffer privato e lock hardware per accesso atomico
 static SystemDataPacket telemetry_data;
 static spin_lock_t* telemetry_lock = spin_lock_init(spin_lock_claim_unused(true));
 
@@ -30,25 +30,41 @@ void telemetry_init() {
 
 static void process_nmea(const char* line) {
     struct minmea_sentence_gga gga;
+    
+    // Lock per scrittura atomica
+    uint32_t save = spin_lock_blocking(telemetry_lock);
+    
     if (minmea_parse_gga(&gga, line)) {
-        // Blocco critico solo per l'aggiornamento dati
-        uint32_t save = spin_lock_blocking(telemetry_lock);
-        
         telemetry_data.latitude = minmea_tocoord(&gga.latitude);
         telemetry_data.longitude = minmea_tocoord(&gga.longitude);
         telemetry_data.satellites = gga.satellites_tracked;
         telemetry_data.gps_status = (gga.fix_quality > 0);
         
-        if (telemetry_data.gps_status) last_fix_timestamp = millis();
-        
-        spin_unlock(telemetry_lock, save);
+        if (telemetry_data.gps_status) {
+            last_fix_timestamp = millis();
+            telemetry_data.flags.error_active = 0; // Clear errore GPS
+        } else {
+            // Segnala degrado segnale
+            telemetry_data.last_error.category = ERR_CAT_SENSORS;
+            telemetry_data.last_error.code = ERR_SENS_GPS_BAD_FIX;
+            telemetry_data.flags.error_active = 1;
+        }
     }
+    
+    spin_unlock(telemetry_lock, save);
 }
 
 void telemetry_update() {
-    // Aggiornamento dati locali non GPS
     telemetry_data.temp_c = peripherals_get_temperature();
     telemetry_data.uptime_s = millis() / 1000;
+
+    // Check salute (Watchdog software)
+    if (!telemetry_is_healthy()) {
+        uint32_t save = spin_lock_blocking(telemetry_lock);
+        telemetry_data.last_error = {ERR_CAT_SENSORS, ERR_SENS_GPS_NO_DATA, millis(), false};
+        telemetry_data.flags.error_active = 1;
+        spin_unlock(telemetry_lock, save);
+    }
 
     while (Serial1.available()) {
         char c = (char)Serial1.read();
@@ -65,7 +81,6 @@ void telemetry_update() {
 bool telemetry_get_frame(SystemDataPacket* dest) {
     if (!dest) return false;
     
-    // Lettura atomica: il Core 0 non leggerà mai una struttura a metà
     uint32_t save = spin_lock_blocking(telemetry_lock);
     *dest = telemetry_data;
     spin_unlock(telemetry_lock, save);
@@ -74,5 +89,5 @@ bool telemetry_get_frame(SystemDataPacket* dest) {
 }
 
 bool telemetry_is_healthy() {
-    return (millis() - last_fix_timestamp) < 30000; // FIX valido se < 30s
+    return (millis() - last_fix_timestamp) < 30000;
 }

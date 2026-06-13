@@ -3,16 +3,14 @@
 #include "drivers/sensors_i2c.h"
 #include "core/messages.h"
 #include "core/telemetry.h"
-#include "drivers/config_pins.h" // Necessario per SAM_EN_PIN
-
-extern volatile SystemDataPacket real_system_data;
+#include "core/system_manager.h" // Necessario per sys_manager_send_data
+#include "drivers/config_pins.h"
 
 void core1_setup() {
     Serial.println("CORE 1: Avvio alimentazione GPS...");
     
-    // ACCENSIONE CORRETTA: Logica PMOS (LOW = ON)
     pinMode(SAM_EN_PIN, OUTPUT);
-    digitalWrite(SAM_EN_PIN, LOW); 
+    digitalWrite(SAM_EN_PIN, LOW); // PMOS: LOW = ON
     
     sensors_i2c_init();
     telemetry_init(); 
@@ -21,16 +19,25 @@ void core1_setup() {
 }
 
 void core1_loop() {
+    // 1. Aggiorna lo stato interno del modulo telemetria
     telemetry_update(); 
     
-    real_system_data.uptime_s = millis() / 1000;
-    real_system_data.temp_c   = sensors_read_temperature_c();
-    real_system_data.battery_v = sensors_read_battery_v();
+    // 2. Prepara il pacchetto dati locale
+    SystemDataPacket frame;
+    telemetry_get_frame(&frame); // Recupera i dati aggiornati dalla telemetria
     
-    // Debug: segnale di vita nel loop
+    // 3. Arricchisce il frame con dati dai sensori I2C
+    frame.uptime_s  = millis() / 1000;
+    frame.temp_c    = sensors_read_temperature_c();
+    frame.battery_v = sensors_read_battery_v();
+    
+    // 4. Invia il pacchetto al bus (Thread-safe verso Core 0)
+    sys_manager_send_data(&frame);
+    
+    // Debug: segnale di vita
     static uint32_t last_log = 0;
     if (millis() - last_log > 5000) {
-        Serial.println("CORE 1: Telemetry Loop Alive...");
+        Serial.println("CORE 1: Telemetry Bus Push Alive...");
         last_log = millis();
     }
     
