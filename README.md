@@ -7,7 +7,7 @@
 ![License](https://img.shields.io/github/license/4137314/ppse-lab-firmware?label=License)
 ![Last Commit](https://img.shields.io/github/last-commit/4137314/ppse-lab-firmware?logo=git)
 
-Firmware avanzato per **RP2040** dedicato al logging geospaziale, monitoraggio ambientale e telemetria in tempo reale.
+Firmware per **RP2040** dedicato al logging geospaziale, monitoraggio ambientale e telemetria in tempo reale.
 
 ---
 
