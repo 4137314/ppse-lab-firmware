@@ -93,12 +93,11 @@ void telemetry_init() {
 
 
 static void process_nmea(const char* line) {
-    // Usiamo variabili locali per non bloccare il lock troppo a lungo
     bool new_fix_found = false;
     float lat = 0.0f, lon = 0.0f;
     int sats = 0;
 
-    // 1. Parsing GGA (Per posizione e qualità fix)
+    // Parsing
     struct minmea_sentence_gga gga;
     if (minmea_parse_gga(&gga, line)) {
         if (gga.fix_quality > 0) {
@@ -107,9 +106,7 @@ static void process_nmea(const char* line) {
             sats = gga.satellites_tracked;
             new_fix_found = true;
         }
-    } 
-    // 2. Parsing RMC (Per validità generale del fix)
-    else {
+    } else {
         struct minmea_sentence_rmc rmc;
         if (minmea_parse_rmc(&rmc, line)) {
             if (rmc.valid) {
@@ -120,29 +117,68 @@ static void process_nmea(const char* line) {
         }
     }
 
-    // 3. Aggiornamento atomico dello stato
+    // Aggiornamento atomico singolo
     uint32_t save = spin_lock_blocking(telemetry_lock);
-    
     if (new_fix_found) {
         telemetry_data.latitude = lat;
         telemetry_data.longitude = lon;
         telemetry_data.gps_status = true;
-        if (sats > 0) telemetry_data.satellites = sats; // Aggiorna solo se abbiamo dati
-        
+        if (sats > 0) telemetry_data.satellites = sats;
         last_fix_timestamp = millis();
         telemetry_data.flags.error_active = 0;
         error_reported = false;
-    } else {
-        // NON azzerare tutto qui! 
-        // Lasciamo che sia telemetry_is_healthy() a gestire il timeout dopo 30 secondi.
-        // Questo evita che il display sfarfalli tra "YES" e "NO" ogni secondo.
     }
-    
     spin_unlock(telemetry_lock, save);
 }
 
+// void telemetry_update() {
+//     // Aggiornamento lento per non bloccare il loop
+//     static uint32_t last_slow_update = 0;
+//     if (millis() - last_slow_update > 500) {
+//         telemetry_data.temp_c = peripherals_get_temperature();
+//         telemetry_data.uptime_s = millis() / 1000;
+//         last_slow_update = millis();
+//     }
+//
+//     if (!telemetry_is_healthy()) {
+//         if (!error_reported) {
+//             sys_manager_report_error(ERR_CAT_SENSORS, ERR_SENS_GPS_NO_DATA, false);
+//             error_reported = true;
+//         }
+//     }
+//
+//     // Processing rate-limited: max 64 byte a ciclo per evitare corruzione
+//     int read_count = 0;
+//     while (Serial2.available() && read_count < 64) {
+//         char c = (char)Serial2.read();
+//         read_count++;
+//
+//         if (c == '$') nmea_idx = 0;
+//         if (nmea_idx < sizeof(nmea_buffer) - 1) nmea_buffer[nmea_idx++] = c;
+//
+//         if (c == '\n') {
+//             nmea_buffer[nmea_idx] = '\0';
+//             if (nmea_idx > 5) {
+//                 Serial.print("RAW: "); Serial.print(nmea_buffer); // DEBUG
+//                 process_nmea(nmea_buffer);
+//             }
+//             nmea_idx = 0;
+//         }
+//     }
+// }
+
 void telemetry_update() {
-    // Aggiornamento lento per non bloccare il loop
+    // 1. LOGICA DI TIMEOUT: Se è passato troppo tempo dall'ultimo fix, azzera lo stato.
+    // Questo garantisce che la UI e i LED tornino allo stato "Searching" correttamente.
+    uint32_t save = spin_lock_blocking(telemetry_lock);
+    if (telemetry_data.gps_status && (millis() - last_fix_timestamp > 3000)) {
+        telemetry_data.gps_status = false;
+        telemetry_data.satellites = 0;
+        // Opzionale: potresti voler azzerare anche lat/lon qui se non vuoi mostrare l'ultima posizione nota
+    }
+    spin_unlock(telemetry_lock, save);
+
+    // 2. Aggiornamento lento (Temp/Uptime) - Eseguito solo ogni 500ms
     static uint32_t last_slow_update = 0;
     if (millis() - last_slow_update > 500) {
         telemetry_data.temp_c = peripherals_get_temperature();
@@ -150,6 +186,7 @@ void telemetry_update() {
         last_slow_update = millis();
     }
 
+    // 3. Gestione errori (Controllo salute)
     if (!telemetry_is_healthy()) {
         if (!error_reported) {
             sys_manager_report_error(ERR_CAT_SENSORS, ERR_SENS_GPS_NO_DATA, false);
@@ -157,7 +194,7 @@ void telemetry_update() {
         }
     }
 
-    // Processing rate-limited: max 64 byte a ciclo per evitare corruzione
+    // 4. Processing rate-limited: max 64 byte a ciclo per evitare saturazione del bus
     int read_count = 0;
     while (Serial2.available() && read_count < 64) {
         char c = (char)Serial2.read();
@@ -169,7 +206,7 @@ void telemetry_update() {
         if (c == '\n') {
             nmea_buffer[nmea_idx] = '\0';
             if (nmea_idx > 5) {
-                Serial.print("RAW: "); Serial.print(nmea_buffer); // DEBUG
+                Serial.print("RAW: "); Serial.print(nmea_buffer); // DEBUG - opzionale
                 process_nmea(nmea_buffer);
             }
             nmea_idx = 0;
@@ -185,7 +222,14 @@ bool telemetry_get_frame(SystemDataPacket* dest) {
     return true;
 }
 
+// bool telemetry_is_healthy() {
+//     if (last_fix_timestamp == 0) return (millis() < 60000);
+//     return (millis() - last_fix_timestamp) < 30000;
+// }
+//
 bool telemetry_is_healthy() {
-    if (last_fix_timestamp == 0) return (millis() < 60000);
-    return (millis() - last_fix_timestamp) < 30000;
+    // Se non abbiamo ancora un fix, il sistema è "sano" (sta cercando)
+    if (last_fix_timestamp == 0) return true; 
+    // Se sono passati più di 5 secondi dall'ultimo fix, segnala errore
+    return (millis() - last_fix_timestamp) < 5000; 
 }
