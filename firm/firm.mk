@@ -8,7 +8,11 @@ DEBUG ?= 0
 BEEP  ?= 1
 
 # Export dei flag per PlatformIO
-export PLATFORMIO_BUILD_FLAGS = -DDEBUG=$(DEBUG) -DBUZZER_INIT_BEEP=$(BEEP)
+# export PLATFORMIO_BUILD_FLAGS = -DDEBUG=$(DEBUG) -DBUZZER_INIT_BEEP=$(BEEP)
+# In firm/firm.mk
+# Aggiungiamo -DFW_VERSION alla stringa esistente. 
+# Nota: le virgolette interne devono essere scappate per il C++
+export PLATFORMIO_BUILD_FLAGS = -DDEBUG=$(DEBUG) -DBUZZER_INIT_BEEP=$(BEEP) -DFW_VERSION=\"$(VERSION)\"
 
 # Helper per i comandi
 PIO_RUN  = cd firm && $(PIO) run
