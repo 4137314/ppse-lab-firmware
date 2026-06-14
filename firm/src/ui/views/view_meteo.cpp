@@ -4,39 +4,47 @@
 
 #include "core/messages.h"
 #include "drivers/display_ssd1306.h"
-#include "ui/ui_manager.h"        // Fondamentale per ui_manager_navigate_to
-#include "ui/view_definitions.h"  // Fondamentale per VIEW_ID_HOME
+#include "ui/ui_manager.h"
+#include "ui/view_definitions.h"
 
-// 1. Definiamo le funzioni prima di usarle nella struct
 static void meteo_render(const void* data) {
     const SystemDataPacket* sys = (const SystemDataPacket*)data;
     Adafruit_SSD1306* canvas = (Adafruit_SSD1306*)get_display_driver();
     if (!canvas || !sys) return;
 
-    canvas->setTextSize(1);
-    canvas->setCursor(0, 0);
+    // Pulisce il buffer prima di ogni frame per evitare artefatti
+    canvas->clearDisplay();
+    canvas->setTextColor(SSD1306_WHITE);
 
     if (sys->weather.valid) {
+        // --- Header ---
+        canvas->setTextSize(1);
+        canvas->setCursor(0, 0);
         canvas->printf("CITY: %s", sys->weather.city);
         canvas->drawFastHLine(0, 9, 128, SSD1306_WHITE);
 
-        canvas->setTextSize(3);
+        // --- Temperatura (Grande, sinistra) ---
+        canvas->setTextSize(2);
         canvas->setCursor(5, 18);
-        canvas->printf("%.1f", sys->weather.temp_ext);
+        canvas->printf("%.1f C", sys->weather.temp_ext);
+
+        // --- Dati Vento e Umidità (Colonna destra, allineata) ---
         canvas->setTextSize(1);
-        canvas->print(" C");
+        canvas->setCursor(80, 15);
+        canvas->printf("W:%02.0f", sys->weather.wind_speed); // %02.0f evita che la scritta si sposti
+        canvas->setCursor(80, 25);
+        canvas->printf("H:%02d%%", sys->weather.humidity);   // %02d forza 2 cifre per l'umidità
 
-        canvas->setCursor(85, 18);
-        canvas->printf("W:%.0f", sys->weather.wind_speed);
-        canvas->setCursor(85, 30);
-        canvas->printf("H:%d%%", sys->weather.humidity);
-
+        // --- Descrizione Meteo ---
         canvas->setCursor(5, 42);
-        if (sys->weather.weather_code == 0) canvas->print(F("Clear Sky"));
+        if (sys->weather.weather_code == 0)      canvas->print(F("Clear Sky"));
         else if (sys->weather.weather_code <= 3) canvas->print(F("Partly Cloudy"));
         else if (sys->weather.weather_code >= 60) canvas->print(F("Rainy"));
-        else canvas->print(F("Check Outside"));
+        else                                     canvas->print(F("Condition check"));
     } else {
+        // --- Stato Errore ---
+        canvas->setTextSize(1);
+        canvas->setCursor(0, 0);
         canvas->print(F("CITY: UNKNOWN"));
         canvas->drawFastHLine(0, 9, 128, SSD1306_WHITE);
         canvas->setCursor(20, 25);
@@ -45,9 +53,13 @@ static void meteo_render(const void* data) {
         canvas->println(F("Run make sync-meteo"));
     }
 
+    // --- Footer fisso ---
     canvas->drawFastHLine(0, 54, 128, SSD1306_WHITE);
     canvas->setCursor(0, 56);
     canvas->print(F("Sync via Serial/PC"));
+    
+    // IMPORTANTE: invia il buffer al display
+    canvas->display();
 }
 
 static void meteo_on_input(button_t btn, button_state_t state) {
@@ -56,7 +68,6 @@ static void meteo_on_input(button_t btn, button_state_t state) {
     }
 }
 
-// 2. Dichiarazione UNICA della struct (ora che le funzioni sopra esistono)
 const view_interface_t view_meteo = {
     .on_enter = NULL, 
     .on_update = meteo_render, 
