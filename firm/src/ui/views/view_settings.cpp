@@ -7,14 +7,13 @@
 #include "drivers/peripherals.h"
 #include "drivers/display_ssd1306.h"
 
-// Voci del menu
-enum { SETTING_BRIGHTNESS, SETTING_BUZZER, SETTING_LEDS, SETTING_INFO, SETTING_BACK, SETTING_COUNT };
+// Voci del menu (rimosso SETTING_BACK)
+enum { SETTING_BRIGHTNESS, SETTING_BUZZER, SETTING_LEDS, SETTING_INFO, SETTING_COUNT };
 static uint8_t cursor = 0;
 
 static void settings_input(button_t btn, button_state_t state) {
     if (state != BTN_RELEASED) return;
 
-    // Gestione navigazione con tasti fisici
     switch (btn) {
         case BTN_UP:   
             cursor = (cursor == 0) ? SETTING_COUNT - 1 : cursor - 1; 
@@ -23,28 +22,41 @@ static void settings_input(button_t btn, button_state_t state) {
             cursor = (cursor + 1) % SETTING_COUNT; 
             break;
         case BTN_BACK: 
-            // Ritorno diretto alla Home premendo il tasto BACK fisico
             ui_manager_navigate_to(VIEW_ID_HOME); 
             break;
         case BTN_OK:
+            // Feedback sonoro universale all'OK
+            peripherals_play_click(); 
+
             switch(cursor) {
                 case SETTING_BRIGHTNESS: 
-                    global_cfg.oled_brightness = (global_cfg.oled_brightness >= 255) ? 50 : global_cfg.oled_brightness + 50;
+                    // Logica robusta: forziamo il valore al prossimo step di 50
+                    // Se siamo a 250 o più, resettiamo a 50
+                    if (global_cfg.oled_brightness >= 250) {
+                        global_cfg.oled_brightness = 50;
+                    } else {
+                        // Calcolo matematico per arrotondare al multiplo di 50 superiore
+                        global_cfg.oled_brightness = ((global_cfg.oled_brightness / 50) + 1) * 50;
+                    }
+                    
+                    // Limite massimo di sicurezza per SSD1306
+                    if (global_cfg.oled_brightness > 255) global_cfg.oled_brightness = 255;
+                    
                     display_set_brightness(global_cfg.oled_brightness);
                     break;
+
                 case SETTING_BUZZER: 
                     global_cfg.buzzer_enabled = !global_cfg.buzzer_enabled;
                     peripherals_set_buzzer(global_cfg.buzzer_enabled);
                     break;
+
                 case SETTING_LEDS:   
                     global_cfg.leds_enabled = !global_cfg.leds_enabled;
                     peripherals_set_leds(global_cfg.leds_enabled);
                     break;
+
                 case SETTING_INFO:   
                     ui_manager_navigate_to(VIEW_ID_INFO); 
-                    break;
-                case SETTING_BACK:   
-                    ui_manager_navigate_to(VIEW_ID_HOME); 
                     break;
             }
             break;
@@ -54,7 +66,7 @@ static void settings_input(button_t btn, button_state_t state) {
 
 static void settings_render(const void* data) {
     Adafruit_SSD1306* canvas = (Adafruit_SSD1306*)get_display_driver();
-    const char* labels[] = {"Bright.", "Buzzer", "LEDs", "Info", "Back"};
+    const char* labels[] = {"Bright.", "Buzzer", "LEDs", "Info"}; // Rimosso "Back"
 
     // Header
     canvas->fillRect(0, 0, 128, 12, SSD1306_WHITE);
@@ -76,7 +88,6 @@ static void settings_render(const void* data) {
         canvas->setCursor(2, y);
         canvas->print(labels[i]);
 
-        // Rendering valori dinamici solo sulla riga selezionata
         if (cursor == i) {
             canvas->setCursor(80, y);
             if (i == SETTING_BRIGHTNESS) canvas->printf("%d", global_cfg.oled_brightness);

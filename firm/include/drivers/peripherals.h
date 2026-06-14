@@ -48,5 +48,8 @@ void peripherals_beep(uint32_t freq_hz, uint32_t duration_ms);
 /* --- Acquisizione Dati --- */
 float peripherals_get_temperature(void);
 float peripherals_get_battery_voltage(void);
+// Aggiungi in peripherals.h
+void peripherals_play_click(void);
+void peripherals_set_buzzer(bool enabled);
 
 #endif /* PERIPHERALS_H */
