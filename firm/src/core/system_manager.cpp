@@ -3,6 +3,9 @@
 #include <Arduino.h>
 #include <pico/sync.h>
 
+// ELIMINA QUESTA RIGA: volatile SystemDataPacket real_system_data;
+
+// Mantieni solo questa, che è quella corretta
 static SystemDataPacket shared_data;
 static spin_lock_t* data_lock = spin_lock_init(spin_lock_claim_unused(true));
 static volatile bool _core1_ready = false;

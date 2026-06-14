@@ -11,7 +11,7 @@
 #include "drivers/display_ssd1306.h"
 #include "drivers/inputs.h"
 #include "ui/view_definitions.h"
-#include "drivers/peripherals.h" // Necessario per i suoni
+#include "drivers/peripherals.h"
 
 static const view_interface_t* current_view = &view_home;
 static view_id_t current_view_id = VIEW_ID_HOME;
@@ -56,7 +56,9 @@ void ui_manager_update(const void* system_data) {
         error_acknowledged = false;
         last_error_code = data->last_error.code;
         // Feedback acustico istantaneo all'errore
-        if (last_error_code != 0) peripherals_trigger_feedback(FEEDBACK_ERROR);
+        #ifndef DEFAULT_BUZZER_OFF
+            if (last_error_code != 0) peripherals_trigger_feedback(FEEDBACK_ERROR);
+        #endif
     }
 
     canvas->clearDisplay(); 
@@ -78,24 +80,26 @@ void ui_manager_dispatch_input(uint8_t btn_raw) {
     if (last_error_code != 0 && !error_acknowledged) {
         error_acknowledged = true;
         sys_manager_clear_error();
-        peripherals_play_click(); // Click di riconoscimento
+        #ifndef DEFAULT_BUZZER_OFF
+            peripherals_play_click(); 
+        #endif
         return; 
     }
 
-    // Feedback aptico differenziato in base al pulsante
+    // Feedback acustico differenziato
     switch (btn) {
         case BTN_UP:
         case BTN_DOWN:
-            // Click di navigazione breve e acuto
-            peripherals_beep(2400, 15);
+            #ifndef DEFAULT_BUZZER_OFF
+                peripherals_beep(2400, 15);
+            #endif
             break;
         case BTN_BACK:
-            // Click di ritorno leggermente più basso
-            peripherals_beep(1800, 20);
+            #ifndef DEFAULT_BUZZER_OFF
+                peripherals_beep(1800, 20);
+            #endif
             break;
         case BTN_OK:
-            // Il click OK è delegato alla funzione on_input della vista,
-            // ma aggiungiamo un feedback qui se necessario
             break;
         default: break;
     }
@@ -112,16 +116,18 @@ void ui_manager_navigate_to(view_id_t new_view_id) {
 
     current_view_id = new_view_id;
 
-    // Feedback di navigazione menu (cambio pagina)
-    peripherals_trigger_feedback(FEEDBACK_SUCCESS);
+    // Feedback di navigazione menu
+    #ifndef DEFAULT_BUZZER_OFF
+        peripherals_trigger_feedback(FEEDBACK_SUCCESS);
+    #endif
 
     switch (new_view_id) {
-        case VIEW_ID_HOME:      current_view = &view_home;     break;
-        case VIEW_ID_GPS:       current_view = &view_gps;      break;
-        case VIEW_ID_METEO:     current_view = &view_meteo;    break;
-        case VIEW_ID_SETTINGS:  current_view = &view_settings; break;
-        case VIEW_ID_INFO:      current_view = &view_info;     break;
-        default:                current_view = &view_home;     break;
+        case VIEW_ID_HOME:     current_view = &view_home;     break;
+        case VIEW_ID_GPS:      current_view = &view_gps;      break;
+        case VIEW_ID_METEO:    current_view = &view_meteo;    break;
+        case VIEW_ID_SETTINGS: current_view = &view_settings; break;
+        case VIEW_ID_INFO:     current_view = &view_info;     break;
+        default:               current_view = &view_home;     break;
     }
 
     if (current_view && current_view->on_enter) {

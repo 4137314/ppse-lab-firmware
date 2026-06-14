@@ -14,7 +14,7 @@ include config/ui.mk
 -include doc/doc.mk
 include tools/tool.mk
 
-.PHONY: all build docs release clean help info check flash monitor test
+.PHONY: all build docs release clean help info check flash monitor test flash-debug
 
 all: build
 
@@ -42,6 +42,11 @@ build: info
 ## flash: Compila e carica il firmware sulla scheda
 flash: info
 	$(Q)$(MAKE) fw-upload --no-print-directory
+
+## flash-debug: Compila e carica forzando i flag di debug
+flash-debug: info
+	@printf -- "$(BOLD)$(RED)--- [PIO] Debug Mode & Silent Buzzer (Atomic Upload) ---$(RESET)\n"
+	$(Q)cd firm && PLATFORMIO_BUILD_FLAGS="-DDEBUG=1 -DDEFAULT_BUZZER_OFF" $(PIO) run -e pico --target upload
 
 ## monitor: Apre il monitor seriale per il debug
 monitor:
