@@ -1,9 +1,10 @@
 # RP2040 GPS & Environment Logger
 
-![Build Status](https://img.shields.io/github/actions/workflow/status/4137314/ppse-lab-firmware/main.yml?label=Build&logo=github)
+![Firmware](https://img.shields.io/github/actions/workflow/status/4137314/ppse-lab-firmware/firm-ci.yml?branch=main&label=FW&logo=github)
+![Docs](https://img.shields.io/github/actions/workflow/status/4137314/ppse-lab-firmware/doc-ci.yml?branch=main&label=DOC&logo=github)
+![Deploy](https://img.shields.io/github/actions/workflow/status/4137314/ppse-lab-firmware/deploy.yml?branch=main&label=DEPLOY&logo=github)
 ![Version](https://img.shields.io/github/v/release/4137314/ppse-lab-firmware?label=Version&logo=semantic-release)
 ![License](https://img.shields.io/github/license/4137314/ppse-lab-firmware?label=License)
-![Docs](https://img.shields.io/badge/Docs-Doxygen-blue?logo=doxygen)
 ![Last Commit](https://img.shields.io/github/last-commit/4137314/ppse-lab-firmware?logo=git)
 
 Firmware avanzato per **RP2040** dedicato al logging geospaziale, monitoraggio ambientale e telemetria in tempo reale.
