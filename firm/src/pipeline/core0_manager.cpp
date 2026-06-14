@@ -8,6 +8,8 @@
 #include "core/telemetry.h"
 #include "drivers/peripherals.h"
 #include "util/scheduler.h"
+#include "ui/boot_anim.h" // <--- AGGIUNGI QUESTO
+#include "drivers/peripherals.h" // Assicurati di includerlo per vedere peripherals_update_led_fx
 
 // Task schedulati
 static Task task_serial = { [](){ sys_manager_handle_serial(); }, 10, 0 };
@@ -44,6 +46,16 @@ static Task task_health = { [](){
     }
 }, 10000, 0 };
 
+void boot_led_update_wrapper() {
+    static uint32_t last_led_update = 0;
+    // Aggiorna i LED solo se sono passati almeno 50ms (corrisponde a 20fps)
+    // Regola questo valore: più è alto, più l'animazione sarà lenta
+    if (millis() - last_led_update > 50) {
+        peripherals_update_led_fx(LED_ANIM_BOOT, 0.0f);
+        last_led_update = millis();
+    }
+}
+
 void core0_setup() {
     Serial.begin(115200);
     uint32_t start_time = millis();
@@ -66,6 +78,9 @@ void core0_setup() {
     
     if (!display_hw_init()) {
         sys_manager_report_error(ERR_CAT_HW, ERR_HW_DISPLAY_LOST, true);
+    } else {
+        // 2. Esegui la sequenza di boot hacker-style solo se il display funziona
+        run_hacker_boot_sequence(boot_led_update_wrapper); 
     }
     
     ui_manager_init();
