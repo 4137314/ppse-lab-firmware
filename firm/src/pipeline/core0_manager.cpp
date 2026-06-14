@@ -5,24 +5,34 @@
 #include "drivers/inputs.h"
 #include "ui/ui_manager.h"
 #include "core/system_manager.h"
-#include "core/telemetry.h" // Aggiunta inclusione
+#include "core/telemetry.h"
 #include "drivers/peripherals.h"
 #include "util/scheduler.h"
 
 // Task schedulati
 static Task task_serial = { [](){ sys_manager_handle_serial(); }, 10, 0 };
+
 static Task task_input  = { [](){ 
     ButtonId b = inputs_get_last_press(); 
     if (b != BTN_NONE) ui_manager_dispatch_input(b); 
 }, 20, 0 };
 
+// Task UI separato per fluidità: aggiornamento a ~30Hz
 static Task task_ui = { [](){ 
     SystemDataPacket frame;
     if (sys_manager_receive_data(&frame)) {
         ui_manager_update(&frame);
-        peripherals_auto_feedback(&frame);
     }
 }, 33, 0 };
+
+// Task LED separato: aggiornamento a ~10Hz (più che sufficiente per l'occhio)
+// Questo isola le chiamate bloccanti di FastLED.show() dal rendering del display
+static Task task_leds = { [](){ 
+    SystemDataPacket frame;
+    if (sys_manager_receive_data(&frame)) {
+        peripherals_auto_feedback(&frame);
+    }
+}, 100, 0 };
 
 static Task task_health = { [](){ 
     SystemDataPacket frame;
@@ -42,7 +52,7 @@ void core0_setup() {
     Serial.println("\n--- PPSE FIRMWARE SYSTEM BOOTING ---");
 
     sys_manager_init();
-    telemetry_init(); // Inizializzazione GPS spostata qui
+    telemetry_init(); 
 
     pinMode(LED_ALIVE_PIN, OUTPUT);
     digitalWrite(LED_ALIVE_PIN, HIGH);
@@ -68,7 +78,8 @@ void core0_loop() {
     
     run_task(&task_serial);
     run_task(&task_input);
-    run_task(&task_ui);
+    run_task(&task_ui);     // UI fluida senza interferenze
+    run_task(&task_leds);   // Feedback visivo gestito in modo asincrono
     run_task(&task_health);
     
     digitalWrite(LED_ALIVE_PIN, (millis() / 500) % 2);

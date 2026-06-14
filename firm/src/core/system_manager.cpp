@@ -28,17 +28,30 @@ bool sys_manager_receive_data(SystemDataPacket* buffer) {
     return true;
 }
 
+// In sys_manager.cpp
 void sys_manager_report_error(error_category_t cat, error_code_t code, bool critical) {
-    // 1. Log immediato sulla seriale (Push)
-    Serial.printf("\n[!!!] SISTEMA: ERRORE RILEVATO!\n");
-    Serial.printf("Categoria: 0x%02X | Codice: 0x%02X | Critico: %s\n", 
-                  cat, code, critical ? "SI" : "NO");
-    Serial.printf("Uptime: %lu ms\n\n", millis());
-
-    // 2. Aggiornamento stato thread-safe
     uint32_t save = spin_lock_blocking(data_lock);
+    
+    // FILTRO: Se l'errore è già attivo e identico, non fare nulla.
+    // Questo evita di forzare un aggiornamento continuo dell'UI.
+    if (shared_data.flags.error_active && shared_data.last_error.code == code) {
+        spin_unlock(data_lock, save);
+        return;
+    }
+    
     shared_data.last_error = {cat, code, millis(), critical};
     shared_data.flags.error_active = 1;
+    spin_unlock(data_lock, save);
+}
+
+void sys_manager_clear_error() {
+    uint32_t save = spin_lock_blocking(data_lock);
+    shared_data.flags.error_active = 0;
+    
+    // Esegui il casting esplicito per soddisfare il controllo di tipo del compilatore
+    shared_data.last_error.code = (error_code_t)0;
+    shared_data.last_error.category = (error_category_t)0;
+    
     spin_unlock(data_lock, save);
 }
 

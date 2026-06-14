@@ -24,5 +24,7 @@ void sys_manager_handle_serial(void);
 // Aggiungi queste due righe nel tuo .h
 bool sys_manager_update_weather(const WeatherDataPacket& weather);
 bool sys_manager_update_gps(float lat, float lon);
+// Aggiungi in core/system_manager.h
+void sys_manager_clear_error();
 
 #endif /* SYSTEM_MANAGER_H */

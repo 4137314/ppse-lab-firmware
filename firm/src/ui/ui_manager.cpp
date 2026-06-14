@@ -7,6 +7,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include "core/messages.h"
+#include "core/system_manager.h" // Aggiunta inclusione necessaria per clear_error
 #include "drivers/display_ssd1306.h"
 #include "drivers/inputs.h"
 #include "ui/view_definitions.h"
@@ -27,7 +28,6 @@ void ui_manager_init(void) {
 
 // --- LOGICA OVERLAY ERRORE ---
 static void render_error_overlay(const SystemDataPacket* data, Adafruit_SSD1306* canvas) {
-    // Disegna un rettangolo nero per oscurare parzialmente o totalmente il contenuto
     canvas->fillRect(0, 0, 128, 64, SSD1306_BLACK);
     canvas->setTextColor(SSD1306_WHITE);
     
@@ -51,31 +51,27 @@ static void render_error_overlay(const SystemDataPacket* data, Adafruit_SSD1306*
 
 void ui_manager_update(const void* system_data) {
     const SystemDataPacket* data = (const SystemDataPacket*)system_data;
-    
-    // 1. Gestione logica stato errore (nessuna modifica qui)
+    Adafruit_SSD1306* canvas = (Adafruit_SSD1306*)get_display_driver();
+    if (!canvas) return;
+
+    // Sincronizzazione stato errore
     if (data->last_error.code != last_error_code) {
         error_acknowledged = false;
         last_error_code = data->last_error.code;
     }
 
-    // 2. Prepara il canvas
-    Adafruit_SSD1306* canvas = (Adafruit_SSD1306*)get_display_driver();
-    if (!canvas) return;
-
-    // 3. Pulisci una sola volta
     canvas->clearDisplay(); 
 
-    // 4. Disegna la vista sottostante
-    if (current_view && current_view->on_update) {
-        current_view->on_update(data);
-    }
-
-    // 5. Se c'è l'errore, disegnalo SOPRA senza pulire di nuovo il buffer
+    // Se errore attivo e non ancora riconosciuto, mostra overlay
     if (data->flags.error_active && !error_acknowledged) {
         render_error_overlay(data, canvas);
-    } 
+    } else {
+        // Disegna la vista sottostante solo se non siamo in blocco errore
+        if (current_view && current_view->on_update) {
+            current_view->on_update(data);
+        }
+    }
     
-    // 6. Invia tutto al display una sola volta per ciclo
     canvas->display(); 
 }
 
@@ -89,10 +85,10 @@ void ui_manager_dispatch_input(uint8_t btn_raw) {
         return;
 
     // Logica di chiusura errore: se c'è un overlay attivo, il tasto lo chiude
-    // In questo modo non propaghiamo l'input alla vista finché l'errore è visibile
     if (last_error_code != 0 && !error_acknowledged) {
         error_acknowledged = true;
-        return; // Consumiamo il tasto per chiudere il popup
+        sys_manager_clear_error(); // <--- AGGIORNAMENTO CRITICO: Resetta il flag nel sistema
+        return; 
     }
 
     if (btn == BTN_BACK && current_view_id != VIEW_ID_HOME) {

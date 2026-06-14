@@ -57,6 +57,7 @@ void peripherals_set_buzzer(bool enabled) {
  */
 void peripherals_update_led_fx(LedAnimState state, float val) {
     uint8_t brightness; 
+    bool needs_show = true; // Flag per decidere se aggiornare fisicamente i LED
 
     switch (state) {
         case LED_ANIM_BOOT: {
@@ -66,29 +67,30 @@ void peripherals_update_led_fx(LedAnimState state, float val) {
             pos++;
             break;
         }
-
         case LED_ANIM_BOOT_DONE:
             fill_solid(leds, NUM_LEDS, CRGB::Green);
             break;
-
         case LED_ANIM_SEARCHING:
+            // Aggiorna solo ogni 500ms per risparmiare CPU
             if ((millis() / 500) % 2 == 0) fill_solid(leds, NUM_LEDS, CRGB::Red);
             else fill_solid(leds, NUM_LEDS, CRGB::Black);
             break;
-
         case LED_ANIM_FIX_OK:
             brightness = (uint8_t)(constrain(val, 0.1f, 1.0f) * 255);
             fill_solid(leds, NUM_LEDS, CRGB(0, brightness, 0));
             break;
-            
         case LED_ANIM_SIGNAL_LOW:
             fill_solid(leds, NUM_LEDS, CRGB(150, 50, 0));
             break;
-            
         default:
+            needs_show = false; // Se non c'è stato, non aggiornare
             break;
     }
-    FastLED.show();
+    
+    // Mostra i LED solo se strettamente necessario
+    if (needs_show) {
+        FastLED.show();
+    }
 }
 
 void peripherals_auto_feedback(const SystemDataPacket* data) {
