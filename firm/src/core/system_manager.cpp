@@ -127,11 +127,12 @@ bool sys_manager_update_weather(const WeatherDataPacket& weather) {
     return true;
 }
 
-// Funzione chirurgica per il GPS (Usata solo dal Core 1)
-bool sys_manager_update_gps(float lat, float lon) {
+bool sys_manager_update_gps(float lat, float lon, bool fix, uint8_t sats) {
     uint32_t save = spin_lock_blocking(data_lock);
     shared_data.latitude = lat;
     shared_data.longitude = lon;
+    shared_data.gps_status = fix;      // Aggiorna lo stato fix
+    shared_data.satellites = sats;     // Aggiorna il numero satelliti
     spin_unlock(data_lock, save);
     return true;
 }

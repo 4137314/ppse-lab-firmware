@@ -40,30 +40,105 @@ void telemetry_init() {
     Serial2.begin(GPSBAUD);
 }
 
+// static void process_nmea(const char* line) {
+//     struct minmea_sentence_gga gga;
+//     if (minmea_parse_gga(&gga, line)) {
+//         uint32_t save = spin_lock_blocking(telemetry_lock);
+//         telemetry_data.latitude = minmea_tocoord(&gga.latitude);
+//         telemetry_data.longitude = minmea_tocoord(&gga.longitude);
+//         telemetry_data.satellites = gga.satellites_tracked;
+//         telemetry_data.gps_status = (gga.fix_quality > 0);
+//         if (telemetry_data.gps_status) last_fix_timestamp = millis();
+//         spin_unlock(telemetry_lock, save);
+//         return;
+//     }
+//
+//     struct minmea_sentence_rmc rmc;
+//     if (minmea_parse_rmc(&rmc, line)) {
+//         if (rmc.valid) {
+//              uint32_t save = spin_lock_blocking(telemetry_lock);
+//              telemetry_data.gps_status = true;
+//              telemetry_data.latitude = minmea_tocoord(&rmc.latitude);
+//              telemetry_data.longitude = minmea_tocoord(&rmc.longitude);
+//              last_fix_timestamp = millis();
+//              spin_unlock(telemetry_lock, save);
+//         }
+//     }
+// }
+
+// static void process_nmea(const char* line) {
+//     struct minmea_sentence_gga gga;
+//     if (minmea_parse_gga(&gga, line)) {
+//         // CONTROLLO RIGIDO: Se fix_quality è 0, il fix NON ESISTE.
+//         if (gga.fix_quality > 0) {
+//             uint32_t save = spin_lock_blocking(telemetry_lock);
+//             telemetry_data.latitude = minmea_tocoord(&gga.latitude);
+//             telemetry_data.longitude = minmea_tocoord(&gga.longitude);
+//             telemetry_data.satellites = gga.satellites_tracked;
+//             telemetry_data.gps_status = true;
+//             last_fix_timestamp = millis();
+//             telemetry_data.flags.error_active = 0;
+//             error_reported = false;
+//             spin_unlock(telemetry_lock, save);
+//         } else {
+//             // Se arrivano dati GGA ma il fix è 0, azzera lo stato!
+//             uint32_t save = spin_lock_blocking(telemetry_lock);
+//             telemetry_data.gps_status = false;
+//             telemetry_data.satellites = 0;
+//             spin_unlock(telemetry_lock, save);
+//         }
+//         return;
+//     }
+// }
+
+
 static void process_nmea(const char* line) {
+    // Usiamo variabili locali per non bloccare il lock troppo a lungo
+    bool new_fix_found = false;
+    float lat = 0.0f, lon = 0.0f;
+    int sats = 0;
+
+    // 1. Parsing GGA (Per posizione e qualità fix)
     struct minmea_sentence_gga gga;
     if (minmea_parse_gga(&gga, line)) {
-        uint32_t save = spin_lock_blocking(telemetry_lock);
-        telemetry_data.latitude = minmea_tocoord(&gga.latitude);
-        telemetry_data.longitude = minmea_tocoord(&gga.longitude);
-        telemetry_data.satellites = gga.satellites_tracked;
-        telemetry_data.gps_status = (gga.fix_quality > 0);
-        if (telemetry_data.gps_status) last_fix_timestamp = millis();
-        spin_unlock(telemetry_lock, save);
-        return;
-    }
-
-    struct minmea_sentence_rmc rmc;
-    if (minmea_parse_rmc(&rmc, line)) {
-        if (rmc.valid) {
-             uint32_t save = spin_lock_blocking(telemetry_lock);
-             telemetry_data.gps_status = true;
-             telemetry_data.latitude = minmea_tocoord(&rmc.latitude);
-             telemetry_data.longitude = minmea_tocoord(&rmc.longitude);
-             last_fix_timestamp = millis();
-             spin_unlock(telemetry_lock, save);
+        if (gga.fix_quality > 0) {
+            lat = minmea_tocoord(&gga.latitude);
+            lon = minmea_tocoord(&gga.longitude);
+            sats = gga.satellites_tracked;
+            new_fix_found = true;
+        }
+    } 
+    // 2. Parsing RMC (Per validità generale del fix)
+    else {
+        struct minmea_sentence_rmc rmc;
+        if (minmea_parse_rmc(&rmc, line)) {
+            if (rmc.valid) {
+                lat = minmea_tocoord(&rmc.latitude);
+                lon = minmea_tocoord(&rmc.longitude);
+                new_fix_found = true;
+            }
         }
     }
+
+    // 3. Aggiornamento atomico dello stato
+    uint32_t save = spin_lock_blocking(telemetry_lock);
+    
+    if (new_fix_found) {
+        telemetry_data.latitude = lat;
+        telemetry_data.longitude = lon;
+        telemetry_data.gps_status = true;
+        if (sats > 0) telemetry_data.satellites = sats; // Aggiorna solo se abbiamo dati
+        
+        last_fix_timestamp = millis();
+        telemetry_data.flags.error_active = 0;
+        error_reported = false;
+    } else {
+        // NON azzerare tutto qui! 
+        // Lasciamo che sia telemetry_is_healthy() a gestire il timeout dopo 30 secondi.
+        // Questo evita che il display sfarfalli tra "YES" e "NO" ogni secondo.
+    }
+    
+    spin_unlock(telemetry_lock, save);
 }
 
 void telemetry_update() {

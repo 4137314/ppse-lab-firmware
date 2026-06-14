@@ -26,8 +26,7 @@ void core1_loop() {
     
     // CAMBIAMENTO: Non inviare più tutto il pacchetto frame.
     // Invia solo le coordinate GPS usando la funzione chirurgica.
-    sys_manager_update_gps(frame.latitude, frame.longitude);
-    
+    sys_manager_update_gps(frame.latitude, frame.longitude, frame.gps_status, frame.satellites);
     // Debug
     static uint32_t last_log = 0;
     if (millis() - last_log > 5000) {
