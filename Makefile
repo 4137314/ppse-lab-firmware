@@ -57,6 +57,26 @@ release: clean build docs tool-dist
 	$(Q)mkdir -p $(RELEASE_DIR)/downloads
 	
 	# 1. Documentazione (Portale Web e PDF)
+	$(Q)rm -f $(RELEASE_DIR)/Academic_Report.pdf $(RELEASE_DIR)/Technical_Reference.pdf
+	
+	# Gestione Dinamica Academic Report (File Reale + Link Simbolico)
+	$(Q)REAL_PDF=$$(ls doc/report/src/*academic-report.pdf 2>/dev/null | head -n 1); \
+	if [ -f "$$REAL_PDF" ]; then \
+		cp "$$REAL_PDF" $(RELEASE_DIR)/; \
+		ln -sf $$(basename "$$REAL_PDF") $(RELEASE_DIR)/Academic_Report.pdf; \
+		printf "$(OK_ICON) Academic Report staged (linked to $$(basename "$$REAL_PDF")).\n"; \
+	elif [ -f doc/report/src/main.pdf ]; then \
+		cp doc/report/src/main.pdf $(RELEASE_DIR)/Academic_Report.pdf; \
+		printf "$(OK_ICON) Academic Report (main.pdf) staged.\n"; \
+	fi
+	
+	# Gestione Technical Reference
+	$(Q)if [ -f doc/.doc-build/technical_ref.pdf ]; then \
+		cp doc/.doc-build/technical_ref.pdf $(RELEASE_DIR)/Technical_Reference.pdf; \
+		printf "$(OK_ICON) Technical Reference staged.\n"; \
+	fi
+	
+	# Copia il resto del portale (HTML/CSS)
 	$(Q)cp -r $(FINAL_OUT)/* $(RELEASE_DIR)/ 2>/dev/null || true
 	
 	# 2. Firmware (Ripristino completo: UF2, BIN, ELF + ZIP)
