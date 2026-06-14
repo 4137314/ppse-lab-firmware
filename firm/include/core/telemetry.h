@@ -15,5 +15,6 @@ void telemetry_init(void);
 void telemetry_update(void);
 bool telemetry_get_frame(SystemDataPacket* dest); // Passaggio per puntatore tipizzato
 bool telemetry_is_healthy(void);
+static void check_and_log_gps(float lat, float lon);
 
 #endif

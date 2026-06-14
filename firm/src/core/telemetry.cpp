@@ -5,6 +5,7 @@
 #include <Arduino.h>
 #include <minmea.h>
 #include <pico/sync.h>
+#include "core/storage.h" // Oppure aggiungi la dichiarazione qui sotto:
 
 static SystemDataPacket telemetry_data;
 static spin_lock_t* telemetry_lock = NULL; // Inizializzato in telemetry_init
@@ -93,44 +94,35 @@ void telemetry_init() {
 
 
 static void process_nmea(const char* line) {
-    bool new_fix_found = false;
+    bool has_real_fix = false;
     float lat = 0.0f, lon = 0.0f;
     int sats = 0;
 
-    // Parsing
     struct minmea_sentence_gga gga;
     if (minmea_parse_gga(&gga, line)) {
+        // Il fix_quality > 0 è l'unico vero segnale di posizione valida
         if (gga.fix_quality > 0) {
             lat = minmea_tocoord(&gga.latitude);
             lon = minmea_tocoord(&gga.longitude);
             sats = gga.satellites_tracked;
-            new_fix_found = true;
-        }
-    } else {
-        struct minmea_sentence_rmc rmc;
-        if (minmea_parse_rmc(&rmc, line)) {
-            if (rmc.valid) {
-                lat = minmea_tocoord(&rmc.latitude);
-                lon = minmea_tocoord(&rmc.longitude);
-                new_fix_found = true;
-            }
+            has_real_fix = true;
         }
     }
 
-    // Aggiornamento atomico singolo
-    uint32_t save = spin_lock_blocking(telemetry_lock);
-    if (new_fix_found) {
+    // Se abbiamo un fix, aggiorniamo e logghiamo
+    if (has_real_fix) {
+        uint32_t save = spin_lock_blocking(telemetry_lock);
         telemetry_data.latitude = lat;
         telemetry_data.longitude = lon;
         telemetry_data.gps_status = true;
-        if (sats > 0) telemetry_data.satellites = sats;
+        telemetry_data.satellites = sats;
         last_fix_timestamp = millis();
-        telemetry_data.flags.error_active = 0;
-        error_reported = false;
-    }
-    spin_unlock(telemetry_lock, save);
-}
+        spin_unlock(telemetry_lock, save);
 
+        // LOGGING SOLO QUI: Con fix garantito e coordinate non nulle
+        check_and_log_gps(lat, lon);
+    }
+}
 // void telemetry_update() {
 //     // Aggiornamento lento per non bloccare il loop
 //     static uint32_t last_slow_update = 0;
@@ -232,4 +224,14 @@ bool telemetry_is_healthy() {
     if (last_fix_timestamp == 0) return true; 
     // Se sono passati più di 5 secondi dall'ultimo fix, segnala errore
     return (millis() - last_fix_timestamp) < 5000; 
+}
+
+static void check_and_log_gps(float lat, float lon) {
+    static float last_lat = 0, last_lon = 0;
+    // Calcolo semplice distanza (Euclideo semplificato per brevità)
+    if (abs(lat - last_lat) > 0.005 || abs(lon - last_lon) > 0.005) {
+        storage_log_gps_fix(lat, lon);
+        last_lat = lat;
+        last_lon = lon;
+    }
 }

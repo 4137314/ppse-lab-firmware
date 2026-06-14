@@ -8,6 +8,7 @@ static const char* LOG_FILENAME    = "/telemetry_log.csv";
 static const char* CONFIG_FILENAME = "/config.bin";
 
 bool storage_init(void) {
+	//LittleFS.remove("/gps.log");
     if (!LittleFS.begin()) {
         if (!LittleFS.format()) {
             sys_manager_report_error(ERR_CAT_STORAGE, ERR_STG_FS_CORRUPT, true);
@@ -71,4 +72,92 @@ bool storage_load_params(void* data, size_t size) {
 
 bool storage_is_busy_by_usb(void) {
     return driveConnected;
+}
+
+void storage_log_gps_fix(float lat, float lon) {
+    // FILTRO DI SICUREZZA: 
+    // Se le coordinate sono (0,0), ignoriamo la scrittura per non sporcare la cache.
+    // Usiamo una piccola tolleranza per sicurezza (es. < 0.0001)
+    if (lat > -0.0001 && lat < 0.0001 && lon > -0.0001 && lon < 0.0001) {
+        return; 
+    }
+
+    File f = LittleFS.open("/gps.log", "a");
+    if (!f) {
+        Serial.println("[STORAGE] Errore apertura gps.log");
+        return;
+    }
+    
+    f.printf("%lu,%.6f,%.6f\n", millis() / 1000, lat, lon);
+    f.close();
+    
+    Serial.printf("[STORAGE] Posizione salvata: %.6f, %.6f\n", lat, lon);
+}
+
+bool storage_read_last_gps(float* lat, float* lon) {
+    File f = LittleFS.open("/gps.log", "r");
+    if (!f) {
+        Serial.println("[STORAGE DEBUG] ERRORE: Impossibile aprire /gps.log");
+        return false;
+    }
+
+    String last_line = "";
+    int line_count = 0;
+    
+    Serial.println("[STORAGE DEBUG] Inizio scansione file...");
+    
+    while (f.available()) {
+        String line = f.readStringUntil('\n');
+        if (line.length() > 5) {
+            last_line = line;
+            line_count++;
+        }
+    }
+    f.close();
+
+    Serial.printf("[STORAGE DEBUG] Scansione terminata. Righe trovate: %d\n", line_count);
+    Serial.printf("[STORAGE DEBUG] Ultima riga letta: '%s'\n", last_line.c_str());
+
+    if (last_line == "") {
+        Serial.println("[STORAGE DEBUG] ERRORE: File vuoto o corrotto");
+        return false;
+    }
+
+    int first_comma = last_line.indexOf(',');
+    int second_comma = last_line.indexOf(',', first_comma + 1);
+    
+    if (first_comma == -1 || second_comma == -1) {
+        Serial.println("[STORAGE DEBUG] ERRORE: Formato riga non valido");
+        return false;
+    }
+
+    *lat = last_line.substring(first_comma + 1, second_comma).toFloat();
+    *lon = last_line.substring(second_comma + 1).toFloat();
+    
+    Serial.printf("[STORAGE DEBUG] Parse riuscito: LAT %.6f, LON %.6f\n", *lat, *lon);
+    return true;
+}
+
+void debug_dump_gps_log() {
+    Serial.println("\n--- TENTATIVO LETTURA FILE GPS.LOG ---");
+    
+    // Rimuovi il LittleFS.begin() qui dentro, è già stato chiamato nel setup!
+    
+    if (!LittleFS.exists("/gps.log")) {
+        Serial.println("DEBUG: Errore: Il file /gps.log non esiste!");
+        return;
+    }
+
+    File f = LittleFS.open("/gps.log", "r");
+    if (!f) {
+        Serial.println("DEBUG: Errore: Impossibile aprire il file!");
+        return;
+    }
+
+    Serial.println("--- CONTENUTO FILE ---");
+    while (f.available()) {
+        Serial.write(f.read());
+    }
+    Serial.println("\n--- FINE DUMP ---");
+    f.close();
 }

@@ -33,18 +33,18 @@ def main():
     try:
         ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=5)
         print(f"🔗 Connesso a {SERIAL_PORT}")
-        # Aumentato il tempo di attesa per permettere al Pico di completare il boot post-reset
+        # Tempo di attesa per completare il boot post-reset
         time.sleep(5) 
         ser.reset_input_buffer()
         
         # 1. Richiedi GPS alla PCB
         ser.write(b"GET_GPS\n")
         
-        # LOGICA DI FILTRO: cerchiamo ESCLUSIVAMENTE la firma "GPS_DATA:"
         data_line = None
         for _ in range(50):
             line = ser.readline().decode('utf-8', errors='ignore').strip()
             if line.startswith("GPS_DATA:"):
+                # Formato atteso: GPS_DATA:LIVE,lat,lon oppure GPS_DATA:CACHE,lat,lon
                 data_line = line.replace("GPS_DATA:", "")
                 break
         
@@ -52,8 +52,14 @@ def main():
             print("⚠️ Errore: Il firmware non ha risposto con il formato GPS_DATA.")
             return
             
-        print(f"📍 Ricevuto da PCB: {data_line}")
-        lat, lon = map(float, data_line.split(','))
+        parts = data_line.split(',')
+        source = parts[0] # LIVE o CACHE
+        lat, lon = map(float, parts[1:])
+        
+        if source == "CACHE":
+            print(f"⚠️ GPS non disponibile: uso ultima posizione dalla Flash ({lat}, {lon})")
+        else:
+            print(f"📍 Ricevuto da PCB (LIVE): {lat}, {lon}")
 
         # 2. Ottieni meteo e nome città
         print("🌍 Rilevamento posizione...")

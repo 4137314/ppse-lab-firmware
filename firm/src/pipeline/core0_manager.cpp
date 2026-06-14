@@ -11,7 +11,9 @@
 #include "ui/boot_anim.h"
 #include "ui/ui_manager.h"
 #include "util/scheduler.h"
-#include "core/config.h" // Assicurati di avere questo header che definisce la struct
+#include "core/config.h" // Assicurati di avere questo header che definisce la structa
+#include "core/storage.h"
+#include <LittleFS.h>
 
 // DICHIARA L'ESISTENZA DELLA VARIABILE GLOBALE
 extern SystemConfig global_cfg;
@@ -108,9 +110,38 @@ void core0_setup() {
     // 1. Inizializzazione configurazione (Applica i default/flag di compilazione)
     config_init();
 
+	// if (LittleFS.begin()) {
+	//        Serial.println("\n[SYSTEM] Filesystem montato.");
+	//        debug_dump_gps_log();
+	//    } else {
+	//        Serial.println("\n[SYSTEM] ERRORE: LittleFS non montato.");
+	//    }
+delay(3000); // Aspetta 3 secondi, non 1
+    
+    Serial.println("\n\n--- INIZIO TEST DI BOOT FORZATO ---");
+
+    // Prova ad inizializzare SOLO la Flash
+    if (LittleFS.begin()) {
+        Serial.println("LittleFS OK.");
+    } else {
+        Serial.println("LittleFS FALLITO.");
+        // Se fallisce qui, il file system è corrotto a livello hardware
+    }
+
+    // Ora prova a scrivere un file di test per vedere se la flash risponde
+    File f = LittleFS.open("/test.txt", "w");
+    if (f) {
+        f.println("Test scrittura riuscito");
+        f.close();
+        Serial.println("Scrittura test.txt OK.");
+    } else {
+        Serial.println("Scrittura test.txt FALLITA.");
+    }
+
     // 2. Inizializzazione sottosistemi core
     sys_manager_init();
     telemetry_init();
+
 
     // 3. Setup hardware di base
     pinMode(LED_ALIVE_PIN, OUTPUT);

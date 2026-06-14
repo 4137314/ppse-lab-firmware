@@ -2,6 +2,7 @@
 #include "core/messages.h"
 #include <Arduino.h>
 #include <pico/sync.h>
+#include "core/storage.h" // Assicurati che questo sia il percorso corretto rispetto alla cartella di inclusione
 
 // ELIMINA QUESTA RIGA: volatile SystemDataPacket real_system_data;
 
@@ -66,18 +67,29 @@ void sys_manager_handle_serial(void) {
         String cmd = Serial.readStringUntil('\n');
         cmd.trim();
         
-        // 1. Comando per recuperare la posizione GPS
+        // 1. Comando per recuperare la posizione GPS (Resiliente)
         if (cmd == "GET_GPS") {
             SystemDataPacket frame;
             sys_manager_receive_data(&frame);
             
-            // Invio con prefisso univoco GPS_DATA:
-            Serial.printf("GPS_DATA:%.6f,%.6f\n", frame.latitude, frame.longitude);
+            // LOGICA RESILIENTE: controlla se il fix è attivo, altrimenti usa la cache
+            if (frame.gps_status) {
+                // GPS LIVE: abbiamo segnale attuale
+                Serial.printf("GPS_DATA:LIVE,%.6f,%.6f\n", frame.latitude, frame.longitude);
+            } else {
+                // GPS NON DISPONIBILE: leggiamo dalla Flash
+                float lat, lon;
+                if (storage_read_last_gps(&lat, &lon)) {
+                    Serial.printf("GPS_DATA:CACHE,%.6f,%.6f\n", lat, lon);
+                } else {
+                    // Fallback totale in caso di errore di lettura
+                    Serial.printf("GPS_DATA:CACHE,0.000000,0.000000\n");
+                }
+            }
         } 
         
         // 2. Comando per ricezione dati meteo (WXC,City,Temp,Wind,Hum,Code)
         else if (cmd.startsWith("WXC,")) {
-            // Parsing manuale del pacchetto WXC
             int p1 = cmd.indexOf(',');
             int p2 = cmd.indexOf(',', p1 + 1);
             int p3 = cmd.indexOf(',', p2 + 1);
@@ -85,20 +97,16 @@ void sys_manager_handle_serial(void) {
             int p5 = cmd.indexOf(',', p4 + 1);
 
             if (p5 != -1) {
-                WeatherDataPacket w; // Creiamo una struct locale temporanea
+                WeatherDataPacket w;
                 
-                // Estrazione dati nella struct locale
                 cmd.substring(p1 + 1, p2).toCharArray(w.city, 32);
                 w.temp_ext = cmd.substring(p2 + 1, p3).toFloat();
                 w.wind_speed = cmd.substring(p3 + 1, p4).toFloat();
                 w.humidity = cmd.substring(p4 + 1, p5).toInt();
                 w.weather_code = cmd.substring(p5 + 1).toInt();
-                w.valid = true; // Imposta come valido
+                w.valid = true;
                 
-                // Salva nel bus di sistema usando la funzione CHIRURGICA
-                // Questo NON tocca il GPS o altri campi del pacchetto
                 sys_manager_update_weather(w);
-                
                 Serial.println("OK_WXC"); 
             }
         }
