@@ -7,7 +7,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include "core/messages.h"
-#include "core/system_manager.h" // Aggiunta inclusione necessaria per clear_error
+#include "core/system_manager.h"
 #include "drivers/display_ssd1306.h"
 #include "drivers/inputs.h"
 #include "ui/view_definitions.h"
@@ -87,14 +87,13 @@ void ui_manager_dispatch_input(uint8_t btn_raw) {
     // Logica di chiusura errore: se c'è un overlay attivo, il tasto lo chiude
     if (last_error_code != 0 && !error_acknowledged) {
         error_acknowledged = true;
-        sys_manager_clear_error(); // <--- AGGIORNAMENTO CRITICO: Resetta il flag nel sistema
+        sys_manager_clear_error(); 
         return; 
     }
 
-    if (btn == BTN_BACK && current_view_id != VIEW_ID_HOME) {
-        ui_manager_navigate_to(VIEW_ID_HOME);
-        return;
-    }
+    // RIMOSSA: if (btn == BTN_BACK && current_view_id != VIEW_ID_HOME)
+    // Ora il controllo passa sempre alla logica interna della vista (on_input)
+    // rendendo la navigazione flessibile e non hardcoded.
 
     if (current_view->on_input) {
         current_view->on_input(btn, BTN_RELEASED);

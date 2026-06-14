@@ -8,8 +8,10 @@
 #include "core/telemetry.h"
 #include "drivers/peripherals.h"
 #include "util/scheduler.h"
-#include "ui/boot_anim.h" // <--- AGGIUNGI QUESTO
-#include "drivers/peripherals.h" // Assicurati di includerlo per vedere peripherals_update_led_fx
+#include "ui/boot_anim.h"
+
+// Variabili per tracciamento tempo
+static uint32_t last_uptime_tick = 0;
 
 // Task schedulati
 static Task task_serial = { [](){ sys_manager_handle_serial(); }, 10, 0 };
@@ -19,6 +21,18 @@ static Task task_input  = { [](){
     if (b != BTN_NONE) ui_manager_dispatch_input(b); 
 }, 20, 0 };
 
+// Task Uptime: aggiorna il contatore nel pacchetto condiviso
+static Task task_uptime = { [](){ 
+    if (millis() - last_uptime_tick >= 1000) {
+        last_uptime_tick = millis();
+        SystemDataPacket frame;
+        if (sys_manager_receive_data(&frame)) {
+            frame.uptime_s++; 
+            sys_manager_send_data(&frame);
+        }
+    }
+}, 100, 0 };
+
 // Task UI separato per fluidità: aggiornamento a ~30Hz
 static Task task_ui = { [](){ 
     SystemDataPacket frame;
@@ -27,8 +41,6 @@ static Task task_ui = { [](){
     }
 }, 33, 0 };
 
-// Task LED separato: aggiornamento a ~10Hz (più che sufficiente per l'occhio)
-// Questo isola le chiamate bloccanti di FastLED.show() dal rendering del display
 static Task task_leds = { [](){ 
     SystemDataPacket frame;
     if (sys_manager_receive_data(&frame)) {
@@ -40,7 +52,7 @@ static Task task_health = { [](){
     SystemDataPacket frame;
     sys_manager_receive_data(&frame);
     if (!frame.flags.error_active) {
-        Serial.printf("[HEARTBEAT] System Healthy | Uptime: %lus\n", millis() / 1000);
+        Serial.printf("[HEARTBEAT] System Healthy | Uptime: %lus\n", frame.uptime_s);
     } else {
         Serial.printf("[HEARTBEAT] WARNING: Error Active! | Code: 0x%02X\n", frame.last_error.code);
     }
@@ -48,8 +60,6 @@ static Task task_health = { [](){
 
 void boot_led_update_wrapper() {
     static uint32_t last_led_update = 0;
-    // Aggiorna i LED solo se sono passati almeno 50ms (corrisponde a 20fps)
-    // Regola questo valore: più è alto, più l'animazione sarà lenta
     if (millis() - last_led_update > 50) {
         peripherals_update_led_fx(LED_ANIM_BOOT, 0.0f);
         last_led_update = millis();
@@ -79,7 +89,6 @@ void core0_setup() {
     if (!display_hw_init()) {
         sys_manager_report_error(ERR_CAT_HW, ERR_HW_DISPLAY_LOST, true);
     } else {
-        // 2. Esegui la sequenza di boot hacker-style solo se il display funziona
         run_hacker_boot_sequence(boot_led_update_wrapper); 
     }
     
@@ -88,13 +97,13 @@ void core0_setup() {
 }
 
 void core0_loop() {
-    // Aggiornamento GPS prioritario nel loop del core0
     telemetry_update(); 
     
     run_task(&task_serial);
     run_task(&task_input);
-    run_task(&task_ui);     // UI fluida senza interferenze
-    run_task(&task_leds);   // Feedback visivo gestito in modo asincrono
+    run_task(&task_uptime); // Gestione uptime integrata
+    run_task(&task_ui);
+    run_task(&task_leds);
     run_task(&task_health);
     
     digitalWrite(LED_ALIVE_PIN, (millis() / 500) % 2);

@@ -1,10 +1,13 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <Arduino.h>
+
 #include "core/messages.h"
 #include "drivers/display_ssd1306.h"
-#include "ui/view_definitions.h"
+#include "ui/ui_manager.h"        // Fondamentale per ui_manager_navigate_to
+#include "ui/view_definitions.h"  // Fondamentale per VIEW_ID_HOME
 
+// 1. Definiamo le funzioni prima di usarle nella struct
 static void meteo_render(const void* data) {
     const SystemDataPacket* sys = (const SystemDataPacket*)data;
     Adafruit_SSD1306* canvas = (Adafruit_SSD1306*)get_display_driver();
@@ -47,5 +50,16 @@ static void meteo_render(const void* data) {
     canvas->print(F("Sync via Serial/PC"));
 }
 
+static void meteo_on_input(button_t btn, button_state_t state) {
+    if (state == BTN_RELEASED && btn == BTN_BACK) {
+        ui_manager_navigate_to(VIEW_ID_HOME);
+    }
+}
+
+// 2. Dichiarazione UNICA della struct (ora che le funzioni sopra esistono)
 const view_interface_t view_meteo = {
-    .on_enter = NULL, .on_update = meteo_render, .on_input = NULL, .on_exit = NULL};
+    .on_enter = NULL, 
+    .on_update = meteo_render, 
+    .on_input = meteo_on_input, 
+    .on_exit = NULL
+};

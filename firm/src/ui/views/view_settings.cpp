@@ -5,7 +5,7 @@
 #include "ui/ui_manager.h"
 #include "ui/view_definitions.h"
 #include "drivers/peripherals.h"
-#include "drivers/display_ssd1306.h" // Per get_display_driver() e display_set_brightness()
+#include "drivers/display_ssd1306.h"
 
 // Voci del menu
 enum { SETTING_BRIGHTNESS, SETTING_BUZZER, SETTING_LEDS, SETTING_INFO, SETTING_BACK, SETTING_COUNT };
@@ -14,9 +14,18 @@ static uint8_t cursor = 0;
 static void settings_input(button_t btn, button_state_t state) {
     if (state != BTN_RELEASED) return;
 
+    // Gestione navigazione con tasti fisici
     switch (btn) {
-        case BTN_UP:    cursor = (cursor == 0) ? SETTING_COUNT - 1 : cursor - 1; break;
-        case BTN_DOWN:  cursor = (cursor + 1) % SETTING_COUNT; break;
+        case BTN_UP:   
+            cursor = (cursor == 0) ? SETTING_COUNT - 1 : cursor - 1; 
+            break;
+        case BTN_DOWN: 
+            cursor = (cursor + 1) % SETTING_COUNT; 
+            break;
+        case BTN_BACK: 
+            // Ritorno diretto alla Home premendo il tasto BACK fisico
+            ui_manager_navigate_to(VIEW_ID_HOME); 
+            break;
         case BTN_OK:
             switch(cursor) {
                 case SETTING_BRIGHTNESS: 
@@ -25,14 +34,18 @@ static void settings_input(button_t btn, button_state_t state) {
                     break;
                 case SETTING_BUZZER: 
                     global_cfg.buzzer_enabled = !global_cfg.buzzer_enabled;
-                    peripherals_set_buzzer(global_cfg.buzzer_enabled); // Esegue comando fisico
+                    peripherals_set_buzzer(global_cfg.buzzer_enabled);
                     break;
                 case SETTING_LEDS:   
                     global_cfg.leds_enabled = !global_cfg.leds_enabled;
-                    peripherals_set_leds(global_cfg.leds_enabled);     // Esegue comando fisico
+                    peripherals_set_leds(global_cfg.leds_enabled);
                     break;
-                case SETTING_INFO:   ui_manager_navigate_to(VIEW_ID_INFO); break;
-                case SETTING_BACK:   ui_manager_navigate_to(VIEW_ID_HOME); break;
+                case SETTING_INFO:   
+                    ui_manager_navigate_to(VIEW_ID_INFO); 
+                    break;
+                case SETTING_BACK:   
+                    ui_manager_navigate_to(VIEW_ID_HOME); 
+                    break;
             }
             break;
         default: break;
@@ -63,7 +76,7 @@ static void settings_render(const void* data) {
         canvas->setCursor(2, y);
         canvas->print(labels[i]);
 
-        // Rendering valori dinamici
+        // Rendering valori dinamici solo sulla riga selezionata
         if (cursor == i) {
             canvas->setCursor(80, y);
             if (i == SETTING_BRIGHTNESS) canvas->printf("%d", global_cfg.oled_brightness);
@@ -74,4 +87,8 @@ static void settings_render(const void* data) {
 }
 
 const view_interface_t view_settings = {
-    .on_enter = NULL, .on_update = settings_render, .on_input = settings_input, .on_exit = NULL};
+    .on_enter = NULL, 
+    .on_update = settings_render, 
+    .on_input = settings_input, 
+    .on_exit = NULL
+};

@@ -12,15 +12,29 @@
 // Variabile locale per tracciare se l'utente ha appena salvato (per feedback visivo)
 static uint32_t saved_feedback_ms = 0;
 
+// static void gps_on_input(button_t btn, button_state_t state) {
+//     // Se premo OK e ho il rilascio, triggero il salvataggio sulla SD
+//     if (btn == BTN_OK && state == BTN_RELEASED) {
+//         // Il flag di feedback farà apparire una scritta di conferma a schermo per 1.5 secondi
+//         saved_feedback_ms = millis();
+//
+//         Serial.println("[UI GPS] Richiesta salvataggio manuale posizione...");
+//         // Qui quando re-integrerai lo storage si chiamerà:
+//         // storage_save_last_gps(current_lat, current_lon);
+//     }
+// }
+
 static void gps_on_input(button_t btn, button_state_t state) {
-    // Se premo OK e ho il rilascio, triggero il salvataggio sulla SD
-    if (btn == BTN_OK && state == BTN_RELEASED) {
-        // Il flag di feedback farà apparire una scritta di conferma a schermo per 1.5 secondi
+    if (state != BTN_RELEASED) return;
+
+    // Gestione ritorno alla HOME
+    if (btn == BTN_BACK) {
+        ui_manager_navigate_to(VIEW_ID_HOME);
+    } 
+    // Gestione salvataggio (OK)
+    else if (btn == BTN_OK) {
         saved_feedback_ms = millis();
-        
         Serial.println("[UI GPS] Richiesta salvataggio manuale posizione...");
-        // Qui quando re-integrerai lo storage si chiamerà:
-        // storage_save_last_gps(current_lat, current_lon);
     }
 }
 
