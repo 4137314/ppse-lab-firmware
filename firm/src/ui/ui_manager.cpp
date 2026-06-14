@@ -14,6 +14,10 @@
 static const view_interface_t* current_view = &view_home;
 static view_id_t current_view_id = VIEW_ID_HOME;
 
+// Stato per la gestione dell'overlay errore
+static bool error_acknowledged = false;
+static uint8_t last_error_code = 0; 
+
 // --- Inizializzazione UI ---
 void ui_manager_init(void) {
     if (current_view && current_view->on_enter) {
@@ -23,10 +27,7 @@ void ui_manager_init(void) {
 
 // --- LOGICA OVERLAY ERRORE ---
 static void render_error_overlay(const SystemDataPacket* data, Adafruit_SSD1306* canvas) {
-    // Se non c'è un errore attivo, non facciamo nulla
-    if (!data->flags.error_active) return;
-
-    // Disegna un rettangolo nero per oscurare il contenuto sottostante
+    // Disegna un rettangolo nero per oscurare parzialmente o totalmente il contenuto
     canvas->fillRect(0, 0, 128, 64, SSD1306_BLACK);
     canvas->setTextColor(SSD1306_WHITE);
     
@@ -42,40 +43,57 @@ static void render_error_overlay(const SystemDataPacket* data, Adafruit_SSD1306*
     if (data->last_error.is_critical) {
         canvas->setCursor(0, 50);
         canvas->print("SYSTEM HALTED");
+    } else {
+        canvas->setCursor(0, 50);
+        canvas->print("Premere tasto...");
     }
 }
 
 void ui_manager_update(const void* system_data) {
     const SystemDataPacket* data = (const SystemDataPacket*)system_data;
     
-    display_clear();
-    Adafruit_SSD1306* canvas = (Adafruit_SSD1306*)get_display_driver();
-    
-    if (canvas) {
-        canvas->setTextColor(SSD1306_WHITE);
-        canvas->setTextSize(1);
+    // 1. Gestione logica stato errore (nessuna modifica qui)
+    if (data->last_error.code != last_error_code) {
+        error_acknowledged = false;
+        last_error_code = data->last_error.code;
     }
 
-    // 1. Logica Prioritaria: Se c'è un errore, mostriamo l'overlay e blocchiamo la view
-    if (data->flags.error_active) {
-        render_error_overlay(data, canvas);
-    } 
-    // 2. Altrimenti, rendiamo la view normale
-    else if (current_view && current_view->on_update) {
+    // 2. Prepara il canvas
+    Adafruit_SSD1306* canvas = (Adafruit_SSD1306*)get_display_driver();
+    if (!canvas) return;
+
+    // 3. Pulisci una sola volta
+    canvas->clearDisplay(); 
+
+    // 4. Disegna la vista sottostante
+    if (current_view && current_view->on_update) {
         current_view->on_update(data);
     }
+
+    // 5. Se c'è l'errore, disegnalo SOPRA senza pulire di nuovo il buffer
+    if (data->flags.error_active && !error_acknowledged) {
+        render_error_overlay(data, canvas);
+    } 
     
-    display_show();
+    // 6. Invia tutto al display una sola volta per ciclo
+    canvas->display(); 
 }
 
 /**
- * @brief Smista l'input alla view attiva.
+ * @brief Smista l'input alla view attiva e gestisce la chiusura del popup errore.
  */
 void ui_manager_dispatch_input(uint8_t btn_raw) {
     button_t btn = (button_t)btn_raw;
 
     if (btn == BTN_NONE || !current_view)
         return;
+
+    // Logica di chiusura errore: se c'è un overlay attivo, il tasto lo chiude
+    // In questo modo non propaghiamo l'input alla vista finché l'errore è visibile
+    if (last_error_code != 0 && !error_acknowledged) {
+        error_acknowledged = true;
+        return; // Consumiamo il tasto per chiudere il popup
+    }
 
     if (btn == BTN_BACK && current_view_id != VIEW_ID_HOME) {
         ui_manager_navigate_to(VIEW_ID_HOME);
@@ -95,24 +113,12 @@ void ui_manager_navigate_to(view_id_t new_view_id) {
     current_view_id = new_view_id;
 
     switch (new_view_id) {
-        case VIEW_ID_HOME:
-            current_view = &view_home;
-            break;
-        case VIEW_ID_GPS:
-            current_view = &view_gps;
-            break;
-        case VIEW_ID_METEO:
-            current_view = &view_meteo;
-            break;
-        case VIEW_ID_SETTINGS:
-            current_view = &view_settings;
-            break;
-        case VIEW_ID_INFO:
-            current_view = &view_info;
-            break;
-        default:
-            current_view = &view_home;
-            break;
+        case VIEW_ID_HOME:      current_view = &view_home;      break;
+        case VIEW_ID_GPS:       current_view = &view_gps;       break;
+        case VIEW_ID_METEO:     current_view = &view_meteo;     break;
+        case VIEW_ID_SETTINGS:  current_view = &view_settings;  break;
+        case VIEW_ID_INFO:      current_view = &view_info;      break;
+        default:                current_view = &view_home;      break;
     }
 
     if (current_view && current_view->on_enter) {

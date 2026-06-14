@@ -94,7 +94,7 @@ void telemetry_update() {
         if (c == '\n') {
             nmea_buffer[nmea_idx] = '\0';
             if (nmea_idx > 5) {
-                //Serial.print("RAW: "); Serial.print(nmea_buffer); // DEBUG
+                Serial.print("RAW: "); Serial.print(nmea_buffer); // DEBUG
                 process_nmea(nmea_buffer);
             }
             nmea_idx = 0;
