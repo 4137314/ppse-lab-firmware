@@ -103,6 +103,30 @@ void peripherals_update_led_fx(LedAnimState state, float val) {
     if (needs_show) FastLED.show();
 }
 
+// void peripherals_auto_feedback(const SystemDataPacket* data) {
+//     if (!global_cfg.leds_enabled) {
+//         fill_solid(leds, NUM_LEDS, CRGB::Black);
+//         FastLED.show();
+//         return;
+//     }
+//
+//     if (!boot_finished) {
+//         peripherals_update_led_fx(LED_ANIM_BOOT, 0.0f);
+//         if (millis() - boot_start_time > 3000) boot_finished = true;
+//     } else {
+//         // Corretto confronto usando l'enum per robustezza
+//         if (data->gps_status < GPS_STATUS_FIX_2D) {
+//             peripherals_update_led_fx(LED_ANIM_SEARCHING, 0.0f);
+//         } else if (data->battery_v < 3.4f) {
+//             peripherals_update_led_fx(LED_ANIM_SIGNAL_LOW, 0.0f);
+//         } else {
+//             float sat_quality = constrain((float)data->satellites / 12.0f, 0.1f, 1.0f);
+//             peripherals_update_led_fx(LED_ANIM_FIX_OK, sat_quality);
+//         }
+//     }
+// }
+
+
 void peripherals_auto_feedback(const SystemDataPacket* data) {
     if (!global_cfg.leds_enabled) {
         fill_solid(leds, NUM_LEDS, CRGB::Black);
@@ -114,17 +138,20 @@ void peripherals_auto_feedback(const SystemDataPacket* data) {
         peripherals_update_led_fx(LED_ANIM_BOOT, 0.0f);
         if (millis() - boot_start_time > 3000) boot_finished = true;
     } else {
-        // Corretto confronto usando l'enum per robustezza
-        if (data->gps_status < GPS_STATUS_FIX_2D) {
+        // MODIFICA: Invece di usare il confronto <, usiamo un confronto esplicito
+        // Assumendo che 0 sia NO_FIX e 1 sia FIX_2D/3D (come da log)
+        if (data->gps_status == 0) { 
             peripherals_update_led_fx(LED_ANIM_SEARCHING, 0.0f);
         } else if (data->battery_v < 3.4f) {
             peripherals_update_led_fx(LED_ANIM_SIGNAL_LOW, 0.0f);
         } else {
-            float sat_quality = constrain((float)data->satellites / 12.0f, 0.1f, 1.0f);
+            // Qui entriamo se status >= 1
+            float sat_quality = constrain((float)data->satellites / 8.0f, 0.1f, 1.0f);
             peripherals_update_led_fx(LED_ANIM_FIX_OK, sat_quality);
         }
     }
 }
+
 
 /* --- Feedback Acustico --- */
 void peripherals_beep(uint32_t freq, uint32_t duration) {
