@@ -1,5 +1,5 @@
 /**
- * @file main_core1.h
+ * @file core1_manager.h
  * @brief Punto di ingresso e ciclo di elaborazione per il Core 1.
  * @details Il Core 1 funge da "Worker" dedicato, gestendo task a bassa latenza 
  * come l'acquisizione GPS, la lettura dei sensori IMU e il calcolo dei cicli di controllo.

@@ -1,5 +1,5 @@
 /**
- * @file main_core0.h
+ * @file core0_manager.h
  * @brief Punto di ingresso e ciclo di controllo principale per il Core 0.
  * @details Il Core 0 gestisce la logica di alto livello, la UI, la gestione 
  * dei file (LittleFS) e la comunicazione seriale.
