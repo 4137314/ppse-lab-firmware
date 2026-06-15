@@ -15,5 +15,6 @@ bool storage_is_busy_by_usb(void);
 void storage_log_gps_fix(float lat, float lon);
 bool storage_read_last_gps(float* lat, float* lon);
 void debug_dump_gps_log();
+bool storage_format_all(void);
 
 #endif // STORAGE_H

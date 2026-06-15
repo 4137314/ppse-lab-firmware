@@ -161,3 +161,14 @@ void debug_dump_gps_log() {
     Serial.println("\n--- FINE DUMP ---");
     f.close();
 }
+
+// Aggiungi in storage.c
+bool storage_format_all(void) {
+    // Chiudiamo eventuali file aperti prima di formattare
+    // LittleFS.end() non è strettamente richiesto ma pulito
+    LittleFS.end(); 
+    if (LittleFS.format()) {
+        return LittleFS.begin(); // Rinizializza
+    }
+    return false;
+}
