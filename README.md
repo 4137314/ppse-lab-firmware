@@ -21,8 +21,8 @@ Firmware per **RP2040** dedicato al logging geospaziale, monitoraggio ambientale
 
 ### Hybrid Storage System
 * **Data Integrity:** Utilizzo di **LittleFS** come filesystem nativo per la persistenza dei log GNSS e della telemetria, scelto per la sua resilienza ai crash energetici (*copy-on-write*) e per l'efficace gestione del *wear-leveling* sulla memoria Flash.
-* **USB Mass Storage:** Implementazione del layer **FatFS** (tramite *TinyUSB*) esclusivamente per esporre i log come volume USB leggibile su PC, garantendo compatibilità universale senza compromettere l'integrità dei dati.
-* **Safety Lock:** Protezione del filesystem con rilevamento automatico della connessione USB per inibire le operazioni di scrittura su Flash durante la modalità Mass Storage, prevenendo conflitti e corruzioni dei dati.
+* **USB Mass Storage:** Implementazione di un layer di interfaccia USB (tramite *TinyUSB*) che espone i log contenuti nella Flash come un volume rimovibile leggibile su PC, garantendo la portabilità dei dati senza necessità di driver esterni.
+* **Safety Lock:** Protezione del filesystem con rilevamento automatico della connessione USB per inibire le operazioni di scrittura del firmware su Flash durante la modalità Mass Storage, prevenendo conflitti e corruzioni dei dati.
 
 ### UI & UX Framework
 *   **Agnostic Display Driver:** Interfaccia grafica su OLED **SSD1306** (128x64) con astrazione completa dalle librerie hardware per facilitare il porting.
