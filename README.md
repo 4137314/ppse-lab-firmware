@@ -20,9 +20,9 @@ Firmware per **RP2040** dedicato al logging geospaziale, monitoraggio ambientale
 *   **Fix Diagnostics:** Monitoraggio dello stato del segnale (IDLE, No Fix, 2D/3D) con calcolo dell'età dell'ultimo fix per la sicurezza del volo.
 
 ### Hybrid Storage System
-*   **Dual-Mode Access:** Gestione dati su Flash interna tramite **FatFS** e interfaccia USB Mass Storage per l'estrazione rapida dei log su PC.
-*   **Advanced Logging:** Sistema di append automatico per la telemetria in formato CSV (`telemetry_log.csv`) e salvataggio dei parametri di configurazione in formato binario.
-*   **Safety Lock:** Protezione del filesystem con rilevamento automatico della connessione USB per prevenire corruzioni durante la scrittura.
+* **Data Integrity:** Utilizzo di **LittleFS** come filesystem nativo per la persistenza dei log GNSS e della telemetria, scelto per la sua resilienza ai crash energetici (*copy-on-write*) e per l'efficace gestione del *wear-leveling* sulla memoria Flash.
+* **USB Mass Storage:** Implementazione del layer **FatFS** (tramite *TinyUSB*) esclusivamente per esporre i log come volume USB leggibile su PC, garantendo compatibilità universale senza compromettere l'integrità dei dati.
+* **Safety Lock:** Protezione del filesystem con rilevamento automatico della connessione USB per inibire le operazioni di scrittura su Flash durante la modalità Mass Storage, prevenendo conflitti e corruzioni dei dati.
 
 ### UI & UX Framework
 *   **Agnostic Display Driver:** Interfaccia grafica su OLED **SSD1306** (128x64) con astrazione completa dalle librerie hardware per facilitare il porting.
