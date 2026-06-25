@@ -4,9 +4,7 @@
 \subsection{Strumenti di Sviluppo}
 \subsubsection*{Ambiente di sviluppo: PlatformIO}
 
-Per lo sviluppo, la compilazione e il deploy del firmware è stato adottato l'ecosistema \textbf{PlatformIO} \cite{platformio_os}. A differenza degli IDE tradizionali, PlatformIO si configura come uno strumento professionale da linea di comando (\textit{CLI}) e un sistema di gestione delle build agnostico rispetto all'hardware. 
-
-
+Per lo sviluppo, la compilazione e il deploy del firmware è stato adottato l'ecosistema \textbf{PlatformIO} \cite{platformio_os}. A differenza degli IDE tradizionali, PlatformIO si configura come uno strumento professionale da linea di comando (\textit{CLI}) e un sistema di gestione delle build agnostico rispetto all'hardware.
 
 L'adozione di questa tecnologia ha offerto diversi vantaggi determinanti per il rigore ingegneristico del progetto:
 \begin{itemize}
@@ -19,8 +17,7 @@ L'adozione di questa tecnologia ha offerto diversi vantaggi determinanti per il 
 Il cuore della configurazione risiede nel file \texttt{platformio.ini}. Questo file permette di definire in modo dichiarativo l'hardware di destinazione, la versione del framework e le librerie necessarie, garantendo la riproducibilità dell'ambiente di build su macchine diverse.
 
 Un aspetto fondamentale per questo progetto è stata la configurazione della partizione di memoria dedicata a \textbf{LittleFS}. 
-Tramite il parametro \texttt{board\_build.filesystem\_size}, è stato possibile riservare una porzione specifica della Flash W25Q16 per l'archiviazione dei log.
-
+Tramite il parametro \texttt{board\_build.filesystem\_size}, è stato possibile riservare una porzione specifica della Flash \textbf{W25Q128JV} per l'archiviazione dei log.
 
 \paragraph{Workflow da terminale}
 L'utilizzo della \textit{Command Line Interface} (CLI) di PlatformIO ha permesso di velocizzare le operazioni di debug e caricamento.
@@ -42,9 +39,9 @@ L'utilizzo di \texttt{minmea} garantisce che il parsing avvenga in un intervallo
 
 \paragraph{Interfaccia Visuale: SSD1306 e Adafruit GFX}
 
-La comunicazione visiva con l'utente avviene tramite un display OLED gestito via I2C. Per astrarre la complessità del disegno dei caratteri e delle primitive grafiche, si utilizzano le librerie Adafruit GFX \cite{adafruit_gfx} e Adafruit SSD1306 \cite{adafruit_ssd1306}. Il display viene inizializzato definendo l'indirizzo I2C (tipicamente \texttt{0x3C}) e allocando il buffer necessario per la gestione dei pixel.
+La comunicazione visiva con l'utente è affidata a un display OLED interfacciato tramite il bus seriale I2C0 nativo del SoC RP2040. Al fine di astrarre la complessità legata alla renderizzazione dei font alfanumerici e delle primitive grafiche, il firmware integra le librerie Adafruit GFX \cite{adafruit_gfx} e Adafruit SSD1306 \cite{adafruit_ssd1306}. In fase di boot, la periferica viene inizializzata impostando l'indirizzo slave I2C (tipicamente \texttt{0x3C}) e allocando nello spazio di memoria RAM del microcontrollore il buffer necessario alla gestione dei pixel.
 
-Per massimizzare l'efficienza, il firmware opera tramite un \textit{framebuffer} in RAM: tutte le operazioni di disegno vengono effettuate localmente e trasmesse al controller \texttt{SSD1306} solo tramite la funzione \texttt{display.display()} NOTA=DA RIVEDERE QUESTA FUNZIONE. Questo approccio riduce il traffico sul bus I2C e previene fenomeni di sfarfallio (\textit{flickering}) durante l'aggiornamento dei dati meteo o delle coordinate in tempo reale.
+Per ottimizzare le prestazioni complessive del sistema e mitigare i vincoli di banda del canale seriale, il firmware adotta un'architettura basata su \textit{framebuffer} locale. Tutte le operazioni di scrittura e disegno geometrico modificano esclusivamente la matrice di pixel allocata nella RAM dell'RP2040. Il trasferimento fisico dei dati verso la GDDRAM (\textit{Graphic Display Data RAM}) del controller \texttt{SSD1306} avviene in modo atomico e sequenziale solo a seguito dell'invocazione della funzione di gestione \texttt{display\_show()} (la quale agisce da wrapper ed esegue internamente il metodo \texttt{canvas->display()} sul puntatore della libreria Adafruit). Questo approccio centralizzato riduce al minimo l'overhead di comunicazione sul bus I2C — rendendo il trasferimento dei dati un'operazione concentrata nel tempo — e previene fenomeni di sfarfallio (\textit{flickering}) visivo durante l'aggiornamento in tempo reale delle coordinate GNSS e dei parametri ambientali.
 
 \paragraph{Feedback Cromatico: FastLED e Offloading PIO}
 
@@ -54,14 +51,14 @@ Il sistema utilizza i LED per fornire un feedback immediato sull'integrità del 
 
 \paragraph{Filesystem: LittleFS}
 
-Per la gestione dell'archiviazione dei log e di parametri da salvare in memoria non volatile (Flash W25Q16 \cite{w25q128_ds}), si rende necessario l'uso di un filesystem. É stato scelto il filesystem LittleFS \cite{fastled_lib} \cite{littlefs_repo}, ottimizzato e pensato per memorie con bassa vita in scrittura (100.000 scritture per settore nel nostro caso), fa un uso minimo della ROM e indipendente dalle dimensioni del FS; inoltre é resiliente a perdite di alimentazione improvvise. La documentazione per l'uso dell'API si trova qui \cite{pico_arduino_core}. 
+Per la gestione dell'archiviazione dei log e di parametri da salvare in memoria non volatile (Flash \textbf{W25Q128JV} \cite{w25q128_ds}), si rende necessario l'uso di un filesystem. \`E stato scelto il filesystem LittleFS \cite{littlefs_repo}, ottimizzato e pensato per memorie con bassa vita in scrittura (100.000 scritture per settore nel nostro caso); esso fa un uso minimo della ROM ed è indipendente dalle dimensioni del FS, dimostrandosi resiliente a perdite di alimentazione improvvise. La documentazione per l'uso dell'API si trova qui \cite{pico_arduino_core}. 
 
-Il programma utilizza la memoria flash per salvare l'ultima posizione valida del gps in modo che ve ne sia sempre una di fallback.
+Il programma utilizza la memoria flash per salvare l'ultima posizione valida del GPS in modo che ve ne sia sempre una di fallback.
 Anche i dati meteo ritornati dal programma sul PC via UART vengono salvati in flash, permettendo di mantenerli anche se il PC viene scollegato e la board spenta.
 
 \subsubsection*{Offloading Computazionale tramite PIO}
 
-Una delle sfide critiche nello sviluppo del firmware è stata la gestione della concorrenza tra il protocollo dei LED \textbf{WS2812B} e il flusso dati asincrono del modulo GNSS. I LED NeoPixel richiedono una modulazione degli impulsi con timing estremamente rigorosi (nell'ordine dei nanosecondi). Le implementazioni software tradizionali (\textit{bit-banging}) soddisfano questi requisiti entrando in una sezione critica in cui vengono **disabilitati globalmente gli interrupt**. 
+Una delle sfide critiche nello sviluppo del firmware è stata la gestione della concorrenza tra il protocollo dei LED \textbf{WS2812B} e il flusso dati asincrono del modulo GNSS. I LED NeoPixel richiedono una modulazione degli impulsi con timing estremamente rigorosi (nell'ordine dei nanosecondi). Le implementazioni software tradizionali (\textit{bit-banging}) soddisfano questi requisiti entrando in una sezione critica in cui vengono \textbf{disabilitati globalmente gli interrupt}. 
 
 Tale approccio è incompatibile con il data-logging GNSS: la disabilitazione degli interrupt, anche per pochi millisecondi, causa l'overflow del buffer della UART, portando alla perdita di byte fondamentali nelle sentenze NMEA. Per ovviare a questo limite, è stato utilizzato il sottosistema \textbf{PIO} (\textit{Programmable I/O}) dell'RP2040:
 
@@ -69,8 +66,6 @@ Tale approccio è incompatibile con il data-logging GNSS: la disabilitazione deg
     \item \textbf{Parallelismo hardware e Determinismo}: Una macchina a stati dedicata (\textit{State Machine}) esegue un micro-codice assembly specifico per generare le forme d'onda. Questo processo avviene in modo totalmente indipendente dai cicli di clock dei core ARM, garantendo un segnale privo di \textit{jitter}.
     \item \textbf{Comunicazione tramite FIFO}: Il \textit{Core 0} carica i dati cromatici in un buffer hardware di tipo \textbf{FIFO} (\textit{First-In-First-Out}). Una volta trasferito il dato, la CPU torna immediatamente a gestire il parsing NMEA, mentre il PIO svuota il buffer pilotando fisicamente il pin.
 \end{itemize}
-
-
 
 \paragraph{Sincronizzazione e Protocollo WS2812B}
 
@@ -81,8 +76,6 @@ Questa architettura realizza un vero e proprio \textbf{offloading hardware}: il 
 \paragraph{Gestione dei Conflitti di Interrupt}
 
 In un sistema embedded senza PIO, l'arrivo di un byte sulla UART durante la trasmissione verso i LED genererebbe una \textbf{Interrupt Latency} inaccettabile. Se l'interrupt venisse servito, il segnale dei LED si corromperebbe (causando sfarfallio); se venisse ignorato, il byte UART andrebbe perso. 
-
-
 
 L'offloading su PIO risolve il dilemma alla radice: poiché il PIO non può essere interrotto da eventi software, il protocollo fisico dei LED rimane stabile, mentre i core ARM restano sempre disponibili per rispondere istantaneamente agli interrupt della UART e dei pulsanti GPIO (\textit{falling edge}), garantendo un sistema realmente \textit{real-time}.
 
@@ -101,7 +94,7 @@ L'integrazione di questo componente offre diversi vantaggi tecnologici fondament
     \item \textbf{Integrità del Segnale}: Come evidenziato nello schematico, il modulo è alimentato tramite la linea a \qty{3.3}{V} filtrata dall'LDO dedicato. La scelta di un'antenna integrata minimizza le perdite di segnale dovute a disadattamenti di impedenza, tipiche delle soluzioni con antenna esterna e connettore SMA.
 \end{itemize}
 
-L'output seriale del SAM-M8Q viene gestito in modo asincrono dal \textit{Core 0} dell'RP2040 \cite{rp2040_ds}\footnote{Mentre il \textit{Core 1} è dedicato esclusivamente al calcolo della cinematica e all'aggiornamento del display OLED.}, permettendo di mantenere un flusso di log costante sulla Flash senza interferire con le altre funzioni del sistema.
+L'output seriale del SAM-M8Q viene gestito in modo asincrono dal \textit{Core 0} dell'RP2040 \cite{rp2040_ds}\footnote{Mentre il \textit{Core 1} è incaricato dell'aggiornamento dell'OLED, del calcolo cinematico e del campionamento dei sensori ambientali, le cui routine critiche sono allocate in SRAM per aggirare i potenziali stalli del bus XIP durante i cicli di scrittura della Flash.}, permettendo di mantenere un flusso di log costante sulla Flash senza interferire con le altre funzioni del sistema.
 
 \subsubsection*{File System: Integrità e Wear Leveling con LittleFS}
 
@@ -113,9 +106,8 @@ Data la natura della memoria Flash, soggetta a un numero finito di cicli di canc
     \item \textbf{Gestione dei Bad Blocks}: Il sistema è in grado di rilevare e isolare dinamicamente eventuali blocchi danneggiati della Flash, mantenendo l'affidabilità del logging nel tempo.
 \end{itemize}
 
-
 \subsubsection*{Strategia di Logging e Concorrenza}
 
-Nel firmware sviluppato, la scrittura su LittleFS è affidata esclusivamente al \textit{Core 0}. Per ottimizzare le prestazioni e ridurre i tempi di accesso alla memoria, i dati provenienti dal modulo GNSS \cite{sam_m8q_ds} vengono prima accumulati in un buffer circolare nella RAM dell'RP2040 e successivamente riversati in un file binario giornaliero (es. \texttt{log\_240126.bin}).
+Nel firmware sviluppato, la scrittura su LittleFS è affidata esclusivamente al \textit{Core 0}. Per ottimizzare le prestazioni e ridurre i tempi di accesso alla memoria, i dati provenienti dal modulo GNSS \cite{sam_m8q_ds} vengono prima accumulati in un buffer circolare nella RAM dell'RP2040 e successivamente serializzati in un file binario giornaliero (es. \texttt{log\_240126.bin}) secondo le definizioni del protocollo dati interno (\texttt{GpsStatus\_t}).
 
 Questa separazione logica evita che le operazioni di \textit{I/O} sulla Flash, che possono richiedere diversi millisecondi per la cancellazione di un settore, interferiscano con il campionamento ad alta frequenza dei sensori ambientali gestito dal secondo core.

@@ -15,11 +15,8 @@ L'architettura proposta ha permesso di raggiungere i seguenti obiettivi chiave, 
     \item \textbf{Power Quality e Sensibilità GNSS:} La strategia di regolazione a due stadi (Buck TPS563201 \cite{tps563201_ds} per la potenza e LDO per la logica) ha garantito un piano di alimentazione estremamente pulito. La riduzione del ripple sulla linea a \qty{3.3}{V} ha permesso al modulo SAM-M8Q di mantenere un \textit{Carrier-to-Noise density ratio} (C/N0) elevato, assicurando fix rapidi anche in condizioni di multipath urbano.
 \end{itemize}
 
-
-
 \subsection{Riflessioni sul Design Ibrido}
-
-Il progetto ha evidenziato come il limite dei sistemi embedded moderni non sia più la potenza di calcolo bruta, ma l'efficienza nella gestione delle periferiche. La separazione dei task tra i due core (Core 0 per l'interfaccia e Core 1 per il processamento asincrono) ha permesso di mantenere una latenza di risposta ai pulsanti inferiore ai \qty{10}{ms}, nonostante il pesante carico di scrittura sulla memoria non volatile.
+Il progetto ha evidenziato come il limite dei sistemi embedded moderni non sia più la potenza di calcolo bruta, ma l'efficienza nella gestione delle periferiche. La separazione dei task tra i due core (Core 1 per l'interfaccia grafica e Core 0 per il processamento asincrono e lo storage) ha permesso di mantenere una latenza di risposta ai pulsanti inferiore ai \qty{10}{ms}, nonostante il pesante carico di scrittura su memoria non volatile.
 
 \subsection{Sviluppi Futuri e Scalabilità}
 
