@@ -1,0 +1,86 @@
+\newpage
+
+\section{Interfaccia Utente}
+
+
+\subsection{FSM e Contratto view\_interface\_t}
+
+Il sistema UI è una FSM dove ogni stato corrisponde a una schermata.
+\texttt{view\_id\_t} enumera le view disponibili; il puntatore
+\texttt{current\_view} in \texttt{ui\_manager.cpp} punta all'istanza
+\texttt{view\_interface\_t} attiva. Le transizioni avvengono solo tramite
+\texttt{ui\_manager\_navigate\_to()}, che chiama la funzione \texttt{on\_exit} della
+view uscente, aggiorna il puntatore, triggera il feedback sonoro di navigazione
+e chiama \texttt{on\_enter} della nuova view.
+
+\begin{lstlisting}[caption={view\_definitions.h --- contratto funzionale di una view}]
+typedef struct {
+    void (*on_enter)(void);
+    void (*on_update)(const void* data);
+    void (*on_input)(button_t btn, button_state_t state);
+    void (*on_exit)(void);
+} view_interface_t;
+\end{lstlisting}
+
+
+\subsection{Rendering e Timing OLED}
+
+Il ciclo di render segue il pattern \texttt{clearDisplay()} $\to$ scrittura
+nel frame buffer $\to$ \texttt{display()}. La chiamata \texttt{display()}
+trasferisce 1024~byte (128$\times$64~bit) via I2C a 400~kHz: circa 25~ms di
+trasferimento. Per questo \texttt{task\_ui} è programmato ogni 33~ms,
+evitando di accodare un secondo trasferimento prima che il precedente sia
+completato.
+
+\subsection{View Implementate}
+
+\textbf{view\_home} implementa un menu a cursore con navigazione ciclica.
+La riga selezionata è renderizzata in modalità inversa
+(\texttt{fillRect} bianco + testo nero), tecnica che non richiede bitmap.
+La mappatura tra posizione del cursore e destinazione è una lookup table:
+\begin{lstlisting}
+view_id_t targets[] = {VIEW_ID_GPS, VIEW_ID_METEO, VIEW_ID_SETTINGS};
+ui_manager_navigate_to(targets[menu_cursor]);
+\end{lstlisting}
+
+\textbf{view\_gps} converte la velocità (\texttt{speed\_ms * 3.6f}),
+formatta le coordinate con 6 decimali e mostra il conteggio satelliti con
+padding fisso a 2 cifre (\texttt{\%02d}).
+
+\textbf{view\_meteo} legge il campo \texttt{weather.valid} come sentinella.
+La descrizione meteo è derivata con un sistema a soglie da \texttt{weather\_code}:
+0~=~Clear~Sky, 1--3~=~Partly~Cloudy, $\geq$60~=~Rainy. Le soglie seguono
+la classificazione WMO usata da OpenMeteo.
+
+\textbf{view\_settings} gestisce 5 voci con ciclo della luminosità
+secondo la formula:
+\begin{lstlisting}
+global_cfg.oled_brightness =
+    (global_cfg.oled_brightness >= 250)
+    ? 50
+    : ((global_cfg.oled_brightness / 50) + 1) * 50;
+\end{lstlisting}
+Il risultato è una sequenza circolare 50 $\to$ 100 $\to$ 150 $\to$ 200
+$\to$ 250 $\to$ 50 con incrementi di 50. L'effetto è applicato
+immediatamente su hardware tramite
+\texttt{display\_set\_brightness(global\_cfg.oled\_brightness)}
+
+\textbf{view\_info} mostra versione firmware e uptime, formattato HH:MM:SS con divisioni intere su \texttt{uptime\_s}.
+
+\subsubsection{Overlay Errori}
+
+\texttt{ui\_manager\_update()} controlla \texttt{data->flags.error\_active}
+prima di delegare alla view normale. Se attivo e non confermato,
+\texttt{render\_error\_overlay()} sovrascrive il buffer mostrando categoria
+e codice in esadecimale. Al primo input successivo,
+\texttt{ui\_manager\_dispatch\_input()} imposta \texttt{error\_acknowledged}
+e chiama \texttt{sys\_manager\_clear\_error()}, ripristinando la navigazione.
+
+
+\subsubsection{Feedback Acustico}
+
+I beep sono differenziati per tipo di interazione in
+\texttt{ui\_manager\_dispatch\_input()}: 2400~Hz/15~ms per navigazione
+(UP/DOWN), 1800~Hz/20~ms per BACK. La navigazione verso una nuova view
+genera 1500~Hz/80~ms. 
+ 

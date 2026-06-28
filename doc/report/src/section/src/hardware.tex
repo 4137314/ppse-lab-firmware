@@ -1,5 +1,5 @@
 \newpage
-\section{Sottosistema Hardware}
+\section{Sotto-sistema Hardware}
 
 \subsection{Implementazione Fisica e Tecniche di Assemblaggio SMT}
 
@@ -24,40 +24,6 @@ L'utilizzo di pasta saldante con flussante \textit{no-clean} e l'applicazione di
     \item \textbf{Self-alignment}: È stato sfruttato il fenomeno della tensione superficiale dello stagno fuso per garantire l'auto-allineamento del modulo sulle piazzole del PCB, minimizzando gli errori di piazzamento manuale.
     \item \textbf{Integrità RF}: Una bagnabilità ottimale dei pad relativi all'antenna integrata è essenziale per minimizzare le perdite di inserzione RF. Una saldatura non perfetta in questo punto degraderebbe sensibilmente il rapporto segnale-rumore (SNR), ostacolando il fix dei satelliti in ambienti chiusi o con scarsa visibilità del cielo.
 \end{enumerate}
-
-
-\subsection{Alimentazione e Power Integrity}
-
-Il design del sottosistema di alimentazione è stato ingegnerizzato per coniugare un'elevata efficienza energetica con una rigorosa pulizia dei binari di tensione, fattore critico per il corretto funzionamento di componenti a segnale misto (\textit{mixed-signal}). Il sistema accetta un ingresso nominale a 12\,V, processato attraverso una topologia di regolazione a cascata progettata per isolare il rumore di commutazione dalla logica sensibile.
-
-\subsubsection*{Conversione Switching ad Alta Efficienza}
-
-Il primo stadio di regolazione è deputato alla gestione dei carichi di potenza, inclusi la matrice di LED RGB e le periferiche di comunicazione, che richiedono correnti di picco elevate senza compromettere il bilancio termico del PCB.
-
-\paragraph{Regolatore Buck: TPS563201}
-Per convertire la tensione d'ingresso ai 5\,V di sistema, è stato adottato il regolatore buck sincrono \textbf{TPS563201} \cite{tps563201_ds}. Questo convertitore DC-DC è in grado di erogare correnti costanti fino a 3\,A con un'efficienza superiore al 90\%. L'architettura sincrona, grazie all'integrazione di MOSFET a bassa $R_{DS(on)}$, minimizza le perdite di conduzione. Tale scelta riduce drasticamente il calore dissipato, permettendo un design compatto senza la necessità di dissipatori passivi ingombranti.
-
-\subsubsection*{Regolazione Lineare e Protezione RF}
-
-La sensibilità del sistema GNSS è direttamente proporzionale alla qualità dell'alimentazione fornita al modulo SAM-M8Q e ai riferimenti analogici dell'RP2040.
-
-\paragraph{Dual-Stage Regulation: Buck + LDO}
-La logica a 3.3\,V è alimentata tramite un regolatore \textbf{LDO} (\textit{Low Drop-Out}) posto in serie all'uscita dello stadio buck. Questa configurazione a due stadi funge da filtro passa-basso attivo: mentre il buck gestisce il salto di tensione principale in modo efficiente, l'LDO sfrutta il suo elevato \textbf{PSRR} (\textit{Power Supply Rejection Ratio}) per sopprimere il \textit{ripple} residuo e lo \textit{switching noise} ad alta frequenza generato dal primo stadio.
-
-\paragraph{Integrità del segnale GNSS}
-Questa strategia è vitale per prevenire interferenze elettromagnetiche (EMI) condotte che potrebbero accoppiarsi con lo stadio di ingresso RF del modulo \textbf{SAM-M8Q}. Un'alimentazione rumorosa degraderebbe il rapporto segnale-rumore (\textit{SNR}), aumentando i tempi di \textit{Time To First Fix} (TTFF) e riducendo la precisione del posizionamento \textit{indoor} o in condizioni di scarso \textit{link budget} satellitare.
-
-\subsubsection*{Analisi della Power Integrity (PI)}
-
-La distribuzione della potenza sul PCB è stata ottimizzata per minimizzare l'impedenza del \textit{Power Delivery Network} (PDN) e prevenire transienti di tensione localizzati.
-
-\paragraph{Rete di Disaccoppiamento e MLCC}
-Per garantire la stabilità dinamica, sono stati posizionati condensatori di bypass ceramici (\textit{MLCC}) da 100\,nF con bassa \textbf{ESR} (\textit{Equivalent Series Resistance}) in stretta prossimità di ogni pin di alimentazione del SoC. Questi componenti agiscono come serbatoi di energia a bassissima induttanza parassita, filtrando le correnti di commutazione ad alta frequenza generate dai core ARM operanti a 133\,MHz.
-
-
-
-\paragraph{Ground Plane e Stabilità del Bus}
-L'impiego di piani di massa generosi e una corretta strategia di disaccoppiamento prevengono fenomeni di \textit{ground bounce} e \textit{voltage sag}. Questa accortezza garantisce che il riferimento analogico per il modulo GPS e la stabilità del bus QSPI della Flash non vengano compromessi dai rapidi transienti di commutazione digitale, preservando l'integrità dei dati durante le operazioni di log ad alta velocità.
 
 
 \subsection{Il SoC Raspberry Pi RP2040}

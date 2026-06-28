@@ -1,0 +1,164 @@
+
+\newpage
+
+\section{Interfacciamento PC--Board: API Python e Protocollo Seriale}
+
+
+\subsection{Architettura del Sistema di Sincronizzazione}
+
+Il firmware non ha connettività di rete diretta. La sincronizzazione dei dati meteo e il recupero della posizione
+GPS avvengono tramite la porta seriale USB, che il Pico espone come CDC
+(Communication Device Class).
+
+Il flusso è unidirezionale nell'origine: il PC chiede, la board risponde o
+riceve. Non c'è polling autonomo dalla board verso il PC.
+
+\begin{figure}[h]
+	\centering
+	\begin{tabular}{lll}
+		\textbf{PC} & & \textbf{RP2040} \\
+		\hline
+		\texttt{pcb\_bridge.py} & $\rightarrow{\texttt{GET\_GPS\textbackslash n}}$ & \texttt{sys\_manager\_handle\_serial()} \\
+		& $\leftarrow{\texttt{GPS\_DATA:LIVE,lat,lon}}$ & \\
+		Nominatim API & & \\
+		OpenMeteo API & & \\
+		& $\rightarrow{\texttt{WXC,City,T,W,H,C\textbackslash n}}$ & \\
+		& $\leftarrow{\texttt{OK\_WXC}}$ & \\
+	\end{tabular}
+	\caption{Sequenza di scambio dati tra \texttt{pcb\_bridge.py} e firmware.}
+\end{figure}
+
+\subsubsection{Protocollo di comunicazione}
+
+Il protocollo creato é in puro ASCII, ogni messaggio è terminato da \texttt{'\textbackslash n'}.
+
+%% MATTIA da verificare l'ultimo
+\begin{tabularx}{\textwidth}{@{}l l X@{}}
+	\toprule
+	\textbf{Direzione} & \textbf{Messaggio} & \textbf{Significato} \\
+	\midrule
+	PC $\to$ Board & \texttt{GET\_GPS} & Richiede posizione corrente \\
+	Board $\to$ PC & \texttt{GPS\_DATA:LIVE,lat,lon} & Fix GPS valido, coordinate correnti \\
+	Board $\to$ PC & \texttt{GPS\_DATA:CACHE,lat,lon} & Nessun fix, coordinate da Flash \\
+	PC $\to$ Board & \texttt{WXC,City,T,W,H,C} & Pacchetto meteo (5 campi CSV) \\
+	Board $\to$ PC & \texttt{OK\_WXC} & Conferma ricezione meteo \\
+	PC $\to$ Board & \texttt{GET\_STATUS} & Richiesta stato diagnostico \\
+	Board $\to$ PC & (multiriga) & Dump errori e stato sistema \\
+	\bottomrule
+\end{tabularx}
+
+
+\subsection{Lo Script Python}
+
+\texttt{tools/api-weather/pcb\_bridge.py} è il server seriale lato PC che
+orchestra l'intera sequenza in un singolo script. Le uniche dipendenze esterne sono \texttt{pyserial} e \texttt{requests} per le API HTTP.
+
+\begin{lstlisting}[style=py, caption={pcb\_bridge.py --- flusso principale}]
+	def main():
+	ser = serial.Serial("/dev/ttyACM0", 115200, timeout=5)
+	time.sleep(5)          # attende il boot del firmware post-reset USB
+	ser.reset_input_buffer()
+	
+	# 1. Richiede la posizione GPS alla board
+	ser.write(b"GET_GPS\n")
+	
+	data_line = None
+	for _ in range(50):    # attende fino a 50 righe in risposta
+	line = ser.readline().decode('utf-8', errors='ignore').strip()
+	if line.startswith("GPS_DATA:"):
+	data_line = line.replace("GPS_DATA:", "")
+	break
+	
+	# data_line e' "LIVE,lat,lon" oppure "CACHE,lat,lon"
+	source, lat, lon = data_line.split(',')[0], *map(float, data_line.split(',')[1:])
+	
+	# 2. coordinate -> nome citta'
+	city = get_city_name(lat, lon)   # Nominatim (OpenStreetMap)
+	
+	# 3. Meteo dalla posizione
+	cur = fetch_weather(lat, lon)    # OpenMeteo API
+	
+	# 4. Formatta e invia alla board
+	wxc = f"WXC,{city},{cur['temperature_2m']},{cur['wind_speed_10m']},"
+	wxc += f"{cur['relative_humidity_2m']},{cur['weather_code']}\n"
+	ser.write(wxc.encode('utf-8'))
+\end{lstlisting}
+
+\textbf{NOTA 1}: \texttt{time.sleep(5)} dopo l'apertura della porta seriale serve poiché
+quando il PC apre la connessione CDC, il Pico riceve un segnale DTR che
+arduino-pico interpreta come richiesta di reset. Il firmware riparte da capo,
+esegue l'intera sequenza di boot (LittleFS, display, animazione) e solo dopo
+qualche secondo il sistema è in uno stato stabile pronto a processare comandi.
+
+
+Senza questo delay, \texttt{GET\_GPS} verrebbe inviato durante il boot e
+ignorato o perso nel buffer.
+\texttt{reset\_input\_buffer()} svuota
+eventuali residui di output del boot prima di inviare il comando.
+
+
+\textbf{NOTA 2}: Il loop \texttt{for \_ in range(50)} legge fino a 50 righe cercando quella
+che inizia con \texttt{GPS\_DATA:}. Le righe precedenti possono contenere
+output di debug del firmware (prefisso \texttt{[STORAGE]}, \texttt{CORE 1:},
+ecc.) che vengono silenziosamente scartate. 
+
+\subsubsection{API HTTP esterne}
+
+\begin{lstlisting}[style=py, caption={pcb\_bridge.py --- geocoding e meteo}]
+	def get_city_name(lat, lon):
+	# Nominatim: reverse geocoding con OpenStreetMap
+	url = "https://nominatim.openstreetmap.org/reverse"
+	params = {"lat": lat, "lon": lon, "format": "json", "zoom": 10}
+	headers = {"User-Agent": "PPSE-Lab-Weather-Bridge"}
+	r = requests.get(url, params=params, headers=headers, timeout=5)
+	address = r.json().get("address", {})
+	return address.get("city") or address.get("town") or address.get("village") or "Unknown"
+	
+	
+	# OpenMeteo
+	def fetch_weather(lat, lon):
+	url = "https://api.open-meteo.com/v1/forecast"
+	params = {
+		"latitude": lat, "longitude": lon,
+		"current": "temperature_2m,relative_humidity_2m,"
+		"wind_speed_10m,weather_code",
+	}
+	r = requests.get(url, params=params, timeout=10)
+	return r.json()["current"]
+\end{lstlisting}
+
+
+\subsubsection{Formattazione del pacchetto WXC}
+
+La stringa inviata al firmware ha il formato:
+\begin{center}
+	\texttt{WXC,\textit{City},\textit{temp\_C},\textit{wind\_kmh},\textit{humidity\_pct},\textit{wmo\_code}}
+\end{center}
+
+
+Lato firmware, il parsing in \texttt{sys\_manager\_handle\_serial()} usa
+\texttt{indexOf} su Arduino \texttt{String} per trovare i cinque separatori:
+
+\begin{lstlisting}[language=C++, caption={system\_manager.cpp --- parsing WXC}]
+	int p1 = cmd.indexOf(',');       // dopo "WXC"
+	int p2 = cmd.indexOf(',', p1+1); // dopo City
+	int p3 = cmd.indexOf(',', p2+1); // dopo temp
+	int p4 = cmd.indexOf(',', p3+1); // dopo wind
+	int p5 = cmd.indexOf(',', p4+1); // dopo humidity
+	
+	if (p5 != -1) {  // pacchetto completo
+		cmd.substring(p1+1, p2).toCharArray(w.city, 32);
+		w.temp_ext   = cmd.substring(p2+1, p3).toFloat();
+		w.wind_speed = cmd.substring(p3+1, p4).toFloat();
+		w.humidity   = cmd.substring(p4+1, p5).toInt();
+		w.weather_code = cmd.substring(p5+1).toInt();
+		w.valid = true;
+		sys_manager_update_weather(w);
+		Serial.println("OK_WXC");
+	}
+\end{lstlisting}
+
+Se uno qualsiasi dei cinque separatori manca (\texttt{p5 == -1}), il pacchetto
+viene scartato senza risposta. Lo script Python interpreta l'assenza di
+\texttt{OK\_WXC} entro il timeout come errore.
+ 
