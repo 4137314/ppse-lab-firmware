@@ -73,7 +73,7 @@ il codice applicativo.
 
 PlatformIO è un build system e package manager per firmware embedded che si installa come estensione di VS~Code (o da riga di comando via \texttt{pio}).
 
-La sua funzione principale è eliminare la gestione manuale della toolchain: invece di installare \texttt{arm-none-eabi-gcc}, scaricare il pico-sdk e configurare CMake, PlatformIO legge un file \texttt{platformio.ini} e provvede autonomamente a scaricare compilatore, librerie, script di link e tool di upload nella versione esatta specificata.
+La sua funzione principale è eliminare la gestione manuale della toolchain e provvede autonomamente a scaricare compilatore, librerie, script di link e tool di upload nella versione esatta specificata.
 
 \subsubsection{I Due Framework per RP2040: la Scelta Pratica}
 Nel contesto di questo progetto il Raspberry Pi Pico è supportato da due framework basati su arduino con filosofie molto diverse. PlatformIO consente di selezionare quello desiderato con una singola riga di configurazione, senza toccare il codice sorgente.
@@ -315,7 +315,7 @@ L'output seriale del SAM-M8Q viene gestito in modo asincrono dal \textit{Core 0}
 
 \subsubsection*{File System: Integrità e Wear Leveling con LittleFS}
 
-Data la natura della memoria Flash, soggetta a un numero finito di cicli di cancellazione (tipicamente $10^5$ cicli per settore), la gestione dei dati non avviene tramite scrittura grezza (\textit{raw}), ma attraverso il file system \textbf{LittleFS}. L'adozione di questo file system \textit{open-source}, ottimizzato per microcontrollori, offre vantaggi cruciali per un data-logger professionale:
+Data la natura della memoria Flash, soggetta a un numero finito di cicli di cancellazione ($10^5$ cicli per settore), la gestione dei dati non avviene tramite scrittura grezza (\textit{raw}), ma attraverso il file system \textbf{LittleFS}. L'adozione di questo file system \textit{open-source}, ottimizzato per microcontrollori, offre vantaggi cruciali per un data-logger professionale:
 
 \begin{itemize}
     \item \textbf{Wear Leveling}: LittleFS distribuisce uniformemente le operazioni di scrittura su tutti i blocchi della memoria, evitando l'usura precoce dei settori iniziali e prolungando drasticamente la vita utile della \textit{W25Q128JV}.
