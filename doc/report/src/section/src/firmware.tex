@@ -3,7 +3,7 @@
 
 \subsection{Toolchain e Build System}
 
-Il compilatore utilizzato è \texttt{arm-none-eabi-gcc} ($\geq$~10.3), abbinato al framework \textbf{arduino-pico} che espone le API Arduino sull'RP2040 e permette al contempo di impiegare la pico-sdk, il bootloader USB e LittleFS.
+Il compilatore utilizzato è \texttt{arm-none-eabi-gcc} ($\geq$~10.3), abbinato al framework \textbf{Raspberry Pi RP2040 Arduino Core} che espone le API Arduino sull'RP2040 e permette al contempo di impiegare la pico-sdk, il bootloader USB e LittleFS.
 
 Nel repository è presente un Makefile che automatizza le operazioni di sviluppo più frequenti.
 
@@ -27,22 +27,14 @@ Tre macro del preprocessore modificano il comportamento del firmware durante la 
 \begin{lstlisting}[style=makefile, caption={Makefile --- target di sviluppo}]
 	# Compila e flasha con versione git automatica
 	flash:
-	arduino-cli compile --fqbn rp2040:rp2040:rpipico \
-	--build-property "compiler.cpp.extra_flags= \
-	-DDEBUG=1 -DFW_VERSION=\"$(shell git describe --tags --always)\"" .
-	arduino-cli upload -p $(PORT) --fqbn rp2040:rp2040:rpipico .
-	
-	# Richiede la posizione GPS al firmware (live o da cache Flash)
-	get-gps:
-	@echo "GET_GPS" > /dev/$(PORT) && sleep 0.3 && cat /dev/$(PORT) | head -1
+	pio -e pico --target upload
 	
 	# Scarica meteo dall'API e lo sincronizza sul dispositivo
 	sync-meteo:
-	@python3 tools/fetch_weather.py | xargs -I{} sh -c \
-	'echo {} > /dev/$(PORT); sleep 0.5; cat /dev/$(PORT) | grep OK_WXC'
+	@python3 tools/api-weather/pcb_bridge.py
 	
 	monitor:
-	picocom -b 115200 --omap crcrlf /dev/$(PORT)
+	pio device monitor
 \end{lstlisting}
 
 Il make target \texttt{sync-meteo} separa nettamente acquisizione dati (script Python lato PC, API OpenMeteo) e visualizzazione (firmware): il firmware non contiene alcuna logica di rete, riceve tutto via porta seriale nel formato \texttt{WXC,City,Temp,Wind,Hum,Code} e risponde \texttt{OK\_WXC} a conferma.
@@ -90,7 +82,7 @@ Nel contesto di questo progetto il Raspberry Pi Pico è supportato da due framew
 \textbf{Mbed OS} è il framework ``ufficiale'' di Arduino per Raspberry Pi Pico. Usa il pico-sdk sottostante ma lo avvolge nell'astrazione Mbed, che introduce un RTOS leggero, un HAL proprio e convenzioni diverse. Il problema pratico è che il supporto dual-core tramite \texttt{setup1()}/\texttt{loop1()}, LittleFS nativa e le istanze \texttt{Serial1}/\texttt{Serial2} mappate liberamente su
 GPIO sono assenti o limitate.
 
-\textbf{arduino-pico} (di earlephilhower) è un porting alternativo, mantenuto dalla community, che espone direttamente le API pico-sdk sotto interfaccia Arduino senza lo strato Mbed. Supporta il dual-core tramite \texttt{setup1()}/\texttt{loop1()}, LittleFS con partizionamento configurabile, seriale su qualsiasi coppia di GPIO UART, e dà accesso diretto ai registri hardware nativi (\texttt{watchdog\_hw}, spin lock, PIO) senza conflitti.
+\textbf{Raspberry Pi RP2040 Arduino Core} (di earlephilhower) è un porting alternativo, mantenuto dalla community, che espone direttamente le API pico-sdk sotto interfaccia Arduino senza lo strato Mbed. Supporta il dual-core tramite \texttt{setup1()}/\texttt{loop1()}, LittleFS con partizionamento configurabile, seriale su qualsiasi coppia di GPIO UART, e dà accesso diretto ai registri hardware nativi (\texttt{watchdog\_hw}, spin lock, PIO) senza conflitti.
 
 La configurazione in \texttt{platformio.ini} è la seguente:
 
@@ -104,7 +96,7 @@ La configurazione in \texttt{platformio.ini} è la seguente:
 
 \subsubsection{Partizionamento della Flash}
  
-Firmware e filesystem non possono sovrapporsi: il partizionamento è dichiarato nel \texttt{platformio.ini} e il linker script generato da arduino-pico segue quella definizione:
+Firmware e filesystem non possono sovrapporsi: il partizionamento è dichiarato nel \texttt{platformio.ini} e il linker script generato dal framework "Raspberry Pi RP2040 Arduino Core" segue quella definizione:
 
 \begin{lstlisting}[style=ini, caption={platformio.ini --- layout flash}]
 	board_build.filesystem      = littlefs
@@ -317,7 +309,6 @@ L'integrazione di questo componente offre diversi vantaggi tecnologici fondament
 \begin{itemize}
     \item \textbf{Ricezione Multi-Costellazione}: Il modulo supporta la ricezione simultanea di tre sistemi GNSS (GPS, Galileo e GLONASS). Questa capacità permette di agganciare un numero superiore di satelliti rispetto ai ricevitori a singola costellazione, garantendo una precisione sub-metrica e un fix della posizione estremamente rapido (\textit{Time To First Fix}) anche in condizioni di scarsa visibilità del cielo.
     \item \textbf{Protocollo di Comunicazione}: Il modulo comunica con il microcontrollore tramite interfaccia UART. Le sentenze \textbf{NMEA 0183} vengono trasmesse serialmente e processate dal firmware per estrarre coordinate, altitudine e timestamp UTC. 
-    \item \textbf{Integrità del Segnale}: Come evidenziato nello schematico, il modulo è alimentato tramite la linea a \qty{3.3}{V} filtrata dall'LDO dedicato. La scelta di un'antenna integrata minimizza le perdite di segnale dovute a disadattamenti di impedenza, tipiche delle soluzioni con antenna esterna e connettore SMA.
 \end{itemize}
 
 L'output seriale del SAM-M8Q viene gestito in modo asincrono dal \textit{Core 0} dell'RP2040 \cite{rp2040_ds}\footnote{Mentre il \textit{Core 1} è incaricato dell'aggiornamento dell'OLED, del calcolo cinematico e del campionamento dei sensori ambientali, le cui routine critiche sono allocate in SRAM per aggirare i potenziali stalli del bus XIP durante i cicli di scrittura della Flash.}, permettendo di mantenere un flusso di log costante sulla Flash senza interferire con le altre funzioni del sistema.
