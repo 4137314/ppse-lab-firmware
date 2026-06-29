@@ -56,17 +56,6 @@ il fallback \texttt{"v0.0.0-unknown"} per build non provenienti da CI:
 L'uso di \texttt{F()} (progmem wrapper di Arduino) mantiene le stringhe letterali in flash invece di copiarle in SRAM (Cortex-M0+ con 264~KB condivisi tra stack, heap
 e buffer framebuffer).
 
-%% MATTIA
-\subsubsection{Test Headless su Host}
-
-\texttt{target.h} implementa un HAL mock condizionato da \texttt{\#ifndef
-	UNIT\_TEST}, che consente la compilazione e l'esecuzione di unit test nativi
-(x86/x64) senza hardware. Vengono ridefinite le primitive GPIO, \texttt{millis()}
-(sempre 0), e le classi \texttt{Adafruit\_GFX}/\texttt{Adafruit\_SSD1306} con
-metodi no-op. La classe \texttt{MockSerial} redirige su \texttt{printf} standard,
-rendendo i test integrabili in framework come CTest o Unity senza modificare
-il codice applicativo.
-
 \subsection{PlatformIO e l'Ecosistema RP2040}
 
 \subsubsection{Cos'è PlatformIO e perché è usato qui}
