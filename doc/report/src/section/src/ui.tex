@@ -67,7 +67,7 @@ immediatamente su hardware tramite
 
 \textbf{view\_info} mostra versione firmware e uptime, formattato HH:MM:SS con divisioni intere su \texttt{uptime\_s}.
 
-\subsubsection{Overlay Errori}
+\subsubsection*{Overlay Errori}
 
 \texttt{ui\_manager\_update()} controlla \texttt{data->flags.error\_active}
 prima di delegare alla view normale. Se attivo e non confermato,
@@ -77,7 +77,7 @@ e codice in esadecimale. Al primo input successivo,
 e chiama \texttt{sys\_manager\_clear\_error()}, ripristinando la navigazione.
 
 
-\subsubsection{Feedback Acustico}
+\subsubsection*{Feedback Acustico}
 
 I beep sono differenziati per tipo di interazione in
 \texttt{ui\_manager\_dispatch\_input()}: 2400~Hz/15~ms per navigazione

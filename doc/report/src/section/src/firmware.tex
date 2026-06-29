@@ -7,7 +7,7 @@ Il compilatore utilizzato è \texttt{arm-none-eabi-gcc} ($\geq$~10.3), abbinato 
 
 Nel repository è presente un Makefile che automatizza le operazioni di sviluppo più frequenti.
 
-\subsubsection{Flag di Compilazione}
+\subsubsection*{Flag di Compilazione}
 
 Tre macro del preprocessore modificano il comportamento del firmware durante la compilazione:
 
@@ -22,7 +22,7 @@ Tre macro del preprocessore modificano il comportamento del firmware durante la 
 	\bottomrule
 \end{tabularx}
 
-\subsubsection{Makefile: Target Principali}
+\subsubsection*{Makefile: Target Principali}
 
 \begin{lstlisting}[style=makefile, caption={Makefile --- target di sviluppo}]
 	# Compila e flasha con versione git automatica
@@ -40,7 +40,7 @@ Tre macro del preprocessore modificano il comportamento del firmware durante la 
 Il make target \texttt{sync-meteo} separa nettamente acquisizione dati (script Python lato PC, API OpenMeteo) e visualizzazione (firmware): il firmware non contiene alcuna logica di rete, riceve tutto via porta seriale nel formato \texttt{WXC,City,Temp,Wind,Hum,Code} e risponde \texttt{OK\_WXC} a conferma.
 
 %% MATTIA
-\subsubsection{Versioning Firmware}
+\subsubsection*{Versioning Firmware}
 
 La macro \texttt{FW\_VERSION} è utilizzata in \texttt{view\_info.cpp} con
 il fallback \texttt{"v0.0.0-unknown"} per build non provenienti da CI:
@@ -58,13 +58,13 @@ e buffer framebuffer).
 
 \subsection{PlatformIO e l'Ecosistema RP2040}
 
-\subsubsection{Cos'è PlatformIO e perché è usato qui}
+\subsubsection*{Cos'è PlatformIO e perché è usato qui}
 
 PlatformIO è un build system e package manager per firmware embedded che si installa come estensione di VS~Code (o da riga di comando via \texttt{pio}).
 
 La sua funzione principale è eliminare la gestione manuale della toolchain e provvede autonomamente a scaricare compilatore, librerie, script di link e tool di upload nella versione esatta specificata.
 
-\subsubsection{I Due Framework per RP2040: la Scelta Pratica}
+\subsubsection*{I Due Framework per RP2040: la Scelta Pratica}
 Nel contesto di questo progetto il Raspberry Pi Pico è supportato da due framework basati su arduino con filosofie molto diverse. PlatformIO consente di selezionare quello desiderato con una singola riga di configurazione, senza toccare il codice sorgente.
 
 
@@ -83,7 +83,7 @@ La configurazione in \texttt{platformio.ini} è la seguente:
 	board_build.core = earlephilhower
 \end{lstlisting}
 
-\subsubsection{Partizionamento della Flash}
+\subsubsection*{Partizionamento della Flash}
  
 Firmware e filesystem non possono sovrapporsi: il partizionamento è dichiarato nel \texttt{platformio.ini} e il linker script generato dal framework "Raspberry Pi RP2040 Arduino Core" segue quella definizione:
 
@@ -96,7 +96,7 @@ Firmware e filesystem non possono sovrapporsi: il partizionamento è dichiarato 
 Con questi valori: i primi 1.5~MB sono dedicati al firmware (codice + costanti), gli ultimi 512~KB sono la partizione LittleFS. 
 In pratica, \texttt{LittleFS.begin()} monta la partizione a partire dall'offset calcolato e qualsiasi \texttt{open()}/\texttt{write()} rimane confinato in quello spazio.
 
-\subsubsection{Gestione delle Librerie}
+\subsubsection*{Gestione delle Librerie}
 
 Le librerie esterne sono dichiarate nella sezione \texttt{lib\_deps} di \texttt{platformio.ini}:
 
@@ -132,7 +132,7 @@ Il progetto usa \texttt{build\_src\_filter} per essere esplicito:
 	+<lib/minmea/minmea.c>
 \end{lstlisting}
 
-\subsubsection{Upload con picotool}
+\subsubsection*{Upload con picotool}
 
 \begin{lstlisting}[style=ini, caption={platformio.ini --- upload tool}]
 	upload_protocol = picotool
@@ -155,7 +155,7 @@ picotool può anche leggere la flash (\texttt{picotool read}), verificare il bin
 
 La coesistenza di arduino-pico, pico-sdk e librerie come FastLED genera una serie di conflitti che il \texttt{platformio.ini} risolve esplicitamente tramite define di preprocessore. Ogni conflitto ha un'origine precisa.
 
-\subsubsection{Assenza della funzione timegm in ambiente bare-metal}
+\subsubsection*{Assenza della funzione timegm in ambiente bare-metal}
 
 \begin{lstlisting}[style=ini]
 	-D timegm=mktime
@@ -167,7 +167,7 @@ Poiché la libreria \texttt{minmea} fa uso di \texttt{timegm()} all'interno di \
 
 Nonostante dal punto di vista semantico le due funzioni differiscano - (\texttt{mktime} interpreta l'input come ora locale e non come UTC) - sull'RP2040 non è configurato alcun fuso orario. Di conseguenza, nel nostro specifico contesto operativo, il comportamento di \texttt{mktime()} risulta del tutto equivalente.
 
-\subsubsection{Buffer seriali e NMEA}
+\subsubsection*{Buffer seriali e NMEA}
 
 \begin{lstlisting}[style=ini]
 	-D SERIAL_RX_BUFFER_SIZE=256
@@ -176,7 +176,7 @@ Nonostante dal punto di vista semantico le due funzioni differiscano - (\texttt{
 
 Il buffer UART di default in arduino-pico è 64~byte. Una sentence NMEA può essere di massimo 82~caratteri; con il buffer a 64~byte, una sentence lenta a processare sovrascrive il buffer prima che venga letta, producendo dati troncati o corrotti. Espandere a 256~byte garantisce che almeno tre sentence complete possano stare in coda senza perdite (a patto che il parsing sia altrettanto veloce).
 
-\subsubsection{Stack USB: TinyUSB}
+\subsubsection*{Stack USB: TinyUSB}
 
 \begin{lstlisting}[style=ini]
 	board_build.usb_stack = tinyusb
@@ -189,7 +189,7 @@ TinyUSB è preferibile, perché supporta CDC (porta seriale virtuale), MSC (mass
 
 \subsection{Ottimizzazioni di co-design software-hardware}
 
-\subsubsection{Librerie e Dipendenze Software}
+\subsubsection*{Librerie e Dipendenze Software}
 
 \paragraph{Analisi dello Stack Software e Dipendenze}
 Per l'implementazione del middleware e dei driver di periferica, sono state selezionate librerie ottimizzate per l'ambiente \textit{bare-metal}, privilegiando l'efficienza nell'uso delle risorse e la stabilità del sistema a lungo termine.
@@ -225,7 +225,7 @@ Anche i dati meteo ritornati dal programma sul PC via UART vengono salvati in fl
 
 
 
-\subsubsection{Offloading Computazionale tramite PIO}
+\subsubsection*{Offloading Computazionale tramite PIO}
 
 Una delle sfide critiche nello sviluppo del firmware è stata la gestione della concorrenza tra il protocollo dei LED \textbf{WS2812B} e il flusso dati asincrono del modulo GNSS. I LED NeoPixel richiedono una modulazione degli impulsi con timing estremamente rigorosi (nell'ordine dei nanosecondi). Le implementazioni software tradizionali (\textit{bit-banging}) soddisfano questi requisiti entrando in una sezione critica in cui vengono \textbf{disabilitati globalmente gli interrupt}. 
 
@@ -250,7 +250,7 @@ L'offloading su PIO risolve il dilemma alla radice: poiché il PIO non può esse
 
 
 
-\subsubsection{SystemDataPacket}
+\subsubsection*{SystemDataPacket}
 La struttura dati principale dedicata alla telemetria è definita nel file \texttt{messages.h}. A questa viene applicato l'attributo \texttt{\_\_attribute\_\_((packed))} per forzare un layout compatto in memoria:
 
 \begin{lstlisting}[caption={messages.h --- Struttura telemetrica senza padding}]
@@ -346,7 +346,7 @@ un reset fisico via \texttt{SAM\_RST\_PIN} (LOW per 100~ms, poi HIGH) seguito
 da 1~s di attesa per la stabilizzazione dell'oscillatore interno. \texttt{Serial2} è configurato su GPIO~4/5
 a 9600~baud, il rate standard per il SAM-M8Q.
 
-\subsubsection{Rate Limiting e Parsing NMEA}
+\subsubsection*{Rate Limiting e Parsing NMEA}
 
 \texttt{telemetry\_update()} legge al massimo 64~byte da \texttt{Serial2} per
 iterazione. Senza questo limite, un burst di sentence NMEA potrebbe saturare
@@ -401,7 +401,7 @@ modulo abbia avuto tempo di acquisire i satelliti produrrebbe un falso errore.
 \subsection{Architettura Multi-Core}
 
 
-\subsubsection{Divisione dei Ruoli}
+\subsubsection*{Divisione dei Ruoli}
 
 L'RP2040 mette a disposizione due Cortex-M0+ con accesso simmetrico alla SRAM;
 la separazione dei ruoli è interamente software. Il file \texttt{main.cpp} mappa le funzioni standard di Arduino (setup e  loop) tramite le seguenti definizioni appartenenti al framework dual-core di arduino-pico:
@@ -427,7 +427,7 @@ comunicazione seriale, l'uptime, i LED e LittleFS. Esegue anche
 
 
 
-\subsubsection{IPC: Spin Lock su Memoria Condivisa}
+\subsubsection*{IPC: Spin Lock su Memoria Condivisa}
 
 L'RP2040 offre due meccanismi IPC hardware: 
 \begin{enumerate}
@@ -465,7 +465,7 @@ I due lock non sono mai acquisiti contemporaneamente, escludendo il rischio di d
 
 
 
-\subsubsection{Strategia di Logging e Concorrenza fra Cores}
+\subsubsection*{Strategia di Logging e Concorrenza fra Cores}
 
 Nel firmware sviluppato, la scrittura su LittleFS è affidata esclusivamente al \textit{Core 0}. Per ottimizzare le prestazioni e ridurre i tempi di accesso alla memoria, i dati provenienti dal modulo GNSS \cite{sam_m8q_ds} vengono prima accumulati in un buffer circolare nella RAM dell'RP2040 e successivamente serializzati in un file binario giornaliero.
 
@@ -477,7 +477,7 @@ Questa separazione logica evita che le operazioni di \textit{I/O} sulla Flash, c
 \subsection{Scheduler delle task}
 
 
-\subsubsection{Design}
+\subsubsection*{Design}
 
 Lo scheduler è implementato header-only in \texttt{scheduler.h} come funzione
 \texttt{inline} su una struct \texttt{Task}. La struttura è volutamente minimale:
@@ -508,7 +508,7 @@ Lo scheduler è implementato header-only in \texttt{scheduler.h} come funzione
 \end{lstlisting}
 
 
-\subsubsection{Task Registrati nel Core 0}
+\subsubsection*{Task Registrati nel Core 0}
 
 \begin{tabularx}{\textwidth}{@{}l r X@{}}
 	\toprule

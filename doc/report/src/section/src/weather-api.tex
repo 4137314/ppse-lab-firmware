@@ -28,7 +28,7 @@ riceve. Non c'è polling autonomo dalla board verso il PC.
 	\caption{Sequenza di scambio dati tra \texttt{pcb\_bridge.py} e firmware.}
 \end{figure}
 
-\subsubsection{Protocollo di comunicazione}
+\subsubsection*{Protocollo di comunicazione}
 
 Il protocollo creato é in puro ASCII, ogni messaggio è terminato da \texttt{'\textbackslash n'}.
 
@@ -102,7 +102,7 @@ che inizia con \texttt{GPS\_DATA:}. Le righe precedenti possono contenere
 output di debug del firmware (prefisso \texttt{[STORAGE]}, \texttt{CORE 1:},
 ecc.) che vengono silenziosamente scartate. 
 
-\subsubsection{API HTTP esterne}
+\subsubsection*{API HTTP esterne}
 
 \begin{lstlisting}[style=py, caption={pcb\_bridge.py --- geocoding e meteo}]
 	def get_city_name(lat, lon):
@@ -128,7 +128,7 @@ ecc.) che vengono silenziosamente scartate.
 \end{lstlisting}
 
 
-\subsubsection{Formattazione del pacchetto WXC}
+\subsubsection*{Formattazione del pacchetto WXC}
 
 La stringa inviata al firmware ha il formato:
 \begin{center}
