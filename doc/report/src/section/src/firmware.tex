@@ -297,7 +297,8 @@ L'integrazione di questo componente offre diversi vantaggi tecnologici fondament
 
 \begin{itemize}
     \item \textbf{Ricezione Multi-Costellazione}: Il modulo supporta la ricezione simultanea di tre sistemi GNSS (GPS, Galileo e GLONASS). Questa capacità permette di agganciare un numero superiore di satelliti rispetto ai ricevitori a singola costellazione, garantendo una precisione sub-metrica e un fix della posizione estremamente rapido (\textit{Time To First Fix}) anche in condizioni di scarsa visibilità del cielo.
-    \item \textbf{Protocollo di Comunicazione}: Il modulo comunica con il microcontrollore tramite interfaccia UART. Le sentenze \textbf{NMEA 0183} vengono trasmesse serialmente e processate dal firmware per estrarre coordinate, altitudine e timestamp UTC. 
+    \item \textbf{Protocollo di Comunicazione}: Il modulo comunica con il microcontrollore tramite interfaccia UART. Le sentenze \textbf{NMEA 0183} vengono trasmesse serialmente e processate dal firmware per estrarre coordinate, altitudine e timestamp UTC.
+	\item \textbf{Integrità del Segnale}: Il modulo è alimentato tramite la linea a \qty{3.3}{V} filtrata dall'LDO dedicato. La scelta di un'antenna integrata minimizza le perdite di segnale dovute a disadattamenti di impedenza, tipiche delle soluzioni con antenna esterna e connettore SMA.
 \end{itemize}
 
 L'output seriale del SAM-M8Q viene gestito in modo asincrono dal \textit{Core 0} dell'RP2040 \cite{rp2040_ds}\footnote{Mentre il \textit{Core 1} è incaricato dell'aggiornamento dell'OLED, del calcolo cinematico e del campionamento dei sensori ambientali, le cui routine critiche sono allocate in SRAM per aggirare i potenziali stalli del bus XIP durante i cicli di scrittura della Flash.}, permettendo di mantenere un flusso di log costante sulla Flash senza interferire con le altre funzioni del sistema.
