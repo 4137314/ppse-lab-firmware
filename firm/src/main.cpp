@@ -17,10 +17,8 @@ void loop1() {
 }
 
 void setup() {
-    // RIMOZIONE: Non serve più il memset qui, 
-    // sys_manager_init() dentro core0_setup() se ne occupa già.
-    
-    // Ora core0_setup() chiama internamente config_init()
+    // disable the watchdog timer
+    watchdog_hw->ctrl &= ~(1<<30);
     core0_setup();
 }
 
