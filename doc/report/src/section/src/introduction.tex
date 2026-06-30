@@ -25,34 +25,3 @@ Le funzionalità principali del sistema comprendono acquisizione
 dati GPS (modulo SAM-M8Q) e sincronizzazione dati meteo da host PC via seriale, lettura di sensori ambientali e inerziali via
 I2C, interazione tramite display OLED SSD1306, persistenza
 su flash con LittleFS, feedback visivo su strip WS2812B e acustico tramite buzzer PWM.
-
-\subsection{Struttura del codice}
-
-\begin{verbatim}
-	firm/
-	├── include/
-	│   ├── core/       messages.h  system_manager.h  telemetry.h
-	│   │               storage.h   config.h           error_codes.h
-	│   ├── drivers/    display_ssd1306.h  inputs.h  sensors_i2c.h
-	│   │               peripherals.h      radio_uart.h  config_pins.h
-	│   ├── pipeline/   core0_manager.h   core1_manager.h   tasks.h
-	│   ├── ui/         ui_manager.h      view_definitions.h  boot_anim.h
-	│   └── util/       scheduler.h       target.h
-	│
-	├── src/
-	│   ├── core/       messages.cpp  system_manager.cpp  telemetry.cpp
-	│   │               storage.cpp   config.cpp           error_codes.cpp
-	│   ├── drivers/    display_ssd1306.cpp  inputs.cpp  sensors_i2c.cpp
-	│   │               peripherals.cpp      radio_uart.cpp  config_pins.cpp
-	│   ├── pipeline/   core0_manager.cpp   core1_manager.cpp   tasks.cpp
-	│   ├── ui/         ui_manager.cpp      view_definitions.cpp  boot_anim.cpp
-	│   └── util/       scheduler.cpp       target.cpp
-	│
-	├── lib/minmea/     (parser NMEA)
-	│
-	└── Makefile
-\end{verbatim}
-
-
-
-

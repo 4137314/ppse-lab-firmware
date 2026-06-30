@@ -1,11 +1,42 @@
 \newpage
 \section{Sotto-sistema Software}
 
+\subsection{Struttura del codice}
+
+Per quanto riguarda la struttura del firmware si e' preferito utilizzare una struttura convenzionale la quale separa le funzioni da header .h e le corrispettive implementazioni .cpp. Si rimanda al sito del progetto per una analisi approfondita del firmware.
+\newline
+Uno schema semplificato del firmware e' rappresentato da:
+
+\begin{verbatim}
+	firm/
+	├── include/
+	│   ├── core/       messages.h  system_manager.h  telemetry.h
+	│   │               storage.h   config.h           error_codes.h
+	│   ├── drivers/    display_ssd1306.h  inputs.h  sensors_i2c.h
+	│   │               peripherals.h      radio_uart.h  config_pins.h
+	│   ├── pipeline/   core0_manager.h   core1_manager.h   tasks.h
+	│   ├── ui/         ui_manager.h      view_definitions.h  boot_anim.h
+	│   └── util/       scheduler.h       target.h
+	│
+	├── src/
+	│   ├── core/       messages.cpp  system_manager.cpp  telemetry.cpp
+	│   │               storage.cpp   config.cpp           error_codes.cpp
+	│   ├── drivers/    display_ssd1306.cpp  inputs.cpp  sensors_i2c.cpp
+	│   │               peripherals.cpp      radio_uart.cpp  config_pins.cpp
+	│   ├── pipeline/   core0_manager.cpp   core1_manager.cpp   tasks.cpp
+	│   ├── ui/         ui_manager.cpp      view_definitions.cpp  boot_anim.cpp
+	│   └── util/       scheduler.cpp       target.cpp
+	│
+	├── lib/minmea/     (parser NMEA)
+	│
+	└── Makefile
+\end{verbatim}
+
 \subsection{Toolchain e Build System}
 
 Il compilatore utilizzato è \texttt{arm-none-eabi-gcc} ($\geq$~10.3), abbinato al framework \textbf{Raspberry Pi RP2040 Arduino Core} che espone le API Arduino sull'RP2040 e permette al contempo di impiegare la pico-sdk, il bootloader USB e LittleFS.
-
-Nel repository è presente un Makefile che automatizza le operazioni di sviluppo più frequenti.
+\newline
+Nel repository è presente un Makefile che automatizza le operazioni di sviluppo più frequenti, modularizzato attraverso divisione dei compiti per sottofunzione e quindi diviso tra varie sotto directory in file di estensione .mk.
 
 \subsubsection*{Flag di Compilazione}
 
@@ -17,12 +48,14 @@ Tre macro del preprocessore modificano il comportamento del firmware durante la 
 	\midrule
 	\texttt{-DDEBUG=1} & Abilita output diagnostico sulla seriale. Il task \texttt{task\_health} è compilato solo con questo
 	flag attivo. \\ \\[4pt]
-	\texttt{-DDEFAULT\_BUZZER\_OFF} & Imposta \texttt{global\_cfg.buzzer\_enabled = false} in \texttt{config\_init()} e blocca \texttt{peripherals\_beep()} con un \texttt{return} anticipato a compile-time, azzerando ogni overhead durante l'esecuzione.\\ \\[4pt]
+	\texttt{-DDEFAULT\_BUZZER\_OFF} & Imposta \texttt{global\_cfg.buzzer\_enabled = false} in \texttt{config\_init()} e blocca \texttt{peripherals\_beep()} con un \texttt{return} anticipato a compile-time, al fine di debuggare il codice e caricarlo senza disturbo.\\ \\[4pt]
 	\texttt{-DFW\_VERSION=\textbackslash"...\textbackslash"} & Inserisce la stringa di versione nella view \texttt{INFO}. Generato automaticamente via \texttt{git describe --tags --always}. \\ \\
 	\bottomrule
 \end{tabularx}
 
 \subsubsection*{Makefile: Target Principali}
+
+Uno schema semplificato del sistema di build e' rappresentato dai seguenti target:
 
 \begin{lstlisting}[style=makefile, caption={Makefile --- target di sviluppo}]
 	# Compila e flasha con versione git automatica
@@ -38,6 +71,10 @@ Tre macro del preprocessore modificano il comportamento del firmware durante la 
 \end{lstlisting}
 
 Il make target \texttt{sync-meteo} separa nettamente acquisizione dati (script Python lato PC, API OpenMeteo) e visualizzazione (firmware): il firmware non contiene alcuna logica di rete, riceve tutto via porta seriale nel formato \texttt{WXC,City,Temp,Wind,Hum,Code} e risponde \texttt{OK\_WXC} a conferma.
+\newline
+Si e' preferito un approccio di prototipazione non estendendo le funzionalita' wi-fi interne della scheda la quale monta un esp-01, tuttavia il firmware e' facilmente estendibile e lo script python emula la comunicazione ipotetica con un calcolatore avente accesso internet.
+\newline
+Nel caso in cui si volesse estendere attraverso esp-01 basta implementare una logica di comunicazione la quale invece che avere una comunicazione seriale avra' una comunicazione wireless.
 
 %% MATTIA
 \subsubsection*{Versioning Firmware}
@@ -141,7 +178,7 @@ Il progetto usa \texttt{build\_src\_filter} per essere esplicito:
 Il metodo di upload default per il Pico è il drag-and-drop del file UF2 sulla USB Mass Storage che appare tenendo premuto BOOTSEL al reset. \textbf{picotool} è un tool ufficiale di Raspberry Pi che bypassa questo meccanismo e carica il firmware direttamente via USB senza richiedere BOOTSEL, purché il firmware in esecuzione abbia abilitato la modalità di accesso USB (che arduino-pico abilita di default). In pratica:
 
 \begin{enumerate}
-	\item Si esegue \texttt{pio run --target upload} (o) \texttt{make flash});
+	\item Si esegue \texttt{pio run --target upload} (o \texttt{make flash});
 	
 	\item PlatformIO invoca \texttt{picotool load firmware.uf2};
 	
