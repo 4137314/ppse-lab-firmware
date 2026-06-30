@@ -8,7 +8,7 @@ Il presente lavoro ha permesso di prototipare e validare un sistema di acquisizi
 L'architettura proposta ha permesso di raggiungere i seguenti obiettivi chiave, verificati in fase di test:
 
 \begin{itemize}
-    \item \textbf{Integrità del Dato e Resilienza:} L'adozione del filesystem \texttt{LittleFS} \cite{littlefs_repo} con approccio \textit{copy-on-write} si è rivelata determinante. Durante i test di interruzione improvvisa dell'alimentazione (\textit{brown-out simulation}), il sistema non ha riportato corruzioni della tabella dei descrittori, garantendo la persistenza dei log GNSS sulla Flash W25Q128JV \cite{w25q128_ds}.
+    \item \textbf{Integrità del Dato e Resilienza:} L'adozione del filesystem \texttt{LittleFS} \cite{littlefs_repo} con approccio \textit{copy-on-write} si è rivelata determinante. Durante i test di interruzione improvvisa dell'alimentazione (\textit{brown-out simulation}), il sistema non ha riportato corruzioni della tabella dei descrittori, garantendo la persistenza dei log GNSS sulla Flash W25Q16JV \cite{w25q128_ds}.
     
     \item \textbf{Determinismo e Signal Integrity:} L'offloading del protocollo dei LED WS2812B sul sottosistema PIO ha risolto il conflitto critico tra timing dei LED e interrupt della UART. Questo ha permesso di mantenere un flusso costante di sentenze \textbf{NMEA 0183} \cite{nmea_0183} senza perdita di byte, processate in modo deterministico dalla libreria \texttt{minmea} \cite{minmea_lib}, validando l'efficacia dell'approccio di \textit{hardware offloading}.
     

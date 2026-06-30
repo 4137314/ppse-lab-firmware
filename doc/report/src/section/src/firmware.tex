@@ -218,7 +218,7 @@ Il sistema utilizza i LED per fornire un feedback immediato sull'integrità del 
 
 \paragraph{Filesystem: LittleFS}
 
-Per la gestione dell'archiviazione dei log e di parametri da salvare in memoria non volatile (Flash \textbf{W25Q128JV} \cite{w25q128_ds}), si rende necessario l'uso di un filesystem. \`E stato scelto il filesystem LittleFS \cite{littlefs_repo}, ottimizzato e pensato per memorie con bassa vita in scrittura (100.000 scritture per settore nel nostro caso); esso fa un uso minimo della ROM ed è indipendente dalle dimensioni del FS, dimostrandosi resiliente a perdite di alimentazione improvvise. La documentazione per l'uso dell'API si trova qui \cite{pico_arduino_core}. 
+Per la gestione dell'archiviazione dei log e di parametri da salvare in memoria non volatile (Flash \textbf{W25Q16JV} \cite{w25q16_ds}), si rende necessario l'uso di un filesystem. \`E stato scelto il filesystem LittleFS \cite{littlefs_repo}, ottimizzato e pensato per memorie con bassa vita in scrittura (100.000 scritture per settore nel nostro caso); esso fa un uso minimo della ROM ed è indipendente dalle dimensioni del FS, dimostrandosi resiliente a perdite di alimentazione improvvise. La documentazione per l'uso dell'API si trova qui \cite{pico_arduino_core}. 
 
 Il programma utilizza la memoria flash per salvare l'ultima posizione valida del GPS in modo che ve ne sia sempre una di fallback.
 Anche i dati meteo ritornati dal programma sul PC via UART vengono salvati in flash, permettendo di mantenerli anche se il PC viene scollegato e la board spenta.
@@ -288,7 +288,7 @@ Infine, l'impiego della direttiva \texttt{packed} impone al compilatore di elimi
 
 \subsection{Periferiche e Persistenza in memoria}
 
-Per la memorizzazione non volatile dei log GNSS e dei parametri di sistema, il progetto integra una memoria Flash NOR \textbf{Winbond W25Q128JV} \cite{w25q128_ds}. Il chip, con una capacità di \qty{128}{Mbit} (\qty{16}{MB}), comunica con l'RP2040 tramite interfaccia \textit{Quad-SPI} (QSPI), garantendo un throughput di dati elevato e latenze ridotte durante le operazioni di scrittura intensiva.
+Per la memorizzazione non volatile dei log GNSS e dei parametri di sistema, il progetto integra una memoria Flash NOR \textbf{Winbond W25Q16JV} \cite{w25q16_ds}. Il chip, con una capacità di \qty{16}{Mbit} (\qty{2}{MB}), comunica con l'RP2040 tramite interfaccia \textit{Quad-SPI} (QSPI), garantendo un throughput di dati elevato e latenze ridotte durante le operazioni di scrittura intensiva.
 
 \subsubsection*{Modulo GNSS: u-blox SAM-M8Q}
 Il sistema di posizionamento si affida al modulo \textbf{u-blox SAM-M8Q} \cite{sam_m8q_ds}, un ricevitore GNSS (\textit{Global Navigation Satellite System}) di fascia professionale che integra un'antenna \textit{patch} ceramica pre-accordata. 
@@ -308,7 +308,7 @@ L'output seriale del SAM-M8Q viene gestito in modo asincrono dal \textit{Core 0}
 Data la natura della memoria Flash, soggetta a un numero finito di cicli di cancellazione ($10^5$ cicli per settore), la gestione dei dati non avviene tramite scrittura grezza (\textit{raw}), ma attraverso il file system \textbf{LittleFS}. L'adozione di questo file system \textit{open-source}, ottimizzato per microcontrollori, offre vantaggi cruciali per un data-logger professionale:
 
 \begin{itemize}
-    \item \textbf{Wear Leveling}: LittleFS distribuisce uniformemente le operazioni di scrittura su tutti i blocchi della memoria, evitando l'usura precoce dei settori iniziali e prolungando drasticamente la vita utile della \textit{W25Q128JV}.
+    \item \textbf{Wear Leveling}: LittleFS distribuisce uniformemente le operazioni di scrittura su tutti i blocchi della memoria, evitando l'usura precoce dei settori iniziali e prolungando drasticamente la vita utile della \textit{W25Q16JV}.
     \item \textbf{Power-loss Resilience}: Il file system è progettato per gestire interruzioni improvvise dell'alimentazione. Grazie a una struttura a "copy-on-write", i dati preesistenti non vengono sovrascritti finché la nuova operazione non è completata, garantendo l'integrità dei log anche in caso di distacco della batteria.
     \item \textbf{Gestione dei Bad Blocks}: Il sistema è in grado di rilevare e isolare dinamicamente eventuali blocchi danneggiati della Flash, mantenendo l'affidabilità del logging nel tempo.
 \end{itemize}
