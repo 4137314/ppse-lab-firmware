@@ -463,16 +463,10 @@ Sono presenti due spin lock distinti: \texttt{telemetry\_lock} in
 
 I due lock non sono mai acquisiti contemporaneamente, escludendo il rischio di deadlock.
 
-
-
 \subsubsection*{Strategia di Logging e Concorrenza fra Cores}
+Nel firmware sviluppato, la scrittura su LittleFS è affidata esclusivamente al \textit{Core 0} per garantire la massima stabilità del filesystem. Per evitare che le latenze intrinseche della memoria Flash (cancellazione settori) degradino le prestazioni del parsing NMEA, è stata implementata una netta separazione dei compiti: il \textit{Core 1} si occupa del parsing asincrono dei dati GNSS, mentre il \textit{Core 0} funge da orchestratore per le operazioni di I/O.
 
-Nel firmware sviluppato, la scrittura su LittleFS è affidata esclusivamente al \textit{Core 0}. Per ottimizzare le prestazioni e ridurre i tempi di accesso alla memoria, i dati provenienti dal modulo GNSS \cite{sam_m8q_ds} vengono prima accumulati in un buffer circolare nella RAM dell'RP2040 e successivamente serializzati in un file binario giornaliero.
-
-Questa separazione logica evita che le operazioni di \textit{I/O} sulla Flash, che possono richiedere diversi millisecondi per la cancellazione di un settore, interferiscano con operazioni sensibili come il parsing NMEA.
-
-
-%% MATTIA
+Il log dei dati avviene tramite un approccio \textit{event-driven}: la scrittura su file (\texttt{/gps.log}) è condizionata da una logica di \textit{dead-band} (0.005° di tolleranza spaziale), che minimizza drasticamente il numero di cicli di scrittura. Questa scelta evita la necessità di complessi buffer circolari in RAM, mantenendo il firmware snello e resiliente. Il trasferimento dei dati validati dal \textit{Core 1} al \textit{Core 0} avviene tramite la memoria condivisa protetta dai \texttt{data\_lock}, assicurando che l'integrità del log sia preservata senza bloccare il flusso di acquisizione del segnale satellitare.
 
 \subsection{Scheduler delle task}
 
