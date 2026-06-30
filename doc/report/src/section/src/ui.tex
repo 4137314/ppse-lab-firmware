@@ -9,9 +9,9 @@ Il sistema UI è una FSM dove ogni stato corrisponde a una schermata.
 \texttt{view\_id\_t} enumera le view disponibili; il puntatore
 \texttt{current\_view} in \texttt{ui\_manager.cpp} punta all'istanza
 \texttt{view\_interface\_t} attiva. Le transizioni avvengono solo tramite
-\texttt{ui\_manager\_navigate\_to()}, che chiama la funzione \texttt{on\_exit} della
-view uscente, aggiorna il puntatore, triggera il feedback sonoro di navigazione
-e chiama \texttt{on\_enter} della nuova view.
+\texttt{ui\_manager\_navigate\_to()} che chiama la funzione \texttt{on\_exit} della
+view uscente, aggiorna il puntatore, attiva il feedback sonoro di navigazione
+e infine esegue la funzione \texttt{on\_enter} della nuova view.
 
 \begin{lstlisting}[caption={view\_definitions.h --- contratto funzionale di una view}]
 typedef struct {
@@ -36,7 +36,7 @@ completato.
 
 \textbf{view\_home} implementa un menu a cursore con navigazione ciclica.
 La riga selezionata è renderizzata in modalità inversa
-(\texttt{fillRect} bianco + testo nero), tecnica che non richiede bitmap.
+(rettangolo bianco riempito + testo nero), tecnica che non richiede bitmap.
 La mappatura tra posizione del cursore e destinazione è una lookup table:
 \begin{lstlisting}
 view_id_t targets[] = {VIEW_ID_GPS, VIEW_ID_METEO, VIEW_ID_SETTINGS};

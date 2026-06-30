@@ -10,8 +10,7 @@ Il firmware non ha connettività di rete diretta. La sincronizzazione dei dati m
 GPS avvengono tramite la porta seriale USB, che il Pico espone come CDC
 (Communication Device Class).
 
-Il flusso è unidirezionale nell'origine: il PC chiede, la board risponde o
-riceve. Non c'è polling autonomo dalla board verso il PC.
+Il flusso è di tipo \textbf{master-slave}: il PC chiede, la board risponde o riceve; non c'è polling autonomo dalla board verso il PC.
 
 \begin{figure}[h]
 	\centering
@@ -30,7 +29,7 @@ riceve. Non c'è polling autonomo dalla board verso il PC.
 
 \subsubsection*{Protocollo di comunicazione}
 
-Il protocollo creato é in puro ASCII, ogni messaggio è terminato da \texttt{'\textbackslash n'}.
+Il protocollo creato é in puro ASCII, ed ogni messaggio è terminato da \texttt{'\textbackslash n'}.
 
 %% MATTIA da verificare l'ultimo
 \begin{tabularx}{\textwidth}{@{}l l X@{}}
@@ -50,8 +49,8 @@ Il protocollo creato é in puro ASCII, ogni messaggio è terminato da \texttt{'\
 
 \subsection{Lo Script Python}
 
-\texttt{tools/api-weather/pcb\_bridge.py} è il server seriale lato PC che
-orchestra l'intera sequenza in un singolo script. Le uniche dipendenze esterne sono \texttt{pyserial} e \texttt{requests} per le API HTTP.
+\texttt{tools/api-weather/pcb\_bridge.py} è il programma lato PC che
+orchestra l'intera sequenza. Le uniche dipendenze esterne sono \texttt{pyserial} e \texttt{requests} per le API HTTP.
 
 \begin{lstlisting}[style=py, caption={pcb\_bridge.py --- flusso principale}]
 	def main():
@@ -84,23 +83,16 @@ orchestra l'intera sequenza in un singolo script. Le uniche dipendenze esterne s
 	ser.write(wxc.encode('utf-8'))
 \end{lstlisting}
 
-\textbf{NOTA 1}: \texttt{time.sleep(5)} dopo l'apertura della porta seriale serve poiché
-quando il PC apre la connessione CDC, il Pico riceve un segnale DTR che
-arduino-pico interpreta come richiesta di reset. Il firmware riparte da capo,
-esegue l'intera sequenza di boot (LittleFS, display, animazione) e solo dopo
+\textbf{NOTA 1}: \texttt{time.sleep(5)} dopo l'apertura della porta seriale é necessario poiché
+quando il PC apre la connessione CDC, il Pico riceve un segnale DTR che interpreta come richiesta di reset. Il firmware riparte da capo, esegue l'intera sequenza di boot (LittleFS, display, animazione) e solo dopo
 qualche secondo il sistema è in uno stato stabile pronto a processare comandi.
-
-
 Senza questo delay, \texttt{GET\_GPS} verrebbe inviato durante il boot e
 ignorato o perso nel buffer.
-\texttt{reset\_input\_buffer()} svuota
-eventuali residui di output del boot prima di inviare il comando.
 
 
 \textbf{NOTA 2}: Il loop \texttt{for \_ in range(50)} legge fino a 50 righe cercando quella
-che inizia con \texttt{GPS\_DATA:}. Le righe precedenti possono contenere
-output di debug del firmware (prefisso \texttt{[STORAGE]}, \texttt{CORE 1:},
-ecc.) che vengono silenziosamente scartate. 
+che inizia con \texttt{GPS\_DATA:}. Infatti le righe precedenti possono contenere
+output di debug del firmware che vengono silenziosamente scartate. 
 
 \subsubsection*{API HTTP esterne}
 

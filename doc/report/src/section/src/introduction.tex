@@ -9,24 +9,24 @@ Il \textit{data logging} georeferenziato consiste nella registrazione di flussi 
 L'applicazione di tali tecnologie spazia dal monitoraggio di micro-climi agricoli per l'ottimizzazione delle risorse (\textit{Smart Farming}), alla tracciabilità di \textit{asset} logistici in tempo reale, fino alla gestione di nodi sensoriali urbani per la mappatura dell'inquinamento atmosferico e acustico.
 
 \subsection{Motivazioni Progettuali}
-I microcontrollori \textit{general-purpose} convenzionali manifestano spesso colli di bottiglia prestazionali quando chiamati a gestire simultaneamente bus di comunicazione seriale (UART, I2C, SPI) e task computazionali intensivi. Questa saturazione delle risorse computazionali introduce \textit{jitter}\footnote{Variazione statistica indesiderata nel ritardo di propagazione di un segnale periodico rispetto a un riferimento temporale ideale.} indesiderato nei segnali di I/O, degradando la precisione del sistema. 
+I microcontrollori \textit{general-purpose} convenzionali manifestano spesso colli di bottiglia prestazionali quando chiamati a gestire simultaneamente bus di comunicazione seriale (UART, I2C, SPI) e task computazionali intensivi. Questa saturazione delle risorse introduce \textit{jitter}\footnote{Variazione statistica indesiderata nel ritardo di propagazione di un segnale periodico rispetto a un riferimento temporale ideale.} indesiderato nei segnali di I/O, degradando la precisione del sistema. 
 
 L'adozione del SoC \textit{Raspberry Pi RP2040} \cite{rp2040_ds} risponde alla necessità di superare tali limitazioni attraverso un'architettura \textit{dual-core} simmetrica\footnote{L'architettura \textit{ARM Cortex-M0+} del RP2040 permette di dedicare un core al processamento dei dati sensoriali e l'altro alla gestione dello stack di comunicazione o del \textit{filesystem}, riducendo le latenze di \textit{interrupt}.} e, soprattutto, mediante l'uso delle unità \textit{Programmable I/O} (PIO) \cite{rp2040_paper}. Queste ultime permettono un approccio di \textit{hardware-software co-design}, dove le macchine a stati dedicate gestiscono il \textit{timing} delle periferiche in modo deterministico, svincolando i core principali dall'onere della gestione dei protocolli a basso livello.
 
 
 
 \subsection{Obiettivi del Lavoro}
-Il presente elaborato descrive l'intero processo di ingegnerizzazione di un prototipo \textit{custom}, analizzandone ogni fase critica: dalla progettazione dello stadio di alimentazione per garantire la \textit{Power Integrity} \cite{tps563201_ds}\footnote{Include l'analisi del rumore sui bus di alimentazione e la minimizzazione dei \textit{drop} di tensione durante i transitori di carico dei moduli GNSS e OLED.}, alla validazione del \textit{filesystem fail-safe LittleFS}\footnote{\textit{LittleFS} è un \textit{filesystem} progettato specificamente per microcontrollori, dotato di meccanismi di \textit{wear-leveling} e resilienza ai crash energetici (\textit{copy-on-write}).} per la prevenzione della corruzione dei dati.
+Il presente elaborato descrive l'intero processo di prototipazione della \textit{scheda}, analizzandone ogni fase critica: come la validazione del \textit{filesystem fail-safe LittleFS}\footnote{\textit{LittleFS} è un \textit{filesystem} progettato specificamente per microcontrollori, dotato di meccanismi di \textit{wear-leveling} e resilienza ai crash energetici (\textit{copy-on-write}).} per la prevenzione della corruzione dei dati.
 
-L'obiettivo primario è la realizzazione di una piattaforma embedded basata sul SoC Raspberry Pi RP2040 \cite{pico_ds}, ottimizzata per il \textit{data-logging} georeferenziato ad alta frequenza. La documentazione di riferimento, le API sviluppate e i dettagli tecnici sull'architettura firmware sono resi disponibili pubblicamente \cite{ppse_api, ppse_homepage, ppse_github}, unitamente ai report accademici e tecnici di validazione \cite{ppse_academic_report, ppse_technical_ref}. 
+L'obiettivo primario è la realizzazione di una piattaforma embedded, ottimizzata per il \textit{data-logging} geo-referenziato ad alta frequenza. La documentazione di riferimento, le API sviluppate e i dettagli tecnici sull'architettura firmware sono resi disponibili pubblicamente \cite{ppse_api, ppse_homepage, ppse_github}, unitamente ai report accademici e tecnici di validazione \cite{ppse_academic_report, ppse_technical_ref}. 
 
 
-Le funzionalità principali del sistema comprendono acquisizione
-dati GPS (modulo SAM-M8Q) e sincronizzazione dati meteo da host PC via seriale, lettura di sensori ambientali e inerziali via
-I2C, interazione tramite display OLED SSD1306, persistenza
-su flash con LittleFS, feedback visivo su strip WS2812B e acustico tramite buzzer PWM.
+Le funzionalità principali del sistema comprendono l'acquisizione di
+dati GPS (modulo SAM-M8Q), la sincronizzazione dei relativi dati meteo da un PC host tramite seriale, la lettura di sensori ambientali via
+I2C, l'interazione tramite display OLED SSD1306, e garantire la persistenza
+su flash. Viene inoltre previsto un feedback visivo su strip WS2812B e acustico tramite buzzer PWM.
 
-\subsection{Struttura del codice}
+\subsection{Struttura del codice sorgente}
 
 \begin{verbatim}
 	firm/
@@ -40,17 +40,22 @@ su flash con LittleFS, feedback visivo su strip WS2812B e acustico tramite buzze
 	│   └── util/       scheduler.h       target.h
 	│
 	├── src/
-	│   ├── core/       messages.cpp  system_manager.cpp  telemetry.cpp
-	│   │               storage.cpp   config.cpp           error_codes.cpp
+	│   ├── main.cpp
+	│   │
+	│   ├── core/       system_manager.cpp  telemetry.cpp
+	│   │               storage.cpp   config.cpp          power_manager.cpp
 	│   ├── drivers/    display_ssd1306.cpp  inputs.cpp  sensors_i2c.cpp
-	│   │               peripherals.cpp      radio_uart.cpp  config_pins.cpp
+	│   │               peripherals.cpp      radio_uart.cpp
 	│   ├── pipeline/   core0_manager.cpp   core1_manager.cpp   tasks.cpp
-	│   ├── ui/         ui_manager.cpp      view_definitions.cpp  boot_anim.cpp
-	│   └── util/       scheduler.cpp       target.cpp
+	│   │ 
+	│   └──ui/           ui_manager.cpp    boot_anim.cpp
+	│       │ 
+	│       └──views/    view_gps.cpp     view_home.cpp     view_info.cpp
+	│                    view_meteo.cpp    view_settings.cpp
+	│   
 	│
-	├── lib/minmea/     (parser NMEA)
-	│
-	└── Makefile
+	└── lib/minmea/      minmea.c 		  minmea.h   
+	
 \end{verbatim}
 
 
