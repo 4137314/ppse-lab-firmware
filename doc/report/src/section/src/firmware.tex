@@ -1,11 +1,43 @@
 \newpage
 \section{Sotto-sistema Software}
 
+\subsection{Struttura del codice}
+
+Per quanto riguarda la struttura del firmware si e' preferito utilizzare una struttura convenzionale la quale separa le funzioni da header .h e le corrispettive implementazioni .cpp. Si rimanda al sito del progetto per una analisi approfondita del firmware.
+\newline
+Uno schema semplificato del firmware e' rappresentato da:
+
+\begin{verbatim}
+	firm/
+	├── include/
+	│   ├── core/       messages.h  system_manager.h  telemetry.h
+	│   │               storage.h   config.h           error_codes.h
+	│   ├── drivers/    display_ssd1306.h  inputs.h  sensors_i2c.h
+	│   │               peripherals.h      radio_uart.h  config_pins.h
+	│   ├── pipeline/   core0_manager.h   core1_manager.h   tasks.h
+	│   ├── ui/         ui_manager.h      view_definitions.h  boot_anim.h
+	│   └── util/       scheduler.h       target.h
+	│
+	├── src/
+	│   ├── core/       messages.cpp  system_manager.cpp  telemetry.cpp
+	│   │               storage.cpp   config.cpp           error_codes.cpp
+	│   ├── drivers/    display_ssd1306.cpp  inputs.cpp  sensors_i2c.cpp
+	│   │               peripherals.cpp      radio_uart.cpp  config_pins.cpp
+	│   ├── pipeline/   core0_manager.cpp   core1_manager.cpp   tasks.cpp
+	│   ├── ui/         ui_manager.cpp      view_definitions.cpp  boot_anim.cpp
+	│   └── util/       scheduler.cpp       target.cpp
+	│
+	├── lib/minmea/     (parser NMEA)
+	│
+	└── Makefile
+\end{verbatim}
+
 \subsection{Toolchain e Build System}
 
 Il compilatore utilizzato è \texttt{arm-none-eabi-gcc}, abbinato al framework \textbf{Raspberry Pi RP2040 Arduino Core} che espone le API Arduino sull'RP2040 e permette al contempo di impiegare la pico-sdk, il bootloader USB e LittleFS.
 
-Nel repository è presente un Makefile che automatizza le operazioni di sviluppo più frequenti.
+Nel repository è presente un Makefile che automatizza le operazioni di sviluppo più frequenti, modularizzato attraverso divisione dei compiti per sottofunzione e quindi diviso tra varie sotto directory in file di estensione .mk.
+
 
 \subsubsection*{Flag di Compilazione}
 
@@ -17,12 +49,14 @@ Tre macro del preprocessore modificano il comportamento del firmware durante la 
 	\midrule
 	\texttt{-DDEBUG=1} & Abilita output diagnostico sulla seriale. Il task \texttt{task\_health} è compilato solo con questo
 	flag attivo. \\ \\[4pt]
-	\texttt{-DDEFAULT\_BUZZER\_OFF} & Imposta \texttt{global\_cfg.buzzer\_enabled = false} in \texttt{config\_init()} e blocca \texttt{peripherals\_beep()} con un \texttt{return} anticipato a compile-time, azzerando ogni overhead durante l'esecuzione.\\ \\[4pt]
+	\texttt{-DDEFAULT\_BUZZER\_OFF} & Imposta \texttt{global\_cfg.buzzer\_enabled = false} in \texttt{config\_init()} e blocca \texttt{peripherals\_beep()} con un \texttt{return} anticipato a compile-time, al fine di debuggare il codice e caricarlo senza disturbo.\\ \\[4pt]
 	\texttt{-DFW\_VERSION=\textbackslash"...\textbackslash"} & Inserisce la stringa di versione nella view \texttt{INFO}. Generato automaticamente via \texttt{git describe --tags --always}. \\ \\
 	\bottomrule
 \end{tabularx}
 
 \subsubsection*{Makefile: Target Principali}
+
+Uno schema semplificato del sistema di build e' rappresentato dai seguenti target:
 
 \begin{lstlisting}[style=makefile, caption={Makefile --- target di sviluppo}]
 	# Compila e flasha con versione git automatica
@@ -37,7 +71,13 @@ Tre macro del preprocessore modificano il comportamento del firmware durante la 
 	pio device monitor
 \end{lstlisting}
 
+
 Il make target \texttt{sync-meteo} separa nettamente acquisizione dati (script Python lato PC per l'API OpenMeteo) e visualizzazione (lato firmware): la board non contiene alcuna logica di rete, riceve tutto via porta seriale nel formato \texttt{WXC,City,Temp,Wind,Hum,Code} e risponde \texttt{OK\_WXC} a conferma.
+
+
+Si e' preferito un approccio di prototipazione non estendendo le funzionalita' wi-fi interne della scheda la quale monta un esp-01, tuttavia il firmware e' facilmente estendibile e lo script python emula la comunicazione ipotetica con un calcolatore avente accesso internet.
+\newline
+Nel caso in cui si volesse estendere attraverso esp-01 basta implementare una logica di comunicazione la quale invece che avere una comunicazione seriale avra' una comunicazione wireless.
 
 %% MATTIA
 \subsubsection*{Versioning Firmware}
@@ -139,7 +179,7 @@ PlatformIO di default compila tutto ciò che trova in \texttt{src/}, tuttavia us
 Il metodo standard di upload del firmware è il drag-and-drop del file UF2 sulla USB Mass Storage che appare tenendo premuto BOOTSEL al reset. \textbf{picotool} è un tool ufficiale di Raspberry Pi che bypassa questo meccanismo e carica il firmware direttamente via USB senza richiedere BOOTSEL. In pratica:
 
 \begin{enumerate}
-	\item Si esegue \texttt{pio run --target upload} (o) \texttt{make flash});
+	\item Si esegue \texttt{pio run --target upload} (o \texttt{make flash});
 	
 	\item PlatformIO invoca \texttt{picotool load firmware.uf2};
 	
@@ -219,7 +259,7 @@ Il sistema utilizza i LED per fornire un feedback immediato sull'integrità del 
 
 \paragraph{Filesystem: LittleFS}
 
-Per la gestione dell'archiviazione dei log e di parametri da salvare in memoria non volatile (Flash \textbf{W25Q128JV} \cite{w25q128_ds}), si rende necessario l'uso di un filesystem. \`E stato scelto il filesystem LittleFS \cite{littlefs_repo}, ottimizzato e pensato per memorie con bassa vita in scrittura (100.000 scritture per settore nel nostro caso); esso fa un uso minimo della ROM ed è indipendente dalle dimensioni del FS, dimostrandosi resiliente a perdite di alimentazione improvvise. La documentazione per l'uso dell'API si trova qui \cite{pico_arduino_core}. 
+Per la gestione dell'archiviazione dei log e di parametri da salvare in memoria non volatile (Flash \textbf{W25Q16JV} \cite{w25q16_ds}), si rende necessario l'uso di un filesystem. \`E stato scelto il filesystem LittleFS \cite{littlefs_repo}, ottimizzato e pensato per memorie con bassa vita in scrittura (100.000 scritture per settore nel nostro caso); esso fa un uso minimo della ROM ed è indipendente dalle dimensioni del FS, dimostrandosi resiliente a perdite di alimentazione improvvise. La documentazione per l'uso dell'API si trova qui \cite{pico_arduino_core}. 
 
 Il programma utilizza la memoria flash per salvare l'ultima posizione valida del GPS in modo che ve ne sia sempre una di fallback.
 Anche i dati meteo ritornati dal programma sul PC via UART vengono salvati in flash, permettendo di mantenerli anche se il PC viene scollegato e la board spenta.
@@ -289,7 +329,7 @@ Infine, l'impiego della direttiva \texttt{packed} impone al compilatore di elimi
 
 \subsection{Periferiche e Persistenza in memoria}
 
-Per la memorizzazione non volatile dei log GNSS e dei parametri di sistema, il progetto integra una memoria Flash NOR \textbf{Winbond W25Q128JV} \cite{w25q128_ds}. Il chip, con una capacità di \qty{128}{Mbit} (\qty{16}{MB}), comunica con l'RP2040 tramite interfaccia \textit{Quad-SPI} (QSPI), garantendo un throughput di dati elevato e latenze ridotte durante le operazioni di scrittura intensiva.
+Per la memorizzazione non volatile dei log GNSS e dei parametri di sistema, il progetto integra una memoria Flash NOR \textbf{Winbond W25Q16JV} \cite{w25q16_ds}. Il chip, con una capacità di \qty{16}{Mbit} (\qty{2}{MB}), comunica con l'RP2040 tramite interfaccia \textit{Quad-SPI} (QSPI), garantendo un throughput di dati elevato e latenze ridotte durante le operazioni di scrittura intensiva.
 
 \subsubsection*{Modulo GNSS: u-blox SAM-M8Q}
 Il sistema di posizionamento si affida al modulo \textbf{u-blox SAM-M8Q} \cite{sam_m8q_ds}, un ricevitore GNSS (\textit{Global Navigation Satellite System}) di fascia professionale che integra un'antenna \textit{patch} ceramica pre-accordata. 
@@ -309,7 +349,8 @@ L'output seriale del SAM-M8Q viene gestito in modo asincrono dal \textit{Core 1}
 Data la natura della memoria Flash, soggetta a un numero finito di cicli di cancellazione ($10^5$ cicli per settore), la gestione dei dati non avviene tramite scrittura grezza, ma attraverso il filesystem \textbf{LittleFS}. L'adozione di questo filesystem \textit{open-source}, ottimizzato per microcontrollori, offre vantaggi cruciali per un data-logger professionale:
 
 \begin{itemize}
-    \item \textbf{Wear Leveling}: LittleFS distribuisce uniformemente le operazioni di scrittura su tutti i blocchi della memoria, evitando l'usura precoce dei settori iniziali e prolungando drasticamente la vita utile della \textit{W25Q128JV}.
+
+    \item \textbf{Wear Leveling}: LittleFS distribuisce uniformemente le operazioni di scrittura su tutti i blocchi della memoria, evitando l'usura precoce dei settori iniziali e prolungando drasticamente la vita utile della \textit{W25Q16JV}.
     \item \textbf{Power-loss Resilience}: Il file system è progettato per gestire interruzioni improvvise dell'alimentazione. Grazie a una struttura "copy-on-write", i dati preesistenti non vengono sovrascritti finché la nuova operazione non è completata, garantendo l'integrità dei log anche in caso di distacco della batteria.
     \item \textbf{Gestione dei Bad Blocks}: Il sistema è in grado di rilevare e isolare dinamicamente eventuali blocchi danneggiati della Flash, mantenendo l'affidabilità del logging nel tempo.
 \end{itemize}
@@ -423,7 +464,8 @@ La separazione dei ruoli fra cores è interamente software. Il file \texttt{main
 comunicazione seriale, l'uptime, i LED e LittleFS. Esegue anche
 \texttt{telemetry\_update()} in \texttt{core0\_loop()} come parte dell'update rapido dei sensori locali.
 
-\textbf{Core~1} (worker) esegue un loop semplice e bloccante: chiama \texttt{telemetry\_update()} per leggere la UART GPS e processare le frasi NMEA; dopodiché trasferisce il risultato al Core~0 via IPC alla fine di ogni iterazione. 
+
+\textbf{Core~1} (worker) esegue un loop semplice e bloccante: chiama \texttt{telemetry\_update()} per leggere la UART GPS e processare le frasi NMEA; dopodiché trasferisce il risultato al Core~0 via IPC alla fine di ogni iterazione.
 
 
 
@@ -464,16 +506,10 @@ Sono presenti due spin lock distinti: \texttt{telemetry\_lock} in
 
 I due lock non sono mai acquisiti contemporaneamente, escludendo il rischio di deadlock.
 
-
-
 \subsubsection*{Strategia di Logging e Concorrenza fra Cores}
+Nel firmware sviluppato, la scrittura su LittleFS è affidata esclusivamente al \textit{Core 0} per garantire la massima stabilità del filesystem. Per evitare che le latenze intrinseche della memoria Flash (cancellazione settori) degradino le prestazioni del parsing NMEA, è stata implementata una netta separazione dei compiti: il \textit{Core 1} si occupa del parsing asincrono dei dati GNSS, mentre il \textit{Core 0} funge da orchestratore per le operazioni di I/O.
 
-Nel firmware sviluppato, la scrittura su LittleFS è affidata esclusivamente al \textit{Core 0}. Per ottimizzare le prestazioni e ridurre i tempi di accesso alla memoria, i dati provenienti dal modulo GNSS \cite{sam_m8q_ds} vengono prima accumulati in un buffer circolare nella RAM dell'RP2040 e successivamente serializzati in un file binario giornaliero.
-
-Questa separazione logica evita che le operazioni di \textit{I/O} sulla Flash, che possono richiedere diversi millisecondi per la cancellazione di un settore, interferiscano con operazioni sensibili come il parsing NMEA.
-
-
-%% MATTIA
+Il log dei dati avviene tramite un approccio \textit{event-driven}: la scrittura su file (\texttt{/gps.log}) è condizionata da una logica di \textit{dead-band} (0.005° di tolleranza spaziale), che minimizza drasticamente il numero di cicli di scrittura. Questa scelta evita la necessità di complessi buffer circolari in RAM, mantenendo il firmware snello e resiliente. Il trasferimento dei dati validati dal \textit{Core 1} al \textit{Core 0} avviene tramite la memoria condivisa protetta dai \texttt{data\_lock}, assicurando che l'integrità del log sia preservata senza bloccare il flusso di acquisizione del segnale satellitare.
 
 \subsection{Scheduler delle task}
 

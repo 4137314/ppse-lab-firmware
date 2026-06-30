@@ -10,19 +10,14 @@ La costruzione del prototipo ha seguito standard industriali per garantire l'aff
     \item \textbf{Ottimizzazione del Piano di Massa}: La tecnologia SMT permette una connessione diretta dei \textit{thermal pad} al piano di massa inferiore attraverso la tecnica dei \textit{via-in-pad}. Questo è fondamentale non solo per la dissipazione termica del SoC, ma anche per offrire un riferimento di tensione estremamente stabile e a bassa impedenza.
 \end{itemize}
 
-%% QUESTA PARTE?
 
-\subsubsection*{Saldatura manuale del modulo SAM-M8Q}
+\subsubsection*{Integrazione del modulo GNSS SAM-M8Q}
+Il modulo GNSS \textbf{u-blox SAM-M8Q} \cite{sam_m8q_ds}, in package \textbf{LCC} (\textit{Leadless Chip Carrier}), è stato integrato tramite saldatura manuale di precisione. Sebbene il componente sia progettato per processi SMT industriali, le variazioni nel layout di prototipazione hanno reso più efficace l'assemblaggio manuale. Questa procedura è stata condotta sotto controllo ottico per garantire la corretta bagnabilità dei pad perimetrali.
 
-Particolare attenzione è stata dedicata al modulo GNSS \textbf{u-blox SAM-M8Q} \cite{sam_m8q_ds}, caratterizzato da un package di tipo \textbf{LCC} (\textit{Leadless Chip Carrier}). A causa della posizione dei pad disposti lungo il perimetro inferiore del componente, è stata adottata una tecnica di \textbf{saldatura a rifusione controllata} (\textit{Reflow Soldering}).
-
-
-
-L'utilizzo di pasta saldante con flussante \textit{no-clean} e l'applicazione di un profilo termico accurato (rispettando le rampe di \textit{pre-heat} e \textit{soak} suggerite dal produttore) ha permesso di ottenere diversi vantaggi critici:
+Nonostante l'assenza di un processo di rifusione industriale, l'approccio adottato ha garantito:
 \begin{enumerate}
-    \item \textbf{Prevenzione dei cortocircuiti}: La precisione del deposito della pasta saldante ha evitato la formazione di \textit{solder bridges} tra i pad adiacenti, caratterizzati da un \textit{pitch} estremamente ridotto.
-    \item \textbf{Self-alignment}: È stato sfruttato il fenomeno della tensione superficiale dello stagno fuso per garantire l'auto-allineamento del modulo sulle piazzole del PCB, minimizzando gli errori di piazzamento manuale.
-    \item \textbf{Integrità RF}: Una bagnabilità ottimale dei pad relativi all'antenna integrata è essenziale per minimizzare le perdite di inserzione RF. Una saldatura non perfetta in questo punto degraderebbe sensibilmente il rapporto segnale-rumore (SNR), ostacolando il fix dei satelliti in ambienti chiusi o con scarsa visibilità del cielo.
+\item \textbf{Integrità delle Connessioni}: La verifica visiva e strumentale ha escluso la presenza di \textit{solder bridges}, particolarmente critici dato il \textit{pitch} ridotto dei contatti.
+\item \textbf{Preservazione RF}: La cura riposta nella saldatura dei pad relativi all'antenna integrata ha permesso di mantenere un \textit{Carrier-to-Noise density ratio} (C/N0) operativo, fondamentale per minimizzare le perdite di inserzione e garantire l'aggancio dei satelliti, pur nei limiti strutturali di un prototipo assemblato manualmente.
 \end{enumerate}
 
 
