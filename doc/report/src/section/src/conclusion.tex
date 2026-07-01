@@ -13,7 +13,8 @@ L'architettura proposta ha permesso di raggiungere i seguenti obiettivi chiave, 
 
     
     \item \textbf{Determinismo e Signal Integrity:} L'offloading del protocollo dei LED WS2812B sul sottosistema PIO ha risolto il conflitto critico tra timing dei LED e interrupt della UART. Questo ha permesso di mantenere un flusso costante di frasi \textbf{NMEA} \cite{nmea_0183} senza perdita di byte, processate in modo deterministico dalla libreria \texttt{minmea} \cite{minmea_lib}, validando l'efficacia dell'approccio di \textit{hardware offloading} e separazione dei ruoli fra cores.
-
+    
+    \item \textbf{Analisi delle Limitazioni Hardware e Diagnostica ADC:} In fase di validazione sperimentale, il sottosistema di monitoraggio termico — comprendente sia il sensore di temperatura esterno analogico sia il diodo termico interno al SoC RP2040 — non ha raggiunto l'operatività. Le sessioni di debug hardware hanno isolato la causa in un cortocircuito localizzato sulla linea di alimentazione analogica, il quale ha azzerato la tensione sul pin di riferimento dell'ADC ($V_{REF} = \qty{0}{V}$). L'assenza di una tensione di riferimento stabile ha inibito il funzionamento dell'intero blocco di conversione analogico-digitale del microcontrollore, portando le letture in saturazione logica permanente. Sebbene il firmware includesse i driver di campionamento, si è reso necessario escludere i task di lettura analogica per preservare l'integrità del sistema in attesa di un ripristino elettrico della risorsa.
 \end{itemize}
 
 \subsection{Riflessioni sul Design Ibrido}
@@ -31,6 +32,8 @@ Nonostante l'ottimo grado di maturità raggiunto dal prototipo, sono state indiv
     \item \textbf{Connettività LPWAN:} Integrazione di un ricetrasmettitore (ad es. LoRaWAN) per l'invio di pacchetti di telemetria sintetizzati wireless, trasformando il logger in un nodo IoT attivo per il monitoraggio remoto.
     
     \item \textbf{Power Management Predittivo:} Implementazione di una logica di \textit{Dynamic Voltage and Frequency Scaling} (DVFS) basata sullo stato di carica della batteria e sulla frequenza di acquisizione richiesta.
+	
+    \item \textbf{Ripristino del Dominio Analogico e Ingegnerizzazione del Layout:} Revisione del circuito di alimentazione per eliminare il cortocircuito sulla linea analogica e isolamento del pin $V_{REF}$ dell'RP2040 tramite l'inserimento di un riferimento di tensione dedicato e filtrato (es. un regolatore shunt di precisione a \qty{3.0}{V} o \qty{3.3}{V}). Questo intervento consentirà il ripristino funzionale dell'ADC e la conseguente riattivazione dei task di telemetria termica, sia per il diodo interno al chip sia per la sonda analogica esterna.
 \end{enumerate}
 
 
