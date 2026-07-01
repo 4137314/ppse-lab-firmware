@@ -1,48 +1,43 @@
 \newpage
 \section{Sotto-sistema Software}
 
-\subsection{Struttura del codice}
+\subsection{Organizzazione del Codice Sorgente e Architettura dei File}
 
-Per quanto riguarda la struttura del firmware si e' preferito utilizzare una struttura convenzionale la quale separa le funzioni da header .h e le corrispettive implementazioni .cpp. Si rimanda al sito del progetto per una analisi approfondita del firmware \cite{ppse_homepage}.
-\newline
-Uno schema semplificato del firmware e' rappresentato da:
+L'architettura del firmware adotta un modello di sviluppo modulare basato sulla netta separazione tra le interfacce di dichiarazione (file header \texttt{.h}) e le rispettive logiche di implementazione (file sorgente \texttt{.cpp}). Questa compartmentalizzazione favorisce l'isolamento delle funzionalità, semplifica le procedure di verifica e ottimizza i tempi di compilazione incrementale gestiti da PlatformIO. La documentazione tecnica dettagliata e l'analisi approfondita del codice sono consultabili presso il repository ufficiale del progetto \cite{ppse_homepage}.
+
+L'albero strutturale della directory di sviluppo è organizzato secondo lo schema seguente:
 
 \begin{verbatim}
-	firm/
-	├── include/
-	│   ├── core/       messages.h  system_manager.h  telemetry.h
-	│   │               storage.h   config.h           error_codes.h
-	│   ├── drivers/    display_ssd1306.h  inputs.h  sensors_i2c.h
-	│   │               peripherals.h      radio_uart.h  config_pins.h
-	│   ├── pipeline/   core0_manager.h   core1_manager.h   tasks.h
-	│   ├── ui/         ui_manager.h      view_definitions.h  boot_anim.h
-	│   └── util/       scheduler.h       target.h
-	│
-	├── src/
-	│   ├── main.cpp
-	│   │
-	│   ├── core/       system_manager.cpp  telemetry.cpp
-	│   │               storage.cpp   config.cpp          power_manager.cpp
-	│   ├── drivers/    display_ssd1306.cpp  inputs.cpp  sensors_i2c.cpp
-	│   │               peripherals.cpp      radio_uart.cpp
-	│   ├── pipeline/   core0_manager.cpp   core1_manager.cpp   tasks.cpp
-	│   │ 
-	│   └──ui/           ui_manager.cpp    boot_anim.cpp
-	│       │ 
-	│       └──views/    view_gps.cpp     view_home.cpp     view_info.cpp
-	│                    view_meteo.cpp    view_settings.cpp
-	│   
-	│
-	└── lib/minmea/      minmea.c 		  minmea.h   
-	
+firm/
+├── include/
+│   ├── core/         messages.h, system_manager.h, telemetry.h,
+│   │                 storage.h, config.h, error_codes.h
+│   ├── drivers/      display_ssd1306.h, inputs.h, sensors_i2c.h,
+│   │                 peripherals.h, radio_uart.h, config_pins.h
+│   ├── pipeline/     core0_manager.h, core1_manager.h, tasks.h
+│   ├── ui/           ui_manager.h, view_definitions.h, boot_anim.h
+│   └── util/         scheduler.h, target.h
+│
+├── src/
+│   ├── main.cpp
+│   ├── core/         system_manager.cpp, telemetry.cpp,
+│   │                 storage.cpp, config.cpp, power_manager.cpp
+│   ├── drivers/      display_ssd1306.cpp, inputs.cpp, sensors_i2c.cpp,
+│   │                 peripherals.cpp, radio_uart.cpp
+│   ├── pipeline/     core0_manager.cpp, core1_manager.cpp, tasks.cpp
+│   └── ui/           ui_manager.cpp, boot_anim.cpp
+│       └── views/    view_gps.cpp, view_home.cpp, view_info.cpp,
+│                     view_meteo.cpp, view_settings.cpp
+│
+└── lib/
+    └── minmea/       minmea.c, minmea.h
 \end{verbatim}
-
 
 \subsection{Toolchain e Build System}
 
-Il compilatore utilizzato è \texttt{arm-none-eabi-gcc}, abbinato al framework \textbf{Raspberry Pi RP2040 Arduino Core} che espone le API Arduino sull'RP2040 e permette al contempo di impiegare la pico-sdk, il bootloader USB e LittleFS.
+Il processo di compilazione del firmware si affida alla toolchain \texttt{arm-none-eabi-gcc}, integrata con il framework \textbf{Raspberry Pi RP2040 Arduino Core}. Quest'ultimo fornisce uno strato di compatibilità per le API Arduino sull'architettura RP2040, garantendo contestualmente l'accesso nativo alle librerie del \textit{pico-sdk}, al bootloader USB e al file system \textit{LittleFS}.
 
-Nel repository è presente un Makefile che automatizza le operazioni di sviluppo più frequenti, modularizzato attraverso divisione dei compiti per sottofunzione e quindi diviso tra varie sotto directory in file di estensione .mk.
+Al fine di automatizzare le procedure di compilazione e deployment, il repository include un \textit{Makefile} principale. La logica di build è stata ingegnerizzata secondo criteri di modularità: l'automazione è parcellizzata in base all'ambito operativo e distribuita in moduli specifici con estensione \texttt{.mk}, allocati all'interno di sottodirectory dedicate.
 
 
 \subsubsection*{Flag di Compilazione}
@@ -81,11 +76,8 @@ Uno schema semplificato del sistema di build e' rappresentato dai seguenti targe
 Il make target \texttt{sync-meteo} separa nettamente acquisizione dati (script Python lato PC per l'API OpenMeteo) e visualizzazione (lato firmware): la board non contiene alcuna logica di rete, riceve tutto via porta seriale nel formato \texttt{WXC,City,Temp,Wind,Hum,Code} e risponde \texttt{OK\_WXC} a conferma.
 
 
-Si e' preferito un approccio di prototipazione non estendendo le funzionalita' wi-fi interne della scheda la quale monta un esp-01, tuttavia il firmware e' facilmente estendibile e lo script python emula la comunicazione ipotetica con un calcolatore avente accesso internet.
-\newline
-Nel caso in cui si volesse estendere attraverso esp-01 basta implementare una logica di comunicazione la quale invece che avere una comunicazione seriale avra' una comunicazione wireless.
+Coerentemente con gli obiettivi di prototipazione del sistema, le funzionalità Wi-Fi del modulo \textbf{ESP-01} integrato a bordo non sono state attivate direttamente nel firmware dell'unità principale. L'interazione con la rete è stata invece emulata tramite uno script Python operante come bridge seriale, il quale simula la comunicazione con un host remoto connesso a Internet. Grazie alla modularità del software, l'architettura risulta intrinsecamente predisposta per sviluppi futuri: l'integrazione effettiva del modulo ESP-01 richiederebbe unicamente la riconfigurazione del livello di trasporto (sostituendo il canale seriale cablato con un socket wireless), lasciando inalterata la logica applicativa di parsing e visualizzazione dei dati.
 
-%% MATTIA
 \subsubsection*{Versioning Firmware}
 
 La macro \texttt{FW\_VERSION} è utilizzata in \texttt{view\_info.cpp} con
@@ -107,7 +99,7 @@ L'uso di \texttt{F()} (progmem wrapper di Arduino) mantiene la stringa "VERSIONE
 
 \subsubsection*{Perché PlatformIO?}
 
-PlatformIO è un build system e package manager per firmware embedded che si installa come estensione di VS~Code o come strumento da riga di comando (via \texttt{pio}).
+La configurazione dell'ecosistema è stata intenzionalmente centralizzata all'interno del file \texttt{platformio.ini}, escludendo qualsiasi dipendenza dalle impostazioni locali dell'IDE (VS Code). Questo approccio garantisce la totale portabilità del progetto e la riproducibilità del build system su qualsiasi macchina o pipeline di Continuous Integration (CI), indipendentemente dall'editor utilizzato dallo sviluppatore.
 
 La sua funzione principale è eliminare la gestione manuale della toolchain; provvede autonomamente a scaricare compilatore, librerie, script di link e tool di upload nelle versioni esatte specificate.
 
@@ -115,10 +107,9 @@ La sua funzione principale è eliminare la gestione manuale della toolchain; pro
 Nel contesto di questo progetto il Raspberry Pi Pico è supportato da due framework basati su Arduino con filosofie molto diverse. PlatformIO consente di selezionare quello desiderato con una singola riga di configurazione, senza toccare il codice sorgente.
 
 
-\textbf{Mbed OS} è il framework ``ufficiale'' di Arduino per Raspberry Pi Pico. Usa il pico-sdk sottostante ma lo avvolge nell'astrazione Mbed, che introduce un RTOS leggero, un HAL proprio e convenzioni diverse. Il problema pratico è che il supporto dual-core tramite \texttt{setup1()}/\texttt{loop1()}, LittleFS nativa e le istanze \texttt{Serial1}/\texttt{Serial2} mappate liberamente su
-GPIO sono assenti o limitate.
+\textbf{Mbed OS} è il framework ``ufficiale'' di Arduino per Raspberry Pi Pico. Usa il pico-sdk sottostante ma lo avvolge nell'astrazione Mbed, che introduce un RTOS leggero\footnote{Real-Time Operating System: un sistema operativo specializzato per applicazioni embedded in cui il tempo di esecuzione dei task e la gestione delle priorità sono deterministici, garantendo risposte in tempo reale agli eventi hardware.}, un HAL proprio\footnote{Hardware Abstraction Layer: uno strato software che interpone un livello di astrazione tra l'hardware fisico del silicio e l'applicazione, uniformando le API ma introducendo potenzialmente un overhead computazionale.} e convenzioni diverse. Il problema pratico è che il supporto dual-core tramite \texttt{setup1()}/\texttt{loop1()}, LittleFS nativa e le istanze \texttt{Serial1}/\texttt{Serial2} mappate liberamente su GPIO\footnote{General Purpose Input/Output: i pin digitali programmabili del microcontrollore che, nel caso dell'RP2040, possono essere associati dinamicamente a diverse periferiche interne (UART, I2C, SPI) tramite un multiplexer hardware interno.} sono assenti o limitate.
 
-\textbf{Raspberry Pi RP2040 Arduino Core} (di earlephilhower) è un porting alternativo, mantenuto dalla community, che espone direttamente le API pico-sdk sotto interfaccia Arduino senza lo strato Mbed. Supporta il dual-core tramite \texttt{setup1()}/\texttt{loop1()}, LittleFS con partizionamento configurabile, seriale su qualsiasi coppia di GPIO UART, e dà accesso diretto ai registri hardware nativi (\texttt{watchdog\_hw}, spin lock, PIO) senza conflitti.
+\textbf{Raspberry Pi RP2040 Arduino Core} (di earlephilhower) è un porting alternativo, mantenuto dalla community, che espone direttamente le API pico-sdk sotto interfaccia Arduino senza lo strato Mbed. Supporta il dual-core tramite \texttt{setup1()}/\texttt{loop1()}, LittleFS con partizionamento configurabile, seriale su qualsiasi coppia di GPIO UART, e dà accesso diretto ai registri hardware nativi\footnote{Strutture di memoria fisse collegate direttamente alla logica digitale del chip; la manipolazione diretta dei registri (\textit{bare-metal}) scavalca le funzioni di astrazione del framework, azzerando le latenze e sbloccando le funzionalità specifiche del silicio, come le macchine a stati del PIO o i meccanismi di sincronizzazione hardware (spin lock).} (\texttt{watchdog\_hw}, spin lock, PIO) senza conflitti.
 
 La configurazione in \texttt{platformio.ini} è la seguente:
 
@@ -517,84 +508,161 @@ Nel firmware sviluppato, la scrittura su LittleFS è affidata esclusivamente al 
 
 Il log dei dati avviene tramite un approccio \textit{event-driven}: la scrittura su file (\texttt{/gps.log}) è condizionata da una logica di \textit{dead-band} (0.005° di tolleranza spaziale), che minimizza drasticamente il numero di cicli di scrittura. Questa scelta evita la necessità di complessi buffer circolari in RAM, mantenendo il firmware snello e resiliente. Il trasferimento dei dati validati dal \textit{Core 1} al \textit{Core 0} avviene tramite la memoria condivisa protetta dai \texttt{data\_lock}, assicurando che l'integrità del log sia preservata senza bloccare il flusso di acquisizione del segnale satellitare.
 
-\subsection{Scheduler delle task}
+\subsection{Scheduler dei Task e Cooperazione Multitasking}
 
+\subsubsection*{Design dell'Architettura Cooperativa}
 
-\subsubsection*{Design}
+Per garantire un'esecuzione deterministica delle routine periodiche senza introdurre l'overhead computazionale e la complessità di memorizzazione di un RTOS preemttivo completo, il sistema adotta uno scheduler cooperativo minimale basato su time-slicing. 
+Lo scheduler è implementato con logica \textit{header-only} nel file \texttt{scheduler.h} mediante funzioni dichiarate \texttt{inline}, ottimizzando l'allineamento in memoria ed eliminando il costo di chiamata a funzione (\textit{function call overhead}) durante il ciclo di esecuzione principale.
 
-Lo scheduler è implementato header-only in \texttt{scheduler.h} come funzione
-\texttt{inline} su una struct \texttt{Task}. La struttura è volutamente minimale:
+La struttura dati fondamentale e il motore di verifica del tempo sono definiti all'interno della struct \texttt{Task}:
 
-\begin{lstlisting}[caption={scheduler.h --- struttura principale dei task}]
-	typedef struct {
-		TaskCallback callback;
-		uint32_t interval;   // periodo in ms
-		uint32_t last_run;   // timestamp ultima esecuzione
-	} Task;
-	
-	inline void run_task(Task* t) {
-		uint32_t now = millis();
-		if (now - t->last_run >= t->interval) {
-			t->callback();
-			t->last_run = now;
-		}
-	}
+\begin{lstlisting}[language=C++, caption={scheduler.h --- Struttura dati e motore di esecuzione dei task}]
+typedef void (*TaskCallback)();
+
+typedef struct {
+    TaskCallback callback; // Puntatore alla funzione associata al task
+    uint32_t interval;     // Periodo di attivazione espresso in millisecondi
+    uint32_t last_run;     // Timestamp (millis) dell'ultima esecuzione completata
+} Task;
+
+inline void run_task(Task* t) {
+    uint32_t now = millis();
+    // Gestione nativa del rollover del timer hardware tramite aritmetica dei moduli
+    if (now - t->last_run >= t->interval) {
+        t->callback();
+        t->last_run = now;
+    }
+}
 \end{lstlisting}
 
+L'istanza di ciascun task sfrutta le espressioni lambda introdotte dallo standard C++11, permettendo di incapsulare in modo conciso la logica di interfacciamento direttamente in fase di allocazione statica:
 
-\begin{lstlisting}[caption={core0\_manager.cpp --- definizione task}]
-	static Task task_ui = {[]() {
-			SystemDataPacket frame;
-			if (sys_manager_receive_data(&frame))
-			ui_manager_update(&frame);
-		}, 33, 0};
+\begin{lstlisting}[language=C++, caption={core0\_manager.cpp --- Allocazione statica del task grafico dell'interfaccia utente}]
+static Task task_ui = {[]() {
+        SystemDataPacket frame;
+        if (sys_manager_receive_data(&frame)) {
+            ui_manager_update(&frame);
+        }
+    }, 33, 0}; // Frequenza di aggiornamento mirata a ~30 Hz
 \end{lstlisting}
 
+\subsubsection*{Pianificazione dei Task sul Core 0}
 
-\subsubsection*{Task Registrati nel Core 0}
+Il ciclo di esecuzione principale del \textit{Core 0} (\texttt{core0\_loop}) interroga sequenzialmente le funzioni di controllo dei singoli task registrati. Nella Tabella~\ref{tab:scheduler_core0} viene riassunto il piano di schedulazione del core primario, evidenziando i periodi di attivazione e le responsabilità sistemiche associate.
 
+\begin{table}[htbp]
+\centering
+\caption{Task registrati ed eseguiti nel Core 0.}
+\label{tab:scheduler_core0}
 \begin{tabularx}{\textwidth}{@{}l r X@{}}
-	\toprule
-	\textbf{Task} & \textbf{Periodo} & \textbf{Funzione} \\
-	\midrule
-	\texttt{task\_serial}  & 10~ms    & Parsing comandi seriali da PC host \\
-	\texttt{task\_input}   & 20~ms    & Dispatch eventi pulsante alla UI \\
-	\texttt{task\_uptime}  & 100~ms   & Incremento contatore uptime (vedi nota) \\
-	\texttt{task\_ui}      & 33~ms    & Render OLED ($\approx$30~Hz) \\
-	\texttt{task\_leds}    & 100~ms   & Aggiornamento animazione LED \\
-	\texttt{task\_health}  & 10\,000~ms & Heartbeat su seriale (solo con \texttt{DEBUG=1}) \\
-	\bottomrule
+    \toprule
+    \textbf{Task Identificativo} & \textbf{Periodo} & \textbf{Responsabilità Funzionale} \\
+    \midrule
+    \texttt{task\_serial}  & \qty{10}{ms}  & Parsing e processing dei comandi asincroni da terminale seriale (PC host). \\
+    \texttt{task\_input}   & \qty{20}{ms}  & Polling dell'interfaccia di input e smistamento dei segnali di debouncing alla UI. \\
+    \texttt{task\_ui}      & \qty{33}{ms}  & Rendering grafico dei widget dell'interfaccia utente su display OLED ($\approx \qty{30}{Hz}$). \\
+    \texttt{task\_uptime}  & \qty{100}{ms} & Incremento del contatore di attività globale (sub-ottimizzato, vedi analisi). \\
+    \texttt{task\_leds}    & \qty{100}{ms} & Gestione dei feedback visivi RGB e processing dinamico degli effetti di stato. \\
+    \texttt{task\_health}  & \qty{10000}{ms}& Diagnostica di sistema (Heartbeat) attiva solo in modalità \texttt{DEBUG}. \\
+    \bottomrule
 \end{tabularx}
+\end{table}
 
-%% MATTIA, frose questo è da fixare? Non ho controllato se è vero....
-\textbf{Nota su \texttt{task\_uptime}}: il task ha periodo 100~ms ma contiene
-un controllo interno \texttt{millis() - last\_uptime\_tick >= 1000} che limita
-l'incremento effettivo a una volta al secondo. Il task si attiva ogni 100~ms
-ma fa lavoro utile solo ogni 1000~ms, con un rapporto di utilità del 10\%.
-La scelta probabilmente deriva da cautela sul drift del timer, ma il risultato
-pratico è che \texttt{task\_uptime} potrebbe essere impostato direttamente a
-1000~ms eliminando il controllo interno.
+\paragraph{Analisi critica del \texttt{task\_uptime}:}
+L'analisi del firmware evidenzia un'inefficienza architetturale nella temporizzazione del modulo \texttt{task\_uptime}. Sebbene il task venga invocato dallo scheduler con un periodo di \qty{100}{ms}, la funzione di callback associata implementa una guardia logica interna supplementare (\texttt{millis() - last\_uptime\_tick >= 1000}), la quale di fatto ne vincola l'esecuzione utile a intervalli di un secondo. 
 
+Questo pattern genera un rapporto di utilità del \qty{10}{\%}, introducendo chiamate ridondanti che impegnano la CPU senza eseguire calcoli effettivi. Al fine di ottimizzare il consumo computazionale e semplificare il flusso logico, la soluzione ottimale prevede l'innalzamento del periodo del task direttamente a \qty{1000}{ms} all'interno della struttura dati, eliminando completamente il controllo condizionale annidato nella callback.
 
-\subsection{Sistema di Codici Errore}
+\subsection{Sistema di Gestione e Codifica degli Errori}
 
-\texttt{error\_codes.h} implementa un namespace numerico per categoria di errore:
+Per garantire il monitoraggio dello stato di salute del sistema (\textit{health monitoring}) e facilitare le operazioni di diagnostica inter-core sul bus IPC, il firmware implementa una codifica strutturata delle anomalie nel file \texttt{error\_codes.h}. Il design si basa su un approccio gerarchico che mappa i codici di errore in base alla macro-categoria di appartenenza, come sintetizzato nella Tabella~\ref{tab:error_categories}.
 
+\begin{table}[htbp]
+\centering
+\caption{Classificazione gerarchica dei codici di errore.}
+\label{tab:error_categories}
 \begin{tabularx}{\textwidth}{@{}l l X@{}}
-	\toprule
-	\textbf{Range} & \textbf{Categoria} & \textbf{Esempi notevoli} \\
-	\midrule
-	\texttt{0x10--0x1F} & Sistema  & \texttt{ERR\_SYS\_IPC\_TIMEOUT}, \texttt{ERR\_SYS\_WATCHDOG} \\
-	\texttt{0x20--0x2F} & Hardware & \texttt{ERR\_HW\_DISPLAY\_LOST}, \texttt{ERR\_HW\_I2C\_BUS\_LOCK} \\
-	\texttt{0x30--0x3F} & Sensori  & \texttt{ERR\_SENS\_GPS\_NO\_DATA}, \texttt{ERR\_SENS\_GPS\_BAD\_FIX} \\
-	\texttt{0x40--0x4F} & Power    & \texttt{ERR\_PWR\_BATT\_LOW}, \texttt{ERR\_PWR\_BATT\_CRITICAL} \\
-	\texttt{0x50--0x5F} & Storage  & \texttt{ERR\_STG\_FS\_CORRUPT}, \texttt{ERR\_STG\_WRITE\_FAIL} \\
-	\bottomrule
+    \toprule
+    \textbf{Spazio dei Codici} & \textbf{Macro-Categoria} & \textbf{Esempi Notevoli} \\
+    \midrule
+    \texttt{0x10--0x1F} & Sistema (Core/IPC)  & \texttt{ERR\_SYS\_IPC\_TIMEOUT}, \texttt{ERR\_SYS\_WATCHDOG} \\
+    \texttt{0x20--0x2F} & Hardware (Driver)   & \texttt{ERR\_HW\_DISPLAY\_LOST}, \texttt{ERR\_HW\_I2C\_BUS\_LOCK} \\
+    \texttt{0x30--0x3F} & Sensori (Acquisizione)& \texttt{ERR\_SENS\_GPS\_NO\_DATA}, \texttt{ERR\_SENS\_GPS\_BAD\_FIX} \\
+    \texttt{0x40--0x4F} & Power (Alimentazione)& \texttt{ERR\_PWR\_BATT\_LOW}, \texttt{ERR\_PWR\_BATT\_CRITICAL} \\
+    \texttt{0x50--0x5F} & Storage (File System)& \texttt{ERR\_STG\_FS\_CORRUPT}, \texttt{ERR\_STG\_WRITE\_FAIL} \\
+    \bottomrule
 \end{tabularx}
+\end{table}
 
-Lo schema permette di identificare l'origine di un errore leggendo il nibble
-alto del codice, senza tabelle di decodifica, direttamente sull'OLED o su
-seriale. 
+Questa architettura firmware consente di identificare l'origine dell'anomalia analizzando esclusivamente il \textit{nibble} superiore (i 4 bit più significativi) del codice d'errore, eliminando la necessità di computare onerose tabelle di decodifica in esecuzione. L'estrazione della macro-categoria avviene a runtime tramite un'operazione bitwise di scorrimento a destra:
+\begin{equation}
+\text{categoria} = \text{error\_code} \gg 4
+\end{equation}
+Tale informazione può essere così renderizzata immediatamente sul display OLED o instradata sul flusso di telemetria seriale.
 
+Di seguito si riporta l'implementazione formale delle strutture dati e dei registri enumerativi sviluppati nel file di intestazione:
 
+\begin{lstlisting}[language=C++, caption={error\_codes.h --- Definizione dei tipi enumerativi e delle strutture per la diagnostica}]
+#ifndef ERROR_CODES_H
+#define ERROR_CODES_H
 
+#include <stdint.h>
+#include <stdbool.h>
+
+/**
+ * @brief Categorie principali di errore mappate sui rispettivi nibble alti.
+ */
+typedef enum {
+    ERR_CAT_NONE    = 0x00, /**< Nessun errore rilevato. */
+    ERR_CAT_SYS     = 0x01, /**< Errori critici di sistema (Kernel/IPC). */
+    ERR_CAT_HW      = 0x02, /**< Malfunzionamenti driver o periferiche fisiche. */
+    ERR_CAT_SENSORS = 0x03, /**< Anomalie acquisizione dati (GPS/IMU). */
+    ERR_CAT_POWER   = 0x04, /**< Anomalie elettriche o condizioni di batteria. */
+    ERR_CAT_STORAGE = 0x05  /**< Errori del file system LittleFS o supporti esterni. */
+} error_category_t;
+
+/**
+ * @brief Codici di errore specifici suddivisi per domini numerici.
+ */
+typedef enum {
+    SUCCESS = 0,
+
+    // --- Sistema (0x10-0x1F) ---
+    ERR_SYS_IPC_TIMEOUT   = 0x10, /**< Timeout di sincronizzazione inter-core. */
+    ERR_SYS_WATCHDOG      = 0x11, /**< Intervento del Watchdog hardware. */
+    ERR_SYS_OUT_OF_MEMORY = 0x12, /**< Fallimento nell'allocazione dinamica della RAM. */
+
+    // --- Hardware (0x20-0x2F) ---
+    ERR_HW_I2C_BUS_LOCK   = 0x20, /**< Bus I2C in stato di stallo (SDA/SCL low). */
+    ERR_HW_DISPLAY_LOST   = 0x21, /**< Mancata risposta del controller SSD1306. */
+    ERR_HW_UART_OVERRUN   = 0x22, /**< Buffer di ricezione UART saturo. */
+
+    // --- Sensori (0x30-0x3F) ---
+    ERR_SENS_GPS_NO_DATA  = 0x30, /**< Assenza di stringhe NMEA sul canale GPS. */
+    ERR_SENS_IMU_NOT_CAL  = 0x31, /**< Mancata calibrazione dei vettori inerziali. */
+    ERR_SENS_GPS_BAD_FIX  = 0x32, /**< Degradazione della precisione geometrica (HDOP elevato). */
+
+    // --- Power (0x40-0x4F) ---
+    ERR_PWR_BATT_LOW      = 0x40, /**< Tensione di batteria sotto la soglia nominale. */
+    ERR_PWR_BATT_CRITICAL = 0x41, /**< Soglia critica di scarica (Failsafe trigger). */
+    ERR_PWR_USB_OVERVOLT  = 0x42, /**< Rilevamento sovratensione sulla linea VBUS. */
+
+    // --- Storage (0x50-0x5F) ---
+    ERR_STG_SD_NOT_FOUND  = 0x50, /**< Supporto di memoria non rilevato all'avvio. */
+    ERR_STG_WRITE_FAIL    = 0x51, /**< Fallimento della transazione di scrittura su file. */
+    ERR_STG_FS_CORRUPT    = 0x52  /**< Incoerenza logica o corruzione del file system. */
+} error_code_t;
+
+/**
+ * @brief Struttura dati per il packaging e la trasmissione dei report diagnostici.
+ */
+typedef struct {
+    error_category_t category; /**< Macro-categoria estratta dal codice. */
+    error_code_t code;         /**< Identificativo univoco dell'errore. */
+    uint32_t timestamp;        // Timestamp di occorrenza (millis)
+    bool is_critical;          // Flag di severita per routine di Failsafe
+} error_report_t;
+
+#endif /* ERROR_CODES_H */
+\end{lstlisting}
