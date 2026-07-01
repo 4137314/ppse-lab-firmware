@@ -1,50 +1,252 @@
 \newpage
-\section{Sottosistema Firmware}
+\section{Sotto-sistema Software}
 
-\subsection{Strumenti di Sviluppo}
-\subsubsection*{Ambiente di sviluppo: PlatformIO}
+\subsection{Organizzazione del Codice Sorgente e Architettura dei File}
 
-Per lo sviluppo, la compilazione e il deploy del firmware è stato adottato l'ecosistema \textbf{PlatformIO} \cite{platformio_os}. A differenza degli IDE tradizionali, PlatformIO si configura come uno strumento professionale da linea di comando (\textit{CLI}) e un sistema di gestione delle build agnostico rispetto all'hardware. 
+L'architettura del firmware adotta un modello di sviluppo modulare basato sulla netta separazione tra le interfacce di dichiarazione (file header \texttt{.h}) e le rispettive logiche di implementazione (file sorgente \texttt{.cpp}). Questa compartmentalizzazione favorisce l'isolamento delle funzionalità, semplifica le procedure di verifica e ottimizza i tempi di compilazione incrementale gestiti da PlatformIO. La documentazione tecnica dettagliata e l'analisi approfondita del codice sono consultabili presso il repository ufficiale del progetto \cite{ppse_homepage}.
+
+L'albero strutturale della directory di sviluppo è organizzato secondo lo schema seguente:
+
+\begin{verbatim}
+firm/
+├── include/
+│   ├── core/         messages.h, system_manager.h, telemetry.h,
+│   │                 storage.h, config.h, error_codes.h
+│   ├── drivers/      display_ssd1306.h, inputs.h, sensors_i2c.h,
+│   │                 peripherals.h, radio_uart.h, config_pins.h
+│   ├── pipeline/     core0_manager.h, core1_manager.h, tasks.h
+│   ├── ui/           ui_manager.h, view_definitions.h, boot_anim.h
+│   └── util/         scheduler.h, target.h
+│
+├── src/
+│   ├── main.cpp
+│   ├── core/         system_manager.cpp, telemetry.cpp,
+│   │                 storage.cpp, config.cpp, power_manager.cpp
+│   ├── drivers/      display_ssd1306.cpp, inputs.cpp, sensors_i2c.cpp,
+│   │                 peripherals.cpp, radio_uart.cpp
+│   ├── pipeline/     core0_manager.cpp, core1_manager.cpp, tasks.cpp
+│   └── ui/           ui_manager.cpp, boot_anim.cpp
+│       └── views/    view_gps.cpp, view_home.cpp, view_info.cpp,
+│                     view_meteo.cpp, view_settings.cpp
+│
+└── lib/
+    └── minmea/       minmea.c, minmea.h
+\end{verbatim}
+
+\subsection{Toolchain e Build System}
+
+Il processo di compilazione del firmware si affida alla toolchain \texttt{arm-none-eabi-gcc}, integrata con il framework \textbf{Raspberry Pi RP2040 Arduino Core}. Quest'ultimo fornisce uno strato di compatibilità per le API Arduino sull'architettura RP2040, garantendo contestualmente l'accesso nativo alle librerie del \textit{pico-sdk}, al bootloader USB e al file system \textit{LittleFS}.
+
+Al fine di automatizzare le procedure di compilazione e deployment, il repository include un \textit{Makefile} principale. La logica di build è stata ingegnerizzata secondo criteri di modularità: l'automazione è parcellizzata in base all'ambito operativo e distribuita in moduli specifici con estensione \texttt{.mk}, allocati all'interno di sottodirectory dedicate.
+
+
+\subsubsection*{Flag di Compilazione}
+
+Tre macro del preprocessore modificano il comportamento del firmware durante la compilazione:
+
+\begin{tabularx}{\textwidth}{@{}l X@{}}
+	\toprule
+	\textbf{Flag} & \textbf{Effetto} \\
+	\midrule
+	\texttt{-DDEBUG=1} & Abilita output diagnostico sulla seriale. Il task \texttt{task\_health} è compilato solo con questo
+	flag attivo. \\ \\[4pt]
+	\texttt{-DDEFAULT\_BUZZER\_OFF} & Imposta \texttt{global\_cfg.buzzer\_enabled = false} in \texttt{config\_init()} e blocca \texttt{peripherals\_beep()} con un \texttt{return} anticipato a compile-time, al fine di debuggare il codice e caricarlo senza disturbo.\\ \\[4pt]
+	\texttt{-DFW\_VERSION=\textbackslash"...\textbackslash"} & Inserisce la stringa di versione nella view \texttt{INFO}. Generato automaticamente via \texttt{git describe --tags --always}. \\ \\
+	\bottomrule
+\end{tabularx}
+
+\subsubsection*{Makefile: Target Principali}
+
+Uno schema semplificato del sistema di build e' rappresentato dai seguenti target:
+
+\begin{lstlisting}[style=makefile, caption={Makefile --- target di sviluppo}]
+	# Compila e flasha con versione git automatica
+	flash:
+	pio -e pico --target upload
+	
+	# Scarica meteo dall'API e lo sincronizza sul dispositivo
+	sync-meteo:
+	@python3 tools/api-weather/pcb_bridge.py
+	
+	monitor:
+	pio device monitor
+\end{lstlisting}
+
+
+Il make target \texttt{sync-meteo} separa nettamente acquisizione dati (script Python lato PC per l'API OpenMeteo) e visualizzazione (lato firmware): la board non contiene alcuna logica di rete, riceve tutto via porta seriale nel formato \texttt{WXC,City,Temp,Wind,Hum,Code} e risponde \texttt{OK\_WXC} a conferma.
+
+
+Coerentemente con gli obiettivi di prototipazione del sistema, le funzionalità Wi-Fi del modulo \textbf{ESP-01} integrato a bordo non sono state attivate direttamente nel firmware dell'unità principale. L'interazione con la rete è stata invece emulata tramite uno script Python operante come bridge seriale, il quale simula la comunicazione con un host remoto connesso a Internet. Grazie alla modularità del software, l'architettura risulta intrinsecamente predisposta per sviluppi futuri: l'integrazione effettiva del modulo ESP-01 richiederebbe unicamente la riconfigurazione del livello di trasporto (sostituendo il canale seriale cablato con un socket wireless), lasciando inalterata la logica applicativa di parsing e visualizzazione dei dati.
+
+\subsubsection*{Versioning Firmware}
+
+La macro \texttt{FW\_VERSION} è utilizzata in \texttt{view\_info.cpp} con
+il fallback \texttt{"v0.0.0-unknown"} per build non provenienti da CI:
+
+\begin{lstlisting}[caption={view\_info.cpp --- versione iniettata a compile-time}]
+	#ifndef FW_VERSION
+	#define FW_VERSION "v0.0.0-unknown"
+	#endif
+	canvas->print(F("VERSIONE: "));
+	canvas->print(FW_VERSION);    // stringa in flash tramite macro F()
+\end{lstlisting}
+
+L'uso di \texttt{F()} (progmem wrapper di Arduino) mantiene la stringa "VERSIONE: " in flash invece di copiarla in SRAM.
 
 
 
-L'adozione di questa tecnologia ha offerto diversi vantaggi determinanti per il rigore ingegneristico del progetto:
-\begin{itemize}
-    \item \textbf{Gestione Granulare delle Dipendenze}: Tramite il \textit{Library Manager} integrato, è possibile dichiarare versioni specifiche delle librerie (es. Adafruit GFX, LittleFS), garantendo che il firmware sia riproducibile e non soggetto a \textit{breaking changes} dovute ad aggiornamenti automatici non controllati.
-    \item \textbf{Automazione della Build}: PlatformIO automatizza l'intero workflow di compilazione per l'architettura ARM Cortex-M0+ dell'RP2040, gestendo internamente la toolchain \texttt{arm-none-eabi-gcc} e l'integrazione con il framework \textbf{Arduino-mbed} \cite{pico_arduino_core}.
-    \item \textbf{Integrazione con Version Control}: Grazie alla configurazione dichiarativa nel file \texttt{platformio.ini}, l'intero ambiente di sviluppo può essere tracciato tramite sistemi di controllo versione (Git), permettendo a diversi sviluppatori di operare su macchine diverse con la certezza di utilizzare i medesimi flag di compilazione (\texttt{-Os}, \texttt{-DDEBUG}) e partizioni di memoria.
-\end{itemize}
+\subsection{PlatformIO e l'Ecosistema RP2040}
 
-\paragraph{Configurazione del progetto: platformio.ini}
-Il cuore della configurazione risiede nel file \texttt{platformio.ini}. Questo file permette di definire in modo dichiarativo l'hardware di destinazione, la versione del framework e le librerie necessarie, garantendo la riproducibilità dell'ambiente di build su macchine diverse.
+\subsubsection*{Perché PlatformIO?}
 
-Un aspetto fondamentale per questo progetto è stata la configurazione della partizione di memoria dedicata a \textbf{LittleFS}. 
-Tramite il parametro \texttt{board\_build.filesystem\_size}, è stato possibile riservare una porzione specifica della Flash W25Q16 per l'archiviazione dei log.
+La configurazione dell'ecosistema è stata intenzionalmente centralizzata all'interno del file \texttt{platformio.ini}, escludendo qualsiasi dipendenza dalle impostazioni locali dell'IDE (VS Code). Questo approccio garantisce la totale portabilità del progetto e la riproducibilità del build system su qualsiasi macchina o pipeline di Continuous Integration (CI), indipendentemente dall'editor utilizzato dallo sviluppatore.
+
+La sua funzione principale è eliminare la gestione manuale della toolchain; provvede autonomamente a scaricare compilatore, librerie, script di link e tool di upload nelle versioni esatte specificate.
+
+\subsubsection*{I Due Framework per RP2040: la Scelta Pratica}
+Nel contesto di questo progetto il Raspberry Pi Pico è supportato da due framework basati su Arduino con filosofie molto diverse. PlatformIO consente di selezionare quello desiderato con una singola riga di configurazione, senza toccare il codice sorgente.
 
 
-\paragraph{Workflow da terminale}
-L'utilizzo della \textit{Command Line Interface} (CLI) di PlatformIO ha permesso di velocizzare le operazioni di debug e caricamento.
+\textbf{Mbed OS} è il framework ``ufficiale'' di Arduino per Raspberry Pi Pico. Usa il pico-sdk sottostante ma lo avvolge nell'astrazione Mbed, che introduce un RTOS leggero\footnote{Real-Time Operating System: un sistema operativo specializzato per applicazioni embedded in cui il tempo di esecuzione dei task e la gestione delle priorità sono deterministici, garantendo risposte in tempo reale agli eventi hardware.}, un HAL proprio\footnote{Hardware Abstraction Layer: uno strato software che interpone un livello di astrazione tra l'hardware fisico del silicio e l'applicazione, uniformando le API ma introducendo potenzialmente un overhead computazionale.} e convenzioni diverse. Il problema pratico è che il supporto dual-core tramite \texttt{setup1()}/\texttt{loop1()}, LittleFS nativa e le istanze \texttt{Serial1}/\texttt{Serial2} mappate liberamente su GPIO\footnote{General Purpose Input/Output: i pin digitali programmabili del microcontrollore che, nel caso dell'RP2040, possono essere associati dinamicamente a diverse periferiche interne (UART, I2C, SPI) tramite un multiplexer hardware interno.} sono assenti o limitate.
 
-L'astrazione fornita da PlatformIO permette di gestire la complessità della \textit{toolchain} ARM GCC in modo trasparente, lasciando che lo sviluppatore si concentri sulla logica dell'applicazione e sulla gestione degli interrupt.
+\textbf{Raspberry Pi RP2040 Arduino Core} (di earlephilhower) è un porting alternativo, mantenuto dalla community, che espone direttamente le API pico-sdk sotto interfaccia Arduino senza lo strato Mbed. Supporta il dual-core tramite \texttt{setup1()}/\texttt{loop1()}, LittleFS con partizionamento configurabile, seriale su qualsiasi coppia di GPIO UART, e dà accesso diretto ai registri hardware nativi\footnote{Strutture di memoria fisse collegate direttamente alla logica digitale del chip; la manipolazione diretta dei registri (\textit{bare-metal}) scavalca le funzioni di astrazione del framework, azzerando le latenze e sbloccando le funzionalità specifiche del silicio, come le macchine a stati del PIO o i meccanismi di sincronizzazione hardware (spin lock).} (\texttt{watchdog\_hw}, spin lock, PIO) senza conflitti.
+
+La configurazione in \texttt{platformio.ini} è la seguente:
+
+\begin{lstlisting}[style=ini, caption={platformio.ini --- selezione framework e core}]
+	[env:pico]
+	platform  = https://github.com/maxgerhardt/platform-raspberrypi.git
+	board     = pico
+	framework = arduino
+	board_build.core = earlephilhower
+\end{lstlisting}
+
+\subsubsection*{Partizionamento della Flash}
+ 
+Firmware e filesystem non possono sovrapporsi, perciò il partizionamento è dichiarato nel \texttt{platformio.ini} e il linker script generato dal framework "Raspberry Pi RP2040 Arduino Core" segue quella definizione:
+
+\begin{lstlisting}[style=ini, caption={platformio.ini --- layout flash}]
+	board_build.filesystem      = littlefs
+	board_build.filesystem_size = 0.5m       ; 512 KB per LittleFS
+	board_build.maximum_size    = 2097152    ; 2 MB totale
+\end{lstlisting}
+
+Con questi valori i primi 1.5~MB sono dedicati al firmware (codice + costanti), gli ultimi 512~KB sono la partizione LittleFS. 
+In pratica, \texttt{LittleFS.begin()} monta la partizione a partire dall'offset calcolato e qualsiasi \texttt{open()}/\texttt{write()} rimane confinato in quello spazio.
+
+\subsubsection*{Gestione delle Librerie}
+
+Le librerie esterne sono dichiarate nella sezione \texttt{lib\_deps} di \texttt{platformio.ini}:
+
+\begin{lstlisting}[style=ini, caption={platformio.ini --- dipendenze librerie}]
+	lib_deps =
+	adafruit/Adafruit BusIO @ ^1.17.4
+	adafruit/Adafruit GFX Library @ ^1.12.5
+	adafruit/Adafruit SSD1306 @ ^2.5.16
+	adafruit/Adafruit NeoPixel @ ^1.15.4
+	fastled/FastLED @ 3.9.4
+	olikraus/U8g2
+\end{lstlisting}
+
+PlatformIO scarica ciascuna libreria nella cartella \texttt{.firm-build/libdeps/} al primo build e le riutilizza nelle build successive.
+
+La notazione \texttt{\^{ }1.17.4} significa ``$\geq$1.17.4 ma $<$2.0.0''; FastLED invece è fissato a \texttt{3.9.4}.
+
+La libreria \texttt{minmea} non appare in \texttt{lib\_deps} perché è una dipendenza non presente nella raccolta di platformio; nel repository risiede direttamente in \texttt{lib/minmea/} e viene inclusa tramite \texttt{build\_src\_filter} e il flag \texttt{-I lib/minmea}.
+
+\paragraph{Selezione dei File Sorgente:}
+
+PlatformIO di default compila tutto ciò che trova in \texttt{src/}, tuttavia usare \texttt{build\_src\_filter} rende esplicito quali file compilare:
+
+\begin{lstlisting}[style=ini, caption={platformio.ini --- filtro sorgenti}]
+	build_src_filter =
+	+<src/main.cpp>
+	+<src/core/*.cpp>
+	+<src/drivers/*.cpp>
+	+<src/ui/*.cpp>
+	+<src/ui/views/*.cpp>
+	+<src/pipeline/*.cpp>
+	+<lib/minmea/minmea.c>
+\end{lstlisting}
+
+\subsubsection*{Upload con picotool}
+
+
+
+Il metodo standard di upload del firmware è il drag-and-drop del file UF2 sulla USB Mass Storage che appare tenendo premuto BOOTSEL al reset. \textbf{picotool} è un tool ufficiale di Raspberry Pi che bypassa questo meccanismo e carica il firmware direttamente via USB senza richiedere BOOTSEL. In pratica:
+
+\begin{enumerate}
+	\item Si esegue \texttt{pio run --target upload} (o \texttt{make flash});
+	
+	\item PlatformIO invoca \texttt{picotool load firmware.uf2};
+	
+	\item picotool parla con la board via USB, carica il firmware e forza il reboot;
+\end{enumerate}
+
+\begin{lstlisting}[style=ini, caption={platformio.ini --- upload tool}]
+	upload_protocol = picotool
+\end{lstlisting}
+
+picotool può anche leggere la flash (\texttt{picotool read}), verificare il binario caricato.
+
+\subsection{Conflitti tra Arduino, pico-sdk e Librerie Esterne e relative soluzioni}
+\label{sec:conflitti}
+
+La coesistenza di arduino-pico, pico-sdk e librerie come FastLED genera una serie di conflitti che il file \texttt{platformio.ini} risolve esplicitamente tramite define di preprocessore.
+
+\subsubsection*{Assenza della funzione timegm in ambiente bare-metal}
+
+\begin{lstlisting}[style=ini]
+	-D timegm=mktime
+\end{lstlisting}
+
+La funzione \texttt{timegm()} converte una struttura \texttt{struct tm} in un timestamp Unix assumendo che l'input sia espresso in UTC. Pur essendo comunemente disponibile su sistemi Linux e macOS, si tratta di un'estensione non inclusa nello standard ISO C.
+
+Poiché la libreria \texttt{minmea} fa uso di \texttt{timegm()} all'interno di \texttt{minmea\_gettime()}, è necessario fornire un'alternativa in fase di compilazione. La soluzione adottata consiste nel rimappare il simbolo su \texttt{mktime()} tramite una direttiva al preprocessore.
+
+Nonostante dal punto di vista semantico le due funzioni differiscano - \texttt{mktime} interpreta l'input come ora locale e non come UTC - sull'RP2040 non è configurato alcun fuso orario. Di conseguenza, nel nostro specifico contesto operativo, il comportamento di \texttt{mktime()} risulta del tutto equivalente.
+
+\subsubsection*{Buffer seriali e NMEA}
+
+\begin{lstlisting}[style=ini]
+	-D SERIAL_RX_BUFFER_SIZE=256
+	-D SERIAL_TX_BUFFER_SIZE=256
+\end{lstlisting}
+
+Il buffer UART di default in arduino-pico è 64~byte. Una sentence NMEA può essere di massimo 82~caratteri; con il buffer a 64~byte, una sentence ''lenta'' a processare sovrascrive il buffer prima che venga letta, producendo dati troncati o corrotti. Espandere a 256~byte garantisce che almeno tre sentence complete possano stare in coda senza perdite (a patto che il parsing sia altrettanto veloce).
+
+\subsubsection*{Stack USB: TinyUSB}
+
+\begin{lstlisting}[style=ini]
+	board_build.usb_stack = tinyusb
+\end{lstlisting}
+
+arduino-pico supporta due stack USB: quello interno del pico-sdk e TinyUSB.
+TinyUSB è preferibile, perché supporta CDC (porta seriale virtuale), MSC (mass storage per upload firmware) e HID simultaneamente.
+
+
+
+\subsection{Ottimizzazioni di co-design software-hardware}
 
 \subsubsection*{Librerie e Dipendenze Software}
 
-\paragraph{Analisi dello Stack Software e Dipendenze}
 Per l'implementazione del middleware e dei driver di periferica, sono state selezionate librerie ottimizzate per l'ambiente \textit{bare-metal}, privilegiando l'efficienza nell'uso delle risorse e la stabilità del sistema a lungo termine.
 
 \paragraph{Parsing GNSS: minmea}
 
-Per l'estrazione delle coordinate geografiche e del timestamp UTC dalle sentenze NMEA fornite dal modulo SAM-M8Q \cite{sam_m8q_ds}, è stata integrata la libreria minmea \cite{minmea_lib}. Si tratta di un parser scritto in C99, estremamente leggero e adatto a sistemi \textit{resource-constrained} poiché non fa uso di memoria dinamica (\textit{heap}), evitando così problemi di frammentazione della RAM durante sessioni di logging prolungate.
+Per l'estrazione delle coordinate geografiche e del timestamp UTC dalle frasi NMEA fornite dal modulo SAM-M8Q \cite{sam_m8q_ds}, è stata integrata la libreria minmea \cite{minmea_lib}. Si tratta di un parser scritto in C99, estremamente leggero e adatto a sistemi \textit{resource-constrained} poiché non fa uso di memoria dinamica (\textit{heap}), evitando così problemi di frammentazione della RAM durante sessioni di logging prolungate.
 
-Per elaborare i dati in arrivo dalla UART, il firmware identifica l'intestazione della sentenza e la passa al parser per la conversione in strutture dati fruibili.
+Per elaborare i dati in arrivo dalla UART, il firmware identifica l'intestazione della frase e la passa al parser per la conversione in strutture dati fruibili.
 
-L'utilizzo di \texttt{minmea} garantisce che il parsing avvenga in un intervallo temporale deterministico, riducendo la latenza di elaborazione e assicurando che il Core 0 possa gestire simultaneamente gli interrupt della seriale e la logica di controllo senza perdita di pacchetti.
+L'utilizzo di \texttt{minmea} garantisce che il parsing avvenga in un intervallo temporale deterministico, riducendo la latenza di elaborazione e assicurando che il Core 1 possa gestire simultaneamente gli interrupt della seriale e la logica di controllo senza perdita di pacchetti.
 
 \paragraph{Interfaccia Visuale: SSD1306 e Adafruit GFX}
 
-La comunicazione visiva con l'utente avviene tramite un display OLED gestito via I2C. Per astrarre la complessità del disegno dei caratteri e delle primitive grafiche, si utilizzano le librerie Adafruit GFX \cite{adafruit_gfx} e Adafruit SSD1306 \cite{adafruit_ssd1306}. Il display viene inizializzato definendo l'indirizzo I2C (tipicamente \texttt{0x3C}) e allocando il buffer necessario per la gestione dei pixel.
+La comunicazione visiva con l'utente è affidata a un display OLED interfacciato tramite il bus seriale I2C0 nativo del SoC RP2040. Al fine di astrarre la complessità legata alla renderizzazione dei font alfanumerici e delle primitive grafiche, il firmware integra le librerie Adafruit GFX \cite{adafruit_gfx} e Adafruit SSD1306 \cite{adafruit_ssd1306}. 
 
-Per massimizzare l'efficienza, il firmware opera tramite un \textit{framebuffer} in RAM: tutte le operazioni di disegno vengono effettuate localmente e trasmesse al controller \texttt{SSD1306} solo tramite la funzione \texttt{display.display()} NOTA=DA RIVEDERE QUESTA FUNZIONE. Questo approccio riduce il traffico sul bus I2C e previene fenomeni di sfarfallio (\textit{flickering}) durante l'aggiornamento dei dati meteo o delle coordinate in tempo reale.
+In fase di boot, la periferica viene inizializzata impostando l'indirizzo slave I2C (\texttt{0x3C}) e allocando nello spazio di memoria RAM del microcontrollore il buffer necessario alla gestione dei pixel.
+
+Per ottimizzare le prestazioni complessive del sistema e mitigare i vincoli di banda del canale seriale, il firmware adotta un'architettura basata su \textit{framebuffer} locale. Tutte le operazioni di scrittura e disegno geometrico modificano esclusivamente la matrice di pixel allocata nella RAM dell'RP2040. Il trasferimento fisico dei dati verso la GDDRAM (\textit{Graphic Display Data RAM}) del controller \texttt{SSD1306} avviene in modo atomico e sequenziale solo a seguito dell'invocazione della funzione di gestione \texttt{display\_show()} (la quale agisce da wrapper ed esegue internamente il metodo \texttt{canvas->display()} sul puntatore della libreria Adafruit). Questo approccio centralizzato riduce al minimo l'overhead di comunicazione sul bus I2C — rendendo il trasferimento dei dati un'operazione concentrata nel tempo — e previene fenomeni di sfarfallio (\textit{flickering}) visivo durante l'aggiornamento in tempo reale delle coordinate GNSS e dei parametri ambientali.
 
 \paragraph{Feedback Cromatico: FastLED e Offloading PIO}
 
@@ -54,41 +256,77 @@ Il sistema utilizza i LED per fornire un feedback immediato sull'integrità del 
 
 \paragraph{Filesystem: LittleFS}
 
-Per la gestione dell'archiviazione dei log e di parametri da salvare in memoria non volatile (Flash W25Q16 \cite{w25q128_ds}), si rende necessario l'uso di un filesystem. É stato scelto il filesystem LittleFS \cite{fastled_lib} \cite{littlefs_repo}, ottimizzato e pensato per memorie con bassa vita in scrittura (100.000 scritture per settore nel nostro caso), fa un uso minimo della ROM e indipendente dalle dimensioni del FS; inoltre é resiliente a perdite di alimentazione improvvise. La documentazione per l'uso dell'API si trova qui \cite{pico_arduino_core}. 
+Per la gestione dell'archiviazione dei log e di parametri da salvare in memoria non volatile (Flash \textbf{W25Q16JV} \cite{w25q16_ds}), si rende necessario l'uso di un filesystem. \`E stato scelto il filesystem LittleFS \cite{littlefs_repo}, ottimizzato e pensato per memorie con bassa vita in scrittura (100.000 scritture per settore nel nostro caso); esso fa un uso minimo della ROM ed è indipendente dalle dimensioni del FS, dimostrandosi resiliente a perdite di alimentazione improvvise. La documentazione per l'uso dell'API si trova qui \cite{pico_arduino_core}. 
 
-Il programma utilizza la memoria flash per salvare l'ultima posizione valida del gps in modo che ve ne sia sempre una di fallback.
+Il programma utilizza la memoria flash per salvare l'ultima posizione valida del GPS in modo che ve ne sia sempre una di fallback.
 Anche i dati meteo ritornati dal programma sul PC via UART vengono salvati in flash, permettendo di mantenerli anche se il PC viene scollegato e la board spenta.
+
+
 
 \subsubsection*{Offloading Computazionale tramite PIO}
 
-Una delle sfide critiche nello sviluppo del firmware è stata la gestione della concorrenza tra il protocollo dei LED \textbf{WS2812B} e il flusso dati asincrono del modulo GNSS. I LED NeoPixel richiedono una modulazione degli impulsi con timing estremamente rigorosi (nell'ordine dei nanosecondi). Le implementazioni software tradizionali (\textit{bit-banging}) soddisfano questi requisiti entrando in una sezione critica in cui vengono **disabilitati globalmente gli interrupt**. 
+Una delle sfide critiche nello sviluppo del firmware è stata la gestione della concorrenza tra il protocollo dei LED \textbf{WS2812B} e il flusso dati asincrono del modulo GNSS. I LED richiedono una modulazione degli impulsi con timing estremamente rigorosi (nell'ordine dei nanosecondi). Le implementazioni software tradizionali (\textit{bit-banging}) soddisfano questi requisiti entrando in una sezione critica in cui vengono \textbf{disabilitati globalmente gli interrupt}. 
 
-Tale approccio è incompatibile con il data-logging GNSS: la disabilitazione degli interrupt, anche per pochi millisecondi, causa l'overflow del buffer della UART, portando alla perdita di byte fondamentali nelle sentenze NMEA. Per ovviare a questo limite, è stato utilizzato il sottosistema \textbf{PIO} (\textit{Programmable I/O}) dell'RP2040:
+Tale approccio è incompatibile con il data-logging GNSS: la disabilitazione degli interrupt, anche per pochi millisecondi, causa l'overflow del buffer della UART, portando alla perdita di byte fondamentali nelle frasi NMEA. Per ovviare a questo limite, è stato utilizzato il sottosistema \textbf{PIO} (\textit{Programmable I/O}) dell'RP2040:
 
 \begin{itemize}
-    \item \textbf{Parallelismo hardware e Determinismo}: Una macchina a stati dedicata (\textit{State Machine}) esegue un micro-codice assembly specifico per generare le forme d'onda. Questo processo avviene in modo totalmente indipendente dai cicli di clock dei core ARM, garantendo un segnale privo di \textit{jitter}.
+    \item \textbf{Parallelismo hardware e Determinismo}: Una macchina a stati dedicata (\textit{State Machine}) esegue un programma PIO in assembly dedicato per generare le forme d'onda. Questo processo avviene in modo totalmente indipendente dai cicli di clock dei core ARM, garantendo un segnale privo di \textit{jitter}.
     \item \textbf{Comunicazione tramite FIFO}: Il \textit{Core 0} carica i dati cromatici in un buffer hardware di tipo \textbf{FIFO} (\textit{First-In-First-Out}). Una volta trasferito il dato, la CPU torna immediatamente a gestire il parsing NMEA, mentre il PIO svuota il buffer pilotando fisicamente il pin.
 \end{itemize}
-
-
 
 \paragraph{Sincronizzazione e Protocollo WS2812B}
 
 L'implementazione sfrutta un programma PIO che traduce ogni bit di colore in una sequenza di impulsi \texttt{HIGH}/\texttt{LOW} con rapporto ciclico (\textit{duty cycle}) variabile. Questo permette di delegare interamente la gestione del tempo all'hardware dedicato.
 
-Questa architettura realizza un vero e proprio \textbf{offloading hardware}: il processore non deve più attendere il completamento della trasmissione seriale verso i LED (operazione intrinsecamente lenta e bloccante), ma può dedicarsi esclusivamente al mantenimento dell'integrità dei dati di navigazione provenienti dal modulo \textbf{SAM-M8Q}.
+Questa architettura realizza un vero e proprio \textbf{offloading hardware}: il processore non deve più attendere il completamento della trasmissione seriale verso i LED (operazione intrinsecamente lenta e bloccante), ma può dedicarsi esclusivamente ad altre operazioni.
 
 \paragraph{Gestione dei Conflitti di Interrupt}
 
 In un sistema embedded senza PIO, l'arrivo di un byte sulla UART durante la trasmissione verso i LED genererebbe una \textbf{Interrupt Latency} inaccettabile. Se l'interrupt venisse servito, il segnale dei LED si corromperebbe (causando sfarfallio); se venisse ignorato, il byte UART andrebbe perso. 
 
-
-
 L'offloading su PIO risolve il dilemma alla radice: poiché il PIO non può essere interrotto da eventi software, il protocollo fisico dei LED rimane stabile, mentre i core ARM restano sempre disponibili per rispondere istantaneamente agli interrupt della UART e dei pulsanti GPIO (\textit{falling edge}), garantendo un sistema realmente \textit{real-time}.
 
-\subsection{Periferiche e Persistenza}
 
-Per la memorizzazione non volatile dei log GNSS e dei parametri di sistema, il progetto integra una memoria Flash NOR \textbf{Winbond W25Q128JV} \cite{w25q128_ds}. Il chip, con una capacità di \qty{128}{Mbit} (\qty{16}{MB}), comunica con l'RP2040 tramite interfaccia \textit{Quad-SPI} (QSPI), garantendo un throughput di dati elevato e latenze ridotte durante le operazioni di scrittura intensiva.
+
+\subsubsection*{SystemDataPacket}
+La struttura dati principale dedicata alla telemetria è definita nel file \texttt{messages.h}. A questa definizione viene applicato l'attributo \texttt{\_\_attribute\_\_((packed))} per forzare un layout compatto in memoria:
+
+\begin{lstlisting}[caption={messages.h --- Struttura telemetrica senza padding}]
+	typedef struct __attribute__((packed)) {
+		double   latitude;
+		double   longitude;
+		float    altitude_m;
+		float    speed_ms;
+		uint8_t  satellites;
+		uint8_t  gps_status;         
+		float    pitch, roll, yaw;   
+		float    battery_v;
+		float    temp_c;
+		uint32_t uptime_s;
+		WeatherDataPacket weather; 
+		error_report_t    last_error;
+		struct {
+			uint8_t is_armed     : 1;
+			uint8_t is_logging   : 1;
+			uint8_t wifi_active  : 1;
+			uint8_t error_active : 1;
+		} flags;
+	} SystemDataPacket;
+\end{lstlisting}
+
+L'utilizzo del tipo \texttt{double} (a 64 bit) per le coordinate geografiche rappresenta una scelta progettuale ben precisa. Il tipo \texttt{float} standard garantisce infatti circa 7 cifre significative totali, un valore a bassa precisione per le coordinate globali. 
+
+Ad esempio, in una latitudine europea come $46.073452^\circ$, la parte intera impegna già le prime due cifre significative, lasciandone solo cinque per la parte decimale (il che si traduce in una risoluzione spaziale limitata a circa $1.1$ metri). 
+
+Il formato \texttt{double}, offrendo 15 cifre significative, porta la risoluzione teorica a un livello millimetrico. Sebbene questo grado di dettaglio superi l'accuratezza del modulo GPS SAM-M8Q, risulta fondamentale per prevenire la perdita di precisione e garantire un \emph{logging} accurato.
+
+Per ottimizzare lo spazio occupato, il campo \texttt{flags} sfrutta la sintassi dei \emph{bit-field}, raggruppando quattro indicatori di stato booleani all'interno di un singolo byte e mantenendo un'elevata leggibilità del codice. 
+
+Infine, l'impiego della direttiva \texttt{packed} impone al compilatore di eliminare qualsiasi byte di riempimento (\emph{padding}) tra i campi contigui. Ciò si traduce in un \emph{layout} di memoria compatto e strettamente deterministico, requisito essenziale per preservare l'integrità dei dati durante la serializzazione binaria verso la memoria Flash e nelle comunicazioni IPC.
+
+\subsection{Periferiche e Persistenza in memoria}
+
+Per la memorizzazione non volatile dei log GNSS e dei parametri di sistema, il progetto integra una memoria Flash NOR \textbf{Winbond W25Q16JV} \cite{w25q16_ds}. Il chip, con una capacità di \qty{16}{Mbit} (\qty{2}{MB}), comunica con l'RP2040 tramite interfaccia \textit{Quad-SPI} (QSPI), garantendo un throughput di dati elevato e latenze ridotte durante le operazioni di scrittura intensiva.
 
 \subsubsection*{Modulo GNSS: u-blox SAM-M8Q}
 Il sistema di posizionamento si affida al modulo \textbf{u-blox SAM-M8Q} \cite{sam_m8q_ds}, un ricevitore GNSS (\textit{Global Navigation Satellite System}) di fascia professionale che integra un'antenna \textit{patch} ceramica pre-accordata. 
@@ -97,25 +335,334 @@ L'integrazione di questo componente offre diversi vantaggi tecnologici fondament
 
 \begin{itemize}
     \item \textbf{Ricezione Multi-Costellazione}: Il modulo supporta la ricezione simultanea di tre sistemi GNSS (GPS, Galileo e GLONASS). Questa capacità permette di agganciare un numero superiore di satelliti rispetto ai ricevitori a singola costellazione, garantendo una precisione sub-metrica e un fix della posizione estremamente rapido (\textit{Time To First Fix}) anche in condizioni di scarsa visibilità del cielo.
-    \item \textbf{Protocollo di Comunicazione}: Il modulo comunica con il microcontrollore tramite interfaccia UART. Le sentenze \textbf{NMEA 0183} vengono trasmesse serialmente e processate dal firmware per estrarre coordinate, altitudine e timestamp UTC. 
-    \item \textbf{Integrità del Segnale}: Come evidenziato nello schematico, il modulo è alimentato tramite la linea a \qty{3.3}{V} filtrata dall'LDO dedicato. La scelta di un'antenna integrata minimizza le perdite di segnale dovute a disadattamenti di impedenza, tipiche delle soluzioni con antenna esterna e connettore SMA.
+    \item \textbf{Protocollo di Comunicazione}: Il modulo comunica con il microcontrollore tramite interfaccia UART. Le sentenze \textbf{NMEA 0183} vengono trasmesse serialmente e processate dal firmware per estrarre coordinate, altitudine e timestamp UTC.
+	\item \textbf{Integrità del Segnale}: Il modulo è alimentato tramite la linea a \qty{3.3}{V} filtrata dall'LDO dedicato. La scelta di un'antenna integrata minimizza le perdite di segnale dovute a disadattamenti di impedenza, tipiche delle soluzioni con antenna esterna e connettore SMA.
 \end{itemize}
 
-L'output seriale del SAM-M8Q viene gestito in modo asincrono dal \textit{Core 0} dell'RP2040 \cite{rp2040_ds}\footnote{Mentre il \textit{Core 1} è dedicato esclusivamente al calcolo della cinematica e all'aggiornamento del display OLED.}, permettendo di mantenere un flusso di log costante sulla Flash senza interferire con le altre funzioni del sistema.
+L'output seriale del SAM-M8Q viene gestito in modo asincrono dal \textit{Core 1} dell'RP2040 \cite{rp2040_ds}, permettendo di mantenere un flusso di log costante sulla Flash senza interferire con le altre funzioni del sistema.
 
 \subsubsection*{File System: Integrità e Wear Leveling con LittleFS}
 
-Data la natura della memoria Flash, soggetta a un numero finito di cicli di cancellazione (tipicamente $10^5$ cicli per settore), la gestione dei dati non avviene tramite scrittura grezza (\textit{raw}), ma attraverso il file system \textbf{LittleFS}. L'adozione di questo file system \textit{open-source}, ottimizzato per microcontrollori, offre vantaggi cruciali per un data-logger professionale:
+Data la natura della memoria Flash, soggetta a un numero finito di cicli di cancellazione ($10^5$ cicli per settore), la gestione dei dati non avviene tramite scrittura grezza, ma attraverso il filesystem \textbf{LittleFS}. L'adozione di questo filesystem \textit{open-source}, ottimizzato per microcontrollori, offre vantaggi cruciali per un data-logger professionale:
 
 \begin{itemize}
-    \item \textbf{Wear Leveling}: LittleFS distribuisce uniformemente le operazioni di scrittura su tutti i blocchi della memoria, evitando l'usura precoce dei settori iniziali e prolungando drasticamente la vita utile della \textit{W25Q128JV}.
-    \item \textbf{Power-loss Resilience}: Il file system è progettato per gestire interruzioni improvvise dell'alimentazione. Grazie a una struttura a "copy-on-write", i dati preesistenti non vengono sovrascritti finché la nuova operazione non è completata, garantendo l'integrità dei log anche in caso di distacco della batteria.
+
+    \item \textbf{Wear Leveling}: LittleFS distribuisce uniformemente le operazioni di scrittura su tutti i blocchi della memoria, evitando l'usura precoce dei settori iniziali e prolungando drasticamente la vita utile della \textit{W25Q16JV}.
+    \item \textbf{Power-loss Resilience}: Il file system è progettato per gestire interruzioni improvvise dell'alimentazione. Grazie a una struttura "copy-on-write", i dati preesistenti non vengono sovrascritti finché la nuova operazione non è completata, garantendo l'integrità dei log anche in caso di distacco della batteria.
     \item \textbf{Gestione dei Bad Blocks}: Il sistema è in grado di rilevare e isolare dinamicamente eventuali blocchi danneggiati della Flash, mantenendo l'affidabilità del logging nel tempo.
 \end{itemize}
 
+Come altra misura preventiva, la scrittura su \texttt{/gps.log} passa attraverso due filtri distinti prima
+di toccare la flash.
 
-\subsubsection*{Strategia di Logging e Concorrenza}
+Il primo, in \texttt{storage\_log\_gps\_fix()}, scarta coordinate troppo
+vicine a $(0,0)$ con una tolleranza di $10^{-4}$~gradi. Questo esclude
+la risposta di default del SAM-M8Q quando non ha segnale, che trasmette
+comunque sentence GGA con latitudine e longitudine a zero.
 
-Nel firmware sviluppato, la scrittura su LittleFS è affidata esclusivamente al \textit{Core 0}. Per ottimizzare le prestazioni e ridurre i tempi di accesso alla memoria, i dati provenienti dal modulo GNSS \cite{sam_m8q_ds} vengono prima accumulati in un buffer circolare nella RAM dell'RP2040 e successivamente riversati in un file binario giornaliero (es. \texttt{log\_240126.bin}).
+Il secondo, in \texttt{check\_and\_log\_gps()}, confronta la nuova posizione
+con l'ultima salvata e scrive solo se la variazione supera 0.005° in latitudine
+o longitudine:
 
-Questa separazione logica evita che le operazioni di \textit{I/O} sulla Flash, che possono richiedere diversi millisecondi per la cancellazione di un settore, interferiscano con il campionamento ad alta frequenza dei sensori ambientali gestito dal secondo core.
+\begin{lstlisting}[caption={telemetry.cpp --- filtro sul log GPS}]
+	static void check_and_log_gps(float lat, float lon) {
+		static float last_lat = 0, last_lon = 0;
+		if (abs(lat - last_lat) > 0.005f || abs(lon - last_lon) > 0.005f) {
+			storage_log_gps_fix(lat, lon);
+			last_lat = lat; last_lon = lon;
+		}
+	}
+\end{lstlisting}
+
+
+
+
+\subsection{Sistema di Telemetria GPS}
+
+\texttt{gps\_hw\_enable()} gestisce la sequenza di accensione del SAM-M8Q:
+attiva \texttt{SAM\_EN\_PIN} con logica negata (PMOS: LOW~=~ON), poi esegue
+un reset fisico via \texttt{SAM\_RST\_PIN} (LOW per 100~ms, poi HIGH) seguito
+da 1~s di attesa per la stabilizzazione dell'oscillatore interno. \texttt{Serial2} è configurato su GPIO~4/5
+a 9600~baud, il rate standard per il SAM-M8Q.
+
+\subsubsection*{Rate Limiting e Parsing NMEA}
+
+\texttt{telemetry\_update()} legge al massimo 64~byte da \texttt{Serial2} per
+iterazione. Senza questo limite, un burst di sentence NMEA potrebbe saturare
+il loop di Core~1 per decine di millisecondi, ritardando l'aggiornamento del
+dato condiviso fra i cores. I byte sono accumulati in \texttt{nmea\_buffer[128]} fino al
+carattere \texttt{'\textbackslash n'}, poi \texttt{process\_nmea()} analizza
+la sentence.
+
+Utilizziamo la stringa GGA perché fornisce il campo \texttt{satellites\_tracked}, altrimenti assente in RMC.
+Il parser considera valida esclusivamente una frase \textbf{GGA} con
+\texttt{fix\_quality > 0}.
+
+
+
+\begin{lstlisting}[caption={telemetry.cpp --- validazione fix GGA}]
+	static void process_nmea(const char* line) {
+		struct minmea_sentence_gga gga;
+		if (minmea_parse_gga(&gga, line) && gga.fix_quality > 0) {
+			float lat = minmea_tocoord(&gga.latitude);
+			float lon = minmea_tocoord(&gga.longitude);
+			uint32_t save = spin_lock_blocking(telemetry_lock);
+			telemetry_data.latitude   = lat;
+			telemetry_data.longitude  = lon;
+			telemetry_data.gps_status = true;
+			telemetry_data.satellites = gga.satellites_tracked;
+			last_fix_timestamp = millis();
+			spin_unlock(telemetry_lock, save);
+			check_and_log_gps(lat, lon);
+		}
+	}
+\end{lstlisting}
+
+Due soglie temporali indipendenti gestiscono la perdita di segnale:
+
+\begin{lstlisting}[caption={telemetry.cpp --- timeout fix e health check}]
+	if (telemetry_data.gps_status &&
+	(millis() - last_fix_timestamp > 3000)) {
+		telemetry_data.gps_status = false;
+		telemetry_data.satellites = 0;
+	}
+
+	bool telemetry_is_healthy() {
+		if (last_fix_timestamp == 0) return true; // cold start
+		return (millis() - last_fix_timestamp) < 5000;
+	}
+\end{lstlisting}
+
+Il caso \texttt{last\_fix\_timestamp == 0} (nessun fix mai ricevuto) è trattato
+come stato sano: il sistema è in cold start e segnalare un errore prima che il
+modulo abbia avuto tempo di acquisire i satelliti produrrebbe un falso errore.
+
+
+\subsection{Architettura Multi-Core: organizzazione software}
+
+
+\subsubsection*{Divisione dei Ruoli}
+
+La separazione dei ruoli fra cores è interamente software. Il file \texttt{main.cpp} mappa le funzioni standard di Arduino (setup e  loop) tramite le seguenti definizioni appartenenti al framework (earlphilhower):
+
+\begin{lstlisting}[caption={main.cpp --- mapping dual-core}]
+	void setup1() { core1_setup(); }
+	void loop1()  { core1_loop();  }
+	
+	void setup() {
+		watchdog_hw->ctrl &= ~(1 << 30); // disabilita WDT
+		core0_setup();
+	}
+	void loop() { core0_loop(); }
+\end{lstlisting}
+
+
+\textbf{Core~0} (master) gestisce lo scheduler dei tasks, la UI, la
+comunicazione seriale, l'uptime, i LED e LittleFS. Esegue anche
+\texttt{telemetry\_update()} in \texttt{core0\_loop()} come parte dell'update rapido dei sensori locali.
+
+
+\textbf{Core~1} (worker) esegue un loop semplice e bloccante: chiama \texttt{telemetry\_update()} per leggere la UART GPS e processare le frasi NMEA; dopodiché trasferisce il risultato al Core~0 via IPC alla fine di ogni iterazione.
+
+
+
+
+\subsubsection*{IPC: Spin Lock su Memoria Condivisa}
+
+Come visto nella sezione (\ref{IPC}), l'RP2040 offre due meccanismi IPC hardware: 
+\begin{enumerate}
+	\item[-]  \textbf{FIFO inter-core}
+	
+	\item[-] \textbf{Spin locks}
+\end{enumerate}
+
+La scelta ricade sugli spin lock con memoria condivisa per una ragione pratica: \texttt{SystemDataPacket} è una struct di oltre 80~byte. Trasferirla via FIFO implicherebbe una  serializzazione in parole da 32~bit e riassemblaggio con corrispondente overhead e possibili race condition. 
+
+Attraverso la memoria condivisa, invece, il trasferimento non è più necessario:
+
+\begin{lstlisting}[caption={system\_manager.cpp --- accesso bloccante alla struct condivisa}]
+	static SystemDataPacket shared_data;
+	static spin_lock_t* data_lock =
+	spin_lock_init(spin_lock_claim_unused(true));
+	
+	bool sys_manager_send_data(SystemDataPacket* packet) {
+		uint32_t save = spin_lock_blocking(data_lock);
+		shared_data = *packet;
+		spin_unlock(data_lock, save);
+		return true;
+	}
+\end{lstlisting}
+
+
+\paragraph{Doppio Spin Lock e separazione degli ambiti:}
+
+Sono presenti due spin lock distinti: \texttt{telemetry\_lock} in
+\texttt{telemetry.cpp} protegge il buffer interno di Core~1 e
+\texttt{data\_lock} in \texttt{system\_manager.cpp} protegge la zona condivisa. Core~1 aggiorna \texttt{telemetry\_data} usando
+\texttt{telemetry\_lock} durante il parsing NMEA, e trasferisce verso \texttt{shared\_data} sotto \texttt{data\_lock} solo quando disponibile un dato verificato. 
+
+I due lock non sono mai acquisiti contemporaneamente, escludendo il rischio di deadlock.
+
+\subsubsection*{Strategia di Logging e Concorrenza fra Cores}
+Nel firmware sviluppato, la scrittura su LittleFS è affidata esclusivamente al \textit{Core 0} per garantire la massima stabilità del filesystem. Per evitare che le latenze intrinseche della memoria Flash (cancellazione settori) degradino le prestazioni del parsing NMEA, è stata implementata una netta separazione dei compiti: il \textit{Core 1} si occupa del parsing asincrono dei dati GNSS, mentre il \textit{Core 0} funge da orchestratore per le operazioni di I/O.
+
+Il log dei dati avviene tramite un approccio \textit{event-driven}: la scrittura su file (\texttt{/gps.log}) è condizionata da una logica di \textit{dead-band} (0.005° di tolleranza spaziale), che minimizza drasticamente il numero di cicli di scrittura. Questa scelta evita la necessità di complessi buffer circolari in RAM, mantenendo il firmware snello e resiliente. Il trasferimento dei dati validati dal \textit{Core 1} al \textit{Core 0} avviene tramite la memoria condivisa protetta dai \texttt{data\_lock}, assicurando che l'integrità del log sia preservata senza bloccare il flusso di acquisizione del segnale satellitare.
+
+\subsection{Scheduler dei Task e Cooperazione Multitasking}
+
+\subsubsection*{Design dell'Architettura Cooperativa}
+
+Per garantire un'esecuzione deterministica delle routine periodiche senza introdurre l'overhead computazionale e la complessità di memorizzazione di un RTOS preemttivo completo, il sistema adotta uno scheduler cooperativo minimale basato su time-slicing. 
+Lo scheduler è implementato con logica \textit{header-only} nel file \texttt{scheduler.h} mediante funzioni dichiarate \texttt{inline}, ottimizzando l'allineamento in memoria ed eliminando il costo di chiamata a funzione (\textit{function call overhead}) durante il ciclo di esecuzione principale.
+
+La struttura dati fondamentale e il motore di verifica del tempo sono definiti all'interno della struct \texttt{Task}:
+
+\begin{lstlisting}[language=C++, caption={scheduler.h --- Struttura dati e motore di esecuzione dei task}]
+typedef void (*TaskCallback)();
+
+typedef struct {
+    TaskCallback callback; // Puntatore alla funzione associata al task
+    uint32_t interval;     // Periodo di attivazione espresso in millisecondi
+    uint32_t last_run;     // Timestamp (millis) dell'ultima esecuzione completata
+} Task;
+
+inline void run_task(Task* t) {
+    uint32_t now = millis();
+    // Gestione nativa del rollover del timer hardware tramite aritmetica dei moduli
+    if (now - t->last_run >= t->interval) {
+        t->callback();
+        t->last_run = now;
+    }
+}
+\end{lstlisting}
+
+L'istanza di ciascun task sfrutta le espressioni lambda introdotte dallo standard C++11, permettendo di incapsulare in modo conciso la logica di interfacciamento direttamente in fase di allocazione statica:
+
+\begin{lstlisting}[language=C++, caption={core0\_manager.cpp --- Allocazione statica del task grafico dell'interfaccia utente}]
+static Task task_ui = {[]() {
+        SystemDataPacket frame;
+        if (sys_manager_receive_data(&frame)) {
+            ui_manager_update(&frame);
+        }
+    }, 33, 0}; // Frequenza di aggiornamento mirata a ~30 Hz
+\end{lstlisting}
+
+\subsubsection*{Pianificazione dei Task sul Core 0}
+
+Il ciclo di esecuzione principale del \textit{Core 0} (\texttt{core0\_loop}) interroga sequenzialmente le funzioni di controllo dei singoli task registrati. Nella Tabella~\ref{tab:scheduler_core0} viene riassunto il piano di schedulazione del core primario, evidenziando i periodi di attivazione e le responsabilità sistemiche associate.
+
+\begin{table}[htbp]
+\centering
+\caption{Task registrati ed eseguiti nel Core 0.}
+\label{tab:scheduler_core0}
+\begin{tabularx}{\textwidth}{@{}l r X@{}}
+    \toprule
+    \textbf{Task Identificativo} & \textbf{Periodo} & \textbf{Responsabilità Funzionale} \\
+    \midrule
+    \texttt{task\_serial}  & \qty{10}{ms}  & Parsing e processing dei comandi asincroni da terminale seriale (PC host). \\
+    \texttt{task\_input}   & \qty{20}{ms}  & Polling dell'interfaccia di input e smistamento dei segnali di debouncing alla UI. \\
+    \texttt{task\_ui}      & \qty{33}{ms}  & Rendering grafico dei widget dell'interfaccia utente su display OLED ($\approx \qty{30}{Hz}$). \\
+    \texttt{task\_uptime}  & \qty{100}{ms} & Incremento del contatore di attività globale (sub-ottimizzato, vedi analisi). \\
+    \texttt{task\_leds}    & \qty{100}{ms} & Gestione dei feedback visivi RGB e processing dinamico degli effetti di stato. \\
+    \texttt{task\_health}  & \qty{10000}{ms}& Diagnostica di sistema (Heartbeat) attiva solo in modalità \texttt{DEBUG}. \\
+    \bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Analisi critica del \texttt{task\_uptime}:}
+L'analisi del firmware evidenzia un'inefficienza architetturale nella temporizzazione del modulo \texttt{task\_uptime}. Sebbene il task venga invocato dallo scheduler con un periodo di \qty{100}{ms}, la funzione di callback associata implementa una guardia logica interna supplementare (\texttt{millis() - last\_uptime\_tick >= 1000}), la quale di fatto ne vincola l'esecuzione utile a intervalli di un secondo. 
+
+Questo pattern genera un rapporto di utilità del \qty{10}{\%}, introducendo chiamate ridondanti che impegnano la CPU senza eseguire calcoli effettivi. Al fine di ottimizzare il consumo computazionale e semplificare il flusso logico, la soluzione ottimale prevede l'innalzamento del periodo del task direttamente a \qty{1000}{ms} all'interno della struttura dati, eliminando completamente il controllo condizionale annidato nella callback.
+
+\subsection{Sistema di Gestione e Codifica degli Errori}
+
+Per garantire il monitoraggio dello stato di salute del sistema (\textit{health monitoring}) e facilitare le operazioni di diagnostica inter-core sul bus IPC, il firmware implementa una codifica strutturata delle anomalie nel file \texttt{error\_codes.h}. Il design si basa su un approccio gerarchico che mappa i codici di errore in base alla macro-categoria di appartenenza, come sintetizzato nella Tabella~\ref{tab:error_categories}.
+
+\begin{table}[htbp]
+\centering
+\caption{Classificazione gerarchica dei codici di errore.}
+\label{tab:error_categories}
+\begin{tabularx}{\textwidth}{@{}l l X@{}}
+    \toprule
+    \textbf{Spazio dei Codici} & \textbf{Macro-Categoria} & \textbf{Esempi Notevoli} \\
+    \midrule
+    \texttt{0x10--0x1F} & Sistema (Core/IPC)  & \texttt{ERR\_SYS\_IPC\_TIMEOUT}, \texttt{ERR\_SYS\_WATCHDOG} \\
+    \texttt{0x20--0x2F} & Hardware (Driver)   & \texttt{ERR\_HW\_DISPLAY\_LOST}, \texttt{ERR\_HW\_I2C\_BUS\_LOCK} \\
+    \texttt{0x30--0x3F} & Sensori (Acquisizione)& \texttt{ERR\_SENS\_GPS\_NO\_DATA}, \texttt{ERR\_SENS\_GPS\_BAD\_FIX} \\
+    \texttt{0x40--0x4F} & Power (Alimentazione)& \texttt{ERR\_PWR\_BATT\_LOW}, \texttt{ERR\_PWR\_BATT\_CRITICAL} \\
+    \texttt{0x50--0x5F} & Storage (File System)& \texttt{ERR\_STG\_FS\_CORRUPT}, \texttt{ERR\_STG\_WRITE\_FAIL} \\
+    \bottomrule
+\end{tabularx}
+\end{table}
+
+Questa architettura firmware consente di identificare l'origine dell'anomalia analizzando esclusivamente il \textit{nibble} superiore (i 4 bit più significativi) del codice d'errore, eliminando la necessità di computare onerose tabelle di decodifica in esecuzione. L'estrazione della macro-categoria avviene a runtime tramite un'operazione bitwise di scorrimento a destra:
+\begin{equation}
+\text{categoria} = \text{error\_code} \gg 4
+\end{equation}
+Tale informazione può essere così renderizzata immediatamente sul display OLED o instradata sul flusso di telemetria seriale.
+
+Di seguito si riporta l'implementazione formale delle strutture dati e dei registri enumerativi sviluppati nel file di intestazione:
+
+\begin{lstlisting}[language=C++, caption={error\_codes.h --- Definizione dei tipi enumerativi e delle strutture per la diagnostica}]
+#ifndef ERROR_CODES_H
+#define ERROR_CODES_H
+
+#include <stdint.h>
+#include <stdbool.h>
+
+/**
+ * @brief Categorie principali di errore mappate sui rispettivi nibble alti.
+ */
+typedef enum {
+    ERR_CAT_NONE    = 0x00, /**< Nessun errore rilevato. */
+    ERR_CAT_SYS     = 0x01, /**< Errori critici di sistema (Kernel/IPC). */
+    ERR_CAT_HW      = 0x02, /**< Malfunzionamenti driver o periferiche fisiche. */
+    ERR_CAT_SENSORS = 0x03, /**< Anomalie acquisizione dati (GPS/IMU). */
+    ERR_CAT_POWER   = 0x04, /**< Anomalie elettriche o condizioni di batteria. */
+    ERR_CAT_STORAGE = 0x05  /**< Errori del file system LittleFS o supporti esterni. */
+} error_category_t;
+
+/**
+ * @brief Codici di errore specifici suddivisi per domini numerici.
+ */
+typedef enum {
+    SUCCESS = 0,
+
+    // --- Sistema (0x10-0x1F) ---
+    ERR_SYS_IPC_TIMEOUT   = 0x10, /**< Timeout di sincronizzazione inter-core. */
+    ERR_SYS_WATCHDOG      = 0x11, /**< Intervento del Watchdog hardware. */
+    ERR_SYS_OUT_OF_MEMORY = 0x12, /**< Fallimento nell'allocazione dinamica della RAM. */
+
+    // --- Hardware (0x20-0x2F) ---
+    ERR_HW_I2C_BUS_LOCK   = 0x20, /**< Bus I2C in stato di stallo (SDA/SCL low). */
+    ERR_HW_DISPLAY_LOST   = 0x21, /**< Mancata risposta del controller SSD1306. */
+    ERR_HW_UART_OVERRUN   = 0x22, /**< Buffer di ricezione UART saturo. */
+
+    // --- Sensori (0x30-0x3F) ---
+    ERR_SENS_GPS_NO_DATA  = 0x30, /**< Assenza di stringhe NMEA sul canale GPS. */
+    ERR_SENS_IMU_NOT_CAL  = 0x31, /**< Mancata calibrazione dei vettori inerziali. */
+    ERR_SENS_GPS_BAD_FIX  = 0x32, /**< Degradazione della precisione geometrica (HDOP elevato). */
+
+    // --- Power (0x40-0x4F) ---
+    ERR_PWR_BATT_LOW      = 0x40, /**< Tensione di batteria sotto la soglia nominale. */
+    ERR_PWR_BATT_CRITICAL = 0x41, /**< Soglia critica di scarica (Failsafe trigger). */
+    ERR_PWR_USB_OVERVOLT  = 0x42, /**< Rilevamento sovratensione sulla linea VBUS. */
+
+    // --- Storage (0x50-0x5F) ---
+    ERR_STG_SD_NOT_FOUND  = 0x50, /**< Supporto di memoria non rilevato all'avvio. */
+    ERR_STG_WRITE_FAIL    = 0x51, /**< Fallimento della transazione di scrittura su file. */
+    ERR_STG_FS_CORRUPT    = 0x52  /**< Incoerenza logica o corruzione del file system. */
+} error_code_t;
+
+/**
+ * @brief Struttura dati per il packaging e la trasmissione dei report diagnostici.
+ */
+typedef struct {
+    error_category_t category; /**< Macro-categoria estratta dal codice. */
+    error_code_t code;         /**< Identificativo univoco dell'errore. */
+    uint32_t timestamp;        // Timestamp di occorrenza (millis)
+    bool is_critical;          // Flag di severita per routine di Failsafe
+} error_report_t;
+
+#endif /* ERROR_CODES_H */
+\end{lstlisting}

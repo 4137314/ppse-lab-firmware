@@ -47,3 +47,75 @@
 }
 
 \newcommand{\nt}[1]{\texttt{\color{nerd_keyword}#1}}
+
+
+
+
+\definecolor{codebg}{rgb}{0.96,0.96,0.96}
+\definecolor{codekey}{rgb}{0.0,0.33,0.62}
+\definecolor{codecomment}{rgb}{0.28,0.50,0.28}
+\definecolor{codestring}{rgb}{0.58,0.10,0.10}
+
+\lstset{
+	language=C++,
+	backgroundcolor=\color{codebg},
+	basicstyle=\ttfamily\footnotesize,
+	keywordstyle=\color{codekey}\bfseries,
+	commentstyle=\color{codecomment}\itshape,
+	stringstyle=\color{codestring},
+	breaklines=true,
+	frame=single,
+	rulecolor=\color{gray!35},
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	tabsize=4,
+	showstringspaces=false,
+	morekeywords={uint8_t,uint32_t,int8_t,bool,size_t,int_least32_t,
+		spin_lock_t,SystemDataPacket,WeatherDataPacket,
+		error_category_t,error_code_t,error_report_t,
+		GpsStatus_t,SystemConfig,view_id_t,view_interface_t,
+		button_t,button_state_t,ButtonId,LedAnimState,
+		FeedbackType,power_mode_t,TaskCallback,Task,Vector3D_t,
+		CRGB,PROGMEM}
+}
+
+\lstdefinestyle{makefile}{
+	language=make,
+	backgroundcolor=\color{codebg},
+	basicstyle=\ttfamily\footnotesize,
+	commentstyle=\color{codecomment}\itshape,
+	breaklines=true, frame=single,
+	rulecolor=\color{gray!35}, numbers=none
+}
+
+\lstset{
+	backgroundcolor=\color{codebg},
+	basicstyle=\ttfamily\footnotesize,
+	keywordstyle=\color{codekey}\bfseries,
+	commentstyle=\color{codecomment}\itshape,
+	stringstyle=\color{codestring},
+	breaklines=true, frame=single,
+	rulecolor=\color{gray!35},
+	numbers=left, numberstyle=\tiny\color{gray},
+	tabsize=4, showstringspaces=false
+}
+\lstdefinestyle{ini}{
+	language={}, numbers=none,
+	backgroundcolor=\color{codebg},
+	basicstyle=\ttfamily\footnotesize,
+	commentstyle=\color{codecomment}\itshape,
+	stringstyle=\color{codestring},
+	breaklines=true, frame=single,
+	rulecolor=\color{gray!35}
+}
+\lstdefinestyle{py}{
+	language=Python,
+	backgroundcolor=\color{codebg},
+	basicstyle=\ttfamily\footnotesize,
+	keywordstyle=\color{codekey}\bfseries,
+	commentstyle=\color{codecomment}\itshape,
+	stringstyle=\color{codestring},
+	breaklines=true, frame=single,
+	rulecolor=\color{gray!35},
+	numbers=left, numberstyle=\tiny\color{gray}
+}

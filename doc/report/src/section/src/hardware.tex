@@ -1,73 +1,34 @@
 \newpage
-\section{Sottosistema Hardware}
+\section{Sotto-sistema Hardware}
 
 \subsection{Implementazione Fisica e Tecniche di Assemblaggio SMT}
 
-L'implementazione del prototipo ha seguito standard industriali per garantire l'affidabilità meccanica e l'integrità elettrica delle connessioni ad alta frequenza. Il montaggio dei componenti è stato eseguito tramite tecnologia \textbf{SMT}\footnote{Surface Mount Technology: tecnologia di assemblaggio che prevede il montaggio dei componenti direttamente sulla superficie del PCB.} (\textit{Surface Mount Technology}), scelta dettata da precise necessità progettuali:
+La costruzione del prototipo ha seguito standard industriali per garantire l'affidabilità meccanica e l'integrità elettrica delle connessioni ad alta frequenza. Il montaggio dei componenti è stato eseguito prevalentemente tramite tecnologia \textbf{SMT}\footnote{Surface Mount Technology: tecnologia di assemblaggio che prevede il montaggio dei componenti direttamente sulla superficie del PCB.} (\textit{Surface Mount Technology}) e saldatura a rifusione, scelta dettata da precise necessità progettuali:
 
 \begin{itemize}
-    \item \textbf{Riduzione delle Induttanze Parassite}: A differenza della tecnologia \textit{Through-Hole}, l'assenza di reofori (pin passanti) lunghi minimizza le induttanze parassite sulle linee di clock dell'RP2040 (\qty{133}{MHz}) e sui bus di comunicazione rapida come il QSPI della Flash. Questo riduce drasticamente fenomeni di \textit{ringing} e riflessioni del segnale, preservando l'integrità dei fronti d'onda digitali.
-    \item \textbf{Ottimizzazione del Piano di Massa}: La tecnologia SMT permette una connessione diretta dei \textit{thermal pad} al piano di massa interno attraverso la tecnica dei \textit{via-in-pad}. Questo è fondamentale non solo per la dissipazione termica del SoC, ma anche per offrire un riferimento di tensione estremamente stabile e a bassa impedenza.
+    \item \textbf{Riduzione delle Induttanze Parassite}: A differenza della tecnologia \textit{Through-Hole}, l'assenza di reofori (pin passanti) lunghi minimizza le induttanze parassite. Questo riduce drasticamente fenomeni di \textit{ringing} e riflessioni del segnale, preservando l'integrità dei fronti d'onda digitali.
+    \item \textbf{Ottimizzazione del Piano di Massa}: La tecnologia SMT permette una connessione diretta dei \textit{thermal pad} al piano di massa inferiore attraverso la tecnica dei \textit{via-in-pad}. Questo è fondamentale non solo per la dissipazione termica del SoC, ma anche per offrire un riferimento di tensione estremamente stabile e a bassa impedenza.
 \end{itemize}
 
 
+\subsubsection*{Integrazione del modulo GNSS SAM-M8Q}
+Il modulo GNSS \textbf{u-blox SAM-M8Q} \cite{sam_m8q_ds}, in package \textbf{LCC} (\textit{Leadless Chip Carrier}), è stato integrato tramite saldatura manuale di precisione. Sebbene il componente sia progettato per processi SMT industriali, le variazioni nel layout di prototipazione hanno reso più efficace l'assemblaggio manuale. Questa procedura è stata condotta sotto controllo ottico per garantire la corretta bagnabilità dei pad perimetrali.
 
-\subsubsection*{Saldatura a rifusione del modulo SAM-M8Q}
-
-Particolare attenzione è stata dedicata al modulo GNSS \textbf{u-blox SAM-M8Q} \cite{sam_m8q_ds}, caratterizzato da un package di tipo \textbf{LCC} (\textit{Leadless Chip Carrier}). A causa della posizione dei pad disposti lungo il perimetro inferiore del componente, è stata adottata una tecnica di \textbf{saldatura a rifusione controllata} (\textit{Reflow Soldering}).
-
-
-
-L'utilizzo di pasta saldante con flussante \textit{no-clean} e l'applicazione di un profilo termico accurato (rispettando le rampe di \textit{pre-heat} e \textit{soak} suggerite dal produttore) ha permesso di ottenere diversi vantaggi critici:
+Nonostante l'assenza di un processo di rifusione industriale, l'approccio adottato ha garantito:
 \begin{enumerate}
-    \item \textbf{Prevenzione dei cortocircuiti}: La precisione del deposito della pasta saldante ha evitato la formazione di \textit{solder bridges} tra i pad adiacenti, caratterizzati da un \textit{pitch} estremamente ridotto.
-    \item \textbf{Self-alignment}: È stato sfruttato il fenomeno della tensione superficiale dello stagno fuso per garantire l'auto-allineamento del modulo sulle piazzole del PCB, minimizzando gli errori di piazzamento manuale.
-    \item \textbf{Integrità RF}: Una bagnabilità ottimale dei pad relativi all'antenna integrata è essenziale per minimizzare le perdite di inserzione RF. Una saldatura non perfetta in questo punto degraderebbe sensibilmente il rapporto segnale-rumore (SNR), ostacolando il fix dei satelliti in ambienti chiusi o con scarsa visibilità del cielo.
+\item \textbf{Integrità delle Connessioni}: La verifica visiva e strumentale ha escluso la presenza di \textit{solder bridges}, particolarmente critici dato il \textit{pitch} ridotto dei contatti.
+\item \textbf{Preservazione RF}: La cura riposta nella saldatura dei pad relativi all'antenna integrata ha permesso di mantenere un \textit{Carrier-to-Noise density ratio} (C/N0) operativo, fondamentale per minimizzare le perdite di inserzione e garantire l'aggancio dei satelliti, pur nei limiti strutturali di un prototipo assemblato manualmente.
 \end{enumerate}
 
 
-\subsection{Alimentazione e Power Integrity}
-
-Il design del sottosistema di alimentazione è stato ingegnerizzato per coniugare un'elevata efficienza energetica con una rigorosa pulizia dei binari di tensione, fattore critico per il corretto funzionamento di componenti a segnale misto (\textit{mixed-signal}). Il sistema accetta un ingresso nominale a 12\,V, processato attraverso una topologia di regolazione a cascata progettata per isolare il rumore di commutazione dalla logica sensibile.
-
-\subsubsection*{Conversione Switching ad Alta Efficienza}
-
-Il primo stadio di regolazione è deputato alla gestione dei carichi di potenza, inclusi la matrice di LED RGB e le periferiche di comunicazione, che richiedono correnti di picco elevate senza compromettere il bilancio termico del PCB.
-
-\paragraph{Regolatore Buck: TPS563201}
-Per convertire la tensione d'ingresso ai 5\,V di sistema, è stato adottato il regolatore buck sincrono \textbf{TPS563201} \cite{tps563201_ds}. Questo convertitore DC-DC è in grado di erogare correnti costanti fino a 3\,A con un'efficienza superiore al 90\%. L'architettura sincrona, grazie all'integrazione di MOSFET a bassa $R_{DS(on)}$, minimizza le perdite di conduzione. Tale scelta riduce drasticamente il calore dissipato, permettendo un design compatto senza la necessità di dissipatori passivi ingombranti.
-
-\subsubsection*{Regolazione Lineare e Protezione RF}
-
-La sensibilità del sistema GNSS è direttamente proporzionale alla qualità dell'alimentazione fornita al modulo SAM-M8Q e ai riferimenti analogici dell'RP2040.
-
-\paragraph{Dual-Stage Regulation: Buck + LDO}
-La logica a 3.3\,V è alimentata tramite un regolatore \textbf{LDO} (\textit{Low Drop-Out}) posto in serie all'uscita dello stadio buck. Questa configurazione a due stadi funge da filtro passa-basso attivo: mentre il buck gestisce il salto di tensione principale in modo efficiente, l'LDO sfrutta il suo elevato \textbf{PSRR} (\textit{Power Supply Rejection Ratio}) per sopprimere il \textit{ripple} residuo e lo \textit{switching noise} ad alta frequenza generato dal primo stadio.
-
-\paragraph{Integrità del segnale GNSS}
-Questa strategia è vitale per prevenire interferenze elettromagnetiche (EMI) condotte che potrebbero accoppiarsi con lo stadio di ingresso RF del modulo \textbf{SAM-M8Q}. Un'alimentazione rumorosa degraderebbe il rapporto segnale-rumore (\textit{SNR}), aumentando i tempi di \textit{Time To First Fix} (TTFF) e riducendo la precisione del posizionamento \textit{indoor} o in condizioni di scarso \textit{link budget} satellitare.
-
-\subsubsection*{Analisi della Power Integrity (PI)}
-
-La distribuzione della potenza sul PCB è stata ottimizzata per minimizzare l'impedenza del \textit{Power Delivery Network} (PDN) e prevenire transienti di tensione localizzati.
-
-\paragraph{Rete di Disaccoppiamento e MLCC}
-Per garantire la stabilità dinamica, sono stati posizionati condensatori di bypass ceramici (\textit{MLCC}) da 100\,nF con bassa \textbf{ESR} (\textit{Equivalent Series Resistance}) in stretta prossimità di ogni pin di alimentazione del SoC. Questi componenti agiscono come serbatoi di energia a bassissima induttanza parassita, filtrando le correnti di commutazione ad alta frequenza generate dai core ARM operanti a 133\,MHz.
-
-
-
-\paragraph{Ground Plane e Stabilità del Bus}
-L'impiego di piani di massa generosi e una corretta strategia di disaccoppiamento prevengono fenomeni di \textit{ground bounce} e \textit{voltage sag}. Questa accortezza garantisce che il riferimento analogico per il modulo GPS e la stabilità del bus QSPI della Flash non vengano compromessi dai rapidi transienti di commutazione digitale, preservando l'integrità dei dati durante le operazioni di log ad alta velocità.
-
-
 \subsection{Il SoC Raspberry Pi RP2040}
-Il sistema orbita attorno al SoC \textbf{RP2040} \cite{rp2040_ds}, caratterizzato da un'architettura dual-core ARM Cortex-M0+ con bus AMBA AHB \cite{rp2040_ds}. La struttura simmetrica permette di parallelizzare l'acquisizione dai sensori e la scrittura su memoria flash.
+Il sistema orbita attorno al SoC \textbf{RP2040} \cite{rp2040_ds}, caratterizzato da un'architettura dual-core ARM Cortex-M0+ con bus AMBA AHB \cite{rp2040_ds}. La struttura multi-core simmetrica permette di parallelizzare l'acquisizione dai sensori e la scrittura su memoria flash, entrambe fasi critiche e non interrompibili.
 
 \subsubsection*{Meccanismo di Interrupt vs Polling}
 
-La scelta del paradigma di gestione degli input è critica per garantire il determinismo del sistema e la reattività dell'interfaccia utente. Si è scelto di escludere la tecnica del \textit{polling} — ovvero il campionamento ciclico dello stato dei pin all'interno del ciclo principale (\textit{super-loop}) — poiché risulterebbe intrinsecamente inefficiente. In un sistema che esegue task computazionalmente intensivi o a latenza variabile, come il parsing delle sentenze NMEA o le operazioni di scrittura su memoria Flash, il polling comporterebbe un elevato rischio di \textit{aliasing temporale}, portando alla perdita di eventi di pressione se questi occorrono mentre la CPU è occupata in altre routine.
+La scelta del paradigma di gestione degli input è critica per garantire il determinismo del sistema e la reattività dell'interfaccia utente. Si è scelto di escludere la tecnica del \textit{polling} — ovvero il campionamento ciclico dello stato dei pin all'interno del ciclo principale — poiché risulterebbe intrinsecamente inefficiente. In un sistema che esegue task computazionalmente intensivi o a latenza variabile, come il parsing delle sentenze NMEA e per le operazioni di scrittura su memoria Flash, il polling comporterebbe un elevato rischio di \textit{aliasing temporale}, portando alla perdita di eventi di pressione se questi occorrono mentre la CPU è occupata in altre routine.
 
-L'adozione degli \textbf{interrupt hardware (IRQ)} sposta la gestione dell'evento dal dominio software a quello hardware, permettendo una gestione asincrona. Al verificarsi di una transizione di stato sul pin GPIO (fronte di discesa), il controller degli interrupt del core ARM Cortex-M0+ forza una sospensione immediata del programma principale per eseguire una \textit{Interrupt Service Routine} (ISR). Questo garantisce una latenza di risposta minima e costante, svincolando la reattività del sistema dal carico computazionale istantaneo.
+L'adozione degli \textbf{interrupt hardware (IRQ)} sposta la gestione dell'evento dal dominio software a quello hardware, permettendo una gestione asincrona. Al verificarsi di una transizione di stato sul pin GPIO (fronte di discesa), il controller degli interrupt del core ARM forza una sospensione immediata del programma principale per eseguire una \textit{Interrupt Service Routine} (ISR). Questo garantisce una latenza di risposta minima e costante, svincolando la reattività del sistema dal carico computazionale istantaneo.
 
 
 
@@ -81,4 +42,37 @@ Dato che tutti i pulsanti del dispositivo afferiscono allo stesso banco, la logi
 \end{enumerate}
 
 \paragraph{Condizionamento e Pull-up}
-Per garantire la stabilità dei livelli logici, i pin sono stati configurati in modalità \texttt{INPUT\_PULLUP} tramite il framework Arduino. Questa impostazione attiva una rete di resistenze interne al SoC (con valori nominali compresi tra $50\,k\Omega$ e $80\,k\Omega$). Tale configurazione, lavorando in sinergia con il filtro RC esterno, assicura un pull-up ``forte'' che previene stati di alta impedenza (\textit{floating}) e mitiga l'effetto di accoppiamenti capacitivi indesiderati, garantendo una lettura pulita anche in ambienti elettricamente rumorosi.
+Per garantire la stabilità dei livelli logici, i pin sono stati configurati in modalità \texttt{INPUT\_PULLUP}. Questa impostazione attiva una rete di resistenze interne al SoC (con valori nominali compresi tra \qty{50}{k\Omega} e \qty{80}{k\Omega}). Tale configurazione, lavorando in sinergia con il filtro RC esterno, assicura un pull-up ``forte'' che previene stati di alta impedenza (\textit{floating}) e mitiga l'effetto di accoppiamenti capacitivi indesiderati, garantendo una lettura pulita anche in ambienti elettricamente rumorosi.
+
+
+
+
+\subsubsection*{Architettura Dual-Core e Gestione delle Risorse Condivise}
+\label{IPC}
+Il SoC RP2040 implementa un'architettura \textbf{dual-core simmetrica} basata su due processori \textbf{ARM Cortex-M0+} identici e indipendenti, ciascuno dotato del proprio NVIC (\textit{Nested Vectored Interrupt Controller}), del proprio set di registri e del proprio stack pointer. 
+
+A differenza dei sistemi multi-core con cache coerente (tipici dei microprocessori), i due core dell'RP2040 non possiedono cache dati: l'accesso alla memoria avviene direttamente attraverso il bus fabric, eliminando ogni problematica di \textit{cache coherency} tra i core.
+
+\paragraph{SIO: Single-cycle I/O}
+
+Per le operazioni più sensibili alla latenza — in particolare il controllo dei GPIO — l'RP2040 affianca al bus AHB \textit{()Advanced High-performance Bus)} un percorso dedicato denominato \textbf{SIO} (\textit{Single-cycle I/O}). Si tratta di una periferica privata per ciascun core, mappata sullo stesso indirizzo logico ma fisicamente duplicata, raggiungibile in un singolo ciclo di clock senza dover attraversare l'arbitraggio del bus fabric. Questo design garantisce che operazioni critiche come il \textit{set/clear/toggle} atomico dei pin GPIO non siano soggette a jitter introdotto da contesa del bus.
+
+\paragraph{Comunicazione Inter-Processore}
+
+Poiché i due core non condividono cache né un meccanismo nativo di messaggistica a livello applicativo, l'RP2040 mette a disposizione, all'interno del blocco SIO, due \textbf{FIFO hardware unidirezionali} (4 $\times$ 32 bit per ciascuna direzione), utilizzate come canale per lo scambio di piccoli messaggi o puntatori tra i core.
+
+Ogni core può generare un interrupt verso l'altro alla scrittura/lettura della propria FIFO, permettendo pattern di sincronizzazione a basso overhead e senza dover ricorrere a polling su variabili condivise in SRAM.
+
+\paragraph{Spinlock Hardware}
+
+Per la protezione di risorse condivise come strutture dati in SRAM o Memory-Mapped I/O, l'RP2040 fornisce \textbf{32 spinlock hardware}, anch'essi esposti tramite il blocco SIO. 
+
+
+Questi spinlock costituiscono il meccanismo di sincronizzazione a livello più basso su cui il Pico SDK costruisce astrazioni di livello superiore come mutex e semaphores.
+
+\paragraph{Routing degli Interrupt fra i Core}
+
+A differenza dello schema centralizzato descritto per il banco GPIO, il sistema di interrupt dell'RP2040 è organizzato in modo che \textbf{ciascun core disponga di un proprio NVIC indipendente}, con maschere di abilitazione (registri \texttt{NVIC\_ICER}/\texttt{NVIC\_ISER}) configurabili separatamente. É quindi possibile abilitare o disabilitare un interrupt su un core senza che questo influenzi l'altro.
+
+Le sorgenti di interrupt periferiche (UART, I2C, ADC, PWM, GPIO, ecc.) sono instradabili verso uno o entrambi i core tramite i registri \texttt{INTE}/\texttt{INTS} del blocco interessato.
+Nel sistema sviluppato, il \textit{Core 1} è stato dedicato alla gestione del parsing NMEA, mentre il \textit{Core 0} è stato riservato alle operazioni di scrittura su memoria Flash.

@@ -2,11 +2,8 @@
 #include "core/messages.h"
 #include <Arduino.h>
 #include <pico/sync.h>
-#include "core/storage.h" // Assicurati che questo sia il percorso corretto rispetto alla cartella di inclusione
+#include "core/storage.h"
 
-// ELIMINA QUESTA RIGA: volatile SystemDataPacket real_system_data;
-
-// Mantieni solo questa, che è quella corretta
 static SystemDataPacket shared_data;
 static spin_lock_t* data_lock = spin_lock_init(spin_lock_claim_unused(true));
 static volatile bool _core1_ready = false;
@@ -32,11 +29,10 @@ bool sys_manager_receive_data(SystemDataPacket* buffer) {
     return true;
 }
 
-// In sys_manager.cpp
 void sys_manager_report_error(error_category_t cat, error_code_t code, bool critical) {
     uint32_t save = spin_lock_blocking(data_lock);
     
-    // FILTRO: Se l'errore è già attivo e identico, non fare nulla.
+    // Se l'errore è già attivo e identico, non fare nulla.
     // Questo evita di forzare un aggiornamento continuo dell'UI.
     if (shared_data.flags.error_active && shared_data.last_error.code == code) {
         spin_unlock(data_lock, save);
@@ -67,7 +63,7 @@ void sys_manager_handle_serial(void) {
         String cmd = Serial.readStringUntil('\n');
         cmd.trim();
         
-        // 1. Comando per recuperare la posizione GPS (Resiliente)
+        // Comando per recuperare la posizione GPS
         if (cmd == "GET_GPS") {
             SystemDataPacket frame;
             sys_manager_receive_data(&frame);
