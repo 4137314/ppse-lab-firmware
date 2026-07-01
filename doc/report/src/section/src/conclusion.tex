@@ -33,7 +33,7 @@ Nonostante l'ottimo grado di maturità raggiunto dal prototipo, sono state indiv
     
     \item \textbf{Power Management Predittivo:} Implementazione di una logica di \textit{Dynamic Voltage and Frequency Scaling} (DVFS) basata sullo stato di carica della batteria e sulla frequenza di acquisizione richiesta.
 	
-    \item \textbf{Ripristino del Dominio Analogico e Ingegnerizzazione del Layout:} Revisione del circuito di alimentazione per eliminare il cortocircuito sulla linea analogica e isolamento del pin $V_{REF}$ dell'RP2040 tramite l'inserimento di un riferimento di tensione dedicato e filtrato (es. un regolatore shunt di precisione a \qty{3.0}{V} o \qty{3.3}{V}). Questo intervento consentirà il ripristino funzionale dell'ADC e la conseguente riattivazione dei task di telemetria termica, sia per il diodo interno al chip sia per la sonda analogica esterna.
+    \item \textbf{Ripristino del Dominio Analogico e Ingegnerizzazione del Layout:} Revisione del circuito di alimentazione per eliminare il cortocircuito sulla linea analogica e isolamento del pin $V_{REF}$ dell'RP2040 tramite l'inserimento di un riferimento di tensione dedicato e filtrato (es. un regolatore shunt di precisione a \qty{3.3}{V}). Questo intervento consentirà il ripristino funzionale dell'ADC e la conseguente riattivazione dei task di telemetria termica, sia per il diodo interno al chip sia per la sonda analogica esterna.
 \end{enumerate}
 
 
