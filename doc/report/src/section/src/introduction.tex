@@ -26,36 +26,3 @@ Le funzionalità principali del sistema comprendono l'acquisizione di
 dati GPS (modulo SAM-M8Q), la sincronizzazione dei relativi dati meteo da un PC host tramite seriale, la lettura di sensori ambientali via
 I2C, l'interazione tramite display OLED SSD1306, e garantire la persistenza
 su flash. Viene inoltre previsto un feedback visivo su strip WS2812B e acustico tramite buzzer PWM.
-
-\subsection{Struttura del codice sorgente}
-
-\begin{verbatim}
-	firm/
-	├── include/
-	│   ├── core/       messages.h  system_manager.h  telemetry.h
-	│   │               storage.h   config.h           error_codes.h
-	│   ├── drivers/    display_ssd1306.h  inputs.h  sensors_i2c.h
-	│   │               peripherals.h      radio_uart.h  config_pins.h
-	│   ├── pipeline/   core0_manager.h   core1_manager.h   tasks.h
-	│   ├── ui/         ui_manager.h      view_definitions.h  boot_anim.h
-	│   └── util/       scheduler.h       target.h
-	│
-	├── src/
-	│   ├── main.cpp
-	│   │
-	│   ├── core/       system_manager.cpp  telemetry.cpp
-	│   │               storage.cpp   config.cpp          power_manager.cpp
-	│   ├── drivers/    display_ssd1306.cpp  inputs.cpp  sensors_i2c.cpp
-	│   │               peripherals.cpp      radio_uart.cpp
-	│   ├── pipeline/   core0_manager.cpp   core1_manager.cpp   tasks.cpp
-	│   │ 
-	│   └──ui/           ui_manager.cpp    boot_anim.cpp
-	│       │ 
-	│       └──views/    view_gps.cpp     view_home.cpp     view_info.cpp
-	│                    view_meteo.cpp    view_settings.cpp
-	│   
-	│
-	└── lib/minmea/      minmea.c 		  minmea.h   
-	
-\end{verbatim}
-

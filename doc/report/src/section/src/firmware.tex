@@ -3,7 +3,7 @@
 
 \subsection{Struttura del codice}
 
-Per quanto riguarda la struttura del firmware si e' preferito utilizzare una struttura convenzionale la quale separa le funzioni da header .h e le corrispettive implementazioni .cpp. Si rimanda al sito del progetto per una analisi approfondita del firmware.
+Per quanto riguarda la struttura del firmware si e' preferito utilizzare una struttura convenzionale la quale separa le funzioni da header .h e le corrispettive implementazioni .cpp. Si rimanda al sito del progetto per una analisi approfondita del firmware \cite{ppse_homepage}.
 \newline
 Uno schema semplificato del firmware e' rappresentato da:
 
@@ -19,18 +19,24 @@ Uno schema semplificato del firmware e' rappresentato da:
 	│   └── util/       scheduler.h       target.h
 	│
 	├── src/
-	│   ├── core/       messages.cpp  system_manager.cpp  telemetry.cpp
-	│   │               storage.cpp   config.cpp           error_codes.cpp
+	│   ├── main.cpp
+	│   │
+	│   ├── core/       system_manager.cpp  telemetry.cpp
+	│   │               storage.cpp   config.cpp          power_manager.cpp
 	│   ├── drivers/    display_ssd1306.cpp  inputs.cpp  sensors_i2c.cpp
-	│   │               peripherals.cpp      radio_uart.cpp  config_pins.cpp
+	│   │               peripherals.cpp      radio_uart.cpp
 	│   ├── pipeline/   core0_manager.cpp   core1_manager.cpp   tasks.cpp
-	│   ├── ui/         ui_manager.cpp      view_definitions.cpp  boot_anim.cpp
-	│   └── util/       scheduler.cpp       target.cpp
+	│   │ 
+	│   └──ui/           ui_manager.cpp    boot_anim.cpp
+	│       │ 
+	│       └──views/    view_gps.cpp     view_home.cpp     view_info.cpp
+	│                    view_meteo.cpp    view_settings.cpp
+	│   
 	│
-	├── lib/minmea/     (parser NMEA)
-	│
-	└── Makefile
+	└── lib/minmea/      minmea.c 		  minmea.h   
+	
 \end{verbatim}
+
 
 \subsection{Toolchain e Build System}
 
