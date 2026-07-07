@@ -29,26 +29,10 @@ void telemetry_init(void);
 void telemetry_update(void);
 
 /**
- * @brief Copia il frame di telemetria corrente nella destinazione fornita.
- * @details Utilizza un meccanismo di accesso sicuro per evitare la lettura di 
- * dati parzialmente aggiornati (data tearing) su architetture multi-core.
- * @param dest Puntatore alla struttura SystemDataPacket di destinazione.
- * @return true se il frame è stato copiato correttamente.
- */
-bool telemetry_get_frame(SystemDataPacket* dest);
-
-/**
  * @brief Verifica lo stato di salute dei dati di telemetria.
  * @return true se il sistema è in grado di fornire telemetria valida.
  */
 bool telemetry_is_healthy(void);
-
-/**
- * @brief Controlla i dati GPS e registra il log se il fix è valido.
- * @param lat Latitudine rilevata.
- * @param lon Longitudine rilevata.
- */
-static void check_and_log_gps(float lat, float lon);
 
 /** @} */ // fine del gruppo Telemetry
 

@@ -77,6 +77,22 @@ bool sys_manager_update_weather(const WeatherDataPacket& weather);
 bool sys_manager_update_gps(float lat, float lon, bool fix, uint8_t sats);
 
 /**
+ * @brief Aggiorna esclusivamente la temperatura interna in shared_data.
+ */
+bool sys_manager_update_health(float temp_c);
+
+/**
+ * @brief Azzera gps_status/satellites in caso di timeout fix, preservando
+ * l'ultima posizione nota (lat/lon invariati).
+ */
+bool sys_manager_set_gps_timeout(void);
+
+/**
+ * @brief Incrementa uptime_s di 1 secondo.
+ */
+bool sys_manager_increment_uptime(void);
+
+/**
  * @brief Resetta lo stato di errore globale, rimuovendo notifiche pendenti.
  */
 void sys_manager_clear_error(void);

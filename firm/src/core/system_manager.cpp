@@ -143,3 +143,26 @@ bool sys_manager_update_gps(float lat, float lon, bool fix, uint8_t sats) {
     spin_unlock(data_lock, save);
     return true;
 }
+
+
+bool sys_manager_update_health(float temp_c) {
+    uint32_t save = spin_lock_blocking(data_lock);
+    shared_data.temp_c = temp_c;
+    spin_unlock(data_lock, save);
+    return true;
+}
+
+bool sys_manager_set_gps_timeout(void) {
+    uint32_t save = spin_lock_blocking(data_lock);
+    shared_data.gps_status = false;
+    shared_data.satellites = 0;
+    spin_unlock(data_lock, save);
+    return true;
+}
+
+bool sys_manager_increment_uptime(void) {
+    uint32_t save = spin_lock_blocking(data_lock);
+    shared_data.uptime_s++;
+    spin_unlock(data_lock, save);
+    return true;
+}

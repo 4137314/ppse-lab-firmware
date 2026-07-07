@@ -13,6 +13,7 @@
 #include "util/scheduler.h"
 #include "core/config.h" // Assicurati di avere questo header che definisce la structa
 #include "core/storage.h"
+#include <math.h>
 #include <LittleFS.h>
 
 // DICHIARA L'ESISTENZA DELLA VARIABILE GLOBALE
@@ -31,15 +32,10 @@ static Task task_input = {[]() {
                           },
                           20, 0};
 
-// Task Uptime: aggiorna il contatore nel pacchetto condiviso
 static Task task_uptime = {[]() {
                                if (millis() - last_uptime_tick >= 1000) {
                                    last_uptime_tick = millis();
-                                   SystemDataPacket frame;
-                                   if (sys_manager_receive_data(&frame)) {
-                                       frame.uptime_s++;
-                                       sys_manager_send_data(&frame);
-                                   }
+                                   sys_manager_increment_uptime();
                                }
                            },
                            100, 0};
@@ -61,18 +57,20 @@ static Task task_leds = {[]() {
                          },
                          100, 0};
 
-// static Task task_health = {
-//     []() {
-//         SystemDataPacket frame;
-//         sys_manager_receive_data(&frame);
-//         if (!frame.flags.error_active) {
-//             Serial.printf("[HEARTBEAT] System Healthy | Uptime: %lus\n", frame.uptime_s);
-//         } else {
-//             Serial.printf("[HEARTBEAT] WARNING: Error Active! | Code: 0x%02X\n",
-//                           frame.last_error.code);
-//         }
-//     },
-//     10000, 0};
+
+static float last_logged_lat = 0.0f, last_logged_lon = 0.0f;
+
+static Task task_gps_log = {[]() {
+    SystemDataPacket frame;
+    if (sys_manager_receive_data(&frame) && frame.gps_status) {
+        if (fabsf(frame.latitude  - last_logged_lat) > 0.005f ||
+            fabsf(frame.longitude - last_logged_lon) > 0.005f) {
+            storage_log_gps_fix(frame.latitude, frame.longitude);
+            last_logged_lat = frame.latitude;
+            last_logged_lon = frame.longitude;
+        }
+    }
+}, 2000, 0};
 
 static Task task_health = {
     []() {
@@ -171,14 +169,13 @@ delay(3000); // Aspetta 3 secondi, non 1
 }
 
 void core0_loop() {
-    telemetry_update();
-
     run_task(&task_serial);
     run_task(&task_input);
     run_task(&task_uptime);  // Gestione uptime integrata
     run_task(&task_ui);
     run_task(&task_leds);
     run_task(&task_health);
+    run_task(&task_gps_log);
 
     digitalWrite(LED_ALIVE_PIN, (millis() / 500) % 2);
 }
