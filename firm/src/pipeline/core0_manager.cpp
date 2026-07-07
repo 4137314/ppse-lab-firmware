@@ -32,15 +32,10 @@ static Task task_input = {[]() {
                           },
                           20, 0};
 
-// Task Uptime: aggiorna il contatore nel pacchetto condiviso
 static Task task_uptime = {[]() {
                                if (millis() - last_uptime_tick >= 1000) {
                                    last_uptime_tick = millis();
-                                   SystemDataPacket frame;
-                                   if (sys_manager_receive_data(&frame)) {
-                                       frame.uptime_s++;
-                                       sys_manager_send_data(&frame);
-                                   }
+                                   sys_manager_increment_uptime();
                                }
                            },
                            100, 0};
@@ -62,8 +57,8 @@ static Task task_leds = {[]() {
                          },
                          100, 0};
 
-static float last_logged_lat = 0.0f, last_logged_lon = 0.0f;
 
+static float last_logged_lat = 0.0f, last_logged_lon = 0.0f;
 
 static Task task_gps_log = {[]() {
     SystemDataPacket frame;
@@ -76,19 +71,6 @@ static Task task_gps_log = {[]() {
         }
     }
 }, 2000, 0};
-
-// static Task task_health = {
-//     []() {
-//         SystemDataPacket frame;
-//         sys_manager_receive_data(&frame);
-//         if (!frame.flags.error_active) {
-//             Serial.printf("[HEARTBEAT] System Healthy | Uptime: %lus\n", frame.uptime_s);
-//         } else {
-//             Serial.printf("[HEARTBEAT] WARNING: Error Active! | Code: 0x%02X\n",
-//                           frame.last_error.code);
-//         }
-//     },
-//     10000, 0};
 
 static Task task_health = {
     []() {

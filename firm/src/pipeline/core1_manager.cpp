@@ -18,36 +18,8 @@ void core1_setup() {
     Serial.println("CORE 1: Init completato.");
 }
 
-// void core1_loop() {
-//     telemetry_update(); 
-//
-//     SystemDataPacket frame;
-//     telemetry_get_frame(&frame);
-//
-//     // CAMBIAMENTO: Non inviare più tutto il pacchetto frame.
-//     // Invia solo le coordinate GPS usando la funzione chirurgica.
-//     sys_manager_update_gps(frame.latitude, frame.longitude, frame.gps_status, frame.satellites);
-//     // Debug
-//     static uint32_t last_log = 0;
-//     if (millis() - last_log > 5000) {
-//         Serial.println("CORE 1: GPS Update Sent...");
-//         last_log = millis();
-//     }
-//
-//     delay(50);
-// }
-//
 void core1_loop() {
-    telemetry_update(); 
+    telemetry_update();
     
-    SystemDataPacket frame;
-    if (telemetry_get_frame(&frame)) {
-        // Invio chirurgico: aggiorna solo se c'è stato un nuovo dato valido
-        // o se il timeout ha forzato lo stato a false
-	Serial.printf("DEBUG: Status %d, Sats %d\n", frame.gps_status, frame.satellites);
-	sys_manager_update_gps(frame.latitude, frame.longitude, frame.gps_status, frame.satellites);
-        //sys_manager_update_gps(frame.latitude, frame.longitude, frame.gps_status, frame.satellites);
-    }
-    
-    delay(100); // Aumentato leggermente per ridurre il carico sul bus I2C/SPI
+    delay(100); // Riduce il carico sul bus I2C/SPI
 }
