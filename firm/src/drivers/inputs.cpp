@@ -6,7 +6,6 @@ static volatile ButtonId pending_button = BTN_NONE;
 static volatile uint32_t last_interrupt_time = 0;
 const uint32_t DEBOUNCE_DELAY_MS = 200;
 
-// Rimosso IRAM_ATTR per compatibilità immediata
 void handle_button_interrupt() {
     uint32_t current_time = millis();
     if (current_time - last_interrupt_time > DEBOUNCE_DELAY_MS) {

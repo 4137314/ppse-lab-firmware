@@ -41,57 +41,6 @@ void telemetry_init() {
     Serial2.begin(GPSBAUD);
 }
 
-// static void process_nmea(const char* line) {
-//     struct minmea_sentence_gga gga;
-//     if (minmea_parse_gga(&gga, line)) {
-//         uint32_t save = spin_lock_blocking(telemetry_lock);
-//         telemetry_data.latitude = minmea_tocoord(&gga.latitude);
-//         telemetry_data.longitude = minmea_tocoord(&gga.longitude);
-//         telemetry_data.satellites = gga.satellites_tracked;
-//         telemetry_data.gps_status = (gga.fix_quality > 0);
-//         if (telemetry_data.gps_status) last_fix_timestamp = millis();
-//         spin_unlock(telemetry_lock, save);
-//         return;
-//     }
-//
-//     struct minmea_sentence_rmc rmc;
-//     if (minmea_parse_rmc(&rmc, line)) {
-//         if (rmc.valid) {
-//              uint32_t save = spin_lock_blocking(telemetry_lock);
-//              telemetry_data.gps_status = true;
-//              telemetry_data.latitude = minmea_tocoord(&rmc.latitude);
-//              telemetry_data.longitude = minmea_tocoord(&rmc.longitude);
-//              last_fix_timestamp = millis();
-//              spin_unlock(telemetry_lock, save);
-//         }
-//     }
-// }
-
-// static void process_nmea(const char* line) {
-//     struct minmea_sentence_gga gga;
-//     if (minmea_parse_gga(&gga, line)) {
-//         // CONTROLLO RIGIDO: Se fix_quality è 0, il fix NON ESISTE.
-//         if (gga.fix_quality > 0) {
-//             uint32_t save = spin_lock_blocking(telemetry_lock);
-//             telemetry_data.latitude = minmea_tocoord(&gga.latitude);
-//             telemetry_data.longitude = minmea_tocoord(&gga.longitude);
-//             telemetry_data.satellites = gga.satellites_tracked;
-//             telemetry_data.gps_status = true;
-//             last_fix_timestamp = millis();
-//             telemetry_data.flags.error_active = 0;
-//             error_reported = false;
-//             spin_unlock(telemetry_lock, save);
-//         } else {
-//             // Se arrivano dati GGA ma il fix è 0, azzera lo stato!
-//             uint32_t save = spin_lock_blocking(telemetry_lock);
-//             telemetry_data.gps_status = false;
-//             telemetry_data.satellites = 0;
-//             spin_unlock(telemetry_lock, save);
-//         }
-//         return;
-//     }
-// }
-
 
 static void process_nmea(const char* line) {
     bool has_real_fix = false;
@@ -118,46 +67,8 @@ static void process_nmea(const char* line) {
         telemetry_data.satellites = sats;
         last_fix_timestamp = millis();
         spin_unlock(telemetry_lock, save);
-
-        // LOGGING SOLO QUI: Con fix garantito e coordinate non nulle
-        check_and_log_gps(lat, lon);
     }
 }
-// void telemetry_update() {
-//     // Aggiornamento lento per non bloccare il loop
-//     static uint32_t last_slow_update = 0;
-//     if (millis() - last_slow_update > 500) {
-//         telemetry_data.temp_c = peripherals_get_temperature();
-//         telemetry_data.uptime_s = millis() / 1000;
-//         last_slow_update = millis();
-//     }
-//
-//     if (!telemetry_is_healthy()) {
-//         if (!error_reported) {
-//             sys_manager_report_error(ERR_CAT_SENSORS, ERR_SENS_GPS_NO_DATA, false);
-//             error_reported = true;
-//         }
-//     }
-//
-//     // Processing rate-limited: max 64 byte a ciclo per evitare corruzione
-//     int read_count = 0;
-//     while (Serial2.available() && read_count < 64) {
-//         char c = (char)Serial2.read();
-//         read_count++;
-//
-//         if (c == '$') nmea_idx = 0;
-//         if (nmea_idx < sizeof(nmea_buffer) - 1) nmea_buffer[nmea_idx++] = c;
-//
-//         if (c == '\n') {
-//             nmea_buffer[nmea_idx] = '\0';
-//             if (nmea_idx > 5) {
-//                 Serial.print("RAW: "); Serial.print(nmea_buffer); // DEBUG
-//                 process_nmea(nmea_buffer);
-//             }
-//             nmea_idx = 0;
-//         }
-//     }
-// }
 
 void telemetry_update() {
     // 1. LOGICA DI TIMEOUT: Se è passato troppo tempo dall'ultimo fix, azzera lo stato.
@@ -214,11 +125,6 @@ bool telemetry_get_frame(SystemDataPacket* dest) {
     return true;
 }
 
-// bool telemetry_is_healthy() {
-//     if (last_fix_timestamp == 0) return (millis() < 60000);
-//     return (millis() - last_fix_timestamp) < 30000;
-// }
-//
 bool telemetry_is_healthy() {
     // Se non abbiamo ancora un fix, il sistema è "sano" (sta cercando)
     if (last_fix_timestamp == 0) return true; 
@@ -226,12 +132,3 @@ bool telemetry_is_healthy() {
     return (millis() - last_fix_timestamp) < 5000; 
 }
 
-static void check_and_log_gps(float lat, float lon) {
-    static float last_lat = 0, last_lon = 0;
-    // Calcolo semplice distanza (Euclideo semplificato per brevità)
-    if (abs(lat - last_lat) > 0.005 || abs(lon - last_lon) > 0.005) {
-        storage_log_gps_fix(lat, lon);
-        last_lat = lat;
-        last_lon = lon;
-    }
-}

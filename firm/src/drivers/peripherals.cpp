@@ -153,46 +153,18 @@ void peripherals_auto_feedback(const SystemDataPacket* data) {
 }
 
 
-/* --- Feedback Acustico --- */
-// void peripherals_beep(uint32_t freq, uint32_t duration) {
-//     if(global_cfg.buzzer_enabled) {
-//         tone(BUZZER_PIN, freq, duration);
-//     }
-// }
-
-// void peripherals_beep(uint32_t freq, uint32_t duration) {
-// #if defined(BUZZER_SILENT) && BUZZER_SILENT == 1
-//     return; // Ignora i beep se siamo in modalità debug silenziosa
-// #endif
-//
-//     if(global_cfg.buzzer_enabled) {
-//         tone(BUZZER_PIN, freq, duration);
-//     }
-// }
-
-/* --- Feedback Acustico --- */
 void peripherals_beep(uint32_t freq, uint32_t duration) {
-    // 1. Controllo a COMPILAZIONE (più veloce e sicuro)
     #ifdef DEFAULT_BUZZER_OFF
         return; 
     #endif
 
-    // 2. Controllo a RUNTIME (basato sulle impostazioni dell'utente nel menu)
     if (global_cfg.buzzer_enabled) {
         tone(BUZZER_PIN, freq, duration);
     }
 }
 
-// void peripherals_trigger_feedback(FeedbackType type) {
-//     switch (type) {
-//         case FEEDBACK_SUCCESS: peripherals_beep(1500, 80); break;
-//         case FEEDBACK_ERROR:   peripherals_beep(400, 300);  break;
-//         default: break;
-//     }
-// }
 
 void peripherals_trigger_feedback(FeedbackType type) {
-    // Questa funzione ora userà automaticamente la logica sicura definita sopra
     switch (type) {
         case FEEDBACK_SUCCESS: peripherals_beep(1500, 80); break;
         case FEEDBACK_ERROR:   peripherals_beep(400, 300);  break;
@@ -209,7 +181,7 @@ float peripherals_get_temperature() {
     uint32_t raw_sum = 0;
     for (uint8_t i = 0; i < 10; i++) {
         raw_sum += analogRead(TEMP_SENS_PIN);
-        delayMicroseconds(50);
+        delayMicroseconds(20);
     }
     return (((raw_sum / 10.0f) * (3.3f / 4095.0f)) - 0.5f) * 100.0f;
 }

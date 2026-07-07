@@ -43,13 +43,6 @@ bool telemetry_get_frame(SystemDataPacket* dest);
  */
 bool telemetry_is_healthy(void);
 
-/**
- * @brief Controlla i dati GPS e registra il log se il fix è valido.
- * @param lat Latitudine rilevata.
- * @param lon Longitudine rilevata.
- */
-static void check_and_log_gps(float lat, float lon);
-
 /** @} */ // fine del gruppo Telemetry
 
 #endif // TELEMETRY_H

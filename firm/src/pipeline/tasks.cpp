@@ -4,7 +4,6 @@
 #include "drivers/peripherals.h"
 #include "drivers/inputs.h"
 
-// Qui definiamo i task che prima avevi sparsi nel manager
 Task task_serial = { [](){ sys_manager_handle_serial(); }, 10, 0 };
 
 Task task_input  = { [](){ 
