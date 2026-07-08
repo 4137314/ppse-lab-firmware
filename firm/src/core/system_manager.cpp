@@ -13,6 +13,14 @@ void sys_manager_init() {
     memset(&shared_data, 0, sizeof(SystemDataPacket));
     spin_unlock(data_lock, save);
     _core1_ready = false;
+
+    // === MODIFICA 1: CARICAMENTO DELLA CACHE ALL'AVVIO ===
+    WeatherDataPacket cached_weather;
+    if (storage_load_weather(&cached_weather)) {
+        uint32_t save_lock = spin_lock_blocking(data_lock);
+        shared_data.weather = cached_weather;
+        spin_unlock(data_lock, save_lock);
+    }
 }
 
 bool sys_manager_send_data(SystemDataPacket* packet) {
@@ -103,6 +111,10 @@ void sys_manager_handle_serial(void) {
                 w.valid = true;
                 
                 sys_manager_update_weather(w);
+                
+                // === MODIFICA 2: PERSISTENZA IMMEDIATA IN LITTLEFS ===
+                storage_save_weather(&w);
+                
                 Serial.println("OK_WXC"); 
             }
         }
