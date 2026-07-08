@@ -1,0 +1,26 @@
+var group__HardwarePins =
+[
+    [ "ACC_INT1_PIN", "group__HardwarePins.html#gad7c19b09c6899a360e59d603770d70a3", null ],
+    [ "ACC_INT2_PIN", "group__HardwarePins.html#gab3f17f2dbb2cc1b008707f8baaddcd30", null ],
+    [ "ANALOG_BATT_PIN", "group__HardwarePins.html#gad2a2e0513204f3ba9c4254eb25b372c1", null ],
+    [ "BTN_BACK_PIN", "group__HardwarePins.html#ga2356a13a57851fa2ccef172b7eb43301", null ],
+    [ "BTN_OK_PIN", "group__HardwarePins.html#ga640f9bbb5eea8332edc18c0221723a3f", null ],
+    [ "BUCK_5V_EN_PIN", "group__HardwarePins.html#gabee5987890cdcfd707d76ce90dbe02aa", null ],
+    [ "BUZZER_PIN", "group__HardwarePins.html#gab61d0981ed42df9e18211b273d22cfcd", null ],
+    [ "ESP_EN_PIN", "group__HardwarePins.html#gaeff36e2e99ed6a0fb70a52b8218ffd30", null ],
+    [ "ESP_RX_PIN", "group__HardwarePins.html#ga944c7aecddf4a8d501dfb4e759203821", null ],
+    [ "ESP_TX_PIN", "group__HardwarePins.html#ga0a62449cfb324273b3565be0aa5be054", null ],
+    [ "GPS_RX_PIN", "group__HardwarePins.html#ga6f8927970de9eedcbb8f6c14b1d0d6c3", null ],
+    [ "GPS_TX_PIN", "group__HardwarePins.html#gacae14b9c1767cfec367a4b96009c94e5", null ],
+    [ "GPSBAUD", "group__HardwarePins.html#gaaa7ed57683b50196eadd5cf6a8b01ff9", null ],
+    [ "I2C0_SCL_PIN", "group__HardwarePins.html#ga1e30c459b21b57de018d51644a767929", null ],
+    [ "I2C0_SDA_PIN", "group__HardwarePins.html#ga0a6c8b4ecca4f35aaa82d33f8a1d9742", null ],
+    [ "LED_ALIVE_PIN", "group__HardwarePins.html#gacd680c82d9a1dc06e4df20c4dea95636", null ],
+    [ "NUM_LEDS", "group__HardwarePins.html#ga4c4ae9a4146ce8d6a5debc90300d9abd", null ],
+    [ "OUTPUT_USB_EN_PIN", "group__HardwarePins.html#ga7cf6fb8f4cc7caa7eb28a0874981ff45", null ],
+    [ "RGB_LED_PIN", "group__HardwarePins.html#gae6641c334f13eb2402a62ed91c3bcd4e", null ],
+    [ "SAM_EN_PIN", "group__HardwarePins.html#ga726945a23826958aea1d619d6ad4caed", null ],
+    [ "SAM_PPS_PIN", "group__HardwarePins.html#gade1a99293e27207dff9d0a6539ec70af", null ],
+    [ "SAM_RST_PIN", "group__HardwarePins.html#ga23c7d1aca9d60a3312327444a96a04f0", null ],
+    [ "TEMP_SENS_PIN", "group__HardwarePins.html#gab1706c53f980a70f9def9b1561485eaa", null ]
+];

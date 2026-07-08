@@ -1,0 +1,7 @@
+<map id="firm/include/pipeline/tasks.h" name="firm/include/pipeline/tasks.h">
+<area shape="rect" id="Node000001" title="Dichiarazione dei task di sistema per lo scheduler." alt="" coords="5,5,160,45"/>
+<area shape="rect" id="Node000002" href="$scheduler_8h.html" title="Motore di esecuzione multitasking cooperativo per task periodici." alt="" coords="22,93,143,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,46,85,79,80,79,80,46"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="41,167,125,192"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="85,119,85,153,80,153,80,119"/>
+</map>

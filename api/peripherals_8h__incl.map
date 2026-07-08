@@ -1,0 +1,15 @@
+<map id="firm/include/drivers/peripherals.h" name="firm/include/drivers/peripherals.h">
+<area shape="rect" id="Node000001" title="Driver agnostico unificato per feedback (LED, Buzzer) e sensori." alt="" coords="60,5,208,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="186,240,269,265"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,43,193,64,215,92,229,126,235,163,234,226,228,226,230,163,224,128,210,95,189,68,163,47"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,240,76,265"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="103,48,78,68,58,95,45,128,40,164,40,226,35,226,34,163,40,127,53,92,74,64,100,44"/>
+<area shape="rect" id="Node000004" href="$messages_8h.html" title="Definizione delle strutture dati per il protocollo di comunicazione." alt="" coords="68,93,200,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="137,46,137,79,131,79,131,46"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="154,117,180,137,204,165,218,196,226,226,221,227,213,198,200,168,176,141,151,121"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="117,121,92,141,68,168,55,198,47,227,42,226,50,196,64,165,88,137,114,117"/>
+<area shape="rect" id="Node000005" href="$error__codes_8h.html" title="Definizioni degli stati di errore e diagnostica di sistema." alt="" coords="79,167,189,192"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="137,119,137,153,131,153,131,119"/>
+<area shape="poly" id="edge8_Node000005_Node000002" title=" " alt="" coords="151,190,203,229,200,234,147,194"/>
+<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="121,194,68,234,65,229,117,190"/>
+</map>

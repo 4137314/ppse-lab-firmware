@@ -1,0 +1,11 @@
+<map id="firm/include/core/messages.h" name="firm/include/core/messages.h">
+<area shape="rect" id="Node000001" title="Definizione delle strutture dati per il protocollo di comunicazione." alt="" coords="5,5,219,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="20,152,103,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,33,67,53,46,80,43,94,43,109,51,139,46,140,38,110,37,94,42,78,63,49,89,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="149,152,219,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="134,29,160,49,182,77,190,108,190,138,185,138,185,109,178,80,157,53,131,33"/>
+<area shape="rect" id="Node000004" href="$error__codes_8h.html" title="Definizioni degli stati di errore e diagnostica di sistema." alt="" coords="57,79,167,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="115,31,115,65,109,65,109,31"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="106,106,80,142,75,139,101,103"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="126,102,164,140,161,144,122,106"/>
+</map>

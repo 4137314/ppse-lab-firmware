@@ -1,0 +1,7 @@
+<map id="firm/include/pipeline/core1_manager.h" name="firm/include/pipeline/core1_manager.h">
+<area shape="rect" id="Node000001" title="Punto di ingresso e ciclo di elaborazione per il Core 1." alt="" coords="82,5,237,45"/>
+<area shape="rect" id="Node000002" href="$main_8cpp_source.html" title=" " alt="" coords="5,101,140,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,57,87,102,83,98,128,53"/>
+<area shape="rect" id="Node000003" href="$core1__manager_8cpp_source.html" title=" " alt="" coords="164,93,331,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="191,53,230,91,226,95,187,57"/>
+</map>

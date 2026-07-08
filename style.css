@@ -1,0 +1,101 @@
+:root {
+    --bg-color: #0d1117;       /* Quasi nero (GitHub dark) */
+    --card-bg: #161b22;        /* Grigio scuro hacker */
+    --accent-blue: #58a6ff;    /* Blu accademico brillante */
+    --accent-green: #3fb950;   /* Verde successo */
+    --text-main: #c9d1d9;      /* Grigio chiaro leggibile */
+    --text-dim: #8b949e;
+    --border: #30363d;
+    --font-mono: 'JetBrains Mono', monospace;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+
+/* Header Style */
+.system-header {
+    background: var(--card-bg);
+    border-bottom: 2px solid var(--accent-blue);
+    padding: 1.5rem 0;
+}
+
+.header-grid { display: flex; justify-content: space-between; align-items: center; }
+.brand h1 { margin: 0; font-family: var(--font-mono); font-size: 1.5rem; letter-spacing: -1px; }
+.root-path { color: var(--accent-blue); font-family: var(--font-mono); }
+
+.sys-status { font-family: var(--font-mono); font-size: 0.8rem; text-align: right; }
+.label { color: var(--text-dim); }
+.green { color: var(--accent-green); }
+
+/* Card Design */
+.console-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 2rem;
+    font-family: var(--font-mono);
+}
+
+.card-header {
+    background: var(--border);
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: var(--accent-blue);
+}
+
+.card-body { padding: 1.5rem; }
+
+/* Buttons & Links */
+.main-deploy-btn {
+    display: block;
+    background: transparent;
+    border: 1px solid var(--accent-blue);
+    color: var(--accent-blue);
+    padding: 1rem;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.main-deploy-btn:hover { background: rgba(88, 166, 255, 0.1); box-shadow: 0 0 15px rgba(88, 166, 255, 0.3); }
+
+.sub-deploy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+.sub-deploy-grid a {
+    border: 1px solid var(--border);
+    padding: 0.5rem;
+    text-align: center;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.8rem;
+}
+
+.sub-deploy-grid a:hover { color: var(--text-main); border-color: var(--text-dim); }
+
+/* Doc List */
+.doc-list { list-style: none; padding: 0; }
+.doc-list li { margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+.doc-list a { color: var(--text-main); text-decoration: none; display: flex; justify-content: space-between; }
+.doc-list a:hover { color: var(--accent-blue); }
+.dir { color: var(--accent-blue); opacity: 0.6; }
+
+/* Footer */
+.footer-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+}
+
+.git-link a { color: var(--accent-blue); text-decoration: none; }

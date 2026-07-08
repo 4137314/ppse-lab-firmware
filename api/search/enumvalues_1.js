@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['err_5fcat_5fhw_0',['ERR_CAT_HW',['../group__ErrorHandling.html#gga019be7221e232831aa7e00fb45c1a5d3a60e1f09a4251b8a679ef5d256e7c76ee',1,'error_codes.h']]],
+  ['err_5fcat_5fnone_1',['ERR_CAT_NONE',['../group__ErrorHandling.html#gga019be7221e232831aa7e00fb45c1a5d3aad2ab2574e6b907afd3f3d58dc47909c',1,'error_codes.h']]],
+  ['err_5fcat_5fpower_2',['ERR_CAT_POWER',['../group__ErrorHandling.html#gga019be7221e232831aa7e00fb45c1a5d3a7f4ccf4e7e458d906681c8cee66e2b27',1,'error_codes.h']]],
+  ['err_5fcat_5fsensors_3',['ERR_CAT_SENSORS',['../group__ErrorHandling.html#gga019be7221e232831aa7e00fb45c1a5d3a7a50738b34ef4ba5b489bcf5f6718f77',1,'error_codes.h']]],
+  ['err_5fcat_5fstorage_4',['ERR_CAT_STORAGE',['../group__ErrorHandling.html#gga019be7221e232831aa7e00fb45c1a5d3a6a40c705467aa176c3b2db7363f8078c',1,'error_codes.h']]],
+  ['err_5fcat_5fsys_5',['ERR_CAT_SYS',['../group__ErrorHandling.html#gga019be7221e232831aa7e00fb45c1a5d3a750283a6a21cad5fb233fd51e6dd73c3',1,'error_codes.h']]],
+  ['err_5fhw_5fdisplay_5flost_6',['ERR_HW_DISPLAY_LOST',['../group__ErrorHandling.html#gga7d80c3b410035aed9cd8484552186f92a374b0d48d034186e0d535db764869aae',1,'error_codes.h']]],
+  ['err_5fhw_5fi2c_5fbus_5flock_7',['ERR_HW_I2C_BUS_LOCK',['../group__ErrorHandling.html#gga7d80c3b410035aed9cd8484552186f92a07c93689eb4dcaa3cefd53da5e31d574',1,'error_codes.h']]],
+  ['err_5fhw_5fuart_5foverrun_8',['ERR_HW_UART_OVERRUN',['../group__ErrorHandling.html#gga7d80c3b410035aed9cd8484552186f92ac59ec1fa30c593769b1547691a8c5be1',1,'error_codes.h']]],
+  ['err_5fpwr_5fbatt_5fcritical_9',['ERR_PWR_BATT_CRITICAL',['../group__ErrorHandling.html#gga7d80c3b410035aed9cd8484552186f92a3e565d763ad5381626b7bd97e3c287b0',1,'error_codes.h']]],
+  ['err_5fpwr_5fbatt_5flow_10',['ERR_PWR_BATT_LOW',['../group__ErrorHandling.html#gga7d80c3b410035aed9cd8484552186f92a55dd9a006e8e94dddfb89b990cde8d6e',1,'error_codes.h']]],
+  ['err_5fpwr_5fusb_5fovervolt_11',['ERR_PWR_USB_OVERVOLT',['../group__ErrorHandling.html#gga7d80c3b410035aed9cd8484552186f92a7b22ec72f2ae21842e388cea4f0462b9',1,'error_codes.h']]],
+  ['err_5fsens_5fgps_5fbad_5ffix_12',['ERR_SENS_GPS_BAD_FIX',['../group__ErrorHandling.html#gga7d80c3b410035aed9cd8484552186f92a674a1d9e5c4374df560f4f4941ed38fb',1,'error_codes.h']]],
+  ['err_5fsens_5fgps_5fno_5fdata_13',['ERR_SENS_GPS_NO_DATA',['../group__ErrorHandling.html#gga7d80c3b410035aed9cd8484552186f92ab5d96fd69476e300d53f45f26a144432',1,'error_codes.h']]],
+  ['err_5fsens_5fimu_5fnot_5fcal_14',['ERR_SENS_IMU_NOT_CAL',['../group__ErrorHandling.html#gga7d80c3b410035aed9cd8484552186f92af9b60b040ffaf5b350bcd9f6399bcbf1',1,'error_codes.h']]],
+  ['err_5fstg_5ffs_5fcorrupt_15',['ERR_STG_FS_CORRUPT',['../group__ErrorHandling.html#gga7d80c3b410035aed9cd8484552186f92aec10a11a7bdbcc969004dd84fe91389b',1,'error_codes.h']]],
+  ['err_5fstg_5fsd_5fnot_5ffound_16',['ERR_STG_SD_NOT_FOUND',['../group__ErrorHandling.html#gga7d80c3b410035aed9cd8484552186f92a5221b82a9e71ce55b5878121b4da232d',1,'error_codes.h']]],
+  ['err_5fstg_5fwrite_5ffail_17',['ERR_STG_WRITE_FAIL',['../group__ErrorHandling.html#gga7d80c3b410035aed9cd8484552186f92ab0f5bd23335a9faf112964f66843c2fa',1,'error_codes.h']]],
+  ['err_5fsys_5fipc_5ftimeout_18',['ERR_SYS_IPC_TIMEOUT',['../group__ErrorHandling.html#gga7d80c3b410035aed9cd8484552186f92a7943ffd0c85df8ace61f23b5120ed45a',1,'error_codes.h']]],
+  ['err_5fsys_5fout_5fof_5fmemory_19',['ERR_SYS_OUT_OF_MEMORY',['../group__ErrorHandling.html#gga7d80c3b410035aed9cd8484552186f92a3144da51c388dc653b72a4fde52f5dcc',1,'error_codes.h']]],
+  ['err_5fsys_5fwatchdog_20',['ERR_SYS_WATCHDOG',['../group__ErrorHandling.html#gga7d80c3b410035aed9cd8484552186f92a94ce3f71bf2fe058c48e0c49ac79fa57',1,'error_codes.h']]]
+];

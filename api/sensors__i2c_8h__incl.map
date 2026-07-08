@@ -1,0 +1,7 @@
+<map id="firm/include/drivers/sensors_i2c.h" name="firm/include/drivers/sensors_i2c.h">
+<area shape="rect" id="Node000001" title="Driver agnostico per il bus I2C0 e la sensoristica inerziale/ambientale." alt="" coords="23,5,171,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,93,88,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,47,64,83,59,80,83,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="113,93,183,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="112,44,135,80,131,83,107,47"/>
+</map>
