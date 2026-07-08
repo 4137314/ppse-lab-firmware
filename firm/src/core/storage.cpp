@@ -141,7 +141,6 @@ bool storage_read_last_gps(float* lat, float* lon) {
 void debug_dump_gps_log() {
     Serial.println("\n--- TENTATIVO LETTURA FILE GPS.LOG ---");
     
-    // Rimuovi il LittleFS.begin() qui dentro, è già stato chiamato nel setup!
     
     if (!LittleFS.exists("/gps.log")) {
         Serial.println("DEBUG: Errore: Il file /gps.log non esiste!");
@@ -162,10 +161,7 @@ void debug_dump_gps_log() {
     f.close();
 }
 
-// Aggiungi in storage.c
 bool storage_format_all(void) {
-    // Chiudiamo eventuali file aperti prima di formattare
-    // LittleFS.end() non è strettamente richiesto ma pulito
     LittleFS.end(); 
     if (LittleFS.format()) {
         return LittleFS.begin(); // Rinizializza

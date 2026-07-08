@@ -11,7 +11,7 @@
 #include "ui/boot_anim.h"
 #include "ui/ui_manager.h"
 #include "util/scheduler.h"
-#include "core/config.h" // Assicurati di avere questo header che definisce la structa
+#include "core/config.h"
 #include "core/storage.h"
 #include <LittleFS.h>
 

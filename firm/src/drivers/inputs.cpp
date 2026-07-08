@@ -31,9 +31,9 @@ void inputs_init() {
     attachInterrupt(digitalPinToInterrupt(BTN_BACK_PIN), handle_button_interrupt, FALLING);
 }
 
-void inputs_update() { 
-    // Ora gestito totalmente dagli interrupt
-}
+// void inputs_update() { 
+//     // Ora gestito totalmente dagli interrupt
+// }
 
 ButtonId inputs_get_last_press() {
     ButtonId event = pending_button;

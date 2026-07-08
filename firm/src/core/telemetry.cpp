@@ -5,7 +5,7 @@
 #include <Arduino.h>
 #include <minmea.h>
 #include <pico/sync.h>
-#include "core/storage.h" // Oppure aggiungi la dichiarazione qui sotto:
+#include "core/storage.h"
 
 static SystemDataPacket telemetry_data;
 static spin_lock_t* telemetry_lock = NULL; // Inizializzato in telemetry_init
