@@ -172,3 +172,47 @@ bool storage_format_all(void) {
     }
     return false;
 }
+
+static const char* WEATHER_FILENAME = "/weather.bin";
+
+bool storage_save_weather(const WeatherDataPacket* w) {
+    if (driveConnected) return false;
+    if (!w || !w->valid) return false;
+
+    File f = LittleFS.open(WEATHER_FILENAME, "w");
+    if (f) {
+        size_t written = f.write((const uint8_t*)w, sizeof(WeatherDataPacket));
+        f.close();
+        if (written != sizeof(WeatherDataPacket)) {
+            sys_manager_report_error(ERR_CAT_STORAGE, ERR_STG_WRITE_FAIL, false);
+            return false;
+        }
+        Serial.println("[STORAGE] Dati meteo salvati in Flash (LittleFS).");
+        return true;
+    }
+    sys_manager_report_error(ERR_CAT_STORAGE, ERR_STG_WRITE_FAIL, false);
+    return false;
+}
+
+bool storage_load_weather(WeatherDataPacket* w) {
+    if (!w) return false;
+    
+    if (!LittleFS.exists(WEATHER_FILENAME)) {
+        Serial.println("[STORAGE] Nessun dump meteo presente in memoria.");
+        w->valid = false;
+        return false;
+    }
+
+    File f = LittleFS.open(WEATHER_FILENAME, "r");
+    if (f) {
+        size_t read_bytes = f.read((uint8_t*)w, sizeof(WeatherDataPacket));
+        f.close();
+        if (read_bytes == sizeof(WeatherDataPacket)) {
+            w->valid = true;
+            Serial.printf("[STORAGE] Cache meteo ripristinata per la citta': %s\n", w->city);
+            return true;
+        }
+    }
+    w->valid = false;
+    return false;
+}

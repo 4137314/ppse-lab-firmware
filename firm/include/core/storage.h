@@ -13,6 +13,8 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <LittleFS.h>
+#include "core/messages.h" // <-- FONDAMENTALE per far conoscere WeatherDataPacket
 
 /**
  * @brief Inizializza il file system LittleFS.
@@ -89,6 +91,9 @@ void debug_dump_gps_log(void);
  * @return true se la formattazione e il ri-mount hanno avuto successo.
  */
 bool storage_format_all(void);
+
+bool storage_save_weather(const WeatherDataPacket* w);
+bool storage_load_weather(WeatherDataPacket* w);
 
 /** @} */ // fine del gruppo StorageManager
 

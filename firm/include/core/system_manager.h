@@ -81,6 +81,9 @@ bool sys_manager_update_gps(float lat, float lon, bool fix, uint8_t sats);
  */
 void sys_manager_clear_error(void);
 
+bool storage_save_weather(const WeatherDataPacket* w);
+bool storage_load_weather(WeatherDataPacket* w);
+
 /** @} */ // fine del gruppo SystemManager
 
 #endif /* SYSTEM_MANAGER_H */
